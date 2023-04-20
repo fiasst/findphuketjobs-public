@@ -1,6 +1,7 @@
 var MAIN = (function($, window, document, undefined){
-    var pub = {};
-    
+    var pub = {},
+        ua = navigator.userAgent;
+
 
     pub.isTouchDevice = ('ontouchstart' in document.documentElement);
     pub.isiPad = (ua.match(/iPad/i) !== null);
