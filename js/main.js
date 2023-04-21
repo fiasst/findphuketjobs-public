@@ -61,18 +61,30 @@ const MAIN = (function($, window, document, undefined){
     };
 
 
-    pub.getISOdate = function(){
-        var date = new Date(),
-            now = date.setDate(date.getDate());
-        return new Date(now).toISOString();
+    pub.getTimestamp = function(dateString){
+      if (dateString){
+        return new Date(dateString).getTime();
+      }
+      var date = new Date();
+      date = date.setDate(date.getDate());
+      return new Date(date).getTime();
     };
+    
+
+    pub.getISOdate = function(dateString){
+        var date = pub.getTimestamp(dateString);
+        return new Date(date).toISOString();
+    };
+    
 
 
     // Function to pluralize the time past (eg. "minute/minutes ago", "day/days ago").
     pub.pluralize = (count, noun, suffix = 's') => `${count} ${noun}${count !== 1 ? suffix : ''}`;
-    pub.timePast = (curr, prev) => {
+    pub.timePast = (date) => {
         const msMin = 60 * 1000, msHr = msMin * 60, msDay = msHr * 24, msWeek = msDay * 7, msMonth = msDay * 30, msYr = msDay * 365;
-        let elapsed = curr - prev;
+        let curr = pub.getTimestamp();
+
+        let elapsed = curr - pub.getTimestamp(date);
 
         if (elapsed < msMin) {
             return pub.pluralize(Math.round(elapsed/1000), 'second');
