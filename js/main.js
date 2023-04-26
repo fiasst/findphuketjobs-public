@@ -300,24 +300,42 @@ const MAIN = (function($, window, document, undefined){
     };
 
 
+    // get the current Member then fire callback function.
+    pub.getCurrentMember = function(callback) {
+        pub.waitFor(window, "$memberstackDom", 100, function(){
+            window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
+                if (!!callback) {
+                    var output = memberJSON || {};
+                    window.MSmember = output;
+                    callback(output);
+                }
+            });
+        });
+    }
+    
+
     // get Member's JSON then fire callback function.
     pub.getMemberJSON = function(callback) {
-        window.$memberstackDom.getMemberJSON().then(({ data: memberJSON }) => {
-            if (!!callback) {
-                var output = memberJSON || {};
-                callback(output);
-            }
+        pub.waitFor(window, "$memberstackDom", 100, function(){
+            window.$memberstackDom.getMemberJSON().then(({ data: memberJSON }) => {
+                if (!!callback) {
+                    var output = memberJSON || {};
+                    callback(output);
+                }
+            });
         });
     }
 
 
     // update Member's JSON.
     pub.updateMemberJSON = function(json, callback) {
-        window.$memberstackDom.updateMemberJSON({ json: json }).then(({ data: memberJSON }) => {
-            if (!!callback) {
-                var output = memberJSON || {};
-                callback(output);
-            }
+        pub.waitFor(window, "$memberstackDom", 100, function(){
+            window.$memberstackDom.updateMemberJSON({ json: json }).then(({ data: memberJSON }) => {
+                if (!!callback) {
+                    var output = memberJSON || {};
+                    callback(output);
+                }
+            });
         });
     }
 
@@ -331,8 +349,7 @@ const MAIN = (function($, window, document, undefined){
     // On DOM ready.
     Webflow.push(function(){
         // Get current Member.
-        window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
-            window.MSmember = member || {};
+        pub.getCurrentMember(function(member){
             //if (!data) {
                 //member is logged out
             //}
