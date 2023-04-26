@@ -305,7 +305,7 @@ const MAIN = (function($, window, document, undefined){
         pub.waitFor(window, "$memberstackDom", 100, function(){
             window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
                 if (!!callback) {
-                    var output = memberJSON || {};
+                    var output = member || {};
                     window.MSmember = output;
                     callback(output);
                 }
