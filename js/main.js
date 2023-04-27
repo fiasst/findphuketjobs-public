@@ -208,44 +208,6 @@ const MAIN = (function($, window, document, undefined){
     };
 
 
-    pub.waitFor = function(key, value, timer, callback){
-        var nTimer = setInterval(function(){
-            // wait for something to load...
-            if (pub.checkKeyExists(key, value)){
-                callback();
-                clearInterval(nTimer);
-            }
-        }, timer);
-    };
-
-
-    pub.sendAJAX = function(obj){
-        var params = $.extend({
-            //url: "",
-            method: "POST",
-            //data: {},
-            timeout: 60000,
-            success: false,
-            error: false
-        }, obj);
-
-        $.ajax({
-            url: params.url,
-            method: params.method,
-            data: params.data,
-            timeout: params.timeout,
-            success: function(data, textStatus){
-                console.log(textStatus, data);
-                if ($.isFunction(params.success)) params.success(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log(textStatus, errorThrown);
-                if ($.isFunction(params.error)) params.error(data);
-            }
-        });
-    };
-
-
     pub.handleAjaxResponse = function(data, form){
         if (pub.checkKeyExists(data, "mode")){
             if (data.mode == "alert"){
@@ -275,7 +237,7 @@ const MAIN = (function($, window, document, undefined){
 
     // get the current Member then fire callback function.
     pub.getCurrentMember = function(callback) {
-        pub.waitFor(window, "$memberstackDom", 100, function(){
+        HELP.waitFor(window, "$memberstackDom", 100, function(){
             window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
                 if (!!callback) {
                     var output = member || {};
@@ -289,7 +251,7 @@ const MAIN = (function($, window, document, undefined){
 
     // get Member's JSON then fire callback function.
     pub.getMemberJSON = function(callback) {
-        pub.waitFor(window, "$memberstackDom", 100, function(){
+        HELP.waitFor(window, "$memberstackDom", 100, function(){
             window.$memberstackDom.getMemberJSON().then(({ data: memberJSON }) => {
                 if (!!callback) {
                     var output = memberJSON || {};
@@ -302,7 +264,7 @@ const MAIN = (function($, window, document, undefined){
 
     // update Member's JSON.
     pub.updateMemberJSON = function(json, callback) {
-        pub.waitFor(window, "$memberstackDom", 100, function(){
+        HELP.waitFor(window, "$memberstackDom", 100, function(){
             window.$memberstackDom.updateMemberJSON({ json: json }).then(({ data: memberJSON }) => {
                 if (!!callback) {
                     var output = memberJSON || {};
@@ -448,7 +410,7 @@ const MAIN = (function($, window, document, undefined){
                 pub.buttonThinking(button);
                 console.log(data);
 
-                pub.sendAJAX({
+                HELP.sendAJAX({
                     url: form.attr('action'),
                     method: form.attr('method'),
                     data: data,
@@ -561,7 +523,7 @@ const MAIN = (function($, window, document, undefined){
 
             // Add thinking icon...
 
-            pub.sendAJAX({
+            HELP.sendAJAX({
                 url: "https://hook.us1.make.com/dv56t4535h1sfag5g0693924h3sg5582",
                 data: data,
                 timeout: 120000,
@@ -592,7 +554,7 @@ const MAIN = (function($, window, document, undefined){
         });
 
         // Translate select lists and rebuild any jQuery Select2 widgets.
-        pub.waitFor(window, "Weglot", 400, function(){
+        HELP.waitFor(window, "Weglot", 400, function(){
             Weglot.on("languageChanged", function(){
                 $('.select-list-options').each(function(){
                     var select = $(this).parent('.select-list-wrapper').find('select');

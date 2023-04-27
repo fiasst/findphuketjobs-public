@@ -14,6 +14,44 @@ const HELP = (function($, window, document, undefined){
     };
 
 
+    pub.waitFor = function(key, value, timer, callback){
+        var nTimer = setInterval(function(){
+            // wait for something to load...
+            if (pub.checkKeyExists(key, value)){
+                callback();
+                clearInterval(nTimer);
+            }
+        }, timer);
+    };
+
+
+    pub.sendAJAX = function(obj){
+        var params = $.extend({
+            //url: "",
+            method: "POST",
+            //data: {},
+            timeout: 60000,
+            success: false,
+            error: false
+        }, obj);
+
+        $.ajax({
+            url: params.url,
+            method: params.method,
+            data: params.data,
+            timeout: params.timeout,
+            success: function(data, textStatus){
+                console.log(textStatus, data);
+                if ($.isFunction(params.success)) params.success(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(textStatus, errorThrown);
+                if ($.isFunction(params.error)) params.error(data);
+            }
+        });
+    };
+
+
     //wait for event to finish, example browser window to stop being resized
     pub.onEventFinish = (function(callback, ms, uniqueId){
         var timers = {};

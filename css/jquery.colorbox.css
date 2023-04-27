@@ -24,7 +24,7 @@
 	opacity: 0.4 !important;
 }
 #colorbox{outline:0;}
-    #cboxContent{margin-top:32px; overflow:visible; background:#fff; border-radius: 12px; padding-top: 61px;}
+    #cboxContent{margin:32px 0; overflow:visible; background:#fff; border-radius: 12px; padding-top: 61px;}
         .cboxIframe{background:#fff;}
         #cboxError{padding:50px; border:1px solid #ccc;}
         #cboxLoadedContent{border-radius: 12px;}
