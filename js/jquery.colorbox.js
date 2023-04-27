@@ -7,7 +7,7 @@
 
 
 
-const COLORBOX = (function($, window, document, undefined){
+var COLORBOX = (function($, window, document, undefined){
     var pub = {},
     	body = $('body');
 

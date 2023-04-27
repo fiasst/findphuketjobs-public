@@ -2,7 +2,7 @@
 * functions that help other functions to do their thing.
 */
 
-const HELP = (function($, window, document, undefined){
+var HELP = (function($, window, document, undefined){
     var pub = {};
 
 

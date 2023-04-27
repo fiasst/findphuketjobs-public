@@ -1,4 +1,4 @@
-const MAIN = (function($, window, document, undefined){
+var MAIN = (function($, window, document, undefined){
     var pub = {},
         ua = navigator.userAgent;
 
