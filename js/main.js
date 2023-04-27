@@ -19,7 +19,7 @@ const MAIN = (function($, window, document, undefined){
 
 
     pub.getCurrentLang = function(){
-        return pub.checkKeyExists(window, "Weglot") ? Weglot.getCurrentLang() : 'en';
+        return HELP.checkKeyExists(window, "Weglot") ? Weglot.getCurrentLang() : 'en';
     };
 
 
@@ -141,20 +141,6 @@ const MAIN = (function($, window, document, undefined){
     };
 
 
-    
-
-
-    pub.cleanLowerString = function(string){
-        return $.trim(string.toLowerCase());
-    };
-
-
-    // Check whether Object key exists
-    pub.checkKeyExists = function(obj, key) {
-        return obj && typeof obj === "object" && key in obj;
-    };
-
-
     // Check if member has permissions.
     pub.hasPermissions = function(permissions, member){
         return $.inArray(permissions, member.permissions) > -1;
@@ -209,7 +195,7 @@ const MAIN = (function($, window, document, undefined){
 
 
     pub.handleAjaxResponse = function(data, form){
-        if (pub.checkKeyExists(data, "mode")){
+        if (HELP.checkKeyExists(data, "mode")){
             if (data.mode == "alert"){
                 alert(data.message);
             }
@@ -217,7 +203,7 @@ const MAIN = (function($, window, document, undefined){
                 alert(data.message);//temp
             }
         }
-        if (pub.checkKeyExists(data, "enableForm") && !!data.enableForm){
+        if (HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
             pub.buttonThinking(form.find('.form-submit'), true);
         }
     };
@@ -228,7 +214,7 @@ const MAIN = (function($, window, document, undefined){
         $('[data-ms-member-meta]').each(function(){
             var data = $(this).attr('data-ms-member-meta');
 
-            if (pub.checkKeyExists(metadata, data)){
+            if (HELP.checkKeyExists(metadata, data)){
                 $(this).html(metadata[data]);
             }
         });
@@ -294,11 +280,11 @@ const MAIN = (function($, window, document, undefined){
             //}
             console.log(member);
 
-            if (pub.checkKeyExists(member, 'metaData')){
+            if (HELP.checkKeyExists(member, 'metaData')){
                 pub.replaceTextWithMetadata(member.metaData);
             }
 
-            if (pub.checkKeyExists(member, 'id')){
+            if (HELP.checkKeyExists(member, 'id')){
                 // Add member ID to form field.
                 var hiddenInput = $('.input-member-id');
 
@@ -312,7 +298,7 @@ const MAIN = (function($, window, document, undefined){
             if (!!$('.node-author').length){
                 $('.node-author').each(function(){
                     var authorID = $(this).attr('data-author'),
-                    display = (!!member && pub.checkKeyExists(member, 'id') && (member.id == authorID || pub.hasPermissions('can:moderate', member)));
+                    display = (!!member && HELP.checkKeyExists(member, 'id') && (member.id == authorID || pub.hasPermissions('can:moderate', member)));
                     //console.log(member.id+' == '+authorID+' || '+hasPermissions('can:moderate', member));
                     pub.controlHTML($(this).parents('.node').find('.author-access'), display);
                 });

@@ -14,6 +14,17 @@ const HELP = (function($, window, document, undefined){
     };
 
 
+    pub.cleanLowerString = function(string){
+        return $.trim(string.toLowerCase());
+    };
+
+
+    // Check whether Object key exists
+    pub.checkKeyExists = function(obj, key) {
+        return obj && typeof obj === "object" && key in obj;
+    };
+
+
     pub.waitFor = function(key, value, timer, callback){
         var nTimer = setInterval(function(){
             // wait for something to load...
