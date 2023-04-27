@@ -9,14 +9,17 @@
 
 var COLORBOX = (function($, window, document, undefined){
     var pub = {},
-    	body = $('body');
+    	body = $('body'),
+    	setupComplete = false;
 
 
 	/*
 	* set up some general colorbox settings or listeners
 	*/
-	pub.colorboxSetup = function(){
+	var colorboxSetup = function(){
 		var hash = '#c';
+
+		setupComplete = true;
 
 		$(document)
 			.on('cbox_open', function(){
@@ -79,6 +82,21 @@ var COLORBOX = (function($, window, document, undefined){
 					}
 				}, 100, 'colorboxResize');
 			});
+	};
+
+
+	/*
+	* Create a colorbox.
+	*/
+	pub.create = function(options){
+		options = options || {};
+		
+		if (!setupComplete){
+			colorboxSetup();
+		}
+
+		$('#colorbox').data('options', options);
+		$.colorbox(options);
 	};
 
 
