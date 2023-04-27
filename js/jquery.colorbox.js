@@ -62,7 +62,7 @@ var COLORBOX = (function($, window, document, undefined){
 			//resize colorbox because its good at re-positioning but not so much resizing
 			.on('resize', function(){
 				HELP.onEventFinish(function(){
-					if (body.hasClass('colorbox') && pub.checkKeyExists(window.jQuery, 'colorbox')){
+					if (body.hasClass('colorbox') && HELP.checkKeyExists(window.jQuery, 'colorbox')){
 						var vw = HELP.viewportWidth(),
 							cbox = $('#colorbox'),
 							w = cbox.data('options').width ? cbox.data('options').width : null,
