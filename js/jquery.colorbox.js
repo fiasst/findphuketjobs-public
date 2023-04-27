@@ -75,18 +75,21 @@ var COLORBOX = (function($, window, document, undefined){
 							//full page colorbox on small screens
 							w = h = '100%';
 						}
-						$.colorbox.resize({
+						/*$.colorbox.resize({
 							width: w,
 							height: h
-						});
+						});*/
 						// 
 						$('#colorbox').css({
+							width: '100%',
+							height: 'auto',
 							maxWidth: cbox.data('options').maxWidth || null,
 							maxHeight: cbox.data('options').maxHeight || null
 						});
 					}
 				}, 200, 'colorboxResize');
-			});
+			})
+			.trigger('resize');
 	};
 
 
