@@ -19,15 +19,17 @@
     Change the following styles to modify the appearance of Colorbox.  They are
     ordered & tabbed in a way that represents the nesting of the generated HTML.
 */
+#cboxWrapper {width: 100% !important;}
+	#cboxTopCenter {width: 100% !important;}
 #cboxOverlay {
 	background: #000;
 	opacity: 0.4 !important;
 }
 #colorbox{outline:0;}
-    #cboxContent{margin:32px 0; overflow:visible; background:#fff; border-radius: 12px; padding-top: 61px;}
+    #cboxContent{margin:32px 0; overflow:visible; background:#fff; border-radius: 12px; padding-top: 61px; width: 100% !important;}
         .cboxIframe{background:#fff;}
         #cboxError{padding:50px; border:1px solid #ccc;}
-        #cboxLoadedContent{border-radius: 12px;}
+        #cboxLoadedContent{border-radius: 12px; width: 100% !important;}
         #cboxLoadingGraphic{background:url(loading.gif) no-repeat center center;}
         #cboxLoadingOverlay{background:#fff;}
         #cboxTitle{

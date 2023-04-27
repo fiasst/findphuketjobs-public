@@ -79,8 +79,13 @@ var COLORBOX = (function($, window, document, undefined){
 							width: w,
 							height: h
 						});
+						// 
+						$('#colorbox').css({
+							maxWidth: cbox.data('options').maxWidth || null,
+							maxHeight: cbox.data('options').maxHeight || null
+						});
 					}
-				}, 100, 'colorboxResize');
+				}, 200, 'colorboxResize');
 			});
 	};
 
