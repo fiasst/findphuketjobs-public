@@ -99,7 +99,7 @@ var HELP = (function($, window, document, undefined){
             }
         }
         if (bodyClass !== false){
-            body.removeClass('bp-mobile bp-tablet bp-tabletLandscape bp-desktop').addClass(bodyClass);
+            $('body').removeClass('bp-mobile bp-tablet bp-tabletLandscape bp-desktop').addClass(bodyClass);
         }
     };
 
@@ -149,6 +149,16 @@ var HELP = (function($, window, document, undefined){
         document.cookie = name+'=; expires=Thu, 01-Jan-70 00:00:01 GMT; path=/';
     };
     
+
+    // Init.
+    $(function(){
+        $(window)
+            .on('resize', function(){
+                pub.bodyBreakpoints();
+            })
+            .trigger('resize');
+    });
+
     
     return pub;
 }(jQuery, this, this.document));
