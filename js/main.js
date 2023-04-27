@@ -141,34 +141,7 @@ const MAIN = (function($, window, document, undefined){
     };
 
 
-    pub.setCookie = function(name, value, days){
-        var expires = "";
-        
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days*24*60*60*1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    };
-
-
-    pub.getCookie = function(name){
-        var nameEQ = name + "=",
-            ca = document.cookie.split(';');
-        
-        for (var i=0;i < ca.length;i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    };
-
-
-    pub.deleteCookie = function(name){
-        document.cookie = name+'=; expires=Thu, 01-Jan-70 00:00:01 GMT; path=/';
-    };
+    
 
 
     pub.cleanLowerString = function(string){
@@ -273,7 +246,7 @@ const MAIN = (function($, window, document, undefined){
     };
 
 
-    pub.handleResponse = function(data, form){
+    pub.handleAjaxResponse = function(data, form){
         if (pub.checkKeyExists(data, "mode")){
             if (data.mode == "alert"){
                 alert(data.message);
@@ -438,7 +411,7 @@ const MAIN = (function($, window, document, undefined){
             console.log('delay-submit');
             e.preventDefault();
 
-            let cookieFormValid = pub.getCookie('form-valid'),
+            let cookieFormValid = HELP.getCookie('form-valid'),
                 form = $(this),
                 button = $(e.target),
                 d=20e3;
@@ -465,7 +438,7 @@ const MAIN = (function($, window, document, undefined){
                 var form = $(this),
                     button = form.find('.form-submit.clicked'),
                     data = pub.getFormValues(form),
-                    formIncrement = pub.getCookie('form-valid'),
+                    formIncrement = HELP.getCookie('form-valid'),
                     i = 2;
 
                 formIncrement = !!formIncrement?Number(formIncrement):0;
@@ -481,7 +454,7 @@ const MAIN = (function($, window, document, undefined){
                     data: data,
                     timeout: 120000,
                     success: function(data){
-                        pub.handleResponse(data, form);
+                        pub.handleAjaxResponse(data, form);
                     },
                     error: function(data){
                         console.log('error');
@@ -579,7 +552,7 @@ const MAIN = (function($, window, document, undefined){
                 item_id: $(this).attr('data-item-id'),
                 submitted: pub.getISOdate()
             },
-            formIncrement = pub.getCookie('form-valid'),
+            formIncrement = HELP.getCookie('form-valid'),
             i = 2;
 
             formIncrement = !!formIncrement?Number(formIncrement):0;
@@ -593,7 +566,7 @@ const MAIN = (function($, window, document, undefined){
                 data: data,
                 timeout: 120000,
                 success: function(data){
-                    //pub.handleResponse(data);
+                    //pub.handleAjaxResponse(data);
                 },
                 error: function(data){
                     console.log('error');
@@ -664,6 +637,12 @@ $.fn.createSelect2 = function(options){
         $(element).select2(ops).data('select2-options', ops);
     });
 };
+
+
+// Not being used yet but is useful.
+/*$.fn.nextprev = function(dir){
+    return (dir === 'prev') ? this.prev() : this.next();
+};*/
 
 
 // Case-insensitive selector ":icontains()".

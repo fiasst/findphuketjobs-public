@@ -21,7 +21,7 @@
 */
 #cboxOverlay {
 	background: #000;
-	opacity: 0.4;
+	opacity: 0.4 !important;
 }
 #colorbox{outline:0;}
     #cboxContent{margin-top:32px; overflow:visible; background:#fff; border-radius: 12px; padding-top: 61px;}
