@@ -21,7 +21,7 @@ var HELP = (function($, window, document, undefined){
 
     // Check whether Object key exists
     pub.checkKeyExists = function(obj, key) {
-        return obj && typeof obj === "object" && key in obj;
+        return obj != null && (obj.hasOwnProperty(key) || (typeof obj === "object" && key in obj));
     };
 
 
