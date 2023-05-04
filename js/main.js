@@ -566,14 +566,15 @@ var MAIN = (function($, window, document, undefined){
                 select2Fields.createSelect2();
             });
         }*/
-        $('.select2-field').createSelect2();
+        $('.select2-field:not(.collection-list)').createSelect2();
 
 
         // LitBox support.
         $(document)
             .on('lbox_open', function(){
                 // Create any new Select2 fields.
-                $('#litbox .select2-field').createSelect2();
+                // Make sure it's not been initiated already (inline HTML from the same page) using :not().
+                // $('#litbox .select2-field:not(.select2-hidden-accessible)').createSelect2();
             });
     });
 
@@ -589,7 +590,7 @@ var MAIN = (function($, window, document, undefined){
 // Form fields: Populate select with option elements built from Collection List data.
 $.fn.createSelectOptions = function(options){
     options = options || {};
-    
+
     $.each(this, function(i, element){
         var wrapper = $(this).parent('.select-list-wrapper'),
             select = wrapper.find('select'),
@@ -603,6 +604,9 @@ $.fn.createSelectOptions = function(options){
                 selected: ($(this).text() == defaultValue) ? 'selected' : false
             }).text( $(this).text() ).appendTo( $(select) );
         });
+        if ($(this).hasClass('select2-field')){
+            $(this).createSelect2();
+        }
     });
 };
 
