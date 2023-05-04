@@ -588,6 +588,8 @@ var MAIN = (function($, window, document, undefined){
 */
 // Form fields: Populate select with option elements built from Collection List data.
 $.fn.createSelectOptions = function(options){
+    options = options || {};
+    
     $.each(this, function(i, element){
         var wrapper = $(this).parent('.select-list-wrapper'),
             select = wrapper.find('select'),
@@ -608,6 +610,7 @@ $.fn.createSelectOptions = function(options){
 // Create jQuery Select2 widget.
   // Use this instead of .select2() when first initializing a widget.
 $.fn.createSelect2 = function(options){
+    options = options || {};
     var items = this;
 
     if (!!$(items).length){
