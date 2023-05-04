@@ -268,7 +268,7 @@ var MAIN = (function($, window, document, undefined){
 
 
     // On DOM ready.
-    Webflow.push(function(){
+    $(function(){
         // Get current Member.
         pub.getCurrentMember(function(member){
             //if (!data) {
