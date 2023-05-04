@@ -609,24 +609,22 @@ $.fn.createSelectOptions = function(options){
   // Use this instead of .select2() when first initializing a widget.
 $.fn.createSelect2 = function(options){
     var items = this;
-    console.log(items, $(items).length);
 
     if (!!$(items).length){
         HELP.waitFor(jQuery.fn, "select2", 100, function(){
             var ops;
-            $.each(items, function(i, element){
-                console.log(element);
+            $.each(items, function(i, el){
                 ops = options;
-                ops.placeholder = $(element).attr('placeholder') || "Select...";
+                ops.placeholder = $(el).attr('placeholder') ? $(el).attr('placeholder') : "Select...";
                 
                 if (ops.placeholder){
                     // For the placeholder to appear, you must have a blank <option> as the first option in your Select.
-                    $(element).prepend('<option value=""></option>').val('');
+                    $(el).prepend('<option value=""></option>').val('');
                 }
 
                 // Store options in .data() incase we need to destroy and rebuild the select2 widget.
                 // This happens when the language is changed.
-                $(element).select2(ops).data('select2-options', ops);
+                $(el).select2(ops).data('select2-options', ops);
             });
         });
     }
