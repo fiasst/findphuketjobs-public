@@ -350,6 +350,24 @@ var MAIN = (function($, window, document, undefined){
         });
 
 
+        // Select2 dropdowns
+        HELP.waitFor(jQuery.fn, "select2", 100, function(){
+            $('.select2-field').createSelect2({});
+        });
+
+
+        // Accordions.
+        $('.accordion').on('click', '.accordion-header', function(){
+            $(this).parent().toggleClass('active').find('.accordion-content').toggleClass('active');
+        });
+
+
+        // Calculate "X minutes/hours/days ago" text.
+        $('.time-past').each(function(){
+            $(this).text( MAIN.timePast($(this).text()) +' ago');
+        });
+
+
         // Delay forms.
         //$('.delay-submit').one('submit', function(){
         /*
