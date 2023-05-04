@@ -591,7 +591,7 @@ var MAIN = (function($, window, document, undefined){
 $.fn.createSelectOptions = function(options){
     options = options || {};
 
-    $.each(this, function(i, element){
+    $.each(this, function(i, el){
         var wrapper = $(this).parent('.select-list-wrapper'),
             select = wrapper.find('select'),
             defaultValue = wrapper.find('.select-list-default-value').attr('data-value') || '';
@@ -604,8 +604,8 @@ $.fn.createSelectOptions = function(options){
                 selected: ($(this).text() == defaultValue) ? 'selected' : false
             }).text( $(this).text() ).appendTo( $(select) );
         });
-        if ($(this).hasClass('select2-field')){
-            $(this).createSelect2();
+        if (select.hasClass('select2-field')){
+            select.createSelect2();
         }
     });
 };
