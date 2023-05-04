@@ -350,12 +350,6 @@ var MAIN = (function($, window, document, undefined){
         });
 
 
-        // Select2 dropdowns
-        HELP.waitFor(jQuery.fn, "select2", 100, function(){
-            $('.select2-field').createSelect2({});
-        });
-
-
         // Accordions.
         $('.accordion').on('click', '.accordion-header', function(){
             $(this).parent().toggleClass('active').find('.accordion-content').toggleClass('active');
@@ -573,6 +567,13 @@ var MAIN = (function($, window, document, undefined){
                     }
                 });
             });
+        });
+
+
+        // Select2 dropdowns.
+        // Must be called after the .select-list-options select options have been built. 
+        HELP.waitFor(jQuery.fn, "select2", 100, function(){
+            $('.select2-field').createSelect2({});
         });
     });
 
