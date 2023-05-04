@@ -608,10 +608,11 @@ $.fn.createSelectOptions = function(options){
 // Create jQuery Select2 widget.
   // Use this instead of .select2() when first initializing a widget.
 $.fn.createSelect2 = function(options){
-    if (!!$(this).length){
+    var items = this;
+    if (!!$(items).length){
         HELP.waitFor(jQuery.fn, "select2", 100, function(){
             var ops;
-            $.each(this, function(i, element){
+            $.each(items, function(i, element){
                 ops = options;
                 ops.placeholder = $(element).attr('placeholder') || "Select...";
                 
