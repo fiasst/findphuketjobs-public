@@ -535,21 +535,9 @@ var MAIN = (function($, window, document, undefined){
         });
 
 
-        // Form fields: Populate select lists with Collection options.
-        $('.select-list-options').each(function(){
-            var wrapper = $(this).parent('.select-list-wrapper'),
-                select = wrapper.find('select'),
-                defaultValue = wrapper.find('.select-list-default-value').attr('data-value') || '';
+        // Must appear before the createSelect2() call.
+        $('.select-list-options').createSelectOptions();
 
-            $(this).find('.w-dyn-item').each(function(){
-                $(this).data('lang-en', $(this).text());// Store a non-translated string in .data().
-
-                $('<option />', {
-                    value: $(this).text(),
-                    selected: ($(this).text() == defaultValue) ? 'selected' : false
-                }).text( $(this).text() ).appendTo( $(select) );
-            });
-        });
 
         // Translate select lists and rebuild any jQuery Select2 widgets.
         HELP.waitFor(window, "Weglot", 400, function(){
@@ -572,9 +560,21 @@ var MAIN = (function($, window, document, undefined){
 
         // Select2 dropdowns.
         // Must be called after the .select-list-options select options have been built. 
-        HELP.waitFor(jQuery.fn, "select2", 100, function(){
-            $('.select2-field').createSelect2({});
-        });
+        /*var select2Fields = $('.select2-field');
+        if (!!select2Fields.length){
+            HELP.waitFor(jQuery.fn, "select2", 100, function(){
+                select2Fields.createSelect2();
+            });
+        }*/
+        $('.select2-field').createSelect2();
+
+
+        // LitBox support.
+        $(document)
+            .on('lbox_open', function(){
+                // Create any new Select2 fields.
+                $('#litbox .select2-field').createSelect2();
+            });
     });
 
     return pub;
@@ -586,23 +586,47 @@ var MAIN = (function($, window, document, undefined){
 /*
 * Extend jQuery.
 */
+// Form fields: Populate select with option elements built from Collection List data.
+$.fn.createSelectOptions = function(options){
+    $.each(this, function(i, element){
+        var wrapper = $(this).parent('.select-list-wrapper'),
+            select = wrapper.find('select'),
+            defaultValue = wrapper.find('.select-list-default-value').attr('data-value') || '';
+
+        $(this).find('.w-dyn-item').each(function(){
+            $(this).data('lang-en', $(this).text());// Store a non-translated string in .data().
+
+            $('<option />', {
+                value: $(this).text(),
+                selected: ($(this).text() == defaultValue) ? 'selected' : false
+            }).text( $(this).text() ).appendTo( $(select) );
+        });
+    });
+};
+
+
 // Create jQuery Select2 widget.
   // Use this instead of .select2() when first initializing a widget.
 $.fn.createSelect2 = function(options){
-    var ops;
-    $.each(this, function(i, element){
-        ops = options;
-        ops.placeholder = $(element).attr('placeholder') || "Select...";
-        
-        if (ops.placeholder){
-            // For the placeholder to appear, you must have a blank <option> as the first option in your Select.
-            $(element).prepend('<option value=""></option>').val('');
-        }
+    if (!!$(this).length){
+        HELP.waitFor(jQuery.fn, "select2", 100, function(){
+            var ops;
+            $.each(this, function(i, element){
+                ops = options;
+                ops.placeholder = $(element).attr('placeholder') || "Select...";
+                
+                if (ops.placeholder){
+                    // For the placeholder to appear, you must have a blank <option> as the first option in your Select.
+                    $(element).prepend('<option value=""></option>').val('');
+                }
 
-        // Store options in .data() incase we need to destroy and rebuild the select2 widget.
-        // This happens when the language is changed.
-        $(element).select2(ops).data('select2-options', ops);
-    });
+                // Store options in .data() incase we need to destroy and rebuild the select2 widget.
+                // This happens when the language is changed.
+                $(element).select2(ops).data('select2-options', ops);
+            });
+        });
+    }
+
 };
 
 
