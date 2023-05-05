@@ -148,6 +148,8 @@ var HELP = (function($, window, document, undefined){
             url: params.url,
             method: params.method,
             data: params.data,
+            processData: false,
+            contentType: false,
             timeout: params.timeout,
             success: function(data, textStatus){
                 console.log(textStatus, data);
