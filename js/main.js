@@ -1,12 +1,5 @@
 var MAIN = (function($, window, document, undefined){
-    var pub = {},
-        ua = navigator.userAgent;
-
-
-    pub.isTouchDevice = ('ontouchstart' in document.documentElement);
-    pub.isiPad = (ua.match(/iPad/i) !== null);
-    pub.isiPhone = (navigator.platform.indexOf('iPhone') !== -1) || (navigator.platform.indexOf('iPod') !== -1);
-    pub.isAndroid = (ua.indexOf('Android') !== -1);
+    var pub = {};
 
 
     // Memberstack plan names.
@@ -15,135 +8,6 @@ var MAIN = (function($, window, document, undefined){
         "pln_3-credits-jmv04pd": "3 Credits",
         "pln_6-credits-5cx04l8": "6 Credits",
         "pln_12-credits-72z04tc": "12 Credits"
-    };
-
-
-    pub.getCurrentLang = function(){
-        return HELP.checkKeyExists(window, "Weglot") ? Weglot.getCurrentLang() : 'en';
-    };
-
-
-    // Format money.
-    pub.formatCurrency = function(amount){
-        return parseFloat(amount, 10).toFixed(2).toString();
-    };
-
-
-    // Get $£€ etc symbols.
-    pub.getCurrencySymbol = (locale, currency) => (0).toLocaleString(locale, { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\d/g, '').trim();
-
-
-    // Return human-friendly date.
-    pub.formatTimestamp = function(timestamp){
-        var date = new Date(timestamp),
-            locale = pub.getCurrentLang(),
-            options = {
-            //weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        };
-
-        if (typeof timestamp == "string"){
-            // Convert to a timestamp.
-            timestamp = date.getTime();
-        }
-        if (timestamp.toString().length < 11){
-            date.setTime(timestamp * 1000);
-        }
-        //return date.toDateString();
-        return date.toLocaleDateString(locale, options);
-    };
-
-
-    pub.getEnvType = function(){
-        return (location.hostname.indexOf('webflow') > -1) ? 'dev' : 'live';
-    };
-
-
-    pub.getTimestamp = function(dateString){
-      if (dateString){
-        return new Date(dateString).getTime();
-      }
-      var date = new Date();
-      date = date.setDate(date.getDate());
-      return new Date(date).getTime();
-    };
-    
-
-    pub.getISOdate = function(dateString){
-        var date = pub.getTimestamp(dateString);
-        return new Date(date).toISOString();
-    };
-
-
-
-    // Function to pluralize the time past (eg. "minute/minutes ago", "day/days ago").
-    pub.pluralize = (count, noun, suffix = 's') => `${count} ${noun}${count !== 1 ? suffix : ''}`;
-    pub.timePast = (date) => {
-        const msMin = 60 * 1000, msHr = msMin * 60, msDay = msHr * 24, msWeek = msDay * 7, msMonth = msDay * 30, msYr = msDay * 365;
-        let curr = pub.getTimestamp();
-
-        let elapsed = curr - pub.getTimestamp(date);
-
-        if (elapsed < msMin) {
-            return pub.pluralize(Math.round(elapsed/1000), 'second');
-        }
-        else if (elapsed < msHr) {
-            elapsed = Math.round(elapsed/msMin);
-            return pub.pluralize(elapsed, 'minute') 
-        }
-        else if (elapsed < msDay) {
-            elapsed = Math.round(elapsed/msHr);
-            return pub.pluralize(elapsed, 'hour')
-        }
-        else if (elapsed < msMonth) {
-            elapsed = Math.round(elapsed/msDay);
-            return pub.pluralize(elapsed, 'day') 
-        }
-        else if (elapsed < msWeek) {
-            elapsed = Math.round(elapsed/msWeek);
-            return pub.pluralize(elapsed, 'week') 
-        }
-        else if (elapsed < msYr) {
-            elapsed = Math.round(elapsed/msMonth);
-            return pub.pluralize(elapsed, 'month') 
-        }
-        else {
-            elapsed = Math.round(elapsed/msYr);
-            return pub.pluralize(elapsed, 'year') 
-        }
-    };
-
-
-    // get form values as a key-value Object
-    pub.getFormValues = function(form) {
-        var formData = new FormData(form[0]),
-            values = Object.fromEntries(formData);
-
-        // Re-build multi-select field values.
-        $.each(values, function(key, value){
-            var element = $(form).find(':input[name="'+key+'"]');
-
-            if (element.is('select[multiple]')){
-                values[key] = element.val();
-            }
-        });
-
-        // Metadata:
-        // Add Environment details.
-        values.env = pub.getEnvType();
-
-        // Add subbmitted date/time value.
-        values.submitted = pub.getISOdate();
-
-        return values;
-    };
-
-
-    // Check if member has permissions.
-    pub.hasPermissions = function(permissions, member){
-        return $.inArray(permissions, member.permissions) > -1;
     };
 
 
@@ -221,44 +85,7 @@ var MAIN = (function($, window, document, undefined){
     };
 
 
-    // get the current Member then fire callback function.
-    pub.getCurrentMember = function(callback) {
-        HELP.waitFor(window, "$memberstackDom", 100, function(){
-            window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
-                if (!!callback) {
-                    var output = member || {};
-                    window.MSmember = output;
-                    callback(output);
-                }
-            });
-        });
-    }
     
-
-    // get Member's JSON then fire callback function.
-    pub.getMemberJSON = function(callback) {
-        HELP.waitFor(window, "$memberstackDom", 100, function(){
-            window.$memberstackDom.getMemberJSON().then(({ data: memberJSON }) => {
-                if (!!callback) {
-                    var output = memberJSON || {};
-                    callback(output);
-                }
-            });
-        });
-    }
-
-
-    // update Member's JSON.
-    pub.updateMemberJSON = function(json, callback) {
-        HELP.waitFor(window, "$memberstackDom", 100, function(){
-            window.$memberstackDom.updateMemberJSON({ json: json }).then(({ data: memberJSON }) => {
-                if (!!callback) {
-                    var output = memberJSON || {};
-                    callback(output);
-                }
-            });
-        });
-    }
 
 
     // Stop body from being scrollable.
@@ -270,7 +97,7 @@ var MAIN = (function($, window, document, undefined){
     // On DOM ready.
     $(function(){
         // Get current Member.
-        pub.getCurrentMember(function(member){
+        HELP.getCurrentMember(function(member){
             //if (!data) {
                 //member is logged out
             //}
@@ -298,7 +125,7 @@ var MAIN = (function($, window, document, undefined){
             if (!!$('.node-author').length){
                 $('.node-author').each(function(){
                     var authorID = $(this).attr('data-author'),
-                    display = (!!member && HELP.checkKeyExists(member, 'id') && (member.id == authorID || pub.hasPermissions('can:moderate', member)));
+                    display = (!!member && HELP.checkKeyExists(member, 'id') && (member.id == authorID || HELP.hasPermissions('can:moderate', member)));
                     //console.log(member.id+' == '+authorID+' || '+hasPermissions('can:moderate', member));
                     pub.controlHTML($(this).parents('.node').find('.author-access'), display);
                 });
@@ -307,7 +134,7 @@ var MAIN = (function($, window, document, undefined){
 
             // Show content if User has permissions.
             $('[data-ms-perm]').each(function(){
-                pub.controlHTML($(this), pub.hasPermissions($(this).attr('data-ms-perm'), member));
+                pub.controlHTML($(this), HELP.hasPermissions($(this).attr('data-ms-perm'), member));
             });
 
 
@@ -323,7 +150,7 @@ var MAIN = (function($, window, document, undefined){
               
               // Remove selects, buttons, passwords, tel/email fields and metadata from being translated.
               clone.find(':input:not(.translate)').remove();
-              var fieldValues = getFormValues(clone);
+              var fieldValues = HELP.getFormValues(clone);
               
               $.each(fieldValues, function(key, value){
                 if (!!value){
@@ -358,7 +185,7 @@ var MAIN = (function($, window, document, undefined){
 
         // Calculate "X minutes/hours/days ago" text.
         $('.time-past').each(function(){
-            $(this).text( MAIN.timePast($(this).text()) +' ago');
+            $(this).text( HELP.timePast($(this).text()) +' ago');
         });
 
 
@@ -382,7 +209,7 @@ var MAIN = (function($, window, document, undefined){
             setTimeout(function(){
               form.off('.delaySubmit').submit();
             }, cookieFormValid);
-            pub.setCookie('form-valid',cookieFormValid+d);
+            HELP.setCookie('form-valid',cookieFormValid+d);
 
             return false;
         });*/
@@ -397,13 +224,13 @@ var MAIN = (function($, window, document, undefined){
 
                 var form = $(this),
                     button = form.find('.form-submit.clicked'),
-                    data = pub.getFormValues(form),
+                    data = HELP.getFormValues(form),
                     formIncrement = HELP.getCookie('form-valid'),
                     i = 2;
 
                 formIncrement = !!formIncrement?Number(formIncrement):0;
                 data.increment = ++formIncrement;
-                pub.setCookie('form-valid',data.increment);
+                HELP.setCookie('form-valid',data.increment);
 
                 pub.buttonThinking(button);
                 console.log(data);
@@ -510,14 +337,14 @@ var MAIN = (function($, window, document, undefined){
             var data = {
                 member_id: $(this).attr('data-member-id'),
                 item_id: $(this).attr('data-item-id'),
-                submitted: pub.getISOdate()
+                submitted: HELP.getISOdate()
             },
             formIncrement = HELP.getCookie('form-valid'),
             i = 2;
 
             formIncrement = !!formIncrement?Number(formIncrement):0;
             data.increment = ++formIncrement;
-            pub.setCookie('form-valid',data.increment);
+            HELP.setCookie('form-valid',data.increment);
 
             // Add thinking icon...
 

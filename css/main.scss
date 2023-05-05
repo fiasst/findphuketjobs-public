@@ -1,17 +1,8 @@
 /*
 * Custom CSS.
 */
-.vis-hidden {
-  display: block !important;/*Needed to hide element in WF but show in browser...*/
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0,0,0,0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
+textarea {
+  resize: vertical;
 }
 
 
@@ -100,6 +91,19 @@ body.no-scroll .fp-overlay {
   .hide-xxxl-up {
     display: none;
   }
+}
+
+.vis-hidden {
+  display: block !important;/*Needed to hide element in WF but show in browser...*/
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
 
 

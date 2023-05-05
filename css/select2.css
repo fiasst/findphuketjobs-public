@@ -630,7 +630,7 @@
 }
 /* multi select  */
 .select2-container .select2-selection--multiple {
-  padding: 5px 10px 0;
+  padding: 8px 12px 3px;
 }
 .select2-container .select2-selection--multiple .select2-selection__rendered {
   margin: 0;
