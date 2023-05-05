@@ -113,7 +113,7 @@ var HELP = (function($, window, document, undefined){
     pub.getFormValues = function(form) {
         var formData = new FormData(form[0]),
             values = Object.fromEntries(formData);
-console.log(values);
+console.log([formData, values]);
         // Re-build multi-select field values.
         $.each(values, function(key, value){
             var element = $(form).find(':input[name="'+key+'"]');
@@ -124,6 +124,9 @@ console.log(values);
         });
 
         // Metadata:
+        //Member ID.
+        values.member_id = window.MSmember.id || null;
+
         // Add Environment details.
         values.env = pub.getEnvType();
 
