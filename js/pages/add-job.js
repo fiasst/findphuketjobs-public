@@ -73,6 +73,7 @@ var ADD_JOB = (function($, window, document, undefined){
                     href: '#company-form-wrapper',
                     inline: true,
                     returnFocus: false,
+                    trapFocus: false,
                     overlayClose: false,
                     escKey: false,
                     css: {
