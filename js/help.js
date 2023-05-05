@@ -113,7 +113,7 @@ var HELP = (function($, window, document, undefined){
     pub.getFormValues = function(form) {
         var formData = new FormData(form[0]),
             values = Object.fromEntries(formData);
-
+console.log(values);
         // Re-build multi-select field values.
         $.each(values, function(key, value){
             var element = $(form).find(':input[name="'+key+'"]');
@@ -148,8 +148,8 @@ var HELP = (function($, window, document, undefined){
             url: params.url,
             method: params.method,
             data: params.data,
-            processData: false,
-            contentType: false,
+            // processData: false,
+            // contentType: false,
             timeout: params.timeout,
             success: function(data, textStatus){
                 console.log(textStatus, data);
