@@ -160,7 +160,7 @@ console.log([formData, values]);
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log(textStatus, errorThrown);
-                if ($.isFunction(params.error)) params.error(data);
+                if ($.isFunction(params.error)) params.error([textStatus, errorThrown]);
             }
         });
     };
