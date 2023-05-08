@@ -39,7 +39,7 @@ var ADD_JOB = (function($, window, document, undefined){
                 alert("You need to add your company before you can post a job.");
             }
             else {
-                var companySelect = $('#field-company'),
+                var companySelect = $('#job-company'),
                     isSelected = list.length === 1;
 
                 $.each(list, function(i, item){
