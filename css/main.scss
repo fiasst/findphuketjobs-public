@@ -111,7 +111,7 @@ body.no-scroll .fp-overlay {
 /*
 * Loader.
 */
-.loader {
+.fp-loader {
   display: none;
   background: rgba(0,0,0, .3);
   border-radius: 50%;
@@ -122,6 +122,15 @@ body.no-scroll .fp-overlay {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999999;
+}
+.thinking .fp-loader {
+  display: block;
+}
+.thinking-overlay {
+  .fp-loader,
+  .fp-overlay {
+    display: block;
+  }
 }
 .spin {
   margin: 15px auto;

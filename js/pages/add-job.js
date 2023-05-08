@@ -42,6 +42,8 @@ var ADD_JOB = (function($, window, document, undefined){
                 var companySelect = $('#job-company'),
                     isSelected = list.length === 1;
 
+                $('.form-job-step-2').addClass('active');
+
                 $.each(list, function(i, item){
                     companySelect.append($('<option>', {
                         value: item['trading-name'],
@@ -51,15 +53,6 @@ var ADD_JOB = (function($, window, document, undefined){
                 });
             }
         }
-
-          
-        // Show Job form - step 2 once a company has been added and selected.
-        $('#job-company').on('change', function(){
-            // If company field has a value, progress.
-            if ($(this).val()){
-                $('.form-job-step-2').addClass('active');
-            }
-        });
 
           
         // Add company form in Colorbox.
