@@ -92,15 +92,21 @@ var ADD_JOB = (function($, window, document, undefined){
 
         // Salary type and salary amount.
         $('#job-salary-type').on('change', function(){
-            var numericType = ($.inArray($(this).val().toLowerCase(), [
-                'per hour', 'per day', 'per day', 'per month', 'per year'
-            ]) > -1);
+            var salaryField = $('#job-salary'),
+                numericType = ($.inArray($(this).val().toLowerCase(), [
+                    'per hour', 'per day', 'per day', 'per month', 'per year'
+                ]) > -1);
 
-            $('#wrapper-salary-amount').toggle(numericType).find('.suffix').text(
-                $(this).find('option:selected').text()
-            );
-            if (!$('#wrapper-salary-amount').is(':visible')){
-                $('#job-salary').val('');
+            $('#wrapper-salary-amount').toggle(numericType)
+                .attr('required', function(i, attr){ return numericType })
+                .find('.suffix').text(
+                    $(this).find('option:selected').text()
+                );
+            if (!numericType){
+                salaryField.val('');
+            }
+            else {
+                salaryField.focus();
             }
         });
     });
