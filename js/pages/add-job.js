@@ -106,7 +106,9 @@ var ADD_JOB = (function($, window, document, undefined){
                 salaryField.val('');
             }
             else {
-                salaryField.focus();
+                // setTimeout(() => {
+                    salaryField.trigger('focus');
+                // }, 100);
             }
         });
     });
