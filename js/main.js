@@ -449,28 +449,29 @@ $.fn.createSelect2 = function(options){
     options = options || {};
     var items = this;
 
-    if (!!$(items).length){
-        HELP.waitFor(jQuery.fn, "select2", 100, function(){
-            var ops;
-            $.each(items, function(i, el){
-                ops = options;
-                ops.placeholder = $(el).attr('placeholder') ? $(el).attr('placeholder') : "Select...";
-                
-                if (ops.placeholder){
-                    // For the placeholder to appear, you must have a blank <option> as the first option in your Select.
-                    // $(el).prepend('<option value=""></option>');//.val('');
-                }
+    if (!$(items).length) return false;
 
-                $(el).select2(ops)
-                    // Store options in .data() incase we need to destroy and rebuild the select2 widget.
-                    // This happens when the language is changed.
-                    .data('select2-options', ops);
-                // Make sure the default value is set.
-                // $(el).val( $(el).val() ).trigger('change');
-            });
+    HELP.waitFor(jQuery.fn, "select2", 100, function(){
+        var ops;
+        $.each(items, function(i, el){
+            ops = options;
+            ops.placeholder = $(el).attr('placeholder') || "Select...";
+            var selected = $(el).find('option[selected]');
+            
+            // If the select doesn't have a "multiple" attribute.
+            if (!(!!$(el).attr('multiple'))){
+                // For the placeholder to appear, you need a blank <option> as the first option.
+                $(el).prepend('<option value="">'+ ops.placeholder +'</option>');
+            }
+            
+            $(el).select2(ops)
+                // Store options in .data() incase we need to destroy and rebuild the select2 widget.
+                // This happens when the language is changed.
+                .data('select2-options', ops)
+                // Sets the default option:
+                .val( selected.length ? $(el).val() : '' ).trigger('change');
         });
-    }
-
+    });
 };
 
 
