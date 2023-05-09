@@ -458,7 +458,7 @@ $.fn.createSelect2 = function(options){
                 
                 if (ops.placeholder){
                     // For the placeholder to appear, you must have a blank <option> as the first option in your Select.
-                    $(el).prepend('<option value=""></option>');//.val('');
+                    // $(el).prepend('<option value=""></option>');//.val('');
                 }
 
                 $(el).select2(ops)
