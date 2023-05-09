@@ -461,9 +461,12 @@ $.fn.createSelect2 = function(options){
                     $(el).prepend('<option value=""></option>').val('');
                 }
 
-                // Store options in .data() incase we need to destroy and rebuild the select2 widget.
-                // This happens when the language is changed.
-                $(el).select2(ops).data('select2-options', ops);
+                $(el).select2(ops)
+                    // Store options in .data() incase we need to destroy and rebuild the select2 widget.
+                    // This happens when the language is changed.
+                    .data('select2-options', ops)
+                    // Make sure the default value is set.
+                    .val( $(el).val() ).trigger('change');
             });
         });
     }
