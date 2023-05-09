@@ -98,17 +98,17 @@ var ADD_JOB = (function($, window, document, undefined){
                 ]) > -1);
 
             $('#wrapper-salary-amount').toggle(numericType)
-                .attr('required', function(i, attr){ return numericType })
                 .find('.suffix').text(
                     $(this).find('option:selected').text()
                 );
+
+            salaryField.attr('required', function(i, attr){ return numericType });
+
             if (!numericType){
                 salaryField.val('');
             }
             else {
-                // setTimeout(() => {
-                    salaryField.trigger('focus');
-                // }, 100);
+                salaryField.trigger('focus');
             }
         });
     });
