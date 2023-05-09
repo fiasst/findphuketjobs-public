@@ -458,15 +458,15 @@ $.fn.createSelect2 = function(options){
                 
                 if (ops.placeholder){
                     // For the placeholder to appear, you must have a blank <option> as the first option in your Select.
-                    $(el).prepend('<option value=""></option>').val('');
+                    $(el).prepend('<option value=""></option>');//.val('');
                 }
 
                 $(el).select2(ops)
                     // Store options in .data() incase we need to destroy and rebuild the select2 widget.
                     // This happens when the language is changed.
-                    .data('select2-options', ops)
-                    // Make sure the default value is set.
-                    .val( $(el).val() ).trigger('change');
+                    .data('select2-options', ops);
+                // Make sure the default value is set.
+                // $(el).val( $(el).val() ).trigger('change');
             });
         });
     }
