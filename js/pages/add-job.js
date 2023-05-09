@@ -11,6 +11,8 @@ var ADD_JOB = (function($, window, document, undefined){
         }
         else {
             HELP.waitFor(window, "MSmember", 200, function(){
+                MAIN.thinking(true, false);
+
                 $.ajax({
                     url: "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp",
                     method: "GET",
@@ -19,11 +21,13 @@ var ADD_JOB = (function($, window, document, undefined){
                     },
                     timeout: 60000,
                     success: function(data, textStatus){
+                        MAIN.thinking(false);
                         HELP.setCookie("MSmember", JSON.stringify(data) );
                         buildCompanySelectField(data);
                     },
                     error: function(jqXHR, textStatus, errorThrown){
                         console.log(textStatus, errorThrown);
+                        MAIN.thinking(false);
                     }
                 });
             });
@@ -82,6 +86,22 @@ var ADD_JOB = (function($, window, document, undefined){
                     }
                 });
             });
+        });
+
+
+
+        // Salary type and salary amount.
+        $('#job-salary-type').on('change', function(){
+            var numericType = ($.inArray($(this).val().toLowerCase(), [
+                'per hour', 'per day', 'per day', 'per month', 'per year'
+            ]) > -1);
+
+            $('#wrapper-salary-amount').toggle(numericType).find('.suffix').text(
+                $(this).find('option:selected').text()
+            );
+            if (!$('#wrapper-salary-amount').is(':visible')){
+                $('#job-salary').val('');
+            }
         });
     });
 

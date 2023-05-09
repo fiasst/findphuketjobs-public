@@ -1,14 +1,26 @@
 /*
+* 
 * Custom CSS.
+*
 */
+//
+// Forms.
+//
 textarea {
   resize: vertical;
+}
+
+.w-checkbox-input--inputType-custom.w--redirected-checked,
+.w-checkbox-input--inputType-custom.w--redirected-focus {
+  box-shadow: none;
 }
 
 
 
 /*
+* 
 * Accordion.
+*
 */
 .accordion.active .accordion-icon {
   background: #00EBEB;
@@ -20,7 +32,9 @@ textarea {
 
 
 /*
+*
 * Sidebar (pullout).
+*
 */
 @media screen and (max-width: 991px){
   .sidebar-window-scroll {
@@ -35,32 +49,9 @@ textarea {
 
 
 /*
-* No scroll / Overlay.
-*/
-body.sidebar-filter-open,
-body.no-scroll {
-  height: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
-.fp-overlay {
-  background: rgba(0,0,0, .1);
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  display: none;
-}
-body.no-scroll .fp-overlay {
-  display: block;
-}
-
-
-
-/*
+*
 * Utility.
+*
 */
 @media screen and (min-width: 479px){
   .hide-sm-up {
@@ -109,8 +100,30 @@ body.no-scroll .fp-overlay {
 
 
 /*
-* Loader.
+*
+* No scroll / Overlay / Loader.
+*
 */
+body.sidebar-filter-open,
+body.no-scroll {
+  height: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.fp-overlay {
+  background: rgba(0,0,0, .1);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: none;
+}
+body.no-scroll .fp-overlay {
+  display: block;
+}
+
 .fp-loader {
   display: none;
   background: rgba(0,0,0, .3);
@@ -138,22 +151,23 @@ body.no-scroll .fp-overlay {
   height: 40px;
   border-radius: 50%;
   position: relative;
-  animation: loader 1s linear infinite
-}
-.spin::before,
-.spin::after {
-  content: "";
-  box-sizing: border-box;
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 4px solid #FFF;
-  animation: loader2 2s linear infinite;
-}
-.spin::after{
-  border-color: #00ebeb;
-  animation: loader2 2s linear infinite, loader 0.5s linear infinite reverse;
-  inset: 6px;
+  animation: loader 1s linear infinite;
+
+  &::before,
+  &::after {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 4px solid #FFF;
+    animation: loader2 2s linear infinite;
+  }
+  &::after {
+    border-color: #00ebeb;
+    animation: loader2 2s linear infinite, loader 0.5s linear infinite reverse;
+    inset: 6px;
+  }
 }
 @keyframes loader {
   0% {transform: rotate(0deg)}
@@ -172,41 +186,51 @@ body.no-scroll .fp-overlay {
 /*
 * Weglot widget.
 */
-.wg-list.country-selector ul {
-  display: flex;
+.wg-list {
+  &.country-selector {
+    ul {
+      display: flex;
+    }
+    .wg-flags {
+      margin: 0;
+
+      a {
+        color: #444;
+        padding: 0 8px 4px;
+        opacity: 0.6;
+        text-decoration: none;
+        transition: opacity 0.1s;
+        align-items: center;
+        
+        &:hover {
+          text-decoration: none;
+          color: #000;
+          opacity: 0.8;
+        }
+        img.wg-flag {
+          margin-right: 7px;
+          width: 20px;
+          height: 16px;
+        }
+      }
+    }
+    .wgcurrent {
+      vertical-align: middle;
+      font-weight: 500;
+      
+      a {
+        text-decoration: none;
+        color: #000;
+        align-items: center;
+        opacity: 1;
+        cursor: default;
+        border-bottom: 2px solid;
+      }
+    }
+  }
 }
-.wg-list.country-selector .wg-flags {
-  margin: 0;
-}
-.wg-list.country-selector .wgcurrent {
-  vertical-align: middle;
-  font-weight: 500;
-}
-.wg-list.country-selector .wg-flags a {
-  color: #444;
-  padding: 0 8px 4px;
-  opacity: 0.6;
-  text-decoration: none;
-  transition: opacity 0.1s;
-  align-items: center;
-}
-.wg-list.country-selector .wg-flags a:hover {
-  text-decoration: none;
-  color: #000;
-  opacity: 0.8;
-}
-.wg-list.country-selector .wgcurrent a {
-  text-decoration: none;
-  color: #000;
-  align-items: center;
-  opacity: 1;
-  cursor: default;
-  border-bottom: 2px solid;
-}
-.wg-flags a img.wg-flag {
-  margin-right: 7px;
-  width: 20px;
-  height: 16px;
-}
+
+
+
 
 

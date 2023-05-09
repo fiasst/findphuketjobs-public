@@ -214,6 +214,11 @@ var MAIN = (function($, window, document, undefined){
             return false;
         });*/
 
+        pub.thinking = (show, overlay = false) => {
+            let classes = show ? (overlay ? 'thinking-overlay' : 'thinking') : 'thinking-overlay thinking';
+            $('body').toggleClass(classes, show);
+        };
+
         // AJAX forms.
         $('.ajax-submit')
             .on('click', '.form-submit', function(e){
