@@ -2,7 +2,7 @@ USER = (function($, window, document, undefined){
     var pub = {};
 
 
-    USER.current = HELP.getCookie("MSmember") || {};
+    pub.current = HELP.getCookie("MSmember") || {};
     /*HELP.getCurrentMember(function(member){
         // pub.member = $.extend(true, {}, pub.member, member);
         $.extend(true, pub.member, member);
@@ -10,11 +10,14 @@ USER = (function($, window, document, undefined){
 
 
     pub.updateCurrentUser = function(obj){
+        USER.current = USER.current || pub.current;
+
         // Merge into current user var and add to session cookie.
         // HELP.setCookie("MSmember", JSON.stringify(USER.current));
         // pub.current = $.extend(true, USER.current, obj);
         console.log('USER.current', USER.current);
         console.log('pub.current', pub.current);
+        
         $.extend(true, USER.current, obj);
         console.log(2, USER.current);
     };
@@ -22,6 +25,8 @@ USER = (function($, window, document, undefined){
 
     // get the current Member then fire callback function.
     pub.getCurrentMember = function(callback) {
+        USER.current = USER.current || pub.current;
+
         /*if (pub.checkKeyExists(window, 'MSmember')){
             return window.MSmember;
         }*/
@@ -46,7 +51,9 @@ USER = (function($, window, document, undefined){
                 // else {
                     // return member;
                 // }
+                // console.log(3, pub.current);
                 console.log(3, USER.current);
+                // return pub.current;
                 return USER.current;
             });
         });
