@@ -12,8 +12,11 @@ USER = (function($, window, document, undefined){
     pub.updateCurrentUser = function(obj){
         // Merge into current user var and add to session cookie.
         // HELP.setCookie("MSmember", JSON.stringify(USER.current));
-        pub.current = $.extend(true, {}, pub.current, obj);
-        console.log(2, pub.current);
+        // pub.current = $.extend(true, USER.current, obj);
+        console.log('USER.current', USER.current);
+        console.log('pub.current', pub.current);
+        $.extend(true, USER.current, obj);
+        console.log(2, USER.current);
     };
 
 
