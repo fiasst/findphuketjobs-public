@@ -85,9 +85,6 @@ var MAIN = (function($, window, document, undefined){
     };
 
 
-    
-
-
     // Stop body from being scrollable.
     pub.bodyPreventScroll = function(scroll, bodyClass){
         $('body').toggleClass(bodyClass || 'no-scroll', scroll);

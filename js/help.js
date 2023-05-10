@@ -206,6 +206,9 @@ console.log([formData, values]);
 
     // get the current Member then fire callback function.
     pub.getCurrentMember = function(callback) {
+        if (pub.checkKeyExists(window, 'MSmember')){
+            return window.MSmember;
+        }
         pub.waitFor(window, "$memberstackDom", 100, function(){
             window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
                 if (!!callback) {
@@ -213,9 +216,12 @@ console.log([formData, values]);
                     window.MSmember = output;
                     callback(output);
                 }
+                else {
+                    return output;
+                }
             });
         });
-    }
+    };
     
 
     // get Member's JSON then fire callback function.
@@ -228,7 +234,7 @@ console.log([formData, values]);
                 }
             });
         });
-    }
+    };
 
 
     // update Member's JSON.
@@ -241,7 +247,29 @@ console.log([formData, values]);
                 }
             });
         });
-    }
+    };
+
+
+    pub.getMemberPlans = function(planType, member) {
+        member = member || pub.getCurrentMember();
+
+        if (pub.checkKeyExists(member, 'planConnections') && !!member.planConnections.length){
+            // Get active plans.
+            var plans = $.map(member.planConnections, function(item, i){
+                if (item.status == "ACTIVE"){
+                    return item.type.toLowerCase();
+                }
+            });
+            // Check if a plan type exists for member.
+            if (planType){
+                // Is planType in the user's plans.
+                return $.inArray(planType, plans) > -1;
+            }
+            // Return all active user plans.
+            return plans;
+        }
+        return planType ? false : [];
+    };
 
 
     // Manage cookies.

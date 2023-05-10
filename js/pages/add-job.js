@@ -34,13 +34,31 @@ var ADD_JOB = (function($, window, document, undefined){
         }
 
 
+        function maxCompaniesReached(message){
+            $('#trigger-add-company, #company-form-wrapper').remove();
+            alert(message);
+        }
+
+
         function buildCompanySelectField(data){
             console.log('data', data);
             var list = data['companies'] || [];
 
             if (list.length < 1) {
                 // No companies exist.
-                alert("You need to add your company before you can post a job.");
+                $('#trigger-add-company').trigger('click');
+                $.litbox.update({
+                    onComplete: function(){
+                        alert("You need to add your company before you can post a job");
+                    }
+                });
+            }
+            else if (list.length > 3 && HELP.getMemberPlans('subscription')){
+                // Max 3 companies.
+                maxCompaniesReached("You can have a maximum of 3 companies in your account. Please contact our team if you need assistance");
+            }
+            else if (list.length > 1 && HELP.getMemberPlans('onetime')){
+                maxCompaniesReached("You can have a maximum of 1 companies in your account on your current member plan. Subscribe to a monthly plan to increase this limit.");
             }
             else {
                 var companySelect = $('#job-company'),
@@ -49,7 +67,7 @@ var ADD_JOB = (function($, window, document, undefined){
                 $('.form-job-step-2').addClass('active');
 
                 $.each(list, function(i, item){
-                    companySelect.append($('<option>', {
+                    companySelect.html('').append($('<option>', {
                         value: item['trading-name'],
                         text: item['trading-name'] + ' ('+ item['registered-name'] +')',
                         selected: isSelected
@@ -90,6 +108,23 @@ var ADD_JOB = (function($, window, document, undefined){
 
 
 
+        function addCompanyCallback(data){
+            $.litbox({
+                title: 'Add a new company',
+                html: '<p></p>',
+                css: {
+                    xs: {
+                        bodyClasses: 'lbox-dialog',
+                        maxWidth: 700,
+                        width: '100%',
+                        opacity: 0.4
+                    },
+                }
+            });
+        }
+
+
+
         // Salary type and salary amount.
         $('#job-salary-type').on('change', function(){
             var salaryField = $('#job-salary'),
@@ -106,9 +141,6 @@ var ADD_JOB = (function($, window, document, undefined){
 
             if (!numericType){
                 salaryField.val('');
-            }
-            else {
-                salaryField.trigger('focus');
             }
         });
     });
