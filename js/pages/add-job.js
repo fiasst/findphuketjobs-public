@@ -5,35 +5,25 @@ var ADD_JOB = (function($, window, document, undefined){
     // On DOM ready.
     $(function(){
         // Build Company select list options from JSON.
-        // var MSmember = HELP.getCookie("MSmember");
-        // if (MSmember && HELP.checkKeyExists(MSmember, 'companies')){
         HELP.waitFor(USER, "current", 100, function(){
             if (HELP.checkKeyExists(USER.current, 'companies')){
                 buildCompanySelectField(USER.current);
             }
             else {
-                // HELP.waitFor(window, "MSmember", 200, function(){
                 HELP.waitFor(USER.current, "id", 100, function(){
                     MAIN.thinking(true, false);
 
-                    $.ajax({
+                    HELP.sendAJAX({
                         url: "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp",
                         method: "GET",
                         data: {
-                            // id: window.MSmember.id
                             id: USER.current.id
                         },
-                        timeout: 60000,
                         success: function(data, textStatus){
-                            // data = JSON.parse(data);
-                            
                             MAIN.thinking(false);
-                            // HELP.setCookie("MSmember", JSON.stringify(data) );
-                            console.log(6, data);
-                            // console.log(7, JSON.parse(data));
+                            HELP.setCookie("MSmember", JSON.stringify(data));
                             USER.updateCurrentUser(data);
                             buildCompanySelectField(data);
-                            console.log(5, USER.current);
                         },
                         error: function(jqXHR, textStatus, errorThrown){
                             console.log(textStatus, errorThrown);
@@ -65,11 +55,7 @@ var ADD_JOB = (function($, window, document, undefined){
 
 
         function buildCompanySelectField(data){
-            console.log(8, data);
             var list = data.companies || [];
-
-            // Check if max company limit is reached.
-            // maxCompanies(list.length);
 
             if (list.length < 1) {
                 // No companies exist.
@@ -101,9 +87,6 @@ var ADD_JOB = (function($, window, document, undefined){
 
             // Don't add new companies if limit is reached.
             var companies = [];
-            // if (HELP.checkKeyExists(window, 'MSmember')){
-            //     companies = window.MSmember.companies;
-            // }
             if (HELP.checkKeyExists(USER.current, 'companies')){
                 companies = USER.current.companies;
             }

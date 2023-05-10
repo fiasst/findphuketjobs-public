@@ -8,13 +8,6 @@ var USER = {},
 
 HELP = (function($, window, document, undefined){
     var pub = {};
-        // ua = navigator.userAgent;
-
-
-    // pub.isTouchDevice = ('ontouchstart' in document.documentElement);
-    // pub.isiPad = (ua.match(/iPad/i) !== null);
-    // pub.isiPhone = (navigator.platform.indexOf('iPhone') !== -1) || (navigator.platform.indexOf('iPod') !== -1);
-    // pub.isAndroid = (ua.indexOf('Android') !== -1);
 
 
     pub.breakpoints = {
@@ -148,8 +141,14 @@ console.log([formData, values]);
             method: "POST",
             //data: {},
             timeout: 60000,
-            success: false,
-            error: false
+            success: function(data, textStatus){
+                console.log(textStatus, data);
+                if ($.isFunction(params.success)) params.success(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(textStatus, errorThrown);
+                if ($.isFunction(params.error)) params.error([textStatus, errorThrown]);
+            }
         }, obj);
 
         $.ajax({
@@ -159,14 +158,8 @@ console.log([formData, values]);
             // processData: false,
             // contentType: false,
             timeout: params.timeout,
-            success: function(data, textStatus){
-                console.log(textStatus, data);
-                if ($.isFunction(params.success)) params.success(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log(textStatus, errorThrown);
-                if ($.isFunction(params.error)) params.error([textStatus, errorThrown]);
-            }
+            success: params.success,
+            error: params.error
         });
     };
 
@@ -235,11 +228,6 @@ console.log([formData, values]);
         var nameEQ = name + "=",
             cookies = document.cookie.split(';');
         
-        // for (var i=0;i < cookies.length;i++) {
-        //     var cookie = cookies[i].trim();
-        //     while (cookie.charAt(0) == ' ') cookie = cookie.substring(1, cookie.length);
-        //     if (cookie.indexOf(nameEQ) == 0) return cookie.substring(nameEQ.length, cookie.length);
-        // }
         for (var i = 0; i < cookies.length; i++){
             var cookie = cookies[i].trim();
             if (cookie.indexOf(nameEQ) === 0) {
@@ -253,7 +241,7 @@ console.log([formData, values]);
     };
     
 
-    // Init.
+    // On DOM ready.
     // $(function(){});
 
     
