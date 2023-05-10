@@ -2,9 +2,11 @@
 * functions that help other functions to do their thing.
 */
 
-var USER = {};
+var USER = {},
+    MAIN = {},
+    ADD_JOB = {},
 
-var HELP = (function($, window, document, undefined){
+HELP = (function($, window, document, undefined){
     var pub = {};
         // ua = navigator.userAgent;
 

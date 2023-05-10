@@ -7,38 +7,40 @@ var ADD_JOB = (function($, window, document, undefined){
         // Build Company select list options from JSON.
         // var MSmember = HELP.getCookie("MSmember");
         // if (MSmember && HELP.checkKeyExists(MSmember, 'companies')){
-        if (HELP.checkKeyExists(USER.current, 'companies')){
-            buildCompanySelectField(JSON.parse(MSmember));
-        }
-        else {
-            // HELP.waitFor(window, "MSmember", 200, function(){
-            HELP.waitFor(USER.current, "id", 100, function(){
-                MAIN.thinking(true, false);
+        HELP.waitFor(USER, "current", 100, function(){
+            if (HELP.checkKeyExists(USER.current, 'companies')){
+                buildCompanySelectField(USER.current);
+            }
+            else {
+                // HELP.waitFor(window, "MSmember", 200, function(){
+                HELP.waitFor(USER.current, "id", 100, function(){
+                    MAIN.thinking(true, false);
 
-                $.ajax({
-                    url: "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp",
-                    method: "GET",
-                    data: {
-                        // id: window.MSmember.id
-                        id: USER.current.id
-                    },
-                    timeout: 60000,
-                    success: function(data, textStatus){
-                        MAIN.thinking(false);
-                        // HELP.setCookie("MSmember", JSON.stringify(data) );
-                        console.log(6, data);
-                        console.log(7, JSON.parse(data));
-                        USER.updateCurrentUser(JSON.parse(data));
-                        buildCompanySelectField(data);
-                        console.log(5, USER.current);
-                    },
-                    error: function(jqXHR, textStatus, errorThrown){
-                        console.log(textStatus, errorThrown);
-                        MAIN.thinking(false);
-                    }
+                    $.ajax({
+                        url: "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp",
+                        method: "GET",
+                        data: {
+                            // id: window.MSmember.id
+                            id: USER.current.id
+                        },
+                        timeout: 60000,
+                        success: function(data, textStatus){
+                            MAIN.thinking(false);
+                            // HELP.setCookie("MSmember", JSON.stringify(data) );
+                            console.log(6, data);
+                            // console.log(7, JSON.parse(data));
+                            USER.updateCurrentUser(data);
+                            buildCompanySelectField(data);
+                            console.log(5, USER.current);
+                        },
+                        error: function(jqXHR, textStatus, errorThrown){
+                            console.log(textStatus, errorThrown);
+                            MAIN.thinking(false);
+                        }
+                    });
                 });
-            });
-        }
+            }
+        });
 
 
         function maxCompanies(companies) {

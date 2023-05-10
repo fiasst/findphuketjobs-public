@@ -9,11 +9,20 @@ USER = (function($, window, document, undefined){
     });*/
 
 
+    pub.updateCurrentUser = function(obj){
+        // Merge into current user var and add to session cookie.
+        // HELP.setCookie("MSmember", JSON.stringify(USER.current));
+        pub.current = $.extend(true, {}, pub.current, obj);
+        console.log(2, pub.current);
+    };
+
+
     // get the current Member then fire callback function.
     pub.getCurrentMember = function(callback) {
         /*if (pub.checkKeyExists(window, 'MSmember')){
             return window.MSmember;
         }*/
+        console.log(0, HELP.checkKeyExists(USER.current, 'id'));
         if (HELP.checkKeyExists(USER.current, 'id')){
             console.log(4, USER.current);
             return USER.current;
@@ -34,20 +43,13 @@ USER = (function($, window, document, undefined){
                 // else {
                     // return member;
                 // }
-                console.log(3, USER.current);
-                return USER.current;
+                console.log(3, pub.current);
+                return pub.current;
             });
         });
     };
+    // init.
     pub.getCurrentMember();
-
-
-    pub.updateCurrentUser = function(obj){
-        // Merge into current user var and add to session cookie.
-        // HELP.setCookie("MSmember", USER.current);
-        USER.current = $.extend(true, {}, USER.current, obj);
-        console.log(2, USER.current);
-    };
     
 
     // get Member's JSON then fire callback function.
@@ -86,7 +88,7 @@ USER = (function($, window, document, undefined){
         if (HELP.checkKeyExists(member, 'planConnections') && !!member.planConnections.length){
             // Get active plans.
             var plans = $.map(member.planConnections, function(item, i){
-                if (item.status == "ACTIVE"){
+                if (item.active){
                     return item.type.toLowerCase();
                 }
             });
