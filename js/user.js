@@ -15,13 +15,13 @@ USER = (function($, window, document, undefined){
             return window.MSmember;
         }*/
         if (HELP.checkKeyExists(USER, 'current')){
-            return pub.current;
+            return USER.current;
         }
         HELP.waitFor(window, "$memberstackDom", 50, function(){
             window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
                 member = member || {};
                 // window.MSmember = output;
-                pub.current = $.extend(true, pub.current, member);
+                USER.current = $.extend(true, USER.current, member);
 
                 if (!!callback) {
                     callback(member);
@@ -29,7 +29,7 @@ USER = (function($, window, document, undefined){
                 // else {
                     // return member;
                 // }
-                return pub.current;
+                return USER.current;
             });
         });
     };
@@ -38,8 +38,8 @@ USER = (function($, window, document, undefined){
 
     pub.updateCurrentUser = function(obj){
         // Merge into current user var and add to session cookie.
-        pub.current = $.extend(true, pub.current, obj);
-        HELP.setCookie("MSmember", pub.current);
+        USER.current = $.extend(true, USER.current, obj);
+        HELP.setCookie("MSmember", USER.current);
     };
     
 
