@@ -1,4 +1,4 @@
-var USER = (function($, window, document, undefined){
+USER = (function($, window, document, undefined){
     var pub = {};
 
 
