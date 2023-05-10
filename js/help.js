@@ -27,7 +27,7 @@ var HELP = (function($, window, document, undefined){
 
 
     pub.getEnvType = function(){
-        return (location.hostname.indexOf('webflow') > -1) ? 'dev' : 'live';
+        return location.hostname.indexOf('webflow') > -1 ? 'dev' : 'live';
     };
 
 
@@ -206,20 +206,25 @@ console.log([formData, values]);
 
     // get the current Member then fire callback function.
     pub.getCurrentMember = function(callback) {
-        if (pub.checkKeyExists(window, 'MSmember')){
+        /*if (pub.checkKeyExists(window, 'MSmember')){
             return window.MSmember;
+        }*/
+        if (pub.checkKeyExists(USER.current, 'ms')){
+            return USER.current;
         }
-        pub.waitFor(window, "$memberstackDom", 100, function(){
+        pub.waitFor(window, "$memberstackDom", 50, function(){
             window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
-                var output = member || {};
+                member = member || {};
+                // window.MSmember = output;
+                $.extend(true, USER.current, {ms: member});
 
                 if (!!callback) {
-                    window.MSmember = output;
-                    callback(output);
+                    callback(member);
                 }
                 // else {
-                    return output;
+                    // return member;
                 // }
+                return USER.current;
             });
         });
     };
@@ -227,14 +232,14 @@ console.log([formData, values]);
 
     // get Member's JSON then fire callback function.
     pub.getMemberJSON = function(callback) {
-        pub.waitFor(window, "$memberstackDom", 100, function(){
+        pub.waitFor(window, "$memberstackDom", 50, function(){
             window.$memberstackDom.getMemberJSON().then(({ data: memberJSON }) => {
-                var output = memberJSON || {};
+                memberJSON = memberJSON || {};
 
                 if (!!callback) {
-                    callback(output);
+                    callback(memberJSON);
                 }
-                return output;
+                return memberJSON;
             });
         });
     };
@@ -242,14 +247,14 @@ console.log([formData, values]);
 
     // update Member's JSON.
     pub.updateMemberJSON = function(json, callback) {
-        pub.waitFor(window, "$memberstackDom", 100, function(){
+        pub.waitFor(window, "$memberstackDom", 50, function(){
             window.$memberstackDom.updateMemberJSON({ json: json }).then(({ data: memberJSON }) => {
-                var output = memberJSON || {};
+                memberJSON = memberJSON || {};
 
                 if (!!callback) {
-                    callback(output);
+                    callback(memberJSON);
                 }
-                return output;
+                return memberJSON;
             });
         });
     };
@@ -258,9 +263,9 @@ console.log([formData, values]);
     pub.getMemberPlans = function(planType, member) {
         member = member || pub.getCurrentMember();
 
-        if (pub.checkKeyExists(member, 'planConnections') && !!member.planConnections.length){
+        if (pub.checkKeyExists(member.ms, 'planConnections') && !!member.ms.planConnections.length){
             // Get active plans.
-            var plans = $.map(member.planConnections, function(item, i){
+            var plans = $.map(member.ms.planConnections, function(item, i){
                 if (item.status == "ACTIVE"){
                     return item.type.toLowerCase();
                 }

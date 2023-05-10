@@ -5,24 +5,28 @@ var ADD_JOB = (function($, window, document, undefined){
     // On DOM ready.
     $(function(){
         // Build Company select list options from JSON.
-        var MSmember = HELP.getCookie("MSmember");
-        if (MSmember && HELP.checkKeyExists(MSmember, 'companies')){
+        // var MSmember = HELP.getCookie("MSmember");
+        // if (MSmember && HELP.checkKeyExists(MSmember, 'companies')){
+        if (HELP.checkKeyExists(USER.current.ms, 'companies')){
             buildCompanySelectField(JSON.parse(MSmember));
         }
         else {
-            HELP.waitFor(window, "MSmember", 200, function(){
+            // HELP.waitFor(window, "MSmember", 200, function(){
+            HELP.waitFor(USER.current, "ms", 100, function(){
                 MAIN.thinking(true, false);
 
                 $.ajax({
                     url: "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp",
                     method: "GET",
                     data: {
-                        id: window.MSmember.id
+                        // id: window.MSmember.id
+                        id: USER.current.ms.id
                     },
                     timeout: 60000,
                     success: function(data, textStatus){
                         MAIN.thinking(false);
-                        HELP.setCookie("MSmember", JSON.stringify(data) );
+                        // HELP.setCookie("MSmember", JSON.stringify(data) );
+                        USER.updateCurrent(JSON.stringify(data));
                         buildCompanySelectField(data);
                     },
                     error: function(jqXHR, textStatus, errorThrown){
@@ -90,8 +94,11 @@ var ADD_JOB = (function($, window, document, undefined){
 
             // Don't add new companies if limit is reached.
             var companies = [];
-            if (HELP.checkKeyExists(window, 'MSmember')){
-                companies = window.MSmember.companies;
+            // if (HELP.checkKeyExists(window, 'MSmember')){
+            //     companies = window.MSmember.companies;
+            // }
+            if (HELP.checkKeyExists(USER.current.ms, 'companies')){
+                companies = USER.current.ms.companies;
             }
             if (!!companies.length){
                 if (maxCompanies(companies)) return false;
@@ -118,7 +125,7 @@ var ADD_JOB = (function($, window, document, undefined){
                             maxWidth: 900,
                             width: '100%',
                             opacity: 0.4
-                        },
+                        }
                     },
                     onComplete: onComplete
                 });
@@ -127,7 +134,7 @@ var ADD_JOB = (function($, window, document, undefined){
 
 
 
-        function addCompanyCallback(data){
+        /*function addCompanyCallback(data){
             $.litbox({
                 title: 'Add a new company',
                 html: '<p></p>',
@@ -140,7 +147,7 @@ var ADD_JOB = (function($, window, document, undefined){
                     },
                 }
             });
-        }
+        }*/
 
 
 

@@ -104,11 +104,11 @@ var MAIN = (function($, window, document, undefined){
             //}
             console.log(member);
 
-            if (HELP.checkKeyExists(member, 'metaData')){
-                pub.replaceTextWithMetadata(member.metaData);
-            }
+            // if (HELP.checkKeyExists(member, 'metaData')){
+                // pub.replaceTextWithMetadata(member.metaData);
+            // }
 
-            if (HELP.checkKeyExists(member, 'id')){
+            if (HELP.checkKeyExists(member.ms, 'id')){
                 // Add member ID to form field.
                 var hiddenInput = $('.input-member-id');
 
@@ -122,8 +122,8 @@ var MAIN = (function($, window, document, undefined){
             if (!!$('.node-author').length){
                 $('.node-author').each(function(){
                     var authorID = $(this).attr('data-author'),
-                    display = (!!member && HELP.checkKeyExists(member, 'id') && (member.id == authorID || HELP.hasPermissions('can:moderate', member)));
-                    //console.log(member.id+' == '+authorID+' || '+hasPermissions('can:moderate', member));
+                    display = (!!member.ms && HELP.checkKeyExists(member.ms, 'id') && (member.ms.id == authorID || HELP.hasPermissions('can:moderate', member.ms)));
+                    //console.log(member.ms.id+' == '+authorID+' || '+hasPermissions('can:moderate', member.ms));
                     pub.controlHTML($(this).parents('.node').find('.author-access'), display);
                 });
             }
@@ -131,7 +131,7 @@ var MAIN = (function($, window, document, undefined){
 
             // Show content if User has permissions.
             $('[data-ms-perm]').each(function(){
-                pub.controlHTML($(this), HELP.hasPermissions($(this).attr('data-ms-perm'), member));
+                pub.controlHTML($(this), HELP.hasPermissions($(this).attr('data-ms-perm'), member.ms));
             });
 
 
