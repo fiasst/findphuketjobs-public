@@ -34,6 +34,19 @@ var ADD_JOB = (function($, window, document, undefined){
         }
 
 
+        function maxCompanies(companies) {
+            if (companies > 3 && HELP.getMemberPlans('subscription')){
+                // Max 3 companies.
+                maxCompaniesReached("You can have a maximum of 3 companies in your account. Please contact our team if you need assistance.");
+                return true;
+            }
+            else if (companies > 1 && HELP.getMemberPlans('onetime')){
+                maxCompaniesReached("You can have a maximum of 1 companies in your account for your current member plan. Subscribe to a monthly plan to increase this limit.");
+                return true;
+            }
+            return false;
+        }
+
         function maxCompaniesReached(message){
             $('#trigger-add-company, #company-form-wrapper').remove();
             alert(message);
@@ -42,7 +55,10 @@ var ADD_JOB = (function($, window, document, undefined){
 
         function buildCompanySelectField(data){
             console.log('data', data);
-            var list = data['companies'] || [];
+            var list = data.companies || [];
+
+            // Check if max company limit is reached.
+            maxCompanies(list.length);
 
             if (list.length < 1) {
                 // No companies exist.
@@ -50,13 +66,6 @@ var ADD_JOB = (function($, window, document, undefined){
                 $('#trigger-add-company').trigger('click', function(){
                     alert("You need to add your company before you can post a job");
                 });
-            }
-            else if (list.length > 3 && HELP.getMemberPlans('subscription')){
-                // Max 3 companies.
-                maxCompaniesReached("You can have a maximum of 3 companies in your account. Please contact our team if you need assistance");
-            }
-            else if (list.length > 1 && HELP.getMemberPlans('onetime')){
-                maxCompaniesReached("You can have a maximum of 1 companies in your account on your current member plan. Subscribe to a monthly plan to increase this limit.");
             }
             else {
                 var companySelect = $('#job-company'),
@@ -78,6 +87,13 @@ var ADD_JOB = (function($, window, document, undefined){
         // Add company form in Colorbox.
         $('#trigger-add-company').on('click', function(e, onComplete){
             e.preventDefault();
+
+            // Don't add new companies if limit is reached.
+            var companies = MSmember.companies || [];
+
+            if (!!companies.length){
+                if (maxCompanies(companies)) return false;
+            }
 
             onComplete = onComplete || false;
             
