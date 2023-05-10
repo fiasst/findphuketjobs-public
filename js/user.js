@@ -14,14 +14,14 @@ USER = (function($, window, document, undefined){
         /*if (pub.checkKeyExists(window, 'MSmember')){
             return window.MSmember;
         }*/
-        if (HELP.checkKeyExists(pub.current, 'ms')){
+        if (HELP.checkKeyExists(USER, 'current')){
             return pub.current;
         }
         HELP.waitFor(window, "$memberstackDom", 50, function(){
             window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
                 member = member || {};
                 // window.MSmember = output;
-                pub.current = $.extend(true, pub.current, {ms: member});
+                pub.current = $.extend(true, pub.current, member);
 
                 if (!!callback) {
                     callback(member);
@@ -38,7 +38,8 @@ USER = (function($, window, document, undefined){
 
     pub.updateCurrentUser = function(obj){
         // Merge into current user var and add to session cookie.
-        HELP.setCookie("MSmember", $.extend(true, pub.current, obj));
+        pub.current = $.extend(true, pub.current, obj);
+        HELP.setCookie("MSmember", pub.current);
     };
     
 
@@ -75,9 +76,9 @@ USER = (function($, window, document, undefined){
     pub.getMemberPlans = function(planType, member) {
         member = member || pub.getCurrentMember();
 
-        if (HELP.checkKeyExists(member.ms, 'planConnections') && !!member.ms.planConnections.length){
+        if (HELP.checkKeyExists(member, 'planConnections') && !!member.planConnections.length){
             // Get active plans.
-            var plans = $.map(member.ms.planConnections, function(item, i){
+            var plans = $.map(member.planConnections, function(item, i){
                 if (item.status == "ACTIVE"){
                     return item.type.toLowerCase();
                 }

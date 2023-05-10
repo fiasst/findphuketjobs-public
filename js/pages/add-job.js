@@ -7,7 +7,7 @@ var ADD_JOB = (function($, window, document, undefined){
         // Build Company select list options from JSON.
         // var MSmember = HELP.getCookie("MSmember");
         // if (MSmember && HELP.checkKeyExists(MSmember, 'companies')){
-        if (HELP.checkKeyExists(USER.current.ms, 'companies')){
+        if (HELP.checkKeyExists(USER.current, 'companies')){
             buildCompanySelectField(JSON.parse(MSmember));
         }
         else {
@@ -20,7 +20,7 @@ var ADD_JOB = (function($, window, document, undefined){
                     method: "GET",
                     data: {
                         // id: window.MSmember.id
-                        id: USER.current.ms.id
+                        id: USER.current.id
                     },
                     timeout: 60000,
                     success: function(data, textStatus){
@@ -97,8 +97,8 @@ var ADD_JOB = (function($, window, document, undefined){
             // if (HELP.checkKeyExists(window, 'MSmember')){
             //     companies = window.MSmember.companies;
             // }
-            if (HELP.checkKeyExists(USER.current.ms, 'companies')){
-                companies = USER.current.ms.companies;
+            if (HELP.checkKeyExists(USER.current, 'companies')){
+                companies = USER.current.companies;
             }
             if (!!companies.length){
                 if (maxCompanies(companies)) return false;

@@ -127,7 +127,8 @@ console.log([formData, values]);
 
         // Metadata:
         //Member ID.
-        values.member_id = window.MSmember.id || null;
+        // values.member_id = window.MSmember.id || null;
+        values.member_id = USER.current.id || null;
 
         // Add Environment details.
         values.env = pub.getEnvType();
