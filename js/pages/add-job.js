@@ -46,11 +46,9 @@ var ADD_JOB = (function($, window, document, undefined){
 
             if (list.length < 1) {
                 // No companies exist.
-                $('#trigger-add-company').trigger('click');
-                $.litbox.update({
-                    onComplete: function(){
-                        alert("You need to add your company before you can post a job");
-                    }
+                // The second parameter is a callback function for the "onComplete" LitBox options.
+                $('#trigger-add-company').trigger('click', function(){
+                    alert("You need to add your company before you can post a job");
                 });
             }
             else if (list.length > 3 && HELP.getMemberPlans('subscription')){
@@ -78,8 +76,10 @@ var ADD_JOB = (function($, window, document, undefined){
 
           
         // Add company form in Colorbox.
-        $('#trigger-add-company').on('click', function(e){
+        $('#trigger-add-company').on('click', function(e, onComplete){
             e.preventDefault();
+
+            onComplete = onComplete || false;
             
             HELP.waitFor(window.jQuery, 'litbox', 100, function(){
                 // LitBox
@@ -101,7 +101,8 @@ var ADD_JOB = (function($, window, document, undefined){
                             width: '100%',
                             opacity: 0.4
                         },
-                    }
+                    },
+                    onComplete: onComplete
                 });
             });
         });
