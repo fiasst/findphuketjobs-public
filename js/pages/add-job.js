@@ -26,7 +26,9 @@ var ADD_JOB = (function($, window, document, undefined){
                     success: function(data, textStatus){
                         MAIN.thinking(false);
                         // HELP.setCookie("MSmember", JSON.stringify(data) );
-                        USER.updateCurrentUser(data);
+                        console.log(data);
+                        console.log(JSON.parse(data));
+                        USER.updateCurrentUser(JSON.parse(data));
                         buildCompanySelectField(data);
                     },
                     error: function(jqXHR, textStatus, errorThrown){
