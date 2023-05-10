@@ -91,7 +91,7 @@ var ADD_JOB = (function($, window, document, undefined){
                 companies = USER.current.companies;
             }
             if (!!companies.length){
-                if (maxCompanies(companies)) return false;
+                if (maxCompanies(companies.length)) return false;
             }
 
             onComplete = onComplete || false;
