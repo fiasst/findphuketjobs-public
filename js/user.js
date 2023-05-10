@@ -14,21 +14,27 @@ USER = (function($, window, document, undefined){
         /*if (pub.checkKeyExists(window, 'MSmember')){
             return window.MSmember;
         }*/
-        if (HELP.checkKeyExists(USER, 'current')){
+        if (HELP.checkKeyExists(USER.current, 'id')){
+            console.log(4, USER.current);
             return USER.current;
         }
         HELP.waitFor(window, "$memberstackDom", 50, function(){
             window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
                 member = member || {};
                 // window.MSmember = output;
-                USER.current = $.extend(true, {}, USER.current, member);
+                // Add MS data to USER.curtent Object.
+                // USER.current = $.extend(true, {}, USER.current, member);
+                console.log(1, member);
+                pub.updateCurrentUser(member);
 
                 if (!!callback) {
-                    callback(member);
+                    // callback(member);
+                    callback();
                 }
                 // else {
                     // return member;
                 // }
+                console.log(3, USER.current);
                 return USER.current;
             });
         });
@@ -38,8 +44,9 @@ USER = (function($, window, document, undefined){
 
     pub.updateCurrentUser = function(obj){
         // Merge into current user var and add to session cookie.
+        // HELP.setCookie("MSmember", USER.current);
         USER.current = $.extend(true, {}, USER.current, obj);
-        HELP.setCookie("MSmember", USER.current);
+        console.log(2, USER.current);
     };
     
 

@@ -26,10 +26,11 @@ var ADD_JOB = (function($, window, document, undefined){
                     success: function(data, textStatus){
                         MAIN.thinking(false);
                         // HELP.setCookie("MSmember", JSON.stringify(data) );
-                        console.log(data);
-                        console.log(JSON.parse(data));
+                        console.log(6, data);
+                        console.log(7, JSON.parse(data));
                         USER.updateCurrentUser(JSON.parse(data));
                         buildCompanySelectField(data);
+                        console.log(5, USER.current);
                     },
                     error: function(jqXHR, textStatus, errorThrown){
                         console.log(textStatus, errorThrown);
@@ -60,7 +61,7 @@ var ADD_JOB = (function($, window, document, undefined){
 
 
         function buildCompanySelectField(data){
-            console.log('data', data);
+            console.log(8, data);
             var list = data.companies || [];
 
             // Check if max company limit is reached.
