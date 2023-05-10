@@ -21,7 +21,7 @@ USER = (function($, window, document, undefined){
             window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
                 member = member || {};
                 // window.MSmember = output;
-                USER.current = $.extend(true, USER.current, member);
+                USER.current = $.extend(true, {}, USER.current, member);
 
                 if (!!callback) {
                     callback(member);
@@ -38,7 +38,7 @@ USER = (function($, window, document, undefined){
 
     pub.updateCurrentUser = function(obj){
         // Merge into current user var and add to session cookie.
-        USER.current = $.extend(true, USER.current, obj);
+        USER.current = $.extend(true, {}, USER.current, obj);
         HELP.setCookie("MSmember", USER.current);
     };
     

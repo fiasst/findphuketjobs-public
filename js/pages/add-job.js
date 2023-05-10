@@ -12,7 +12,7 @@ var ADD_JOB = (function($, window, document, undefined){
         }
         else {
             // HELP.waitFor(window, "MSmember", 200, function(){
-            HELP.waitFor(USER.current, "ms", 100, function(){
+            HELP.waitFor(USER.current, "id", 100, function(){
                 MAIN.thinking(true, false);
 
                 $.ajax({
