@@ -2,7 +2,7 @@ USER = (function($, window, document, undefined){
     var pub = {};
 
 
-    pub.current = HELP.getCookie("MSmember") || {};
+    USER.current = HELP.getCookie("MSmember") || {};
     /*HELP.getCurrentMember(function(member){
         // pub.member = $.extend(true, {}, pub.member, member);
         $.extend(true, pub.member, member);
@@ -46,8 +46,8 @@ USER = (function($, window, document, undefined){
                 // else {
                     // return member;
                 // }
-                console.log(3, pub.current);
-                return pub.current;
+                console.log(3, USER.current);
+                return USER.current;
             });
         });
     };
