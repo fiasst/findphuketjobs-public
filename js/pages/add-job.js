@@ -25,6 +25,8 @@ var ADD_JOB = (function($, window, document, undefined){
                         },
                         timeout: 60000,
                         success: function(data, textStatus){
+                            data = JSON.parse(data);
+                            
                             MAIN.thinking(false);
                             // HELP.setCookie("MSmember", JSON.stringify(data) );
                             console.log(6, data);
