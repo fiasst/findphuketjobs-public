@@ -7,7 +7,6 @@ USER = (function($, window, document, undefined){
         // pub.member = $.extend(true, {}, pub.member, member);
         $.extend(true, pub.member, member);
     });*/
-    pub.getCurrentMember();
 
 
     // get the current Member then fire callback function.
@@ -15,14 +14,14 @@ USER = (function($, window, document, undefined){
         /*if (pub.checkKeyExists(window, 'MSmember')){
             return window.MSmember;
         }*/
-        if (HELP.checkKeyExists(USER.current, 'ms')){
-            return USER.current;
+        if (HELP.checkKeyExists(pub.current, 'ms')){
+            return pub.current;
         }
         HELP.waitFor(window, "$memberstackDom", 50, function(){
             window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
                 member = member || {};
                 // window.MSmember = output;
-                USER.current = $.extend(true, USER.current, {ms: member});
+                pub.current = $.extend(true, pub.current, {ms: member});
 
                 if (!!callback) {
                     callback(member);
@@ -30,15 +29,16 @@ USER = (function($, window, document, undefined){
                 // else {
                     // return member;
                 // }
-                return USER.current;
+                return pub.current;
             });
         });
     };
+    pub.getCurrentMember();
 
 
     pub.updateCurrentUser = function(obj){
         // Merge into current user var and add to session cookie.
-        HELP.setCookie("MSmember", $.extend(true, USER.current, obj));
+        HELP.setCookie("MSmember", $.extend(true, pub.current, obj));
     };
     
 
