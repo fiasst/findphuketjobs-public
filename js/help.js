@@ -2,7 +2,7 @@
 * functions that help other functions to do their thing.
 */
 
-var HELP = (function($, window, document, undefined){
+var HELP = (function($, window, document, undefined, USER){
     var pub = {};
         // ua = navigator.userAgent;
 
@@ -314,5 +314,5 @@ console.log([formData, values]);
 
     
     return pub;
-}(jQuery, this, this.document));
+}(jQuery, this, this.document, {}));
 
