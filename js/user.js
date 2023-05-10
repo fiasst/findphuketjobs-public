@@ -2,7 +2,7 @@ USER = (function($, window, document, undefined){
     var pub = {};
 
 
-    pub.current = JSON.parse(HELP.getCookie("MSmember")) || {};
+    pub.current = HELP.getCookie("MSmember") || {};
     /*HELP.getCurrentMember(function(member){
         // pub.member = $.extend(true, {}, pub.member, member);
         $.extend(true, pub.member, member);
@@ -16,8 +16,6 @@ USER = (function($, window, document, undefined){
         // HELP.setCookie("MSmember", JSON.stringify(USER.current));
         // pub.current = $.extend(true, USER.current, obj);
         console.log('USER.current', USER.current);
-        console.log('pub.current', pub.current);
-        
         $.extend(true, USER.current, obj);
         console.log(2, USER.current);
     };

@@ -209,6 +209,17 @@ console.log([formData, values]);
     };
 
 
+    pub.parseIfStringJSON = function(str) {
+        if (typeof str === 'string') {
+            str = str.trim();
+            if (str[0] == '{' && str[str.length - 1] == '}') {
+                return JSON.parse(str);
+            }
+        }
+        return str;
+    };
+
+
     // Manage cookies.
     pub.setCookie = function(name, value, days){
         var expires = "";
@@ -222,12 +233,18 @@ console.log([formData, values]);
     };
     pub.getCookie = function(name){
         var nameEQ = name + "=",
-            ca = document.cookie.split(';');
+            cookies = document.cookie.split(';');
         
-        for (var i=0;i < ca.length;i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        // for (var i=0;i < cookies.length;i++) {
+        //     var cookie = cookies[i].trim();
+        //     while (cookie.charAt(0) == ' ') cookie = cookie.substring(1, cookie.length);
+        //     if (cookie.indexOf(nameEQ) == 0) return cookie.substring(nameEQ.length, cookie.length);
+        // }
+        for (var i = 0; i < cookies.length; i++){
+            var cookie = cookies[i].trim();
+            if (cookie.indexOf(nameEQ) === 0) {
+                return pub.parseIfStringJSON(cookie.substring(nameEQ.length));
+            }
         }
         return null;
     };
