@@ -2,7 +2,7 @@ USER = (function($, window, document, undefined){
     var pub = {};
 
 
-    pub.current = HELP.getCookie("MSmember") || {};
+    pub.current = JSON.parse(HELP.getCookie("MSmember")) || {};
     /*HELP.getCurrentMember(function(member){
         // pub.member = $.extend(true, {}, pub.member, member);
         $.extend(true, pub.member, member);
