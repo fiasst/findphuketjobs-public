@@ -211,14 +211,15 @@ console.log([formData, values]);
         }
         pub.waitFor(window, "$memberstackDom", 100, function(){
             window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
+                var output = member || {};
+
                 if (!!callback) {
-                    var output = member || {};
                     window.MSmember = output;
                     callback(output);
                 }
-                else {
+                // else {
                     return output;
-                }
+                // }
             });
         });
     };
@@ -228,10 +229,12 @@ console.log([formData, values]);
     pub.getMemberJSON = function(callback) {
         pub.waitFor(window, "$memberstackDom", 100, function(){
             window.$memberstackDom.getMemberJSON().then(({ data: memberJSON }) => {
+                var output = memberJSON || {};
+
                 if (!!callback) {
-                    var output = memberJSON || {};
                     callback(output);
                 }
+                return output;
             });
         });
     };
@@ -241,10 +244,12 @@ console.log([formData, values]);
     pub.updateMemberJSON = function(json, callback) {
         pub.waitFor(window, "$memberstackDom", 100, function(){
             window.$memberstackDom.updateMemberJSON({ json: json }).then(({ data: memberJSON }) => {
+                var output = memberJSON || {};
+
                 if (!!callback) {
-                    var output = memberJSON || {};
                     callback(output);
                 }
+                return output;
             });
         });
     };
