@@ -26,7 +26,7 @@ USER = (function($, window, document, undefined){
                 pub.updateCurrentUser(member);
 
                 if (!!callback) {
-                    callback();
+                    callback(USER.current);
                 }
                 return USER.current;
             });
