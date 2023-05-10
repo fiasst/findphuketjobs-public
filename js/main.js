@@ -94,7 +94,7 @@ var MAIN = (function($, window, document, undefined){
     // On DOM ready.
     $(function(){
         // Get current Member.
-        HELP.getCurrentMember(function(member){
+        USER.getCurrentMember(function(member){
             //if (!data) {
                 //member is logged out
             //}

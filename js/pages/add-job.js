@@ -26,7 +26,7 @@ var ADD_JOB = (function($, window, document, undefined){
                     success: function(data, textStatus){
                         MAIN.thinking(false);
                         // HELP.setCookie("MSmember", JSON.stringify(data) );
-                        USER.updateCurrent(JSON.stringify(data));
+                        USER.updateCurrentUser(data);
                         buildCompanySelectField(data);
                     },
                     error: function(jqXHR, textStatus, errorThrown){
@@ -39,12 +39,12 @@ var ADD_JOB = (function($, window, document, undefined){
 
 
         function maxCompanies(companies) {
-            if (companies == 3 && HELP.getMemberPlans('subscription')){
+            if (companies == 3 && USER.getMemberPlans('subscription')){
                 // Max 3 companies.
                 maxCompaniesReached("You can have a maximum of 3 companies in your account. Please contact our team if you need assistance.");
                 return true;
             }
-            else if (companies == 1 && HELP.getMemberPlans('onetime')){
+            else if (companies == 1 && USER.getMemberPlans('onetime')){
                 maxCompaniesReached("You can have a maximum of 1 companies in your account for your current member plan. Subscribe to a monthly plan to increase this limit.");
                 return true;
             }
