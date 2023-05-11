@@ -29,7 +29,7 @@ var ADD_JOB = (function($, window, document, undefined){
                             if (HELP.checkKeyExists(data, "company")){
                                 USER.current.companies = USER.current.companies || [];
                                 USER.current.companies.push(data.company);
-                                HELP.setCookie("MSmember", JSON.stringify(USER.current.companies) );
+                                HELP.setCookie("MSmember", JSON.stringify({"companies": USER.current.companies}) );
                                 buildCompanySelectField(USER.current, data.company.tradingName);
                             }
                             MAIN.handleAjaxResponse(data, form);
