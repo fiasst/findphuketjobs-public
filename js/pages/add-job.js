@@ -20,10 +20,12 @@ var ADD_JOB = (function($, window, document, undefined){
                             id: USER.current.id
                         },
                         success: function(data, textStatus){
+                            console.log(textStatus, data);
                             MAIN.thinking(false);
                             HELP.setCookie("MSmember", JSON.stringify(data));
                             USER.updateCurrentUser(data);
                             buildCompanySelectField(data);
+                            MAIN.handleAjaxResponse(data, form);
                         },
                         error: function(jqXHR, textStatus, errorThrown){
                             console.log(textStatus, errorThrown);
@@ -125,22 +127,9 @@ var ADD_JOB = (function($, window, document, undefined){
         });
 
 
-
-        /*function addCompanyCallback(data){
-            $.litbox({
-                title: 'Add a new company',
-                html: '<p></p>',
-                css: {
-                    xs: {
-                        bodyClasses: 'lbox-dialog',
-                        maxWidth: 700,
-                        width: '100%',
-                        opacity: 0.4
-                    },
-                }
-            });
-        }*/
-
+        pub.companyAddedCallback = function(){
+            alert('callback test');
+        };
 
 
         // Salary type and salary amount.

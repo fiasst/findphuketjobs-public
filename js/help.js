@@ -28,6 +28,17 @@ HELP = (function($, window, document, undefined){
     }
 
 
+    // Remove <script> tags and any attributes that start with 'on' (onclick, etc).
+    // This helps to guards against XSS attack.
+    pub.sanitizeHTML = html => {
+      return $.each($($.parseHTML(html, document)), function(i, el) {
+        $.each(this.attributes, function(i, attrib) {
+          if (attrib.name.indexOf('on') === 0) $(el).removeAttr(attrib.name);
+        });
+      });
+    };
+
+
     pub.getEnvType = function(){
         return location.hostname.indexOf('webflow') > -1 ? 'dev' : 'live';
     };

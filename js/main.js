@@ -60,12 +60,30 @@ var MAIN = (function($, window, document, undefined){
 
     pub.handleAjaxResponse = function(data, form){
         if (HELP.checkKeyExists(data, "mode")){
-            if (data.mode == "alert"){
-                alert(data.message);
+            switch (data.mode){
+                case 'alert':
+                    alert(data.message);
+                    break;
+
+                case 'banner':
+                    alert(data.message);//temp
+                    break;
+
+                case 'dialog':
+                    var defaults = {
+                            bodyClasses: 'lbox-dialog',
+                            html: HELP.sanitizeHTML(data.message),
+                            css: {
+                                xs: {
+                                    maxWidth: 700,
+                                    width: '100%'
+                                }
+                            }
+                        },
+                        options = $.extend(true, {}, defaults, data.options || {});
+                    $.litbox(options);
             }
-            if (data.mode == "banner"){
-                alert(data.message);//temp
-            }
+            if (data.callback) callback();
         }
         if (HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
             pub.buttonThinking(form.find('.form-submit'), true);
