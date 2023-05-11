@@ -28,7 +28,6 @@ var ADD_JOB = (function($, window, document, undefined){
                             USER.updateCurrentUser(data);
 
                             if (HELP.checkKeyExists(data, "companies")){
-                                // USER.current.companies = USER.current.companies || [];
                                 USER.current.companies = data.companies;
                                 HELP.setCookie("MSmember", JSON.stringify({"companies": data.companies}) );
                                 buildCompanySelectField(USER.current);
@@ -79,14 +78,16 @@ var ADD_JOB = (function($, window, document, undefined){
                     isSelected = list.length === 1;
 
                 $('.form-job-step-2').addClass('active');
-
+                // Clear any previous options.
+                companySelect.html('');
+                
                 $.each(list, function(i, item){
                     var name = HELP.stripHTML(item['tradingName']);
                     
                     if (selectedCompany){
                         isSelected = (selectedCompany == name);
                     }
-                    companySelect.html('').append($('<option>', {
+                    companySelect.append($('<option>', {
                         value: name,
                         text: name + ' ('+ HELP.stripHTML(item['registeredName']) +')',
                         selected: isSelected
