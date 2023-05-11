@@ -157,14 +157,8 @@ console.log([formData, values]);
             method: "POST",
             //data: {},
             timeout: 60000,
-            success: function(data, textStatus){
-                console.log(textStatus, data);
-                if ($.isFunction(params.success)) params.success(data);
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log(textStatus, errorThrown);
-                if ($.isFunction(params.error)) params.error([textStatus, errorThrown]);
-            }
+            success: false,
+            error: false
         }, obj);
 
         $.ajax({
@@ -174,8 +168,14 @@ console.log([formData, values]);
             // processData: false,
             // contentType: false,
             timeout: params.timeout,
-            success: params.success,
-            error: params.error
+            success: function(data, textStatus){
+                console.log(textStatus, data);
+                if ($.isFunction(params.success)) params.success(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(textStatus, errorThrown);
+                if ($.isFunction(params.error)) params.error([textStatus, errorThrown]);
+            }
         });
     };
 
