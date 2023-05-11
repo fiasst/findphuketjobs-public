@@ -80,7 +80,7 @@ var ADD_JOB = (function($, window, document, undefined){
                 $('.form-job-step-2').addClass('active');
                 // Clear any previous options.
                 companySelect.html('');
-                
+
                 $.each(list, function(i, item){
                     var name = HELP.stripHTML(item['tradingName']);
                     
@@ -93,6 +93,19 @@ var ADD_JOB = (function($, window, document, undefined){
                         selected: isSelected
                     }));
                 });
+            }
+        }
+
+
+        function companyAddedCallback(data, form){
+            data = data || {};
+            alert('callback test');
+
+            if (HELP.checkKeyExists(data, "company")){
+                USER.current.companies = USER.current.companies || [];
+                USER.current.companies.push(data.company);
+                HELP.setCookie("MSmember", JSON.stringify({"companies": USER.current.companies}) );
+                buildCompanySelectField(USER.current, data.company.tradingName);
             }
         }
 
@@ -137,19 +150,6 @@ var ADD_JOB = (function($, window, document, undefined){
                 });
             });
         });
-
-
-        pub.companyAddedCallback = function(data, form){
-            data = data || {};
-            alert('callback test');
-
-            if (HELP.checkKeyExists(data, "company")){
-                USER.current.companies = USER.current.companies || [];
-                USER.current.companies.push(data.company);
-                HELP.setCookie("MSmember", JSON.stringify({"companies": USER.current.companies}) );
-                buildCompanySelectField(USER.current, data.company.tradingName);
-            }
-        };
 
 
         // Salary type and salary amount.
