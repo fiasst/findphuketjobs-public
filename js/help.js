@@ -100,9 +100,44 @@ HELP = (function($, window, document, undefined){
 
 
     // Check whether Object key exists
-    pub.checkKeyExists = function(obj, key) {
+    /*pub.checkKeyExists = function(obj, key) {
         return obj != null && (obj.hasOwnProperty(key) || (typeof obj === "object" && key in obj));
     };
+
+    pub.checkKeyExists = function(obj, keys) {
+      // if (!obj || typeof obj !== 'object') || !keys) return false;
+      if (!obj || typeof obj !== 'object') return false;
+      keys = typeof keys === 'string' ? keys.split('.') : keys;
+      if (keys.length === 0) return true;
+      var currentKey = keys.shift();
+      return obj.hasOwnProperty(currentKey) && pub.checkKeyExists(obj[currentKey], keys);
+    };*/
+
+    pub.checkKeyExists = function(obj, keys){
+        if (!obj || typeof obj !== 'object') return false;
+        keys = typeof keys === 'string' ? keys.split('.') : keys;
+        return keys.length === 0 || (obj.hasOwnProperty(keys[0]) && pub.checkKeyExists(obj[keys.shift()], keys));
+    };
+
+
+    function callNestedFunction(string, ...args){
+        // Extracting the function name from the string.
+        var path = string.split("."),
+            functionName = path.pop(),
+            nestedObject = window;// Assuming the top-level object is the global scope.
+        
+        // Traversing the object hierarchy to access the function.
+        for (var i = 0; i < path.length; i++){
+            nestedObject = nestedObject[path[i]];
+        }
+        if (typeof nestedObject[functionName] === 'function'){
+            // Calling the function dynamically.
+            nestedObject[functionName](...args);
+        }
+        else {
+            console.error('Function not found:', string);
+        }
+    }
 
 
     pub.waitFor = function(key, value, timer, callback){

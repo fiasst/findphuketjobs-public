@@ -97,7 +97,7 @@ var ADD_JOB = (function($, window, document, undefined){
         }
 
 
-        function companyAddedCallback(data, form){
+        pub.companyAddedCallback = function(data, form){
             data = data || {};
             alert('callback test');
 
@@ -107,7 +107,7 @@ var ADD_JOB = (function($, window, document, undefined){
                 HELP.setCookie("MSmember", JSON.stringify({"companies": USER.current.companies}) );
                 buildCompanySelectField(USER.current, data.company.tradingName);
             }
-        }
+        };
 
           
         // Add company form in Colorbox.

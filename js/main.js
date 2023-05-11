@@ -74,16 +74,19 @@ var MAIN = (function($, window, document, undefined){
                             bodyClasses: 'lbox-dialog',
                             html: HELP.sanitizeHTML(data.message),
                             css: {
-                                xs: {
-                                    maxWidth: 700,
-                                    width: '100%'
+                                xxs: {
+                                    maxWidth: 650,
+                                    contentInnerPadding: 20
                                 }
                             }
                         },
                         options = $.extend(true, {}, defaults, data.options || {});
                     $.litbox(options);
             }
-            if (data.callback) data.callback(data, form);
+            // if (data.callback) data.callback(data, form);
+            if (HELP.checkKeyExists(window, data.callback)){
+                callNestedFunction(data.callback, data, form);
+            }
         }
         if (HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
             pub.buttonThinking(form.find('.form-submit'), true);
@@ -228,7 +231,7 @@ var MAIN = (function($, window, document, undefined){
 
             return false;
         });*/
-        
+
 
         pub.thinking = (show, overlay = false) => {
             let classes = show ? (overlay ? 'thinking-overlay' : 'thinking') : 'thinking-overlay thinking';
