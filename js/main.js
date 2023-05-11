@@ -85,7 +85,7 @@ var MAIN = (function($, window, document, undefined){
             }
             // if (data.callback) data.callback(data, form);
             if (HELP.checkKeyExists(window, data.callback)){
-                callNestedFunction(data.callback, data, form);
+                HELP.callNestedFunction(data.callback, data, form);
             }
         }
         if (HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){

@@ -120,7 +120,7 @@ HELP = (function($, window, document, undefined){
     };
 
 
-    function callNestedFunction(string, ...args){
+    pub.callNestedFunction = function(string, ...args){
         // Extracting the function name from the string.
         var path = string.split("."),
             functionName = path.pop(),
@@ -137,7 +137,7 @@ HELP = (function($, window, document, undefined){
         else {
             console.error('Function not found:', string);
         }
-    }
+    };
 
 
     pub.waitFor = function(key, value, timer, callback){
