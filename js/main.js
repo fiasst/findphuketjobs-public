@@ -83,7 +83,7 @@ var MAIN = (function($, window, document, undefined){
                         options = $.extend(true, {}, defaults, data.options || {});
                     $.litbox(options);
             }
-            if (data.callback) callback();
+            if (data.callback) data.callback();
         }
         if (HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
             pub.buttonThinking(form.find('.form-submit'), true);
