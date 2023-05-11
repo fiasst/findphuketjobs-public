@@ -6,11 +6,13 @@ var ADD_JOB = (function($, window, document, undefined){
     $(function(){
         // Build Company select list options from JSON.
         HELP.waitFor(USER, "current", 100, function(){
-            if (HELP.checkKeyExists(USER.current, 'companies')){
+            if (HELP.checkKeyExists(USER.current, "companies")){
+                console.log(1, USER.current);
                 buildCompanySelectField(USER.current);
             }
             else {
                 HELP.waitFor(USER.current, "id", 100, function(){
+                console.log(2, USER.current);
                     MAIN.thinking(true, false);
 
                     HELP.sendAJAX({
@@ -22,9 +24,14 @@ var ADD_JOB = (function($, window, document, undefined){
                         success: function(data, textStatus){
                             console.log(textStatus, data);
                             MAIN.thinking(false);
-                            HELP.setCookie("MSmember", JSON.stringify(data));
                             USER.updateCurrentUser(data);
-                            buildCompanySelectField(data);
+
+                            if (HELP.checkKeyExists(data, "company")){
+                                USER.current.companies = USER.current.companies || [];
+                                USER.current.companies.push(data.company);
+                                HELP.setCookie("MSmember", JSON.stringify(USER.current.companies) );
+                                buildCompanySelectField(USER.current, data.company.tradingName);
+                            }
                             MAIN.handleAjaxResponse(data, form);
                         },
                         error: function(jqXHR, textStatus, errorThrown){
@@ -57,7 +64,7 @@ var ADD_JOB = (function($, window, document, undefined){
         }
 
 
-        function buildCompanySelectField(data){
+        function buildCompanySelectField(data, selectedCompany){
             var list = data.companies || [];
 
             if (list.length < 1) {
@@ -74,10 +81,14 @@ var ADD_JOB = (function($, window, document, undefined){
                 $('.form-job-step-2').addClass('active');
 
                 $.each(list, function(i, item){
-                    var name = HELP.stripHTML(item['trading-name']);
+                    var name = HELP.stripHTML(item['tradingName']);
+                    
+                    if (selectedCompany){
+                        isSelected = (selectedCompany == name);
+                    }
                     companySelect.html('').append($('<option>', {
                         value: name,
-                        text: name + ' ('+ HELP.stripHTML(item['registered-name']) +')',
+                        text: name + ' ('+ HELP.stripHTML(item['registeredName']) +')',
                         selected: isSelected
                     }));
                 });
@@ -91,7 +102,7 @@ var ADD_JOB = (function($, window, document, undefined){
 
             // Don't add new companies if limit is reached.
             var companies = [];
-            if (HELP.checkKeyExists(USER.current, 'companies')){
+            if (HELP.checkKeyExists(USER.current, "companies")){
                 companies = USER.current.companies;
             }
             if (!!companies.length){
