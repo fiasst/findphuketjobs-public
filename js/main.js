@@ -253,13 +253,13 @@ var MAIN = (function($, window, document, undefined){
 
 
         // Form fields: Populate field's default values.
-        $('input[data-default-value]').each(function(){
+        $(':input[data-default-value]').each(function(){
             if (!$(this).val()) {
                 $(this).val( $(this).attr('data-default-value') );
             }
         });
         // Form fields: Add maxlength attribute to fields.
-        $('input[data-maxlength]').each(function(){
+        $(':input[data-maxlength]').each(function(){
             $(this).attr('maxlength', $(this).attr('data-maxlength') );
         });
 

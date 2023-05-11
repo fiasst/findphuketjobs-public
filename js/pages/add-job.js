@@ -36,21 +36,22 @@ var ADD_JOB = (function($, window, document, undefined){
 
 
         function maxCompanies(companies) {
+            var message,
+                max = false;
+
             if (companies == 3 && USER.getMemberPlans('subscription')){
                 // Max 3 companies.
-                maxCompaniesReached("You can have a maximum of 3 companies in your account. Please contact our team if you need assistance.");
-                return true;
+                alert("You can have a maximum of 3 companies in your account. Please contact our team if you need assistance.");
+                max = true;
             }
             else if (companies == 1 && USER.getMemberPlans('onetime')){
-                maxCompaniesReached("You can have a maximum of 1 companies in your account for your current member plan. Subscribe to a monthly plan to increase this limit.");
-                return true;
+                alert("You can have a maximum of 1 companies in your account for your current member plan. Subscribe to a monthly plan to increase this limit.");
+                max = true;
             }
-            return false;
-        }
-
-        function maxCompaniesReached(message){
-            $('#trigger-add-company, #company-form-wrapper').remove();
-            alert(message);
+            if (max){
+                $('#company-form-wrapper').remove();
+            }
+            return max;
         }
 
 
@@ -71,9 +72,10 @@ var ADD_JOB = (function($, window, document, undefined){
                 $('.form-job-step-2').addClass('active');
 
                 $.each(list, function(i, item){
+                    var name = HELP.stripHTML(item['trading-name']);
                     companySelect.html('').append($('<option>', {
-                        value: item['trading-name'],
-                        text: item['trading-name'] + ' ('+ item['registered-name'] +')',
+                        value: name,
+                        text: name + ' ('+ HELP.stripHTML(item['registered-name']) +')',
                         selected: isSelected
                     }));
                 });

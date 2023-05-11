@@ -23,6 +23,11 @@ HELP = (function($, window, document, undefined){
     };
 
 
+    pub.stripHTML = function(str){
+        return $("<div/>").html(str).text();
+    }
+
+
     pub.getEnvType = function(){
         return location.hostname.indexOf('webflow') > -1 ? 'dev' : 'live';
     };
