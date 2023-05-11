@@ -7,6 +7,7 @@ var ADD_JOB = (function($, window, document, undefined){
         // Build Company select list options from JSON.
         HELP.waitFor(USER, "current", 100, function(){
             if (HELP.checkKeyExists(USER.current, "companies")){
+                // Use Company list from USER.current var.
                 console.log(1, USER.current);
                 buildCompanySelectField(USER.current);
             }
@@ -15,6 +16,7 @@ var ADD_JOB = (function($, window, document, undefined){
                 console.log(2, USER.current);
                     MAIN.thinking(true, false);
 
+                    // Get list of Member's Companies via AJAX.
                     HELP.sendAJAX({
                         url: "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp",
                         method: "GET",
@@ -22,20 +24,18 @@ var ADD_JOB = (function($, window, document, undefined){
                             id: USER.current.id
                         },
                         success: function(data, textStatus){
-                            console.log(textStatus, data);
                             MAIN.thinking(false);
                             USER.updateCurrentUser(data);
 
-                            if (HELP.checkKeyExists(data, "company")){
-                                USER.current.companies = USER.current.companies || [];
-                                USER.current.companies.push(data.company);
-                                HELP.setCookie("MSmember", JSON.stringify({"companies": USER.current.companies}) );
-                                buildCompanySelectField(USER.current, data.company.tradingName);
+                            if (HELP.checkKeyExists(data, "companies")){
+                                // USER.current.companies = USER.current.companies || [];
+                                USER.current.companies = data.companies;
+                                HELP.setCookie("MSmember", JSON.stringify({"companies": data.companies}) );
+                                buildCompanySelectField(USER.current);
                             }
                             MAIN.handleAjaxResponse(data, form);
                         },
                         error: function(jqXHR, textStatus, errorThrown){
-                            console.log(textStatus, errorThrown);
                             MAIN.thinking(false);
                         }
                     });
@@ -138,8 +138,16 @@ var ADD_JOB = (function($, window, document, undefined){
         });
 
 
-        pub.companyAddedCallback = function(){
+        pub.companyAddedCallback = function(data, form){
+            data = data || {};
             alert('callback test');
+
+            if (HELP.checkKeyExists(data, "company")){
+                USER.current.companies = USER.current.companies || [];
+                USER.current.companies.push(data.company);
+                HELP.setCookie("MSmember", JSON.stringify({"companies": USER.current.companies}) );
+                buildCompanySelectField(USER.current, data.company.tradingName);
+            }
         };
 
 

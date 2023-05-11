@@ -83,7 +83,7 @@ var MAIN = (function($, window, document, undefined){
                         options = $.extend(true, {}, defaults, data.options || {});
                     $.litbox(options);
             }
-            if (data.callback) data.callback();
+            if (data.callback) data.callback(data, form);
         }
         if (HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
             pub.buttonThinking(form.find('.form-submit'), true);
@@ -228,11 +228,13 @@ var MAIN = (function($, window, document, undefined){
 
             return false;
         });*/
+        
 
         pub.thinking = (show, overlay = false) => {
             let classes = show ? (overlay ? 'thinking-overlay' : 'thinking') : 'thinking-overlay thinking';
             $('body').toggleClass(classes, show);
         };
+
 
         // AJAX forms.
         $('.ajax-submit')
