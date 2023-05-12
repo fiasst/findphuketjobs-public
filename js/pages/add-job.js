@@ -43,23 +43,22 @@ var ADD_JOB = (function($, window, document, undefined){
         });
 
 
-        function maxCompanies(companies) {
+        function maxCompanies(companies){
             var message,
-                max = false;
+                msg = false;
 
-            if (companies == 3 && USER.getMemberPlans('subscription')){
+            if (companies > 2 && USER.getMemberPlans('subscription')){
                 // Max 3 companies.
-                alert("You can have a maximum of 3 companies in your account. Please contact our team if you need assistance.");
-                max = true;
+                msg = "You can add a maximum of 3 companies to your account. Please contact our team if you need assistance.";
             }
-            else if (companies == 1 && USER.getMemberPlans('onetime')){
-                alert("You can have a maximum of 1 companies in your account for your current member plan. Subscribe to a monthly plan to increase this limit.");
-                max = true;
+            else if (companies > 0 && USER.getMemberPlans('onetime')){
+                msg = "You can add a maximum of 1 companies to your account for your current member plan. Subscribe to a monthly plan to increase this limit.";
             }
-            if (max){
+            if (msg){
+                alert(msg);
                 $('#company-form-wrapper').remove();
             }
-            return max;
+            return !!msg;
         }
 
 
