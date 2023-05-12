@@ -84,7 +84,7 @@ var MAIN = (function($, window, document, undefined){
                     $.litbox(options);
             }
             if (data.callback){
-            // if (HELP.checkKeyExists(window, data.callback)){
+            // if (HELP.checkKeyExists(data, 'callback')){
                 HELP.callNestedFunction(data.callback, data, form);
             }
         }

@@ -6,7 +6,7 @@ var ADD_JOB = (function($, window, document, undefined){
     $(function(){
         // Build Company select list options from JSON.
         HELP.waitFor(USER, "current", 100, function(){
-            if (HELP.checkKeyExists(USER.current, "companies")){
+            if (HELP.checkKeyExists(USER, "current.companies")){
                 // Use Company list from USER.current var.
                 console.log(1, USER.current);
                 buildCompanySelectField(USER.current);
@@ -116,7 +116,7 @@ var ADD_JOB = (function($, window, document, undefined){
 
             // Don't add new companies if limit is reached.
             var companies = [];
-            if (HELP.checkKeyExists(USER.current, "companies")){
+            if (HELP.checkKeyExists(USER, "current.companies")){
                 companies = USER.current.companies;
             }
             if (!!companies.length){

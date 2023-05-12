@@ -123,7 +123,6 @@ HELP = (function($, window, document, undefined){
     pub.checkKeyExists = function(obj, keys){
         if (typeof obj !== 'object') return false;
         keys = typeof keys === 'string' ? keys.split('.') : keys;
-        console.log(obj, keys);
         return keys.length === 0 || (keys[0] in obj && pub.checkKeyExists(obj[keys.shift()], keys));
     };
 

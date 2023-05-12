@@ -17,7 +17,7 @@ USER = (function($, window, document, undefined){
     pub.getCurrentMember = function(callback) {
         USER.current = USER.current || pub.current;
 
-        if (HELP.checkKeyExists(USER.current, 'id')){
+        if (HELP.checkKeyExists(USER, 'current.id')){
             return USER.current;
         }
         HELP.waitFor(window, "$memberstackDom", 50, function(){
