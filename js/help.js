@@ -132,13 +132,13 @@ HELP = (function($, window, document, undefined){
         if (keys.length === 0) return true;
         return pub.checkKeyExists(obj[ keys.shift() ], keys);
     };*/
-    HELP.checkKeyExists = function(obj, keys){
+    pub.checkKeyExists = function(obj, keys){
         // if (typeof obj !== 'object' && typeof obj !== 'function' && typeof obj !== 'string') return false;
         // If  obj is falsy.
         if (!(!!obj)) return false;
         keys = typeof keys === 'string' ? keys.split('.') : keys;
         if (keys.length === 0) return true;
-        return HELP.checkKeyExists(obj[ keys.shift() ], keys);
+        return pub.checkKeyExists(obj[ keys.shift() ], keys);
     };
 
 
