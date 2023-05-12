@@ -111,19 +111,29 @@ HELP = (function($, window, document, undefined){
       keys = typeof keys === 'string' ? keys.split('.') : keys;
       if (keys.length === 0) return true;
       var currentKey = keys.shift();
-      return obj.hasOwnProperty(currentKey) && pub.checkKeyExists(obj[currentKey], keys);
-    };
+      // return obj.hasOwnProperty(currentKey) && pub.checkKeyExists(obj[currentKey], keys);
+      return currentKey in obj && pub.checkKeyExists(obj[currentKey], keys);
+    };*/
 
-    pub.checkKeyExists = function(obj, keys){
+    /*pub.checkKeyExists = function(obj, keys){
         if (!obj || typeof obj !== 'object') return false;
         keys = typeof keys === 'string' ? keys.split('.') : keys;
         return keys.length === 0 || (obj.hasOwnProperty(keys[0]) && pub.checkKeyExists(obj[keys.shift()], keys));
     };*/
 
-    pub.checkKeyExists = function(obj, keys){
+    /*pub.checkKeyExists = function(obj, keys){
         if (!obj || typeof obj !== 'object') return false;
         keys = typeof keys === 'string' ? keys.split('.') : keys;
         return keys.length === 0 || (keys[0] in obj && pub.checkKeyExists(obj[keys.shift()], keys));
+    };*/
+    pub.checkKeyExists = function(obj, keys){
+        if (!obj || typeof obj !== 'object' && typeof obj !== 'function') return false;
+
+        keys = typeof keys === 'string' ? keys.split('.') : keys;
+        if (keys.length === 0) return true;
+
+        // var currentKey = keys.shift();
+        return pub.checkKeyExists(obj[ keys.shift() ], keys);
     };
 
 
