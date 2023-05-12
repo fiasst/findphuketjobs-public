@@ -64,6 +64,7 @@ var ADD_JOB = (function($, window, document, undefined){
 
 
         function buildCompanySelectField(data, selectedCompany){
+            // WARNING. data comes from AJAX or, from a cookie so sanatize it and use carefully.
             var list = data.companies || [];
 
             if (list.length < 1) {
@@ -79,7 +80,10 @@ var ADD_JOB = (function($, window, document, undefined){
 
                 $('.form-job-step-2').addClass('active');
                 // Clear any previous options.
-                companySelect.html('');
+                companySelect.html('').append( $('<option>', {
+                    value: '',
+                    text: 'Select...'
+                }) );
 
                 $.each(list, function(i, item){
                     var name = HELP.stripHTML(item['tradingName']);
