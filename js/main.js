@@ -58,42 +58,6 @@ var MAIN = (function($, window, document, undefined){
     };
 
 
-    pub.handleAjaxResponse = function(data, form){
-        if (HELP.checkKeyExists(data, "mode")){
-            switch (data.mode){
-                case 'alert':
-                    alert(data.message);
-                    break;
-
-                case 'banner':
-                    alert(data.message);//temp
-                    break;
-
-                case 'dialog':
-                    var defaults = {
-                            bodyClasses: 'lbox-dialog',
-                            html: HELP.sanitizeHTML(data.message),
-                            css: {
-                                xxs: {
-                                    maxWidth: 650,
-                                    contentInnerPadding: 20
-                                }
-                            }
-                        },
-                        options = $.extend(true, {}, defaults, data.options || {});
-                    $.litbox(options);
-            }
-            if (data.callback){
-            // if (HELP.checkKeyExists(data, 'callback')){
-                HELP.callNestedFunction(data.callback, data, form);
-            }
-        }
-        if (HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
-            pub.buttonThinking(form.find('.form-submit'), true);
-        }
-    };
-
-
     // Alternative for displaying Metadata values via HTML data-attributes.
     pub.replaceTextWithMetadata = function(metadata){
         $('[data-ms-member-meta]').each(function(){
@@ -236,6 +200,42 @@ var MAIN = (function($, window, document, undefined){
         pub.thinking = (show, overlay = false) => {
             let classes = show ? (overlay ? 'thinking-overlay' : 'thinking') : 'thinking-overlay thinking';
             $('body').toggleClass(classes, show);
+        };
+
+
+        pub.handleAjaxResponse = function(data, form){
+            if (HELP.checkKeyExists(data, "mode")){
+                switch (data.mode){
+                    case 'alert':
+                        alert(data.message);
+                        break;
+
+                    case 'banner':
+                        alert(data.message);//temp
+                        break;
+
+                    case 'dialog':
+                        var defaults = {
+                                bodyClasses: 'lbox-dialog',
+                                html: HELP.sanitizeHTML(data.message),
+                                css: {
+                                    xxs: {
+                                        maxWidth: 650,
+                                        contentInnerPadding: 20
+                                    }
+                                }
+                            },
+                            options = $.extend(true, {}, defaults, data.options || {});
+                        $.litbox(options);
+                }
+                // if (data.callback){
+                if (HELP.checkKeyExists(data, 'callback')){
+                    HELP.callNestedFunction(data.callback, data, form);
+                }
+            }
+            if (HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
+                pub.buttonThinking(form.find('.form-submit'), true);
+            }
         };
 
 
@@ -472,6 +472,7 @@ $.fn.createSelect2 = function(options){
     if (!$(items).length) return false;
 
     HELP.waitFor(jQuery, "fn.select2", 100, function(){
+        console.log("select2 found");
         var ops;
         $.each(items, function(i, el){
             ops = options;
