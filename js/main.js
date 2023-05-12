@@ -83,8 +83,8 @@ var MAIN = (function($, window, document, undefined){
                         options = $.extend(true, {}, defaults, data.options || {});
                     $.litbox(options);
             }
-            // if (data.callback) data.callback(data, form);
-            if (HELP.checkKeyExists(window, data.callback)){
+            if (data.callback){
+            // if (HELP.checkKeyExists(window, data.callback)){
                 HELP.callNestedFunction(data.callback, data, form);
             }
         }

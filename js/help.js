@@ -100,9 +100,10 @@ HELP = (function($, window, document, undefined){
 
 
     // Check whether Object key exists
-    pub.checkKeyExists = function(obj, key) {
-        return obj != null && (obj.hasOwnProperty(key) || (typeof obj === "object" && key in obj));
-    };
+    /*pub.checkKeyExists = function(obj, key) {
+        // return typeof obj === "object" && (obj.hasOwnProperty(key) || key in obj);
+        return typeof obj === "object" && key in obj;
+    };*/
 
     /*pub.checkKeyExists = function(obj, keys) {
       // if (!obj || typeof obj !== 'object') || !keys) return false;
@@ -118,6 +119,13 @@ HELP = (function($, window, document, undefined){
         keys = typeof keys === 'string' ? keys.split('.') : keys;
         return keys.length === 0 || (obj.hasOwnProperty(keys[0]) && pub.checkKeyExists(obj[keys.shift()], keys));
     };*/
+
+    pub.checkKeyExists = function(obj, keys){
+        if (typeof obj !== 'object') return false;
+        keys = typeof keys === 'string' ? keys.split('.') : keys;
+        console.log(obj, keys);
+        return keys.length === 0 || (keys[0] in obj && pub.checkKeyExists(obj[keys.shift()], keys));
+    };
 
 
     pub.callNestedFunction = function(string, ...args){
