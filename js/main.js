@@ -471,7 +471,7 @@ $.fn.createSelect2 = function(options){
 
     if (!$(items).length) return false;
 
-    HELP.waitFor(jQuery.fn, "select2", 100, function(){
+    HELP.waitFor(jQuery, "fn.select2", 100, function(){
         var ops;
         $.each(items, function(i, el){
             ops = options;
