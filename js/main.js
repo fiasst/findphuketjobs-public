@@ -215,9 +215,10 @@ var MAIN = (function($, window, document, undefined){
                         break;
 
                     case 'dialog':
-                        var defaults = {
+                        var actions = $('<div class="actions"><button class="w-button button-primary small trigger-lbox-close">OK</button></div>'),
+                            defaults = {
                                 bodyClasses: 'lbox-dialog',
-                                html: HELP.sanitizeHTML(data.message),
+                                html: [HELP.sanitizeHTML(data.message), actions],
                                 css: {
                                     xxs: {
                                         maxWidth: 650,
@@ -227,6 +228,10 @@ var MAIN = (function($, window, document, undefined){
                             },
                             options = $.extend(true, {}, defaults, data.options || {});
                         $.litbox(options);
+
+                        $(document).on('click', '.trigger-lbox-close', function(){
+                            $.litbox.close();
+                        });
                 }
                 // if (data.callback){
                 if (HELP.checkKeyExists(data, 'callback')){

@@ -103,7 +103,6 @@ var ADD_JOB = (function($, window, document, undefined){
 
         pub.companyAddedCallback = function(data, form){
             data = data || {};
-            alert('callback test');
 
             if (HELP.checkKeyExists(data, "company")){
                 USER.current.companies = USER.current.companies || [];

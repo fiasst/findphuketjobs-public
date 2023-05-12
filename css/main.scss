@@ -16,6 +16,21 @@ textarea {
 }
 
 
+/*
+*
+* LitBox.
+*
+*/
+#litbox {
+  .actions {
+    margin: 2rem 0 0;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+
 
 /*
 * 
