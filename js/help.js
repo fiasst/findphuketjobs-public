@@ -227,11 +227,11 @@ console.log([formData, values]);
             timeout: params.timeout,
             success: function(data, textStatus){
                 console.log(textStatus, data);
-                if ($.isFunction(params.success)) params.success(data);
+                if (typeof params.success === "function") params.success(data);
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log(textStatus, errorThrown);
-                if ($.isFunction(params.error)) params.error([textStatus, errorThrown]);
+                if (typeof params.error === "function") params.error([textStatus, errorThrown]);
             }
         });
     };

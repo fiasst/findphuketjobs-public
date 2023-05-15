@@ -154,24 +154,70 @@ var ADD_JOB = (function($, window, document, undefined){
         });
 
 
-        // Salary type and salary amount.
-        $('#job-salary-type').on('change', function(){
-            var salaryField = $('#job-salary'),
-                numericType = ($.inArray($(this).val().toLowerCase(), [
-                    'per hour', 'per day', 'per day', 'per month', 'per year'
-                ]) > -1);
+        
+        let salary = function(){
+            var $salaryAmount = $('#job-salary'),
+                $salaryType = $('#job-salary-type'),
+                $salaryMonthly = $('#job-salary-monthly'),
 
-            $('#wrapper-salary-amount').toggle(numericType)
-                .find('.suffix').text(
-                    $(this).find('option:selected').text()
-                );
+                salaryType = function(){
+                    return $($salaryType).val().toLowerCase();
+                },
+                isNumericType = function(){
+                    return ($.inArray(salaryType(), [
+                        'per hour', 'per day', 'per month', 'per year'
+                    ]) > -1);
+                }
+                calculateSalary = function(){
+                    var numericType = isNumericType(),
+                        salary = $($salaryAmount).val(),
+                        val = '';
+                    
 
-            salaryField.attr('required', function(i, attr){ return numericType });
+                    if (numericType && !!salary){
+                        if (salary < 1){
+                            alert("Salary amount must be a positive number");
+                            $($salaryAmount).val('').focus();
+                        }
 
-            if (!numericType){
-                salaryField.val('');
-            }
-        });
+                        switch (salaryType()){
+                            case 'per year':
+                                val = salary / 12;
+                                break;
+                            case 'per month':
+                                val = salary;
+                                break;
+                            case 'per day':
+                                val = salary * 20;
+                                break;
+                            case 'per hour':
+                                val = salary * 160;
+                                break;
+                        }
+                    }
+                    $salaryMonthly.val(val);
+                };
+
+
+            // Salary type and salary amount.
+            $salaryType.on('change', function(){
+                var numericType = isNumericType();
+
+                $('#wrapper-salary-amount').toggle(numericType)
+                    .find('.suffix').text(
+                        $(this).find('option:selected').text()
+                    );
+
+                $salaryAmount.attr('required', function(i, attr){ return numericType });
+
+                if (!numericType){
+                    $salaryAmount.val('');
+                }
+                calculateSalary();
+            });
+
+            $salaryAmount.on('focusout', calculateSalary);
+        }();
     });
 
     return pub;
