@@ -238,13 +238,13 @@ console.log([formData, values]);
 
 
     // Function to pluralize the time past (eg. "minute/minutes ago", "day/days ago").
-    pub.pluralize = (count, noun, suffix = 's') => `${count} ${noun}${count !== 1 ? suffix : ''}`;
+    pub.pluralize = (count, noun, suffix = 's') => `${count} ${noun}${ count !== 1 ? suffix : ''}`;
     pub.timePast = (date) => {
         const msMin = 60 * 1000, msHr = msMin * 60, msDay = msHr * 24, msWeek = msDay * 7, msMonth = msDay * 30, msYr = msDay * 365;
         let curr = pub.getTimestamp();
 
         let elapsed = curr - pub.getTimestamp(date);
-
+console.log(elapsed)
         if (elapsed < msMin) {
             return pub.pluralize(Math.round(elapsed/1000), 'second');
         }

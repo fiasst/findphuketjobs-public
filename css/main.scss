@@ -3,6 +3,20 @@
 * Custom CSS.
 *
 */
+
+//
+// Metadata.
+//
+.time-past {
+  display: none;
+  
+  &.parsed {
+    display: block;
+  }
+}
+
+
+
 //
 // Forms.
 //

@@ -166,8 +166,8 @@ var MAIN = (function($, window, document, undefined){
 
 
         // Calculate "X minutes/hours/days ago" text.
-        $('.time-past').each(function(){
-            $(this).text( HELP.timePast($(this).text()) +' ago');
+        $('.time-past:not(.parsed)').each(function(){
+            $(this).text( pub.timePast( $(this).text() ) +' ago').addClass('parsed');
         });
 
 
