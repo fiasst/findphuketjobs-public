@@ -111,6 +111,11 @@ var ADD_JOB = (function($, window, document, undefined){
             }
         };
 
+
+        pub.jobAddedCallback = function(data, form){
+            data = data || {};
+        };
+
           
         // Add company form in Colorbox.
         $('#trigger-add-company').on('click', function(e, onComplete){

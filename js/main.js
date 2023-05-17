@@ -215,8 +215,24 @@ var MAIN = (function($, window, document, undefined){
                         break;
 
                     case 'dialog':
-                        var actions = $('<div class="actions"><button class="w-button button-primary small trigger-lbox-close">OK</button></div>'),
-                            defaults = {
+                        var actions;
+                        if (HELP.checkKeyExists(data, "options.actions")){
+                            actions = $('<div class="actions justify-center" />');
+
+                            $.each(data.options.actions, function(i, item){
+                                item.attributes.class = item.attributes.class || '';
+                                if (item.tag == 'button'){
+                                    item.attributes.class += ' w-button small';
+                                }
+                                actions.append(
+                                    $(`<${item.tag} />`, {
+                                        text: item.text,
+                                        attr: item.attributes
+                                    })
+                                );
+                            })
+                        }
+                        var defaults = {
                                 bodyClasses: 'lbox-dialog',
                                 html: [HELP.sanitizeHTML(data.message), actions],
                                 css: {
