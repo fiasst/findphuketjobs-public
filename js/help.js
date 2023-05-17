@@ -44,6 +44,11 @@ HELP = (function($, window, document, undefined){
     };
 
 
+    pub.getCurrentDomain = function(){
+        return window.location.origin;
+    };
+
+
     pub.getCurrentLang = function(){
         return pub.checkKeyExists(window, "Weglot") ? Weglot.getCurrentLang() : 'en';
     };
@@ -195,11 +200,11 @@ console.log([formData, values]);
 
         // Metadata:
         //Member ID.
-        // values.member_id = window.MSmember.id || null;
         values.member_id = USER.current.id || null;
 
         // Add Environment details.
         values.env = pub.getEnvType();
+        values.url = pub.getCurrentDomain();
 
         // Add subbmitted date/time value.
         values.submitted = pub.getISOdate();

@@ -221,11 +221,11 @@ var MAIN = (function($, window, document, undefined){
 
                             $.each(data.options.actions, function(i, item){
                                 item.attributes.class = item.attributes.class || '';
-                                if (item.tag == 'button'){
+                                if (item.type == 'button'){
                                     item.attributes.class += ' w-button small';
                                 }
                                 actions.append(
-                                    $(`<${item.tag} />`, {
+                                    $('<a>', {
                                         text: item.text,
                                         attr: item.attributes
                                     })
