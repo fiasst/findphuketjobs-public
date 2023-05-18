@@ -340,7 +340,7 @@ var MAIN = (function($, window, document, undefined){
 
         // Trigger for newly introduced Dashboard links on the page (LitBox) to
         // imitate Memberstack.js functionality.
-        $(document).on('click', '.trigger-dashboard-link', function(e){
+        $(document).on('click', '.link-dashboard', function(e){
             e.preventDefault();
             if (HELP.checkKeyExists(USER, "current.loginRedirect")){
                 window.location.href = USER.current.loginRedirect;
