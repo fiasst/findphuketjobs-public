@@ -9,6 +9,7 @@ var USER = {},
 HELP = (function($, window, document, undefined){
     var pub = {};
 
+    pub.timezone = "Asia/Bangkok";
 
     pub.breakpoints = {
         //mobileLandscapeBP: 478,
@@ -65,16 +66,26 @@ HELP = (function($, window, document, undefined){
 
 
     // Return human-friendly date.
-    pub.formatTimestamp = function(timestamp){
+    pub.formatTimestamp = function(timestamp, showTime, localTimezone){
         var date = new Date(timestamp),
             locale = pub.getCurrentLang(),
             options = {
-            //weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        };
-
+                //weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            };
+        if (localTimezone){
+            // Convert to localtime if it's not already converted.
+            options.timeZone = pub.timezone;
+        }
+        if (showTime){
+            $.extend(options, {
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
         if (typeof timestamp == "string"){
             // Convert to a timestamp.
             timestamp = date.getTime();
@@ -82,26 +93,68 @@ HELP = (function($, window, document, undefined){
         if (timestamp.toString().length < 11){
             date.setTime(timestamp * 1000);
         }
-        //return date.toDateString();
         return date.toLocaleDateString(locale, options);
     };
 
+    
+    pub.getTimestamp = function(dateString, localTimezone){
+        if (dateString){
+            return new Date(dateString).getTime();
+        }
+        var date = new Date(),
+            options = {};
 
-    pub.getTimestamp = function(dateString){
-      if (dateString){
-        return new Date(dateString).getTime();
-      }
-      var date = new Date();
-      date = date.setDate(date.getDate());
-      return new Date(date).getTime();
+        if (localTimezone){
+            options.timeZone = pub.timezone;
+        }
+        date = date.toLocaleString(pub.getCurrentLang(), options);
+
+        return new Date(date).getTime();
     };
     
 
-    pub.getISOdate = function(dateString){
-        var date = pub.getTimestamp(dateString);
+    pub.getISOdate = function(dateString, localTimezone){
+        var date = pub.getTimestamp(dateString, localTimezone);
         return new Date(date).toISOString();
     };
 
+
+    // Function to pluralize the time past (eg. "minute/minutes ago", "day/days ago").
+    pub.pluralize = (count, noun, suffix = 's') => `${count} ${noun}${ count !== 1 ? suffix : ''}`;
+    pub.timePast = (date) => {
+        const msMin = 60 * 1000, msHr = msMin * 60, msDay = msHr * 24, msWeek = msDay * 7, msMonth = msDay * 30, msYr = msDay * 365;
+        var curr = pub.getTimestamp(false, true),// Converted to local timezone.
+            date = pub.getTimestamp(date),
+            elapsed = curr - date;
+
+        if (elapsed < msMin) {
+            return pub.pluralize(Math.round(elapsed/1000), 'second');
+        }
+        else if (elapsed < msHr) {
+            elapsed = Math.round(elapsed/msMin);
+            return pub.pluralize(elapsed, 'minute') 
+        }
+        else if (elapsed < msDay) {
+            elapsed = Math.round(elapsed/msHr);
+            return pub.pluralize(elapsed, 'hour')
+        }
+        else if (elapsed < msMonth) {
+            elapsed = Math.round(elapsed/msDay);
+            return pub.pluralize(elapsed, 'day') 
+        }
+        else if (elapsed < msWeek) {
+            elapsed = Math.round(elapsed/msWeek);
+            return pub.pluralize(elapsed, 'week') 
+        }
+        else if (elapsed < msYr) {
+            elapsed = Math.round(elapsed/msMonth);
+            return pub.pluralize(elapsed, 'month') 
+        }
+        else {
+            elapsed = Math.round(elapsed/msYr);
+            return pub.pluralize(elapsed, 'year') 
+        }
+    };
 
 
     // Check whether Object key exists
@@ -208,6 +261,7 @@ console.log([formData, values]);
 
         // Add subbmitted date/time value.
         values.submitted = pub.getISOdate();
+        values.submittedTimestamp = pub.getTimestamp();
 
         return values;
     };
@@ -239,44 +293,6 @@ console.log([formData, values]);
                 if (typeof params.error === "function") params.error([textStatus, errorThrown]);
             }
         });
-    };
-
-
-    // Function to pluralize the time past (eg. "minute/minutes ago", "day/days ago").
-    pub.pluralize = (count, noun, suffix = 's') => `${count} ${noun}${ count !== 1 ? suffix : ''}`;
-    pub.timePast = (date) => {
-        const msMin = 60 * 1000, msHr = msMin * 60, msDay = msHr * 24, msWeek = msDay * 7, msMonth = msDay * 30, msYr = msDay * 365;
-        let curr = pub.getTimestamp();
-
-        let elapsed = curr - pub.getTimestamp(date);
-console.log(elapsed)
-        if (elapsed < msMin) {
-            return pub.pluralize(Math.round(elapsed/1000), 'second');
-        }
-        else if (elapsed < msHr) {
-            elapsed = Math.round(elapsed/msMin);
-            return pub.pluralize(elapsed, 'minute') 
-        }
-        else if (elapsed < msDay) {
-            elapsed = Math.round(elapsed/msHr);
-            return pub.pluralize(elapsed, 'hour')
-        }
-        else if (elapsed < msMonth) {
-            elapsed = Math.round(elapsed/msDay);
-            return pub.pluralize(elapsed, 'day') 
-        }
-        else if (elapsed < msWeek) {
-            elapsed = Math.round(elapsed/msWeek);
-            return pub.pluralize(elapsed, 'week') 
-        }
-        else if (elapsed < msYr) {
-            elapsed = Math.round(elapsed/msMonth);
-            return pub.pluralize(elapsed, 'month') 
-        }
-        else {
-            elapsed = Math.round(elapsed/msYr);
-            return pub.pluralize(elapsed, 'year') 
-        }
     };
 
 
