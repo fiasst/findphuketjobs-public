@@ -167,7 +167,7 @@ var MAIN = (function($, window, document, undefined){
 
         // Calculate "X minutes/hours/days ago" text.
         $('.time-past:not(.parsed)').each(function(){
-            $(this).text( pub.timePast( $(this).text() ) +' ago').addClass('parsed');
+            $(this).text( HELP.timePast( $(this).text() ) +' ago').addClass('parsed');
         });
 
 
@@ -338,11 +338,13 @@ var MAIN = (function($, window, document, undefined){
         });
 
 
-        // Trigger for newly introduced Dashboard links to the page (LitBox) to
-        // click a static link and initiate Memberstack functionality.
+        // Trigger for newly introduced Dashboard links on the page (LitBox) to
+        // imitate Memberstack.js functionality.
         $('.trigger-dashboard-link').on('click', function(e){
             e.preventDefault();
-            $('#link-dashboard').trigger('click');
+            if (HELP.checkKeyExists(USER, "current.loginRedirect")){
+                window.location.href = USER.current.loginRedirect;
+            }
         });
 
 
