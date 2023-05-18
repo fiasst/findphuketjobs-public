@@ -237,6 +237,7 @@ var MAIN = (function($, window, document, undefined){
                                 html: [HELP.sanitizeHTML(data.message), actions],
                                 css: {
                                     xxs: {
+                                        offset: 20,
                                         maxWidth: 650,
                                         contentInnerPadding: 20
                                     }
@@ -334,6 +335,14 @@ var MAIN = (function($, window, document, undefined){
                 e.preventDefault();
                 $('#'+target).toggleClass('hide');
             }
+        });
+
+
+        // Trigger for newly introduced Dashboard links to the page (LitBox) to
+        // click a static link and initiate Memberstack functionality.
+        $('.trigger-dashboard-link').on('click', function(e){
+            e.preventDefault();
+            $('#link-dashboard').trigger('click');
         });
 
 
