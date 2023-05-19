@@ -24,6 +24,7 @@ var ADD_JOB = (function($, window, document, undefined){
                             id: USER.current.id
                         },
                         success: function(data, textStatus){
+                            var form = $('#wf-form-Add-Job-Form');
                             MAIN.thinking(false);
                             USER.updateCurrentUser(data);
 
@@ -85,14 +86,14 @@ var ADD_JOB = (function($, window, document, undefined){
                 }) );
 
                 $.each(list, function(i, item){
-                    var name = HELP.stripHTML(item['tradingName']);
+                    var name = HELP.stripHTML(item.tradingName);
                     
                     if (selectedCompany){
                         isSelected = (selectedCompany == name);
                     }
                     companySelect.append($('<option>', {
-                        value: name,
-                        text: name + ' ('+ HELP.stripHTML(item['registeredName']) +')',
+                        value: item.itemId,
+                        text: name + ' ('+ HELP.stripHTML(item.registeredName) +')',
                         selected: isSelected
                     }));
                 });
@@ -100,6 +101,7 @@ var ADD_JOB = (function($, window, document, undefined){
         }
 
 
+        // Callback that is set in Make.com Scenario's AJAX response.
         pub.companyAddedCallback = function(data, form){
             data = data || {};
 
@@ -109,11 +111,6 @@ var ADD_JOB = (function($, window, document, undefined){
                 HELP.setCookie("MSmember", JSON.stringify({"companies": USER.current.companies}) );
                 buildCompanySelectField(USER.current, data.company.tradingName);
             }
-        };
-
-
-        pub.jobAddedCallback = function(data, form){
-            data = data || {};
         };
 
           
