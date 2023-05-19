@@ -5,42 +5,42 @@ var ADD_JOB = (function($, window, document, undefined){
     // On DOM ready.
     $(function(){
         // Build Company select list options from JSON.
-        HELP.waitFor(USER, "current", 100, function(){
-            if (HELP.checkKeyExists(USER, "current.companies")){
+        HELP.waitFor(USER, "current.id", 100, function(){
+            /*if (HELP.checkKeyExists(USER, "current.companies")){
                 // Use Company list from USER.current var.
                 console.log(1, USER.current);
                 buildCompanySelectField(USER.current);
             }
-            else {
-                HELP.waitFor(USER.current, "id", 100, function(){
-                console.log(2, USER.current);
-                    MAIN.thinking(true, false);
+            else {*/
+                // HELP.waitFor(USER.current, "id", 100, function(){
+                // console.log(2, USER.current);
+                MAIN.thinking(true, false);
 
-                    // Get list of Member's Companies via AJAX.
-                    HELP.sendAJAX({
-                        url: "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp",
-                        method: "GET",
-                        data: {
-                            id: USER.current.id
-                        },
-                        success: function(data, textStatus){
-                            var form = $('#wf-form-Add-Job-Form');
-                            MAIN.thinking(false);
-                            USER.updateCurrentUser(data);
+                // Get list of Member's Companies via AJAX.
+                HELP.sendAJAX({
+                    url: "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp",
+                    method: "GET",
+                    data: {
+                        id: USER.current.id
+                    },
+                    success: function(data, textStatus){
+                        var form = $('#wf-form-Add-Job-Form');
+                        MAIN.thinking(false);
+                        USER.updateCurrentUser(data);
 
-                            if (HELP.checkKeyExists(data, "companies")){
-                                USER.current.companies = data.companies;
-                                HELP.setCookie("MSmember", JSON.stringify({"companies": data.companies}) );
-                                buildCompanySelectField(USER.current);
-                            }
-                            MAIN.handleAjaxResponse(data, form);
-                        },
-                        error: function(jqXHR, textStatus, errorThrown){
-                            MAIN.thinking(false);
+                        if (HELP.checkKeyExists(data, "companies")){
+                            USER.current.companies = data.companies;
+                            HELP.setCookie("MSmember", JSON.stringify({"companies": data.companies}) );
+                            buildCompanySelectField(USER.current);
                         }
-                    });
+                        MAIN.handleAjaxResponse(data, form);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown){
+                        MAIN.thinking(false);
+                    }
                 });
-            }
+                // });
+            // }
         });
 
 
