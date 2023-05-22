@@ -2,6 +2,10 @@ var MAIN = (function($, window, document, undefined){
     var pub = {};
 
 
+    // Webhooks.
+    const publishExistingJob = "https://hook.us1.make.com/dv56t4535h1sfag5g0693924h3sg5582";
+
+
     // Memberstack plan names.
     pub.planNames = {
         "pln_monthly-subscription-lqn04e7": "Monthly subscription",
@@ -195,6 +199,15 @@ var MAIN = (function($, window, document, undefined){
 
             return false;
         });*/
+
+
+        // Redirect user after form submit.
+        $(document).on('submit', 'form', function(){
+            var redir = $('.wf_redirect').attr('data-redirect');
+            if (redir){
+                localStorage.setItem('wf_redirect', redir);
+            }
+        });
 
 
         pub.thinking = (show, overlay = false) => {
@@ -406,7 +419,7 @@ var MAIN = (function($, window, document, undefined){
             // Add thinking icon...
 
             HELP.sendAJAX({
-                url: "https://hook.us1.make.com/dv56t4535h1sfag5g0693924h3sg5582",
+                url: publishExistingJob,
                 data: data,
                 timeout: 120000,
                 success: function(data){

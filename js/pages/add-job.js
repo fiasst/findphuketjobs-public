@@ -2,6 +2,10 @@ var ADD_JOB = (function($, window, document, undefined){
     var pub = {};
 
 
+    // Webhooks.
+    const listMembersCompanies = "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp";
+
+
     // On DOM ready.
     $(function(){
         // Build Company select list options from JSON.
@@ -18,7 +22,7 @@ var ADD_JOB = (function($, window, document, undefined){
 
                 // Get list of Member's Companies via AJAX.
                 HELP.sendAJAX({
-                    url: "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp",
+                    url: listMembersCompanies,
                     method: "GET",
                     data: {
                         id: USER.current.id
@@ -30,7 +34,7 @@ var ADD_JOB = (function($, window, document, undefined){
 
                         if (HELP.checkKeyExists(data, "companies")){
                             USER.current.companies = data.companies;
-                            HELP.setCookie("MSmember", JSON.stringify({"companies": data.companies}) );
+                            // HELP.setCookie("MSmember", JSON.stringify({"companies": data.companies}) );
                             buildCompanySelectField(USER.current);
                         }
                         MAIN.handleAjaxResponse(data, form);

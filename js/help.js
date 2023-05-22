@@ -96,7 +96,7 @@ HELP = (function($, window, document, undefined){
         return date.toLocaleDateString(locale, options);
     };
 
-    
+
     pub.getTimestamp = function(dateString, localTimezone){
         if (dateString){
             return new Date(dateString).getTime();
