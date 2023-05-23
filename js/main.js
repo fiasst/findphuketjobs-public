@@ -203,7 +203,8 @@ var MAIN = (function($, window, document, undefined){
 
         // Redirect user after form submit.
         $(document).on('submit', 'form', function(){
-            var redir = $('.wf_redirect').attr('data-redirect');
+            var redir = $(this).find('.wf_redirect').attr('data-redirect');
+            console.log(redir);
             if (redir){
                 localStorage.setItem('wf_redirect', redir);
             }
