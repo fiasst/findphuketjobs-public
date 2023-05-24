@@ -307,6 +307,34 @@ console.log([formData, values]);
     };
 
 
+    pub.formatDDMMYYYY = (inputValue, divider = ' / ') => {
+        var val = inputValue.replace(/[^\d]/g, ''),// Remove non-digit characters
+            format = '',
+            day = val.slice(0, 2),
+            month = val.slice(2, 4),
+            year = val.slice(4, 8);
+
+        if (day) {
+            format += day;
+            
+            if (day.length === 2) {
+                format += divider;
+            }
+        }
+        if (month) {
+            format += month;
+            
+            if (month.length === 2) {
+                format += divider;
+            }
+        }
+        if (year) {
+            format += year;
+        }
+        return format;
+    }
+
+
     // Manage cookies.
     pub.setCookie = function(name, value, days){
         var expires = "";

@@ -204,9 +204,16 @@ var MAIN = (function($, window, document, undefined){
         // Redirect user after form submit.
         $('form').on('submit', function(){
             var redir = $(this).find('.fp_redirect').attr('data-redirect');
-            console.log(redir);
             if (redir){
                 localStorage.setItem('fp_redirect', redir);
+            }
+        });
+
+
+        // format DOB fields.
+        $('.format-DDMMYYYY').on('keyup', function(e) {
+            if (e && !(e.key == 'Backspace' || e.key == 'Delete')) {
+                $(this).val( HELP.formatDDMMYYYY($(this).val()) );
             }
         });
 
