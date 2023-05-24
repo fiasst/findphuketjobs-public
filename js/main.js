@@ -210,8 +210,8 @@ var MAIN = (function($, window, document, undefined){
         });
 
 
-        // format DOB fields.
-        $('.format-DDMMYYYY').on('keyup', function(e) {
+        // format DOB and other date fields on key press.
+        $('.format-ddmmyyyy').on('keyup', function(e) {
             if (e && !(e.key == 'Backspace' || e.key == 'Delete')) {
                 $(this).val( HELP.formatDDMMYYYY($(this).val()) );
             }
