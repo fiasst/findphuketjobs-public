@@ -307,8 +307,8 @@ console.log([formData, values]);
     };
 
 
-    pub.formatDDMMYYYY = (inputValue, divider = ' / ') => {
-        var val = inputValue.replace(/[^\d]/g, ''),// Remove non-digit characters
+    pub.formatDDMMYYYY = (value, divider = ' / ') => {
+        var val = value.replace(/[^\d]/g, ''),// Remove non-digit characters
             format = '',
             day = val.slice(0, 2),
             month = val.slice(2, 4),
@@ -316,21 +316,13 @@ console.log([formData, values]);
 
         if (day) {
             format += day;
-            
-            if (day.length === 2) {
-                format += divider;
-            }
+            if (day.length === 2) format += divider;
         }
         if (month) {
             format += month;
-            
-            if (month.length === 2) {
-                format += divider;
-            }
+            if (month.length === 2) format += divider;
         }
-        if (year) {
-            format += year;
-        }
+        if (year) format += year;
         return format;
     }
 

@@ -496,18 +496,22 @@ var MAIN = (function($, window, document, undefined){
 $.fn.createSelectOptions = function(options){
     options = options || {};
 
+    var values = [];
     $.each(this, function(i, el){
         var wrapper = $(this).parent('.select-list-wrapper'),
             select = wrapper.find('select'),
             defaultValue = wrapper.find('.select-list-default-value').attr('data-value') || '';
 
         $(this).find('.w-dyn-item').each(function(){
-            $(this).data('lang-en', $(this).text());// Store a non-translated string in .data().
+            var val = $(this).text();
+            if ($.inArray(val, values) > -1) return;// Skip duplicate values.
+
+            $(this).data('lang-en', val);// Store a non-translated string in .data().
 
             $('<option />', {
-                value: $(this).text(),
-                selected: ($(this).text() == defaultValue) ? 'selected' : false
-            }).text( $(this).text() ).appendTo( $(select) );
+                value: val,
+                selected: (val == defaultValue) ? 'selected' : false
+            }).text(val).appendTo( $(select) );
         });
         if (select.hasClass('select2-field')){
             select.createSelect2();
