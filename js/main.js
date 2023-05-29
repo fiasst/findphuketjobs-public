@@ -505,6 +505,7 @@ $.fn.createSelectOptions = function(options){
         $(this).find('.w-dyn-item').each(function(){
             var val = $(this).text();
             if ($.inArray(val, values) > -1) return;// Skip duplicate values.
+            values.push(val);
 
             $(this).data('lang-en', val);// Store a non-translated string in .data().
 
