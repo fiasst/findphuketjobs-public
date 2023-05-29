@@ -496,11 +496,11 @@ var MAIN = (function($, window, document, undefined){
 $.fn.createSelectOptions = function(options){
     options = options || {};
 
-    var values = [];
     $.each(this, function(i, el){
         var wrapper = $(this).parent('.select-list-wrapper'),
             select = wrapper.find('select'),
-            defaultValue = wrapper.find('.select-list-default-value').attr('data-value') || '';
+            defaultValue = wrapper.find('.select-list-default-value').attr('data-value') || '',
+            values = [];
 
         $(this).find('.w-dyn-item').each(function(){
             var val = $(this).text();
