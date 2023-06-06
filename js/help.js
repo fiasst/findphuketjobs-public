@@ -275,14 +275,13 @@ console.log([formData, values]);
             timeout: 60000,
             success: function(data, textStatus){
                 console.log(textStatus, data);
-                if (typeof params.success === "function") params.success(data);
+                if (typeof params.callbackSuccess === "function") params.callbackSuccess(data);
             },
             error: function(jqXHR, textStatus, errorThrown){
                 console.log(textStatus, errorThrown);
-                if (typeof params.error === "function") params.error([textStatus, errorThrown]);
+                if (typeof params.callbackError === "function") params.callbackError(textStatus, errorThrown);
             }
         }, obj);
-
         $.ajax(params);
     };
 
