@@ -145,10 +145,7 @@ var ADD_JOB = (function($, window, document, undefined){
                     escKey: false,
                     css: {
                         xs: {
-                            offsetTop: 20,
-                            offsetBottom: 20,
-                            offsetLeft: 20,
-                            offsetRight: 20,
+                            offset: 20,
                             maxWidth: 900,
                             width: '100%',
                             opacity: 0.4

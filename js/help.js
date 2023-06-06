@@ -269,21 +269,10 @@ console.log([formData, values]);
 
     pub.sendAJAX = function(obj){
         var params = $.extend({
-            //url: "",
+            //url: "",// Required and must be provided.
+            //data: {},// Required and must be provided.
             method: "POST",
-            //data: {},
             timeout: 60000,
-            success: false,
-            error: false
-        }, obj);
-
-        $.ajax({
-            url: params.url,
-            method: params.method,
-            data: params.data,
-            // processData: false,
-            // contentType: false,
-            timeout: params.timeout,
             success: function(data, textStatus){
                 console.log(textStatus, data);
                 if (typeof params.success === "function") params.success(data);
@@ -292,7 +281,9 @@ console.log([formData, values]);
                 console.log(textStatus, errorThrown);
                 if (typeof params.error === "function") params.error([textStatus, errorThrown]);
             }
-        });
+        }, obj);
+
+        $.ajax(params);
     };
 
 
