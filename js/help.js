@@ -238,32 +238,47 @@ HELP = (function($, window, document, undefined){
 
 
     // get form values as a key-value Object
-    pub.getFormValues = function(form) {
-        var formData = new FormData(form[0]),
-            values = Object.fromEntries(formData);
+    pub.getFormValues = function(form, type) {
+        var formData = new FormData(form[0]);
+            // values = Object.fromEntries(formData);
 console.log([formData, values]);
+
         // Re-build multi-select field values.
-        $.each(values, function(key, value){
+        // $.each(values, function(key, value){
+        $.each(formData.entries(), function(key, value){
             var element = $(form).find(':input[name="'+key+'"]');
 
             if (element.is('select[multiple]')){
-                values[key] = element.val();
+                // values[key] = element.val();
+                formData.set(key, element.val());
             }
         });
 
         // Metadata:
         //Member ID.
-        values.member_id = USER.current.id || null;
+        // values.member_id = USER.current.id || null;
+        formData.append("member_id", USER.current.id || null);
 
         // Add Environment details.
-        values.env = pub.getEnvType();
-        values.url = pub.getCurrentDomain();
+        // values.env = pub.getEnvType();
+        formData.append("env", pub.getEnvType());
+        // values.url = pub.getCurrentDomain();
+        formData.append("url", pub.getCurrentDomain());
 
         // Add subbmitted date/time value.
-        values.submitted = pub.getISOdate();
-        values.submittedTimestamp = pub.getTimestamp();
+        // values.submitted = pub.getISOdate();
+        formData.append("submitted", pub.getISOdate());
+        // values.submittedTimestamp = pub.getTimestamp();
+        formData.append("submittedTimestamp", pub.getTimestamp());
 
-        return values;
+        // return values;
+        if (type == 'formData') {
+            return formData;
+        }
+        if (type == 'json') {
+            return JSON.stringify(Object.fromEntries(formData));
+        }
+        return Object.fromEntries(formData);// JS Object.
     };
 
 
