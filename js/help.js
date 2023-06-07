@@ -241,7 +241,7 @@ HELP = (function($, window, document, undefined){
     pub.getFormValues = function(form, type) {
         var formData = new FormData(form[0]);
             // values = Object.fromEntries(formData);
-console.log([formData, values]);
+// console.log([formData, values]);
 
         // Re-build multi-select field values.
         // $.each(values, function(key, value){
@@ -271,6 +271,8 @@ console.log([formData, values]);
         // values.submittedTimestamp = pub.getTimestamp();
         formData.append("submittedTimestamp", pub.getTimestamp());
 
+console.log('formData', formData);
+
         // return values;
         if (type == 'formData') {
             return formData;
@@ -297,6 +299,7 @@ console.log([formData, values]);
                 if (typeof params.callbackError === "function") params.callbackError(textStatus, errorThrown);
             }
         }, obj);
+        console.log('params', params)
         $.ajax(params);
     };
 
