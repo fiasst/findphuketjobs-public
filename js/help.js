@@ -319,6 +319,7 @@ console.log('formData', formData);
                     }
                 };
                 if (pub.checkKeyExists(window.jQuery, "litbox")) {
+                    var form = params.form || false;
                     MAIN.handleAjaxResponse(data, form);
                 }
                 else {
@@ -328,11 +329,6 @@ console.log('formData', formData);
         }, obj);
         $.ajax(params);
     };
-
-
-    function genericError(data, form) {
-        
-    }
 
 
     pub.parseIfStringJSON = function(str) {

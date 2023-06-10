@@ -87,12 +87,11 @@ var MAIN = (function($, window, document, undefined){
                         $.litbox.close();
                     });
             }
-            // if (data.callback){
             if (HELP.checkKeyExists(data, 'callback')){
                 HELP.callNestedFunction(data.callback, data, form);
             }
         }
-        if (HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
+        if (form && HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
             pub.buttonThinking(form.find('.form-submit'), true);
         }
     };
