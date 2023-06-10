@@ -300,6 +300,7 @@ console.log('formData', formData);
                 
                 // Generic error message.
                 var data = {
+                    "mode": "dialog",
                     "message": "Sorry, something went wrong, please try again. if the problem continues, contact our team for help.",
                     "type": "error",
                     "enableForm": true,
