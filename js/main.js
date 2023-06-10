@@ -142,11 +142,23 @@ var MAIN = (function($, window, document, undefined){
     // Stop body from being scrollable.
     pub.bodyPreventScroll = function(scroll, bodyClass){
         $('body').toggleClass(bodyClass || 'no-scroll', scroll);
-    }
+    };
+
+    
+    // Calculate "X minutes/hours/days ago" text.
+    pub.timePast = function(){
+        $('.time-past:not(.parsed)').each(function(){
+            $(this).text( HELP.timePast( $(this).text() ) +' ago').addClass('parsed');
+        });
+    };
 
 
     // On DOM ready.
     $(function(){
+        // Init.
+        pub.timePast();
+
+
         // Get current Member.
         USER.getCurrentMember(function(member){
             //if (!data) {
@@ -232,14 +244,6 @@ var MAIN = (function($, window, document, undefined){
         $('.accordion').on('click', '.accordion-header', function(){
             $(this).parent().toggleClass('active').find('.accordion-content').toggleClass('active');
         });
-
-
-        // Calculate "X minutes/hours/days ago" text.
-        pub.timePast = function(){
-            $('.time-past:not(.parsed)').each(function(){
-                $(this).text( HELP.timePast( $(this).text() ) +' ago').addClass('parsed');
-            });
-        }();
 
 
         // Delay forms.
