@@ -235,9 +235,11 @@ var MAIN = (function($, window, document, undefined){
 
 
         // Calculate "X minutes/hours/days ago" text.
-        $('.time-past:not(.parsed)').each(function(){
-            $(this).text( HELP.timePast( $(this).text() ) +' ago').addClass('parsed');
-        });
+        pub.timePast = function(){
+            $('.time-past:not(.parsed)').each(function(){
+                $(this).text( HELP.timePast( $(this).text() ) +' ago').addClass('parsed');
+            });
+        }();
 
 
         // Delay forms.
