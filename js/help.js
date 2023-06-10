@@ -284,8 +284,8 @@ console.log('formData', formData);
     };
 
 
-    pub.sendAJAX = function(obj){
-        var params = $.extend({
+    pub.sendAJAX = function(options, form){
+        params = $.extend({
             //url: "",// Required and must be provided.
             //data: {},// Required and must be provided.
             method: "POST",
@@ -319,14 +319,13 @@ console.log('formData', formData);
                     }
                 };
                 if (pub.checkKeyExists(window.jQuery, "litbox")) {
-                    var form = params.form || false;
-                    MAIN.handleAjaxResponse(data, form);
+                    MAIN.handleAjaxResponse(data, form || false);
                 }
                 else {
                     alert(data.message);
                 }
             }
-        }, obj);
+        }, options);
         $.ajax(params);
     };
 
