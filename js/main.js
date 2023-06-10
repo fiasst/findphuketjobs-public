@@ -39,6 +39,71 @@ var MAIN = (function($, window, document, undefined){
     };
 
 
+    pub.handleAjaxResponse = function(data, form){
+        if (HELP.checkKeyExists(data, "mode")){
+            switch (data.mode){
+                case 'alert':
+                    alert(data.message);
+                    break;
+
+                case 'banner':
+                    alert(data.message);//temp
+                    break;
+
+                case 'dialog':
+                    var actions;
+                    if (HELP.checkKeyExists(data, "options.actions")){
+                        actions = $('<div class="actions justify-center" />');
+
+                        $.each(data.options.actions, function(i, item){
+                            item.attributes.class = item.attributes.class || '';
+                            if (item.type == 'button'){
+                                item.attributes.class += ' w-button small';
+                            }
+                            actions.append(
+                                $('<a>', {
+                                    text: item.text,
+                                    attr: item.attributes
+                                })
+                            );
+                        })
+                    }
+                    var defaults = {
+                            bodyClasses: 'lbox-dialog',
+                            html: [HELP.sanitizeHTML(data.message), actions],
+                            css: {
+                                xxs: {
+                                    offset: 20,
+                                    maxWidth: 650,
+                                    contentInnerPadding: 20
+                                }
+                            }
+                        },
+                        options = $.extend(true, {}, defaults, data.options || {});
+                    $.litbox(options);
+
+                    $(document).on('click', '.trigger-lbox-close', function(e){
+                        e.preventDefault();
+                        $.litbox.close();
+                    });
+            }
+            // if (data.callback){
+            if (HELP.checkKeyExists(data, 'callback')){
+                HELP.callNestedFunction(data.callback, data, form);
+            }
+        }
+        if (HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
+            pub.buttonThinking(form.find('.form-submit'), true);
+        }
+    };
+
+
+    pub.thinking = (show, overlay = false) => {
+        let classes = show ? (overlay ? 'thinking-overlay' : 'thinking') : 'thinking-overlay thinking';
+        $('body').toggleClass(classes, show);
+    };
+
+
     pub.buttonThinking = function(btn, revert){
         if (!revert){
             btn.attr('disabled', true).addClass('thinking');
@@ -218,70 +283,6 @@ var MAIN = (function($, window, document, undefined){
         });
 
 
-        pub.thinking = (show, overlay = false) => {
-            let classes = show ? (overlay ? 'thinking-overlay' : 'thinking') : 'thinking-overlay thinking';
-            $('body').toggleClass(classes, show);
-        };
-
-
-        pub.handleAjaxResponse = function(data, form){
-            if (HELP.checkKeyExists(data, "mode")){
-                switch (data.mode){
-                    case 'alert':
-                        alert(data.message);
-                        break;
-
-                    case 'banner':
-                        alert(data.message);//temp
-                        break;
-
-                    case 'dialog':
-                        var actions;
-                        if (HELP.checkKeyExists(data, "options.actions")){
-                            actions = $('<div class="actions justify-center" />');
-
-                            $.each(data.options.actions, function(i, item){
-                                item.attributes.class = item.attributes.class || '';
-                                if (item.type == 'button'){
-                                    item.attributes.class += ' w-button small';
-                                }
-                                actions.append(
-                                    $('<a>', {
-                                        text: item.text,
-                                        attr: item.attributes
-                                    })
-                                );
-                            })
-                        }
-                        var defaults = {
-                                bodyClasses: 'lbox-dialog',
-                                html: [HELP.sanitizeHTML(data.message), actions],
-                                css: {
-                                    xxs: {
-                                        offset: 20,
-                                        maxWidth: 650,
-                                        contentInnerPadding: 20
-                                    }
-                                }
-                            },
-                            options = $.extend(true, {}, defaults, data.options || {});
-                        $.litbox(options);
-
-                        $(document).on('click', '.trigger-lbox-close', function(){
-                            $.litbox.close();
-                        });
-                }
-                // if (data.callback){
-                if (HELP.checkKeyExists(data, 'callback')){
-                    HELP.callNestedFunction(data.callback, data, form);
-                }
-            }
-            if (HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
-                pub.buttonThinking(form.find('.form-submit'), true);
-            }
-        };
-
-
         // AJAX forms.
         $('.ajax-submit')
             .on('click', '.form-submit', function(e){
@@ -308,10 +309,10 @@ var MAIN = (function($, window, document, undefined){
                     method: form.attr('method'),
                     data: data,
                     timeout: 120000,
-                    success: function(data){
+                    callbackSuccess: function(data){
                         pub.handleAjaxResponse(data, form);
                     },
-                    error: function(data){
+                    callbackError: function(data){
                         console.log('error');
                     }
                 });
@@ -430,10 +431,10 @@ var MAIN = (function($, window, document, undefined){
                 url: publishExistingJob,
                 data: data,
                 timeout: 120000,
-                success: function(data){
+                callbackSuccess: function(data){
                     //pub.handleAjaxResponse(data);
                 },
-                error: function(data){
+                callbackError: function(data){
                     console.log('error');
                 }
             });

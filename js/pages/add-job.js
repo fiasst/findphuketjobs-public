@@ -27,7 +27,7 @@ var ADD_JOB = (function($, window, document, undefined){
                     data: {
                         id: USER.current.id
                     },
-                    success: function(data, textStatus){
+                    callbackSuccess: function(data, textStatus){
                         var form = $('#wf-form-Add-Job-Form');
                         MAIN.thinking(false);
                         USER.updateCurrentUser(data);
@@ -39,7 +39,7 @@ var ADD_JOB = (function($, window, document, undefined){
                         }
                         MAIN.handleAjaxResponse(data, form);
                     },
-                    error: function(jqXHR, textStatus, errorThrown){
+                    callbackError: function(jqXHR, textStatus, errorThrown){
                         MAIN.thinking(false);
                     }
                 });

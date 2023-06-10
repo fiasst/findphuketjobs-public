@@ -297,11 +297,42 @@ console.log('formData', formData);
             error: function(jqXHR, textStatus, errorThrown){
                 console.log(textStatus, errorThrown);
                 if (typeof params.callbackError === "function") params.callbackError(textStatus, errorThrown);
+                
+                // Generic error message.
+                var data = {
+                    "message": "Sorry, something went wrong, please try again. if the problem continues, contact our team for help.",
+                    "type": "error",
+                    "enableForm": true,
+                    "options": {
+                        "title": "There was a problem...",
+                        "overlayClose": false,
+                        "actions": [
+                            {
+                                "type": "button",
+                                "text": "OK",
+                                "attributes": {
+                                    "class": "button-primary trigger-lbox-close",
+                                    "href": "#"
+                                }
+                            }
+                        ]
+                    }
+                };
+                if (pub.checkKeyExists(window.jQuery, "litbox")) {
+                    MAIN.handleAjaxResponse(data, form);
+                }
+                else {
+                    alert(data.message);
+                }
             }
         }, obj);
-        console.log('params', params)
         $.ajax(params);
     };
+
+
+    function genericError(data, form) {
+        
+    }
 
 
     pub.parseIfStringJSON = function(str) {
