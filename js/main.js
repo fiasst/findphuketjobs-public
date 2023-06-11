@@ -127,11 +127,11 @@ var MAIN = (function($, window, document, undefined){
 
 
     // Alternative for displaying Metadata values via HTML data-attributes.
-    pub.replaceTextWithMetadata = function(metadata){
-        $('[data-ms-member-meta]').each(function(){
+    pub.replaceTextWithMetadata = function(metadata) {
+        $('[data-ms-member-meta]').each(function() {
             var data = $(this).attr('data-ms-member-meta');
 
-            if (HELP.checkKeyExists(metadata, data)){
+            if (HELP.checkKeyExists(metadata, data)) {
                 $(this).html(metadata[data]);
             }
         });
@@ -139,15 +139,31 @@ var MAIN = (function($, window, document, undefined){
 
 
     // Stop body from being scrollable.
-    pub.bodyPreventScroll = function(scroll, bodyClass){
+    pub.bodyPreventScroll = function(scroll, bodyClass) {
         $('body').toggleClass(bodyClass || 'no-scroll', scroll);
     };
 
     
     // Calculate "X minutes/hours/days ago" text.
-    pub.timePast = function(){
-        $('.time-past:not(.parsed)').each(function(){
+    pub.timePast = function() {
+        $('.time-past:not(.parsed)').each(function() {
             $(this).text( HELP.timePast( $(this).text() ) +' ago').addClass('parsed');
+        });
+    };
+
+
+    // Show/hide existing file details and replace with file upload field.
+    pub.uploadFields = function() {
+        $('.upload-wrapper').each(function() {
+            var filename = !!$(this).find('.existing-file .file-upload-text').text();
+            $('.upload-field', this).toggle(!filename);
+            $('.existing-file', this).toggle(filename);
+        });
+        
+        $('.existing-file .file-upload-button').on('click', function() {
+            var wrapper = $(this).parents('.upload-wrapper');
+            wrapper.find('.existing-file').remove();
+            wrapper.find('.upload-field').show();
         });
     };
 
@@ -156,6 +172,7 @@ var MAIN = (function($, window, document, undefined){
     $(function(){
         // Init.
         pub.timePast();
+        pub.uploadFields();
 
 
         // Get current Member.

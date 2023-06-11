@@ -149,6 +149,17 @@
       "sC" : 3,
       "tS" : 0
     },
+    "\/js\/pages\/apply.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/js\/pages\/apply-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
     "\/js\/user-min.js" : {
       "bF" : 0,
       "ft" : 64,
