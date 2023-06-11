@@ -6,9 +6,11 @@
 
 
 
-//
-// Forms.
-//
+/*
+*
+* Forms.
+*
+*/
 textarea {
   resize: vertical;
 }
@@ -21,6 +23,19 @@ textarea {
 .button-primary[disabled]:hover {
   background-color: #00ebeb;
   color: #202d2f;
+}
+
+
+
+/*
+*
+* Text.
+*
+*/
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
