@@ -155,14 +155,14 @@ var MAIN = (function($, window, document, undefined){
     // Show/hide existing file details and replace with file upload field.
     pub.uploadFields = function() {
         $('.upload-wrapper').each(function() {
-            var filename = !!$(this).find('.existing-file .file-upload-text').text();
+            var filename = !!$(this).find('.file-existing .file-upload-text').text();
             $('.upload-field', this).toggle(!filename);
             $('.existing-file', this).toggle(filename);
         });
         
-        $('.existing-file .file-upload-button').on('click', function() {
+        $('.file-existing .file-upload-button').on('click', function() {
             var wrapper = $(this).parents('.upload-wrapper');
-            wrapper.find('.existing-file').remove();
+            wrapper.find('.file-existing').remove();
             wrapper.find('.upload-field').show();
         });
     };
