@@ -1,16 +1,16 @@
-var APPLY = (function($, window, document, undefined){
+var PROFILE = (function($, window, document, undefined){
     var pub = {};
 
 
     // On DOM ready.
     $(function(){
-    
+        
         // AJAX form.
-        $('#wf-form-Apply-Form')
-        .on('click', '.form-submit', function(e){
+        $('#wf-form-Profile-Form')
+        .on('click', '.form-submit', function(e) {
             $(e.target).addClass('clicked');
         })
-        .on('submit', function(e){
+        .on('submit', function(e) {
             e.preventDefault();
 
             var form = $(this),
@@ -27,29 +27,29 @@ var APPLY = (function($, window, document, undefined){
                 contentType: false,
                 cache: false,
                 timeout: 120000,
-                callbackSuccess: function(data, textStatus){
+                callbackSuccess: function(data, textStatus) {
                     MAIN.handleAjaxResponse(data, form);
                 }
             }, form);
         });
 
 
-        // Add company form in Colorbox.
-        $('.trigger-apply').on('click', function(e, onComplete){
+        // Update profile form in Colorbox.
+        $('.trigger-profile').on('click', function(e, onComplete) {
             e.preventDefault();
 
-            HELP.waitFor(window.jQuery, 'litbox', 100, function(){
+            HELP.waitFor(window.jQuery, 'litbox', 100, function() {
                 // Litbox.
                 $.litbox({
-                    title: 'Apply for this job',
-                    href: '#apply',
+                    title: 'Profile',
+                    href: '#profile',
                     inline: true,
                     returnFocus: false,
                     trapFocus: false,
                     overlayClose: false,
                     escKey: false,
-                    css: {
-                        xxs: {
+                        css: {
+                            xxs: {
                             offset: 20,
                             maxWidth: 900,
                             width: '100%',

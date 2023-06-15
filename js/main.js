@@ -163,7 +163,7 @@ var MAIN = (function($, window, document, undefined){
         $('.file-existing .file-upload-button').on('click', function() {
             var wrapper = $(this).parents('.upload-wrapper');
             wrapper.find('.file-existing').remove();
-            wrapper.find('.upload-field').show();
+            wrapper.find('.upload-field').fadeIn(500);
         });
     };
 
@@ -199,6 +199,7 @@ var MAIN = (function($, window, document, undefined){
                     hiddenInput.parents('form').find('.form-submit').removeAttr('disabled');
                 }
             }
+
 
             // Show content author controls (edit link...).
             if (!!$('.node-author').length){
