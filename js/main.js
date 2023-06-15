@@ -372,6 +372,26 @@ var MAIN = (function($, window, document, undefined){
         });
 
 
+        // FS cmsFilters loaded/rendered new items.
+        window.fsAttributes = window.fsAttributes || [];
+        window.fsAttributes.push([
+            'cmsfilter',
+            (filterInstances) => {
+                // The callback passes a `filterInstances` array with all the `CMSFilters` instances on the page.
+                const [filterInstance] = filterInstances;
+                //console.log(filterInstance);
+
+                // The `renderitems` event runs whenever the list renders items after filtering.
+                filterInstance.listInstance.on('renderitems', (renderedItems) => {
+                    // Calculate published date "ago" meta text.
+                    HELP.waitFor(window, 'MAIN', 100, function() {
+                        MAIN.timePast();
+                    });
+                });
+            },
+        ]);
+
+
         // Toggle element visibility.
         $('.toggle-vis').on('click', function(e){
             var target = $(this).attr('data-target');
