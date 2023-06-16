@@ -175,6 +175,26 @@ var MAIN = (function($, window, document, undefined){
         pub.uploadFields();
 
 
+        // FS cmsFilters loaded/rendered new items.
+        window.fsAttributes = window.fsAttributes || [];
+        window.fsAttributes.push([
+            'cmsfilter',
+            (filterInstances) => {
+                // The callback passes a `filterInstances` array with all the `CMSFilters` instances on the page.
+                const [filterInstance] = filterInstances;
+                //console.log(filterInstance);
+
+                // The `renderitems` event runs whenever the list renders items after filtering.
+                filterInstance.listInstance.on('renderitems', (renderedItems) => {
+                    // Calculate published date "ago" meta text.
+                    HELP.waitFor(window, 'MAIN', 100, function() {
+                        MAIN.timePast();
+                    });
+                });
+            },
+        ]);
+
+
         // Get current Member.
         USER.getCurrentMember(function(member){
             //if (!data) {
@@ -290,6 +310,10 @@ var MAIN = (function($, window, document, undefined){
 
 
         // Redirect user after form submit.
+        const queryDest = HELP.getSetQuerystring('destination');
+        if (queryDest) {
+            $('form').find('.fp_redirect').attr('data-redirect', queryDest);
+        }
         $('form').on('submit', function(){
             var redir = $(this).find('.fp_redirect').attr('data-redirect');
             if (redir){
@@ -370,26 +394,6 @@ var MAIN = (function($, window, document, undefined){
                 }
             }
         });
-
-
-        // FS cmsFilters loaded/rendered new items.
-        window.fsAttributes = window.fsAttributes || [];
-        window.fsAttributes.push([
-            'cmsfilter',
-            (filterInstances) => {
-                // The callback passes a `filterInstances` array with all the `CMSFilters` instances on the page.
-                const [filterInstance] = filterInstances;
-                //console.log(filterInstance);
-
-                // The `renderitems` event runs whenever the list renders items after filtering.
-                filterInstance.listInstance.on('renderitems', (renderedItems) => {
-                    // Calculate published date "ago" meta text.
-                    HELP.waitFor(window, 'MAIN', 100, function() {
-                        MAIN.timePast();
-                    });
-                });
-            },
-        ]);
 
 
         // Toggle element visibility.

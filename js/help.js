@@ -65,6 +65,24 @@ HELP = (function($, window, document, undefined){
     pub.getCurrencySymbol = (locale, currency) => (0).toLocaleString(locale, { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\d/g, '').trim();
 
 
+    // Get/set querystring.
+    pub.getSetQuerystring = (params = '', url) => {
+        url = url || window.location.href;
+        const urlObj = new URL(url);
+
+        // Set params it's an Object.
+        if (typeof(params) === "object") {
+            $.each(params, function(key, value) {
+                urlObj.searchParams.set(pub.stripHTML(key), pub.stripHTML(value));
+            });
+            return urlObj.searchParams.entries();
+        }
+        
+        // Get value.
+        return pub.stripHTML(urlObj.searchParams.get(params));
+    };
+
+
     // Return human-friendly date.
     pub.formatTimestamp = function(timestamp, showTime, localTimezone){
         var date = new Date(timestamp),
