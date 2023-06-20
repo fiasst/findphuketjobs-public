@@ -145,10 +145,8 @@ var MAIN = (function($, window, document, undefined){
 
     
     // Calculate "X minutes/hours/days ago" text.
-    pub.timePast = function() {
-        $('.time-past:not(.parsed)').each(function() {
-            $(this).text( HELP.timePast( $(this).text() ) +' ago').addClass('parsed');
-        });
+    pub.timePast = function($el) {
+        $el.text( HELP.timePast( $el.text() ) +' ago').addClass('parsed');
     };
 
 
@@ -171,7 +169,7 @@ var MAIN = (function($, window, document, undefined){
     // On DOM ready.
     $(function(){
         // Init.
-        pub.timePast();
+        pub.jobItem();
         pub.uploadFields();
 
 
@@ -186,13 +184,22 @@ var MAIN = (function($, window, document, undefined){
 
                 // The `renderitems` event runs whenever the list renders items after filtering.
                 filterInstance.listInstance.on('renderitems', (renderedItems) => {
-                    // Calculate published date "ago" meta text.
-                    HELP.waitFor(window, 'MAIN', 100, function() {
-                        MAIN.timePast();
-                    });
+                    // Calculate published date "ago" meta text and other things.
+                    pub.jobItem();
                 });
             },
         ]);
+
+
+        pub.jobItem = function() {
+            $('.card.job').each(function() {
+                if (!(!!$(this).find('.js-salary-amount').text())) {
+                    $(this).parents('.salary').hide();
+                }
+                
+                pub.timePast( $(this).find('.time-past:not(.parsed)') );
+            });
+        };
 
 
         // Get current Member.
