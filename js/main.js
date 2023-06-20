@@ -166,6 +166,17 @@ var MAIN = (function($, window, document, undefined){
     };
 
 
+    pub.jobItem = function() {
+        $('.card.job').each(function() {
+            if (!(!!$(this).find('.js-salary-amount').text())) {
+                $(this).parents('.salary').hide();
+            }
+            
+            pub.timePast( $(this).find('.time-past:not(.parsed)') );
+        });
+    };
+
+
     // On DOM ready.
     $(function(){
         // Init.
@@ -189,17 +200,6 @@ var MAIN = (function($, window, document, undefined){
                 });
             },
         ]);
-
-
-        pub.jobItem = function() {
-            $('.card.job').each(function() {
-                if (!(!!$(this).find('.js-salary-amount').text())) {
-                    $(this).parents('.salary').hide();
-                }
-                
-                pub.timePast( $(this).find('.time-past:not(.parsed)') );
-            });
-        };
 
 
         // Get current Member.
