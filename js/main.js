@@ -169,7 +169,7 @@ var MAIN = (function($, window, document, undefined){
     pub.jobItem = function() {
         $('.card.job').each(function() {
             if (!(!!$(this).find('.js-salary-amount').text())) {
-                $(this).parents('.salary').hide();
+                $(this).find('.salary').hide();
             }
             
             pub.timePast( $(this).find('.time-past:not(.parsed)') );
