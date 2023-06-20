@@ -175,7 +175,7 @@ var MAIN = (function($, window, document, undefined){
                 $card.find('.salary').hide();
             }
             // If salary is set to NOT display.
-            if (!!$card.find('.salary').length) {
+            if (!(!!$card.find('.salary').length)) {
                 $card.find('.js-salary-hidden').show();
             }
             // Calculate the created "X ago" text.
