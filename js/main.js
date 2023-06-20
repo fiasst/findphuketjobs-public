@@ -168,10 +168,15 @@ var MAIN = (function($, window, document, undefined){
 
     pub.jobItem = function() {
         $('.card.job').each(function() {
+            // If not a numeric salary "amount".
             if (!(!!$(this).find('.js-salary-amount').text())) {
                 $(this).find('.salary').hide();
             }
-            
+            // If salary is set to NOT display.
+            if ($(this).find('.salary').length < 0) {
+                $(this).find('.js-salary-hidden').show();
+            }
+            // Calculate the created "X ago" text.
             pub.timePast( $(this).find('.time-past:not(.parsed)') );
         });
     };
