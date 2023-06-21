@@ -238,7 +238,8 @@ body.no-scroll .fp-overlay {
 .wg-list {
   &.country-selector {
     ul {
-      display: flex;
+      display: flex !important;
+      flex-direction: column;
     }
     .wg-flags {
       margin: 0;
