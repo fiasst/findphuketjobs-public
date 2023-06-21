@@ -336,7 +336,13 @@ var MAIN = (function($, window, document, undefined){
         });
 
 
-        // format DOB and other date fields on key press.
+        // Show a hidden block if it contains Collection list items (not empty).
+        $('.job-block-visibility').each(function(){
+            $(this).toggle( !!$(this).find('.w-dyn-item').length );
+        });
+
+
+        // Format DOB and other date fields on key press.
         $('.format-ddmmyyyy').on('keyup', function(e) {
             if (e && !(e.key == 'Backspace' || e.key == 'Delete')) {
                 $(this).val( HELP.formatDDMMYYYY($(this).val()) );
