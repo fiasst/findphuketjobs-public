@@ -66,18 +66,18 @@ HELP = (function($, window, document, undefined){
 
 
     // Get/set querystring.
-    pub.getSetQuerystring = (params = '', url) => {
-        url = url || window.location.href;
-        const urlObj = new URL(url);
+    pub.getSetQuerystring = (params = '', uri) => {
+        // Use the current URL if a relative URI isn't provided.
+        const urlObj = uri ? new URL(uri, window.location.href) : new URL(window.location.href);
 
         // Set params it's an Object.
         if (typeof(params) === "object") {
             $.each(params, function(key, value) {
                 urlObj.searchParams.set(pub.stripHTML(key), pub.stripHTML(value));
             });
-            return urlObj.searchParams.entries();
+            return uri ? urlObj.pathname + urlObj.search : urlObj.search;
         }
-        
+
         // Get value.
         return pub.stripHTML(urlObj.searchParams.get(params));
     };

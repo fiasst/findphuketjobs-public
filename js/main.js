@@ -337,8 +337,17 @@ var MAIN = (function($, window, document, undefined){
 
 
         // Show a hidden block if it contains Collection list items (not empty).
-        $('.job-block-visibility').each(function(){
+        $('.job-block-visibility').each(function() {
             $(this).toggle( !!$(this).find('.w-dyn-item').length );
+        });
+
+
+        // Add querystring to a links href based on two attributes set on the link.
+        $('.link-add-querystring').each(function() {
+            var $el = $(this);
+            $el.attr('href', HELP.getSetQuerystring({
+                [$el.attr('data-query-name')]: $el.attr('data-query-value')
+            }, $el.attr('href')) );
         });
 
 
