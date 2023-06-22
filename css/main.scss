@@ -102,7 +102,7 @@ textarea {
 * Utility.
 *
 */
-@media screen and (min-width: 479px){
+@media screen and (min-width: 568px){
   .hide-sm-up {
     display: none;
   }
@@ -275,6 +275,14 @@ body.no-scroll .fp-overlay {
         opacity: 1;
         cursor: default;
         border-bottom: 2px solid;
+      }
+    }
+  }
+  
+  @media screen and (min-width: 568px){
+    &.country-selector {
+      ul {
+        flex-direction: row;
       }
     }
   }
