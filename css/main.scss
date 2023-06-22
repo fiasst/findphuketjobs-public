@@ -239,7 +239,6 @@ body.no-scroll .fp-overlay {
   &.country-selector {
     ul {
       display: flex !important;
-      flex-direction: column;
     }
     .wg-flags {
       margin: 0;
@@ -251,6 +250,7 @@ body.no-scroll .fp-overlay {
         text-decoration: none;
         transition: opacity 0.1s;
         align-items: center;
+        text-indent: -99999px;
         
         &:hover {
           text-decoration: none;
@@ -258,7 +258,7 @@ body.no-scroll .fp-overlay {
           opacity: 0.8;
         }
         img.wg-flag {
-          margin-right: 7px;
+          margin-right: 0;
           width: 20px;
           height: 16px;
         }
@@ -278,11 +278,17 @@ body.no-scroll .fp-overlay {
       }
     }
   }
-  
+
   @media screen and (min-width: 568px){
     &.country-selector {
-      ul {
-        flex-direction: row;
+      .wg-flags {
+        a {
+          text-indent: 0;
+
+          img.wg-flag {
+            margin-right: 7px;
+          }
+        }
       }
     }
   }
