@@ -155,7 +155,7 @@ var MAIN = (function($, window, document, undefined){
         $('.upload-wrapper').each(function() {
             var filename = !!$(this).find('.file-existing .file-upload-text').text();
             $('.upload-field', this).toggle(!filename);
-            $('.existing-file', this).toggle(filename);
+            $('.file-existing', this).toggle(filename);
         });
         
         $('.file-existing .file-upload-button').on('click', function() {
