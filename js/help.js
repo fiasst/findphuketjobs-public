@@ -31,13 +31,14 @@ HELP = (function($, window, document, undefined){
 
     // Remove <script> tags and any attributes that start with 'on' (onclick, etc).
     // This helps to guards against XSS attack.
-    pub.sanitizeHTML = html => {
-      return $.each($($.parseHTML(html, document)), function(i, el) {
-        $.each(this.attributes, function(i, attrib) {
-          if (attrib.name.indexOf('on') === 0) $(el).removeAttr(attrib.name);
-        });
-      });
-    };
+    pub.sanitizeHTML = (html) => {
+            // Remove <script> tags and content.
+        return html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+            // Remove attributes that start with "on" or "onclick".
+            .replace(/(\s*<[^>]*)(\s+(on\w+|onclick)="[^"]*")/gi, '$1')
+            // Remove instances of "javascript:".
+            .replace(/javascript:/gi, '');
+    }
 
 
     pub.getEnvType = function(){
@@ -66,16 +67,16 @@ HELP = (function($, window, document, undefined){
 
 
     // Get/set querystring.
-    pub.getSetQuerystring = (params = '', uri) => {
-        // Use the current URL if a relative URI isn't provided.
-        const urlObj = uri ? new URL(uri, window.location.href) : new URL(window.location.href);
+    pub.getSetQuerystring = (params = '', includePath) => {
+        const urlObj = new URL(window.location.href);
 
         // Set params it's an Object.
         if (typeof(params) === "object") {
             $.each(params, function(key, value) {
                 urlObj.searchParams.set(pub.stripHTML(key), pub.stripHTML(value));
             });
-            return uri ? urlObj.pathname + urlObj.search : urlObj.search;
+            // Return path and querystring or just the string.
+            return includePath ? urlObj.pathname + urlObj.search : urlObj.search;
         }
 
         // Get value.
@@ -176,40 +177,7 @@ HELP = (function($, window, document, undefined){
 
 
     // Check whether Object key exists
-    /*pub.checkKeyExists = function(obj, key) {
-        // return typeof obj === "object" && (obj.hasOwnProperty(key) || key in obj);
-        return typeof obj === "object" && key in obj;
-    };*/
-
-    /*pub.checkKeyExists = function(obj, keys) {
-      // if (!obj || typeof obj !== 'object') || !keys) return false;
-      if (!obj || typeof obj !== 'object') return false;
-      keys = typeof keys === 'string' ? keys.split('.') : keys;
-      if (keys.length === 0) return true;
-      var currentKey = keys.shift();
-      // return obj.hasOwnProperty(currentKey) && pub.checkKeyExists(obj[currentKey], keys);
-      return currentKey in obj && pub.checkKeyExists(obj[currentKey], keys);
-    };*/
-
-    /*pub.checkKeyExists = function(obj, keys){
-        if (!obj || typeof obj !== 'object') return false;
-        keys = typeof keys === 'string' ? keys.split('.') : keys;
-        return keys.length === 0 || (obj.hasOwnProperty(keys[0]) && pub.checkKeyExists(obj[keys.shift()], keys));
-    };*/
-
-    /*pub.checkKeyExists = function(obj, keys){
-        if (!obj || typeof obj !== 'object') return false;
-        keys = typeof keys === 'string' ? keys.split('.') : keys;
-        return keys.length === 0 || (keys[0] in obj && pub.checkKeyExists(obj[keys.shift()], keys));
-    };*/
-    /*pub.checkKeyExists = function(obj, keys){
-        if (!obj || typeof obj !== 'object' && typeof obj !== 'function') return false;
-        keys = typeof keys === 'string' ? keys.split('.') : keys;
-        if (keys.length === 0) return true;
-        return pub.checkKeyExists(obj[ keys.shift() ], keys);
-    };*/
     pub.checkKeyExists = function(obj, keys){
-        // if (typeof obj !== 'object' && typeof obj !== 'function' && typeof obj !== 'string') return false;
         // If  obj is falsy.
         if (!(!!obj)) return false;
         keys = typeof keys === 'string' ? keys.split('.') : keys;

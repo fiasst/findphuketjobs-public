@@ -347,7 +347,7 @@ var MAIN = (function($, window, document, undefined){
             var $el = $(this);
             $el.attr('href', HELP.getSetQuerystring({
                 [$el.attr('data-query-name')]: $el.attr('data-query-value')
-            }, $el.attr('href')) );
+            }, true));
         });
 
 
