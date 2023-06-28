@@ -118,8 +118,8 @@ USER = (function($, window, document, undefined){
 
             $.each(companies, function(i, company) {
                 var $newItem = $companyItem.clone().show();
-                $('.js-company-name', $newItem).text(`${company.tradingName} (${company.registeredName})`),
-                $('.js-company-active', $newItem).attr('id', `company-checkbox-${i}`).val(company.itemId)
+                $('.js-company-name', $newItem).text(`${company.tradingName} (${company.registeredName})`);
+                $('[type="checkbox"]', $newItem).attr('id', `company-checkbox-${i}`).val(company.itemId);
 
                 // Add company using template item.
                 $form.find('.checkbox-list').append($newItem)
@@ -178,9 +178,9 @@ USER = (function($, window, document, undefined){
 
     // Form validation for active companies (limit) form.
     pub.formValidateActiveCompanies = function() {
-        var form = $('#'+formActiveCompaniesID),
+        var $form = $('#'+formActiveCompaniesID),
             companiesText = HELP.pluralize(maxCompanies, 'business', 'businesses'),
-            checked = form.find('[name="company"]:checked');
+            checked = $form.find('[type="checkbox"]:checked');
 
         if (checked.length > maxCompanies) {
             alert(`Please only select ${companiesText} that you want to remain active.`);
