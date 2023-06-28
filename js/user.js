@@ -111,7 +111,7 @@ USER = (function($, window, document, undefined){
         if (numCompanies > maxCompanies) {
             var companiesText = HELP.pluralize(maxCompanies, 'business', 'businesses'),
                 $form = $('#'+formActiveCompaniesID),
-                $companyItem = $form.find('.js-company');
+                $companyItem = $form.find('.js-company').clone();
 
             // Remove the template item.
             $companyItem.hide();
@@ -121,7 +121,7 @@ USER = (function($, window, document, undefined){
                 $form.find('.checkbox-list').append(
                     $companyItem
                         .find('.js-company-name').text(`${company.tradingName} (${company.registeredName})`).end()
-                        .find('.js-company-active').val(company.itemId)
+                        .find('.js-company-active').attr('id', `company-checkbox-${i}`).val(company.itemId)
                 )
             });
 
