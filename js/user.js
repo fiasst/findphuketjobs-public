@@ -111,18 +111,18 @@ USER = (function($, window, document, undefined){
         if (numCompanies > maxCompanies) {
             var companiesText = HELP.pluralize(maxCompanies, 'business', 'businesses'),
                 $form = $('#'+formActiveCompaniesID),
-                $companyItem = $form.find('.js-company').clone();
+                $companyItem = $form.find('.js-company');
 
             // Remove the template item.
             $companyItem.hide();
 
             $.each(companies, function(i, company) {
+                var $newItem = $companyItem.clone().show();
+                $('.js-company-name', $newItem).text(`${company.tradingName} (${company.registeredName})`),
+                $('.js-company-active', $newItem).attr('id', `company-checkbox-${i}`).val(company.itemId)
+
                 // Add company using template item.
-                $form.find('.checkbox-list').append(
-                    $companyItem
-                        .find('.js-company-name').text(`${company.tradingName} (${company.registeredName})`).end()
-                        .find('.js-company-active').attr('id', `company-checkbox-${i}`).val(company.itemId)
-                )
+                $form.find('.checkbox-list').append($newItem)
             });
 
             // Replace token text with company limit.
