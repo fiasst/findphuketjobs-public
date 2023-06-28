@@ -29,7 +29,7 @@ var ADD_JOB = (function($, window, document, undefined){
                         buildCompanySelectField(USER.current);
 
                         // If user isn't exceeding the max companies limit, progress normally.
-                        if (!USER.maxCompanies(data.companies)) {
+                        if (!USER.checkCompanyLimits(data.companies)) {
                             MAIN.handleAjaxResponse(data, form);
                         }
                     }
@@ -102,7 +102,7 @@ var ADD_JOB = (function($, window, document, undefined){
                 companies = USER.current.companies;
             }
             if (!!companies.length){
-                if (USER.maxCompanies(companies.length)) return false;
+                if (USER.checkCompanyLimits(companies)) return false;
             }
 
             onComplete = onComplete || false;

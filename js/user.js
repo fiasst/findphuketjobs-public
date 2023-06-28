@@ -91,7 +91,7 @@ USER = (function($, window, document, undefined){
 
     // Check if the user is exceeding the number of active companies allowed for the current subscription.
     // If so, launch a UI to select which companies they want to keep active within the limit.
-    pub.maxCompanies = function(companies) {
+    pub.checkCompanyLimits = function(companies) {
         var plans = pub.getMemberPlans(),
             planLimits = MAIN.planCompanyLimits;
 
@@ -111,15 +111,15 @@ USER = (function($, window, document, undefined){
         if (numCompanies > maxCompanies) {
             var companiesText = HELP.pluralize(maxCompanies, 'business', 'businesses'),
                 $form = $('#'+formActiveCompaniesID),
-                $companyOption = $form.find('.js-company');
+                $companyItem = $form.find('.js-company');
 
             // Remove the template item.
-            $companyOption.remove();
+            $companyItem.hide();
 
             $.each(companies, function(i, company) {
                 // Add company using template item.
                 $form.find('.checkbox-list').append(
-                    $companyOption
+                    $companyItem
                         .find('.js-company-name').text(`${company.tradingName} (${company.registeredName})`).end()
                         .find('.js-company-active').val(company.itemId)
                 )
@@ -158,7 +158,7 @@ USER = (function($, window, document, undefined){
                     css: {
                         xxs: {
                             offset: 20,
-                            maxWidth: 900,
+                            maxWidth: 700,
                             width: '100%',
                             opacity: 0.4
                         },
