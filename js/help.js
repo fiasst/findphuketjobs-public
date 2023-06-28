@@ -138,8 +138,11 @@ HELP = (function($, window, document, undefined){
     };
 
 
-    // Function to pluralize the time past (eg. "minute/minutes ago", "day/days ago").
-    pub.pluralize = (count, noun, suffix = 's') => `${count} ${noun}${ count !== 1 ? suffix : ''}`;
+    // Pluralize words based on provided Integer value (eg. "minute/minutes", "day/days").
+    pub.pluralize = (count, single, plural) => `${count} ${count !== 1 ? plural || single+'s' : single}`;
+
+
+    // Output a String describing how much time has past (eg. "minute/minutes ago", "day/days ago").
     pub.timePast = (date) => {
         const msMin = 60 * 1000, msHr = msMin * 60, msDay = msHr * 24, msWeek = msDay * 7, msMonth = msDay * 30, msYr = msDay * 365;
         var curr = pub.getTimestamp(false, true),// Converted to local timezone.
@@ -151,27 +154,27 @@ HELP = (function($, window, document, undefined){
         }
         else if (elapsed < msHr) {
             elapsed = Math.round(elapsed/msMin);
-            return pub.pluralize(elapsed, 'minute') 
+            return pub.pluralize(elapsed, 'minute');
         }
         else if (elapsed < msDay) {
             elapsed = Math.round(elapsed/msHr);
-            return pub.pluralize(elapsed, 'hour')
+            return pub.pluralize(elapsed, 'hour');
         }
         else if (elapsed < msMonth) {
             elapsed = Math.round(elapsed/msDay);
-            return pub.pluralize(elapsed, 'day') 
+            return pub.pluralize(elapsed, 'day');
         }
         else if (elapsed < msWeek) {
             elapsed = Math.round(elapsed/msWeek);
-            return pub.pluralize(elapsed, 'week') 
+            return pub.pluralize(elapsed, 'week');
         }
         else if (elapsed < msYr) {
             elapsed = Math.round(elapsed/msMonth);
-            return pub.pluralize(elapsed, 'month') 
+            return pub.pluralize(elapsed, 'month');
         }
         else {
             elapsed = Math.round(elapsed/msYr);
-            return pub.pluralize(elapsed, 'year') 
+            return pub.pluralize(elapsed, 'year');
         }
     };
 

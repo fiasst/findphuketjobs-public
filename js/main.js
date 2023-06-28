@@ -8,10 +8,22 @@ var MAIN = (function($, window, document, undefined){
 
     // Memberstack plan names.
     pub.planNames = {
-        "pln_monthly-subscription-lqn04e7": "Monthly subscription",
-        "pln_3-credits-jmv04pd": "3 Credits",
-        "pln_6-credits-5cx04l8": "6 Credits",
-        "pln_12-credits-72z04tc": "12 Credits"
+        "pln_credit-package-1-p63bl01ya": "1 Credit",
+        "pln_credit-package-2-pg3bd0zgw": "3 Credits",
+        "pln_credit-package-3-la3be0z5o": "6 Credits",
+        "pln_subscription-package-1-p73bj0zxa": "Standard monthly subscription",
+        "pln_subscription-package-2-il3bk0zto": "Pro monthly subscription",
+        "pln_subscription-package-3-9x3bl0z6j": "Enterprise monthly subscription"
+    };
+
+    // Memberstack user company limits by planId.
+    pub.planCompanyLimits = {
+        "pln_credit-package-1-p63bl01ya": 1,
+        "pln_credit-package-2-pg3bd0zgw": 1,
+        "pln_credit-package-3-la3be0z5o": 1,
+        "pln_subscription-package-1-p73bj0zxa": 2,
+        "pln_subscription-package-2-il3bk0zto": 3,
+        "pln_subscription-package-3-9x3bl0z6j": 5
     };
 
 
@@ -39,9 +51,22 @@ var MAIN = (function($, window, document, undefined){
     };
 
 
-    pub.handleAjaxResponse = function(data, form){
-        if (HELP.checkKeyExists(data, "mode")){
-            switch (data.mode){
+    pub.handleAjaxResponse = function(data, form) {
+        pub.dialog(data);
+        
+        if (HELP.checkKeyExists(data, 'callback')) {
+            HELP.callNestedFunction(data.callback, data, form);
+        }
+        if (form && HELP.checkKeyExists(data, "enableForm") && !!data.enableForm) {
+            pub.buttonThinking(form.find('.form-submit'), true);
+        }
+    };
+
+
+    // Display information and optional action buttons in various dialog UI options.
+    pub.dialog = function(data) {
+        if (HELP.checkKeyExists(data, "mode")) {
+            switch (data.mode) {
                 case 'alert':
                     alert(data.message);
                     break;
@@ -52,12 +77,12 @@ var MAIN = (function($, window, document, undefined){
 
                 case 'dialog':
                     var actions;
-                    if (HELP.checkKeyExists(data, "options.actions")){
+                    if (HELP.checkKeyExists(data, "options.actions")) {
                         actions = $('<div class="actions justify-center" />');
 
-                        $.each(data.options.actions, function(i, item){
+                        $.each(data.options.actions, function(i, item) {
                             item.attributes.class = item.attributes.class || '';
-                            if (item.type == 'button'){
+                            if (item.type == 'button') {
                                 item.attributes.class += ' w-button small';
                             }
                             actions.append(
@@ -82,17 +107,11 @@ var MAIN = (function($, window, document, undefined){
                         options = $.extend(true, {}, defaults, data.options || {});
                     $.litbox(options);
 
-                    $(document).on('click', '.trigger-lbox-close', function(e){
+                    $(document).on('click', '.trigger-lbox-close', function(e) {
                         e.preventDefault();
                         $.litbox.close();
                     });
             }
-            if (HELP.checkKeyExists(data, 'callback')){
-                HELP.callNestedFunction(data.callback, data, form);
-            }
-        }
-        if (form && HELP.checkKeyExists(data, "enableForm") && !!data.enableForm){
-            pub.buttonThinking(form.find('.form-submit'), true);
         }
     };
 
@@ -366,9 +385,16 @@ var MAIN = (function($, window, document, undefined){
             })
             .on('submit', function(e){
                 e.preventDefault();
-
                 var form = $(this),
-                    button = form.find('.form-submit.clicked'),
+                    validation = form.attr('data-validation');
+
+                // Custom form validation.
+                if (validation && !callNestedFunction(validation)) {
+                    // Failed validation.
+                    return false;
+                }
+
+                var button = form.find('.form-submit.clicked'),
                     data = HELP.getFormValues(form),
                     formIncrement = HELP.getCookie('form-valid'),
                     i = 2;

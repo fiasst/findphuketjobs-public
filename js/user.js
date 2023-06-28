@@ -1,5 +1,8 @@
 USER = (function($, window, document, undefined){
-    var pub = {};
+    var pub = {},
+        maxCompanies,
+        numCompanies,
+        formActiveCompaniesID = 'wf-form-update-active-companies-form';
 
 
     pub.current = HELP.getCookie("MSmember") || {};
@@ -67,15 +70,15 @@ USER = (function($, window, document, undefined){
     pub.getMemberPlans = function(planType, member) {
         member = member || pub.getCurrentMember();
 
-        if (HELP.checkKeyExists(member, 'planConnections') && !!member.planConnections.length){
+        if (HELP.checkKeyExists(member, 'planConnections') && !!member.planConnections.length) {
             // Get active plans.
-            var plans = $.map(member.planConnections, function(item, i){
+            var plans = $.map(member.planConnections, function(item, i) {
                 if (item.active){
                     return item.type.toLowerCase();
                 }
             });
             // Check if a plan type exists for member.
-            if (planType){
+            if (planType) {
                 // Is planType in the user's plans.
                 return $.inArray(planType, plans) > -1;
             }
@@ -83,6 +86,109 @@ USER = (function($, window, document, undefined){
             return plans;
         }
         return planType ? false : [];
+    };
+
+
+    // Check if the user is exceeding the number of active companies allowed for the current subscription.
+    // If so, launch a UI to select which companies they want to keep active within the limit.
+    pub.maxCompanies = function(companies) {
+        var plans = pub.getMemberPlans(),
+            planLimits = MAIN.planCompanyLimits;
+
+        // Update global vars (to be used elsewhere).
+        maxCompanies = 1;
+        numCompanies = companies.length;
+
+
+        // Get the max company limit of a user for all active plans in their account.
+        $.each(plans, function(i, plan) {
+            if (planLimits[plan.planId] > maxCompanies) {
+                maxCompanies = planLimits[planId];
+            }
+        });
+
+        // If company limit is exceeded.
+        if (numCompanies > maxCompanies) {
+            var companiesText = HELP.pluralize(maxCompanies, 'business', 'businesses'),
+                $form = $('#'+formActiveCompaniesID),
+                $companyOption = $form.find('.js-company');
+
+            // Remove the template item.
+            $companyOption.remove();
+
+            $.each(companies, function(i, company) {
+                // Add company using template item.
+                $form.find('.checkbox-list').append(
+                    $companyOption
+                        .find('.js-company-name').text(`${company.tradingName} (${company.registeredName})`).end()
+                        .find('.js-company-active').val(company.itemId)
+                )
+            });
+
+            // Replace token text with company limit.
+            $form.find('.js-num-companies').text(companiesText);
+
+            // Explain problem and open UI to update active companies.
+            /*MAIN.dialog({
+                "message": $form,
+                "type": "warning",
+                "mode": "dialog",
+                "options": {
+                    "title": "Update active businesses",
+                    "actions": [{
+                        "type": "button",
+                        "text": "Save",
+                        "attributes": {
+                            "class": "button-primary trigger-update-companies",// trigger-lbox-close",
+                            "href": "#"
+                        }
+                    }]
+                }
+            });*/
+            HELP.waitFor(window.jQuery, 'litbox', 100, function(){
+                // Litbox.
+                $.litbox({
+                    title: 'Active businesses limit exceeded',
+                    href: '#update-companies-form-wrapper',
+                    inline: true,
+                    returnFocus: false,
+                    trapFocus: false,
+                    overlayClose: false,
+                    escKey: false,
+                    css: {
+                        xxs: {
+                            offset: 20,
+                            maxWidth: 900,
+                            width: '100%',
+                            opacity: 0.4
+                        },
+                        sm: {
+                            offset: '5% 20px'
+                        }
+                    }
+                });
+            });
+
+            $('#company-form-wrapper').remove();
+            return true
+        }
+        return false;
+    };
+
+
+    // Form validation for active companies (limit) form.
+    pub.formValidateActiveCompanies = function() {
+        var form = $('#'+formActiveCompaniesID),
+            companiesText = HELP.pluralize(maxCompanies, 'business', 'businesses'),
+            checked = form.find('[name="company"]:checked');
+
+        if (checked.length > maxCompanies) {
+            alert(`Please only select ${companiesText} that you want to remain active.`);
+        }
+        else if (checked.length > 0) {
+            return true
+        }
+        return false;
     };
 
 

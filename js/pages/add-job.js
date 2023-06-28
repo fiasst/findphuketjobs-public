@@ -7,9 +7,9 @@ var ADD_JOB = (function($, window, document, undefined){
 
 
     // On DOM ready.
-    $(function(){
+    $(function() {
         // Build Company select list options from JSON.
-        HELP.waitFor(USER, "current.id", 100, function(){
+        HELP.waitFor(USER, "current.id", 100, function() {
             MAIN.thinking(true, false);
 
             // Get list of Member's Companies via AJAX.
@@ -19,41 +19,26 @@ var ADD_JOB = (function($, window, document, undefined){
                 data: {
                     id: USER.current.id
                 },
-                callbackSuccess: function(data, textStatus){
+                callbackSuccess: function(data, textStatus) {
                     var form = $('#wf-form-Add-Job-Form');
                     MAIN.thinking(false);
                     USER.updateCurrentUser(data);
 
-                    if (HELP.checkKeyExists(data, "companies")){
+                    if (HELP.checkKeyExists(data, "companies")) {
                         USER.current.companies = data.companies;
                         buildCompanySelectField(USER.current);
+
+                        // If user isn't exceeding the max companies limit, progress normally.
+                        if (!USER.maxCompanies(data.companies)) {
+                            MAIN.handleAjaxResponse(data, form);
+                        }
                     }
-                    MAIN.handleAjaxResponse(data, form);
                 },
-                callbackError: function(jqXHR, textStatus, errorThrown){
+                callbackError: function(jqXHR, textStatus, errorThrown) {
                     MAIN.thinking(false);
                 }
             });
         });
-
-
-        function maxCompanies(companies){
-            var message,
-                msg = false;
-
-            if (companies > 2 && USER.getMemberPlans('subscription')){
-                // Max 3 companies.
-                msg = "You can add a maximum of 3 companies to your account. Please contact our team if you need assistance.";
-            }
-            else if (companies > 0 && USER.getMemberPlans('onetime')){
-                msg = "You can add a maximum of 1 companies to your account for your current member plan. Subscribe to a monthly plan to increase this limit.";
-            }
-            if (msg){
-                alert(msg);
-                $('#company-form-wrapper').remove();
-            }
-            return !!msg;
-        }
 
 
         function buildCompanySelectField(data, selectedCompany){
@@ -117,7 +102,7 @@ var ADD_JOB = (function($, window, document, undefined){
                 companies = USER.current.companies;
             }
             if (!!companies.length){
-                if (maxCompanies(companies.length)) return false;
+                if (USER.maxCompanies(companies.length)) return false;
             }
 
             onComplete = onComplete || false;
@@ -133,7 +118,7 @@ var ADD_JOB = (function($, window, document, undefined){
                     overlayClose: false,
                     escKey: false,
                     css: {
-                        xs: {
+                        xxs: {
                             offset: 20,
                             maxWidth: 900,
                             width: '100%',
