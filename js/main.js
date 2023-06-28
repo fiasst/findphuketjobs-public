@@ -389,7 +389,7 @@ var MAIN = (function($, window, document, undefined){
                     validation = form.attr('data-validation');
 
                 // Custom form validation.
-                if (validation && !callNestedFunction(validation)) {
+                if (validation && !HELP.callNestedFunction(validation)) {
                     // Failed validation.
                     return false;
                 }
