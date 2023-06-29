@@ -1,6 +1,5 @@
 var ADD_JOB = (function($, window, document, undefined){
-    var pub = {};
-
+    var pub = {}
 
     // Webhooks.
     const listMembersCompanies = "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp";
@@ -26,11 +25,15 @@ var ADD_JOB = (function($, window, document, undefined){
 
                     if (HELP.checkKeyExists(data, "companies")) {
                         USER.current.companies = data.companies;
-                        buildCompanySelectField(USER.current);
 
-                        // If user isn't exceeding the max companies limit, progress normally.
+                        // If user is NOT exceeding the max companies limit, progress normally.
                         if (!USER.checkCompanyLimits(data.companies)) {
+                            buildCompanySelectField(USER.current);
                             MAIN.handleAjaxResponse(data, form);
+                        }
+                        else {
+                            // Remove the Add Job and Add Company forms.
+                            $('.form-job-step-2, #company-form-wrapper').remove();
                         }
                     }
                 },

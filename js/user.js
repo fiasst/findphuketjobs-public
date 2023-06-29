@@ -89,6 +89,14 @@ USER = (function($, window, document, undefined){
     };
 
 
+    // Filter companies to only those that are active.
+    pub.filterActiveCompanies = function(companies) {
+        return $.map(companies, function(company, i) {
+            return company.state == 'active' ? company : null;
+        })
+    };
+
+
     // Check if the user is exceeding the number of active companies allowed for the current subscription.
     // If so, launch a UI to select which companies they want to keep active within the limit.
     pub.checkCompanyLimits = function(companies) {
@@ -97,10 +105,7 @@ USER = (function($, window, document, undefined){
 
         // Update global vars (to be used elsewhere).
         companiesMax = 1;
-        companiesActive = $.map(companies, function(company, i) {
-            // Filter companies to only those that are active.
-            return company.state == 'active' ? company : null;
-        });
+        companiesActive = pub.filterActiveCompanies(companies);
 
         // Get the max company limit of a user for all active plans in their account.
         $.each(plans, function(i, plan) {
