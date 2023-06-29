@@ -44,18 +44,21 @@ var ADD_JOB = (function($, window, document, undefined){
         });
 
 
-        function buildCompanySelectField(data, selectedCompany){
+        function buildCompanySelectField(data, selectedCompany) {
             // WARNING. data comes from AJAX or, from a cookie so sanatize it and use carefully.
             var list = data.companies || [];
 
             if (list.length < 1) {
                 // No companies exist.
                 // The second parameter is a callback function for the "onComplete" LitBox options.
-                $('#trigger-add-company').trigger('click', function(){
-                    alert("You need to add your company before you can post a job");
+                $('#trigger-add-company').trigger('click', function() {
+                    alert("You need to add your business before you can post a job");
                 });
             }
             else {
+                // Filter to only "active" companies.
+                list = USER.filterActiveCompanies(list);
+
                 var companySelect = $('#job-company'),
                     isSelected = list.length === 1;
 
@@ -66,15 +69,15 @@ var ADD_JOB = (function($, window, document, undefined){
                     text: 'Select...'
                 }) );
 
-                $.each(list, function(i, item){
-                    var name = HELP.stripHTML(item.tradingName);
+                $.each(list, function(i, item) {
+                    var name = HELP.stripHTML(item.tradingName);// Sanatize values.
                     
-                    if (selectedCompany){
+                    if (selectedCompany) {
                         isSelected = (selectedCompany == name);
                     }
                     companySelect.append($('<option>', {
                         value: item.itemId,
-                        text: name + ' ('+ HELP.stripHTML(item.registeredName) +')',
+                        text: name + ' ('+ HELP.stripHTML(item.registeredName) +')',// Sanatize values.
                         selected: isSelected
                     }));
                 });
