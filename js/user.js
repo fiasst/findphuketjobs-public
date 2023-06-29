@@ -1,7 +1,7 @@
 USER = (function($, window, document, undefined){
     var pub = {},
-        maxCompanies,
-        numCompanies,
+        companiesMax,
+        companiesActive,
         formActiveCompaniesID = 'wf-form-update-active-companies-form';
 
 
@@ -96,20 +96,22 @@ USER = (function($, window, document, undefined){
             planLimits = MAIN.planCompanyLimits;
 
         // Update global vars (to be used elsewhere).
-        maxCompanies = 1;
-        numCompanies = companies.length;
-
+        companiesMax = 1;
+        companiesActive = $.map(companies, function(company, i) {
+            // Filter companies to only those that are active.
+            return company.state == 'active' ? company : null;
+        });
 
         // Get the max company limit of a user for all active plans in their account.
         $.each(plans, function(i, plan) {
-            if (planLimits[plan.planId] > maxCompanies) {
-                maxCompanies = planLimits[planId];
+            if (planLimits[plan.planId] > companiesMax) {
+                companiesMax = planLimits[planId];
             }
         });
 
         // If company limit is exceeded.
-        if (numCompanies > maxCompanies) {
-            var companiesText = HELP.pluralize(maxCompanies, 'business', 'businesses'),
+        if (companiesActive.length > companiesMax) {
+            var companiesText = HELP.pluralize(companiesMax, 'business', 'businesses'),
                 $form = $('#'+formActiveCompaniesID),
                 $companyItem = $form.find('.js-company');
 
@@ -164,12 +166,12 @@ USER = (function($, window, document, undefined){
     // Form validation for active companies (limit) form.
     pub.formValidateActiveCompanies = function() {
         var $form = $('#'+formActiveCompaniesID),
-            companiesText = HELP.pluralize(maxCompanies, 'business', 'businesses'),
+            companiesText = HELP.pluralize(companiesMax, 'business', 'businesses'),
             checked = $form.find('[type="checkbox"]:checked');
 
         // None or too many companies selected.
-        if (checked.length < 1 || checked.length > maxCompanies) {
-            alert(`Please${checked.length > maxCompanies ? ' only' : ''} select ${companiesText} that you want to remain active.`);
+        if (checked.length < 1 || checked.length > companiesMax) {
+            alert(`Please${checked.length > companiesMax ? ' only' : ''} select ${companiesText} that you want to remain active.`);
             return false;
         }
         return true;
