@@ -74,7 +74,7 @@ var ADD_JOB = (function($, window, document, undefined){
                     }
                     
                     companySelect.append($('<option>', {
-                        value: item.state == 'disabled' ? '' : item.itemId,
+                        value: (item.state == 'disabled') ? '0' : item.itemId,
                         text: name + ' ('+ HELP.stripHTML(item.registeredName) +')',// Sanatize values.
                         selected: isSelected,
                         disabled: (item.state == 'disabled')
