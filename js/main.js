@@ -378,46 +378,47 @@ var MAIN = (function($, window, document, undefined){
         });
 
 
-        // AJAX forms.
+        //  General AJAX form submit handler.
         $('.ajax-submit')
-            .on('click', '.form-submit', function(e){
+            .on('click', '.form-submit', function(e) {
                 $(e.target).addClass('clicked');
             })
-            .on('submit', function(e){
+            .on('submit', function(e) {
                 e.preventDefault();
-                var form = $(this),
-                    validation = form.attr('data-validation');
+                var $form = $(this),
+                    validation = $form.attr('data-validation');
 
                 // Custom form validation.
-                if (validation && !HELP.callNestedFunction(validation)) {
+                if (validation && HELP.callNestedFunction(validation) === false) {
                     // Failed validation.
+                    console.log('Validation failed');
                     return false;
                 }
 
-                var button = form.find('.form-submit.clicked'),
-                    data = HELP.getFormValues(form),
+                var button = $form.find('.form-submit.clicked'),
+                    data = HELP.getFormValues($form),
                     formIncrement = HELP.getCookie('form-valid'),
                     i = 2;
 
-                formIncrement = !!formIncrement?Number(formIncrement):0;
+                formIncrement = !!formIncrement ? Number(formIncrement) : 0;
                 data.increment = ++formIncrement;
-                HELP.setCookie('form-valid',data.increment);
+                HELP.setCookie('form-valid', data.increment);
 
                 pub.buttonThinking(button);
                 console.log(data);
 
                 HELP.sendAJAX({
-                    url: form.attr('action'),
-                    method: form.attr('method'),
+                    url: $form.attr('action'),
+                    method: $form.attr('method'),
                     data: data,
                     timeout: 120000,
-                    callbackSuccess: function(data){
-                        pub.handleAjaxResponse(data, form);
+                    callbackSuccess: function(data) {
+                        pub.handleAjaxResponse(data, $form);
                     },
-                    callbackError: function(data){
+                    callbackError: function(data) {
                         console.log('error');
                     }
-                }, form);
+                }, $form);
             });
 
 

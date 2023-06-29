@@ -113,39 +113,24 @@ USER = (function($, window, document, undefined){
                 $form = $('#'+formActiveCompaniesID),
                 $companyItem = $form.find('.js-company');
 
-            // Remove the template item.
-            $companyItem.hide();
-
-            $.each(companies, function(i, company) {
-                var $newItem = $companyItem.clone().show();
-                $('.js-company-name', $newItem).text(`${company.tradingName} (${company.registeredName})`);
-                $('[type="checkbox"]', $newItem).attr('id', `company-checkbox-${i}`).val(company.itemId);
-
-                // Add company using template item.
-                $form.find('.checkbox-list').append($newItem)
-            });
-
             // Replace token text with company limit.
             $form.find('.js-num-companies').text(companiesText);
 
+            // Remove the template item.
+            $companyItem.hide();
+
+            // Build a checkbox list of user's companies.
+            $.each(companies, function(i, company) {
+                // Clone template item.
+                var $newItem = $companyItem.clone().show();
+                // Add company using template.
+                $('.js-company-name', $newItem).text(`${company.tradingName} (${company.registeredName})`);
+                $('[type="checkbox"]', $newItem).attr('id', `company-checkbox-${i}`).val(company.itemId);
+                $form.find('.checkbox-list').append($newItem)
+            });
+
             // Explain problem and open UI to update active companies.
-            /*MAIN.dialog({
-                "message": $form,
-                "type": "warning",
-                "mode": "dialog",
-                "options": {
-                    "title": "Update active businesses",
-                    "actions": [{
-                        "type": "button",
-                        "text": "Save",
-                        "attributes": {
-                            "class": "button-primary trigger-update-companies",// trigger-lbox-close",
-                            "href": "#"
-                        }
-                    }]
-                }
-            });*/
-            HELP.waitFor(window.jQuery, 'litbox', 100, function(){
+            HELP.waitFor(window.jQuery, 'litbox', 100, function() {
                 // Litbox.
                 $.litbox({
                     title: 'Active businesses limit exceeded',
