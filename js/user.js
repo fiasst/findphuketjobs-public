@@ -167,13 +167,12 @@ USER = (function($, window, document, undefined){
             companiesText = HELP.pluralize(maxCompanies, 'business', 'businesses'),
             checked = $form.find('[type="checkbox"]:checked');
 
-        if (checked.length > maxCompanies) {
-            alert(`Please only select ${companiesText} that you want to remain active.`);
+        // None or too many companies selected.
+        if (checked.length < 1 || checked.length > maxCompanies) {
+            alert(`Please${checked.length > maxCompanies ? ' only' : ''} select ${companiesText} that you want to remain active.`);
+            return false;
         }
-        else if (checked.length > 0) {
-            return true
-        }
-        return false;
+        return true;
     };
 
 
