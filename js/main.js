@@ -107,10 +107,14 @@ var MAIN = (function($, window, document, undefined){
                         options = $.extend(true, {}, defaults, data.options || {});
                     $.litbox(options);
 
-                    $(document).on('click', '.trigger-lbox-close', function(e) {
-                        e.preventDefault();
-                        $.litbox.close();
-                    });
+                    $(document)
+                        .on('click', '.trigger-lbox-close', function(e) {
+                            e.preventDefault();
+                            $.litbox.close();
+                        })
+                        .on('click', '.trigger-reload', function() {
+                            window.location = window.location.href;
+                        });
             }
         }
     };
