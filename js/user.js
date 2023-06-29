@@ -125,7 +125,7 @@ USER = (function($, window, document, undefined){
                 var $newItem = $companyItem.clone().show();
                 // Add company using template.
                 $('.js-company-name', $newItem).text(`${company.tradingName} (${company.registeredName})`);
-                $('[type="checkbox"]', $newItem).attr(name, `company-checkbox-${i}`).val(company.itemId);
+                $('[type="checkbox"]', $newItem).attr('name', `company-checkbox-${i}`).val(company.itemId);
                 $form.find('.checkbox-list').append($newItem)
             });
 
