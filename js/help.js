@@ -227,21 +227,34 @@ HELP = (function($, window, document, undefined){
 
 
     // get form values as a key-value Object
-    pub.getFormValues = function(form, type) {
-        var formData = new FormData(form[0]);
-            // values = Object.fromEntries(formData);
-// console.log([formData, values]);
-
-        // Re-build multi-select field values.
-        // $.each(values, function(key, value){
-        $.each(formData.entries(), function(key, value){
-            var element = $(form).find(':input[name="'+key+'"]');
-
-            if (element.is('select[multiple]')){
-                // values[key] = element.val();
-                formData.set(key, element.val());
+    pub.getFormValues = function($form, type) {
+        var formData = new FormData($form[0]),
+            groupedArrays = {};
+        
+        // Re-build certain field's values.
+        $($form).find(':input').each(function() {
+            var $element = $(this),
+                key = $element.attr('name'),
+                value = $element.val();
+            
+            // Re-build multi-select values.
+            if ($element.is('select[multiple]')){
+                formData.set(key, $element.val());
+            }
+            // Re-build checkbox values for grouped elements.
+            else if ($element.is(':checkbox:checked') && key.endsWith('[]')) {// Check if checkbox name ends with [].
+                var elementName = key.slice(0, -2);// Remove [].
+                if (!groupedArrays[elementName]) {
+                    groupedArrays[elementName] = [];// Create array if not present.
+                }
+                groupedArrays[elementName].push(value);
+                formData.delete(key);// Remove the individual entry.
             }
         });
+        // Merge rebuilt groupedArrays into formData.
+        for (elementName in groupedArrays) {
+          formData.set(elementName, groupedArrays[elementName]);
+        }
 
         // Metadata:
         //Member ID.

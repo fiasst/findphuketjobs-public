@@ -386,17 +386,18 @@ var MAIN = (function($, window, document, undefined){
             .on('submit', function(e) {
                 e.preventDefault();
                 var $form = $(this),
+                    $button = $form.find('.form-submit.clicked'),
                     validation = $form.attr('data-validation');
 
                 // Custom form validation.
                 if (validation && HELP.callNestedFunction(validation) === false) {
                     // Failed validation.
                     console.log('Validation failed');
+                    pub.buttonThinking($button, true);
                     return false;
                 }
 
-                var button = $form.find('.form-submit.clicked'),
-                    data = HELP.getFormValues($form),
+                var data = HELP.getFormValues($form),
                     formIncrement = HELP.getCookie('form-valid'),
                     i = 2;
 
@@ -404,7 +405,7 @@ var MAIN = (function($, window, document, undefined){
                 data.increment = ++formIncrement;
                 HELP.setCookie('form-valid', data.increment);
 
-                pub.buttonThinking(button);
+                pub.buttonThinking($button);
                 console.log(data);
 
                 HELP.sendAJAX({
