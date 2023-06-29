@@ -56,9 +56,6 @@ var ADD_JOB = (function($, window, document, undefined){
                 });
             }
             else {
-                // Filter to only "active" companies.
-                list = USER.filterActiveCompanies(list);
-
                 var companySelect = $('#job-company'),
                     isSelected = list.length === 1;
 
@@ -75,10 +72,12 @@ var ADD_JOB = (function($, window, document, undefined){
                     if (selectedCompany) {
                         isSelected = (selectedCompany == name);
                     }
+                    
                     companySelect.append($('<option>', {
-                        value: item.itemId,
+                        value: item.state == 'disabled' ? '' : item.itemId,
                         text: name + ' ('+ HELP.stripHTML(item.registeredName) +')',// Sanatize values.
-                        selected: isSelected
+                        selected: isSelected,
+                        disabled: (item.state == 'disabled')
                     }));
                 });
             }
