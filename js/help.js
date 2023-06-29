@@ -201,7 +201,7 @@ HELP = (function($, window, document, undefined){
         }
         if (typeof nestedObject[functionName] === 'function'){
             // Calling the function dynamically.
-            nestedObject[functionName](...args);
+            return nestedObject[functionName](...args);
         }
         else {
             console.error('Function not found:', string);

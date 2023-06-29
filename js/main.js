@@ -390,10 +390,11 @@ var MAIN = (function($, window, document, undefined){
                     validation = $form.attr('data-validation');
 
                 // Custom form validation.
-                if (validation && HELP.callNestedFunction(validation) === false) {
-                    // Failed validation.
+                if (validation && !HELP.callNestedFunction(validation)) {
+                    // Validation function retured false.
                     console.log('Validation failed');
                     pub.buttonThinking($button, true);
+                    // Don't proceed.
                     return false;
                 }
 

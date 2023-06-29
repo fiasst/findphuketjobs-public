@@ -133,7 +133,7 @@ USER = (function($, window, document, undefined){
             HELP.waitFor(window.jQuery, 'litbox', 100, function() {
                 // Litbox.
                 $.litbox({
-                    title: 'Active businesses limit exceeded',
+                    title: 'Update active businesses',
                     href: '#update-companies-form-wrapper',
                     inline: true,
                     returnFocus: false,
