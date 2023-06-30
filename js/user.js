@@ -1,7 +1,6 @@
 USER = (function($, window, document, undefined){
     var pub = {},
         companiesMax,
-        companiesActive,
         formActiveCompaniesID = 'wf-form-update-active-companies-form';
 
 
@@ -89,23 +88,19 @@ USER = (function($, window, document, undefined){
     };
 
 
-    // Filter companies to only those that are active.
-    pub.filterActiveCompanies = function(companies) {
-        return $.map(companies, function(company, i) {
-            return company.state == 'active' ? company : null;
-        })
-    };
-
-
     // Check if the user is exceeding the number of active companies allowed for the current subscription.
     // If so, launch a UI to select which companies they want to keep active within the limit.
-    pub.checkCompanyLimits = function(companies) {
+    pub.checkCompanyLimits = function(companies, activeOnly) {
         var plans = pub.getMemberPlans(),
             planLimits = MAIN.planCompanyLimits;
 
         // Update global vars (to be used elsewhere).
         companiesMax = 1;
-        companiesActive = pub.filterActiveCompanies(companies);
+
+        if (activeOnly) {
+            // Filter out companies with state NOT set to "active".
+            companies = HELP.filterArrayByObjectValue(companies, 'state', 'active');
+        }
 
         // Get the max company limit of a user for all active plans in their account.
         $.each(plans, function(i, plan) {
@@ -114,14 +109,23 @@ USER = (function($, window, document, undefined){
             }
         });
 
+        return (companies.length > companiesMax);
+    };
+
+
+    pub.updateActiveCompanies = function(companies) {
         // If company limit is exceeded.
-        if (companiesActive.length > companiesMax) {
+        if (companies.length > companiesMax) {
             var companiesText = HELP.pluralize(companiesMax, 'business', 'businesses'),
                 $form = $('#'+formActiveCompaniesID),
                 $companyItem = $form.find('.js-company');
 
             // Replace token text with company limit.
             $form.find('.js-num-companies').text(companiesText);
+
+            
+            // Remove the Add Job and Add Company forms.
+            $('.form-job-step-2, #company-form-wrapper').remove();
 
             // Remove the template item.
             $companyItem.hide();
@@ -160,12 +164,8 @@ USER = (function($, window, document, undefined){
                     }
                 });
             });
-
-            $('#company-form-wrapper').remove();
-            return true
         }
-        return false;
-    };
+    }
 
 
     // Form validation for active companies (limit) form.

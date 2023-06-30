@@ -220,6 +220,20 @@ HELP = (function($, window, document, undefined){
     };
 
 
+    // Useful for filtering an Array of company Objects to only state.active ones.
+    pub.filterArrayByObjectValue = function(array, key, value) {
+        return $.map(array, function(obj, i) {
+            return obj[key] == value ? obj : null;
+        })
+    };
+
+
+    // Useful for sorting an Array of company Objects by state.active appearing first.
+    pub.sortArrayByObjectValue = function(array, key, value) {
+        return array.sort((a, b) => (b[key] === value) - (a[key] === value));
+    };
+
+
     // Check if member has permissions.
     pub.hasPermissions = function(permissions, member){
         return $.inArray(permissions, member.permissions) > -1;

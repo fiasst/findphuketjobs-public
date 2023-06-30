@@ -26,14 +26,14 @@ var ADD_JOB = (function($, window, document, undefined){
                     if (HELP.checkKeyExists(data, "companies")) {
                         USER.current.companies = data.companies;
 
-                        // If user is NOT exceeding the max companies limit, progress normally.
-                        if (!USER.checkCompanyLimits(data.companies)) {
-                            buildCompanySelectField(USER.current);
-                            MAIN.handleAjaxResponse(data, form);
+                        // If user IS exceeding the max "active" companies limit.
+                        if (USER.checkCompanyLimits(data.companies, true)) {
+                            // Update which companies are active to not exceed plan limit.
+                            USER.updateActiveCompanies(data.companies);
                         }
                         else {
-                            // Remove the Add Job and Add Company forms.
-                            $('.form-job-step-2, #company-form-wrapper').remove();
+                            buildCompanySelectField(USER.current);
+                            MAIN.handleAjaxResponse(data, form);
                         }
                     }
                 },
@@ -59,7 +59,12 @@ var ADD_JOB = (function($, window, document, undefined){
                 var companySelect = $('#job-company'),
                     isSelected = list.length === 1;
 
+                // Show step 2 of Add Job form.
                 $('.form-job-step-2').addClass('active');
+
+                // Sort by "active" comapnies appearing first.
+                list = HELP.sortArrayByObjectValue(list, 'state', 'active');
+
                 // Clear any previous options.
                 companySelect.html('').append( $('<option>', {
                     value: '',
@@ -107,7 +112,28 @@ var ADD_JOB = (function($, window, document, undefined){
                 companies = USER.current.companies;
             }
             if (!!companies.length){
-                if (USER.checkCompanyLimits(companies)) return false;
+                // Check all companies against limit, not just active companies.
+                // Don't add new comapnies if the limit is already reached.
+                if (USER.checkCompanyLimits(companies, false)) {
+                    MAIN.dialog({
+                        "message": "You have reached the businesses limit for your current plan. <a href=\"/plans\">Upgrade your plan</a> to post jobs for more businesses.",
+                        "type": "success",
+                        "mode": "dialog",
+                        "options": {
+                            "title": "Active business limit exceeded",
+                            "actions": [{
+                                "type": "button",
+                                "text": "OK",
+                                "attributes": {
+                                    "class": "button-primary trigger-lbox-close",
+                                    "href": "#"
+                                }
+                            }]
+                        }
+                    });
+                    $('#trigger-add-company').remove();
+                    return false;
+                }
             }
 
             onComplete = onComplete || false;
