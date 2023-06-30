@@ -116,17 +116,17 @@ var ADD_JOB = (function($, window, document, undefined){
                 // Don't add new comapnies if the limit is already reached.
                 if (USER.checkCompanyLimits(companies, false)) {
                     MAIN.dialog({
-                        "message": "You have reached the businesses limit for your current plan. <a href=\"/plans\">Upgrade your plan</a> to post jobs for more businesses.",
-                        "type": "success",
-                        "mode": "dialog",
-                        "options": {
-                            "title": "Active business limit exceeded",
-                            "actions": [{
-                                "type": "button",
-                                "text": "OK",
-                                "attributes": {
-                                    "class": "button-primary trigger-lbox-close",
-                                    "href": "#"
+                        message: "<p>You have reached the active businesses limit for your current member plan. <a href=\"/plans\">Upgrade your plan</a> to post jobs for more businesses.</p>",
+                        type: "success",
+                        mode: "dialog",
+                        options: {
+                            title: "Business limit reached",
+                            actions: [{
+                                type: "button",
+                                text: "OK",
+                                attributes: {
+                                    class: "button-primary trigger-lbox-close",
+                                    href: "#"
                                 }
                             }]
                         }
