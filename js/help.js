@@ -240,6 +240,26 @@ HELP = (function($, window, document, undefined){
     };
 
 
+    // Add useful metadata to an AJAX request.
+    pub.ajaxMetaValues = function(data) {
+        if (!data) {
+            // Create a new 
+            data = new FormData($('<form/>')[0]);
+        }
+        //Member ID.
+        data.append("member_id", USER.current.id || null);
+
+        // Add Environment details.
+        data.append("env", pub.getEnvType());
+        data.append("url", pub.getCurrentDomain());
+
+        // Add subbmitted date/time value.
+        data.append("submitted", pub.getISOdate());
+        data.append("submittedTimestamp", pub.getTimestamp());
+        return data;
+    }
+
+
     // get form values as a key-value Object
     pub.getFormValues = function($form, type) {
         var formData = new FormData($form[0]),
@@ -271,21 +291,7 @@ HELP = (function($, window, document, undefined){
         }
 
         // Metadata:
-        //Member ID.
-        // values.member_id = USER.current.id || null;
-        formData.append("member_id", USER.current.id || null);
-
-        // Add Environment details.
-        // values.env = pub.getEnvType();
-        formData.append("env", pub.getEnvType());
-        // values.url = pub.getCurrentDomain();
-        formData.append("url", pub.getCurrentDomain());
-
-        // Add subbmitted date/time value.
-        // values.submitted = pub.getISOdate();
-        formData.append("submitted", pub.getISOdate());
-        // values.submittedTimestamp = pub.getTimestamp();
-        formData.append("submittedTimestamp", pub.getTimestamp());
+        ajaxMetaValues(formData);
 
 console.log('formData', formData);
 

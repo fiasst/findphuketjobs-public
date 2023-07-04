@@ -57,7 +57,7 @@ var BILLING = (function($, window, document, undefined){
                         });
                     }
                     else if (item['status'] == "CANCELED") {
-                        $('#banner-sub-renew').removeClass('hide');
+                        $('#banner-sub-join').removeClass('hide');
                     }
 
                     subscriptionPlans.push(
@@ -66,9 +66,12 @@ var BILLING = (function($, window, document, undefined){
                             $('<div>', {class: ["status"], html: '<strong>Status:</strong> '+item['status']}),
                             $('<div>', {
                                 class: ["amount"],
-                                html: '<span>'+payment.currency.toUpperCase()+'</span> '+
-                                HELP.getCurrencySymbol('en-US', payment.currency)+
-                                HELP.formatCurrency(payment.amount)
+                                html:
+                                    '<strong>Amount:</strong> '+ 
+                                    '<span>'+payment.currency.toUpperCase()+'</span> '+
+                                    // We don't need getCurrencySymbol() as it outputs "THB" which is displayed by payment.currency already.
+                                    // HELP.getCurrencySymbol('en-US', payment.currency)+
+                                    HELP.formatCurrency(payment.amount)
                             }),
                             nextBillDate,
                             lastBillDate,
@@ -89,9 +92,7 @@ var BILLING = (function($, window, document, undefined){
                     
                     HELP.sendAJAX({
                         url: $(this).attr('href'),
-                        data: {
-                            env: HELP.getEnvType()
-                        },
+                        data: ajaxMetaValues(),
                         method: "GET",
                         callbackSuccess: function(data) {
                             // TODO: move this logic inside Make Webhook response and use MAIN.handleAjaxResponse().
@@ -103,7 +104,7 @@ var BILLING = (function($, window, document, undefined){
                                 type = "error";
                             }
                             MAIN.dialog({
-                                message: message,
+                                message: msg,
                                 type: type,
                                 mode: "dialog",
                                 options: {
