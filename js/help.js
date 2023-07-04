@@ -189,6 +189,7 @@ HELP = (function($, window, document, undefined){
     };
 
     
+    // Get a value from a flat or deep (nested) Object.
     pub.getProperty = function(obj, key) {
         let keys = key.split('.'),
             value = obj;
@@ -228,6 +229,7 @@ HELP = (function($, window, document, undefined){
     };
 
 
+    // Sort 2 values by order ASC/DESC and handle null values.
     function sort(a, b, order) {
         if (a === null) return order === 'desc' ? 1 : -1;
         if (b === null) return order === 'desc' ? -1 : 1;
@@ -288,7 +290,7 @@ HELP = (function($, window, document, undefined){
         data.append("submitted", pub.getISOdate());
         data.append("submittedTimestamp", pub.getTimestamp());
         return data;
-    }
+    };
 
 
     // get form values as a key-value Object

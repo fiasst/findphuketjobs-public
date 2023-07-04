@@ -32,7 +32,8 @@ var BILLING = (function($, window, document, undefined){
             }
             else {
                 var subscriptionPlans = [],
-                    customerID = USER.current.stripeCustomerId;
+                    customerID = USER.current.stripeCustomerId,
+                    hasActiveSubscription;
 
                 // Sort plans by payment.lastBillingDate DESC.
                 plans = HELP.sortArrayByObjectValue(plans, 'payment.lastBillingDate');
@@ -52,15 +53,14 @@ var BILLING = (function($, window, document, undefined){
                         lastBillDate = $('<div>', {class: ["bill-last"], html: '<strong>Last billing date:</strong> '+ HELP.formatTimestamp(payment.lastBillingDate) });   
                     }
                     if (item['status'] == "ACTIVE") {
+                        hasActiveSubscription = true;
+
                         cancelLink = $('<a>', {
                             // 'href': `https://hook.us1.make.com/bg7py9xulyk6m3wyhmg5okn2ctcfkjiw?plan_id=${item.planId}&customer_id=${customerID}&amount=${payment.amount}`,     
                             'href': cancelMembersSubscription(item.planId, customerID, payment.amount),
                             'text': 'Cancel subscription',
                             'class': 'link-cancel'
                         });
-                    }
-                    else if (item['status'] == "CANCELED") {
-                        $('#banner-sub-join').removeClass('hide');
                     }
 
                     subscriptionPlans.push(
@@ -85,9 +85,7 @@ var BILLING = (function($, window, document, undefined){
 
                 if (subscriptionPlans.length > 0) {
                     $('#subscriptions').append(subscriptionPlans);
-                }
-                else {
-                    $('#banner-sub-join').removeClass('hide');
+                    $('#banner-sub-join').toggleClass('hide', !hasActiveSubscription);
                 }
               
                 $('.link-cancel').on('click', function(e) {
@@ -95,7 +93,7 @@ var BILLING = (function($, window, document, undefined){
                     
                     HELP.sendAJAX({
                         url: $(this).attr('href'),
-                        data: ajaxMetaValues(),
+                        data: HELP.ajaxMetaValues(),
                         method: "GET",
                         callbackSuccess: function(data) {
                             // TODO: move this logic inside Make Webhook response and use MAIN.handleAjaxResponse().
