@@ -33,7 +33,7 @@ var BILLING = (function($, window, document, undefined){
             else {
                 var subscriptionPlans = [],
                     customerID = USER.current.stripeCustomerId,
-                    hasActiveSubscription;
+                    hasActiveSubscription = false;
 
                 // Sort plans by payment.lastBillingDate DESC.
                 plans = HELP.sortArrayByObjectValue(plans, 'payment.lastBillingDate');
@@ -85,7 +85,7 @@ var BILLING = (function($, window, document, undefined){
 
                 if (subscriptionPlans.length > 0) {
                     $('#subscriptions').append(subscriptionPlans);
-                    $('#banner-sub-join').toggleClass('hide', !hasActiveSubscription);
+                    $('#banner-sub-join').toggleClass('hide', hasActiveSubscription);
                 }
               
                 $('.link-cancel').on('click', function(e) {
@@ -100,7 +100,7 @@ var BILLING = (function($, window, document, undefined){
                             var msg = "Your subscription has been cancelled. We hope you will join us again in future.",
                                 type = "success";
 
-                            if (data.status.toLowerCase() != "canceled") {
+                            if (data.status != "canceled") {
                                 msg = "Something may have gone wrong. If your subscription does not show as <strong>Cancelled</strong>, please contact our team.";
                                 type = "error";
                             }
