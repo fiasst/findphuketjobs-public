@@ -188,18 +188,26 @@ HELP = (function($, window, document, undefined){
         return pub.checkKeyExists(obj[ keys.shift() ], keys);
     };
 
+    
+    pub.getProperty = function(obj, key) {
+        let keys = key.split('.'),
+            value = obj;
 
-    pub.callNestedFunction = function(string, ...args){
-        // Extracting the function name from the string.
-        var path = string.split("."),
-            functionName = path.pop(),
-            nestedObject = window;// Assuming the top-level object is the global scope.
-        
-        // Traversing the object hierarchy to access the function.
-        for (var i = 0; i < path.length; i++){
-            nestedObject = nestedObject[path[i]];
+        for (let i = 0; i < keys.length; i++) {
+            value = value[keys[i]];
+
+            if (value === undefined || value === null) return null;
         }
-        if (typeof nestedObject[functionName] === 'function'){
+        return value;
+    };
+
+
+    pub.callNestedFunction = function(string, ...args) {
+        var path = string.split("."),
+            functionName = path.pop(),// Extracting the function name from the string.
+            nestedObject = pub.getProperty(window, path.join("."));// Assuming the top-level object is the global scope.
+
+        if (nestedObject && typeof nestedObject[functionName] === 'function') {
             // Calling the function dynamically.
             return nestedObject[functionName](...args);
         }
@@ -220,6 +228,13 @@ HELP = (function($, window, document, undefined){
     };
 
 
+    function sort(a, b, order) {
+        if (a === null) return order === 'desc' ? 1 : -1;
+        if (b === null) return order === 'desc' ? -1 : 1;
+        return order === 'desc' ? b - a : a - b;
+    }
+
+
     // Useful for filtering an Array of company Objects to only state.active ones.
     pub.filterArrayByObjectValue = function(array, key, value) {
         return $.map(array, function(obj, i) {
@@ -229,8 +244,24 @@ HELP = (function($, window, document, undefined){
 
 
     // Useful for sorting an Array of company Objects by state.active appearing first.
-    pub.sortArrayByObjectValue = function(array, key, value) {
+    /*pub.sortArrayByObjectValue = function(array, key, value) {
         return array.sort((a, b) => (b[key] === value) - (a[key] === value));
+    };*/
+    pub.sortArrayByObjectValue = function(array, key, val, order = 'desc') {
+        return array.sort((a, b) => {
+            // For deep (nested) values.
+            a = pub.getProperty(a, key);
+            b = pub.getProperty(b, key);
+
+            if (val) {
+                // Sort by key's value matching the supplied value.
+                return order==='desc' ? (b===val)-(a===val) : (a===val)-(b===val);
+            }
+            else {
+                // Sort by value.
+                return sort(a, b, order);
+            }
+        });
     };
 
 

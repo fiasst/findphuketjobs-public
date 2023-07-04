@@ -33,7 +33,10 @@ var BILLING = (function($, window, document, undefined){
             else {
                 var subscriptionPlans = [],
                     customerID = USER.current.stripeCustomerId;
-              
+
+                // Sort plans by payment.lastBillingDate DESC.
+                plans = HELP.sortArrayByObjectValue(plans, 'payment.lastBillingDate');
+
                 $.each(plans, function(i, item) {
                     if (item['type'] != "SUBSCRIPTION") {
                         return;
