@@ -274,21 +274,27 @@ HELP = (function($, window, document, undefined){
 
 
     // Add useful metadata to an AJAX request.
-    pub.ajaxMetaValues = function(data) {
-        if (!data) {
-            // Create a new 
-            data = new FormData($('<form/>')[0]);
-        }
+    pub.ajaxMetaValues = function(data, type) {
+        data = data || {};
         //Member ID.
-        data.append("member_id", USER.current.id || null);
+        // data.append("member_id", USER.current.id || null);
+        data.member_id = USER.current.id || null;
 
         // Add Environment details.
-        data.append("env", pub.getEnvType());
-        data.append("url", pub.getCurrentDomain());
+        data.env = pub.getEnvType();
+        data.url = pub.getCurrentDomain();
 
         // Add subbmitted date/time value.
-        data.append("submitted", pub.getISOdate());
-        data.append("submittedTimestamp", pub.getTimestamp());
+        data.submitted = pub.getISOdate();
+        data.submittedTimestamp = pub.getTimestamp();
+
+        if (type == 'formData') {
+            var formData = new FormData($('<form/>')[0]);
+            $.each(data, function(key, value) {
+                formData.set(key, value);
+            });
+            return formData;
+        }
         return data;
     };
 
@@ -324,7 +330,7 @@ HELP = (function($, window, document, undefined){
         }
 
         // Metadata:
-        ajaxMetaValues(formData);
+        pub.ajaxMetaValues(formData, 'formData');
 
 console.log('formData', formData);
 
