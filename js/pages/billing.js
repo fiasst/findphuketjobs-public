@@ -114,7 +114,7 @@ var BILLING = (function($, window, document, undefined){
                                         type: "button",
                                         text: "OK",
                                         attributes: {
-                                            class: "button-primary trigger-lbox-close",
+                                            class: "button-primary trigger-lbox-close trigger-reload",
                                             href: "#"
                                         }
                                     }]
