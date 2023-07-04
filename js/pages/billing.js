@@ -105,7 +105,7 @@ var BILLING = (function($, window, document, undefined){
                                 type = "error";
                             }
                             MAIN.dialog({
-                                message: `<p>msg</p>`,
+                                message: `<p>${msg}</p>`,
                                 type: type,
                                 mode: "dialog",
                                 options: {
