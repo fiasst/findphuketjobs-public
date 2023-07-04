@@ -100,12 +100,12 @@ var BILLING = (function($, window, document, undefined){
                             var msg = "Your subscription has been cancelled. We hope you will join us again in future.",
                                 type = "success";
 
-                            if (data.status != "CANCELED") {
-                                msg = "Something may have gone wrong. If your subscription does not show as <strong>Cancelled</strong>, please contact our team."; 
+                            if (data.status.toLowerCase() != "canceled") {
+                                msg = "Something may have gone wrong. If your subscription does not show as <strong>Cancelled</strong>, please contact our team.";
                                 type = "error";
                             }
                             MAIN.dialog({
-                                message: msg,
+                                message: `<p>msg</p>`,
                                 type: type,
                                 mode: "dialog",
                                 options: {
