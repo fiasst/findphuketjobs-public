@@ -28,7 +28,6 @@ var ADD_JOB = (function($, window, document, undefined){
 
                         // Check "active" companies against limit.
                         var companiesExceeding = USER.checkCompanyLimits(data.companies, true);
-                        console.log('companiesExceeding 1', companiesExceeding)
 
                         // If user IS exceeding the max "active" companies limit.
                         if (companiesExceeding > 0) {
@@ -118,7 +117,6 @@ var ADD_JOB = (function($, window, document, undefined){
             if (!!companies.length){
                 // Check all companies against limit, not just active companies.
                 var companiesExceeding = USER.checkCompanyLimits(companies, false);
-                console.log('companiesExceeding 2', companiesExceeding)
 
                 // Don't add new companies if the limit is already reached.
                 if (companiesExceeding >= 0) {

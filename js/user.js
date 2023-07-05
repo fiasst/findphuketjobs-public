@@ -112,7 +112,6 @@ USER = (function($, window, document, undefined){
         // How much are they exceeding their company limit by.
             // Want to know if > (exceeding) when building company dropdown list.
             // Want to know when >= when trying to add a new company.
-        console.log (companies.length +' - '+ companiesMax);
         return companies.length - companiesMax;
     };
 
