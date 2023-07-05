@@ -16,7 +16,7 @@ var BILLING = (function($, window, document, undefined){
 
     // Webhooks.
     const listMembersInvoices = "https://hook.us1.make.com/xq3ycqbici93ertr6ixfoea3hg9sqsew";
-    const cancelMembersSubscription = (planId, customerID, amount) => `https://hook.us1.make.com/bg7py9xulyk6m3wyhmg5okn2ctcfkjiw?plan_id=${planId}&customer_id=${customerID}&amount=${amount}`;
+    const cancelMembersSubscription = (planId, priceId, customerID, amount) => `https://hook.us1.make.com/bg7py9xulyk6m3wyhmg5okn2ctcfkjiw?plan_id=${planId}&price_id=${priceId}&customer_id=${customerID}&amount=${amount}`;
 
 
     // On DOM ready.
@@ -56,8 +56,7 @@ var BILLING = (function($, window, document, undefined){
                         hasActiveSubscription = true;
 
                         cancelLink = $('<a>', {
-                            // 'href': `https://hook.us1.make.com/bg7py9xulyk6m3wyhmg5okn2ctcfkjiw?plan_id=${item.planId}&customer_id=${customerID}&amount=${payment.amount}`,     
-                            'href': cancelMembersSubscription(item.planId, customerID, payment.amount),
+                            'href': cancelMembersSubscription(item.planId, item.payment.priceId, customerID, payment.amount),
                             'text': 'Cancel subscription',
                             'class': 'link-cancel'
                         });
