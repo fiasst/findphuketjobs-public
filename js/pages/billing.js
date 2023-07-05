@@ -89,14 +89,17 @@ var BILLING = (function($, window, document, undefined){
               
                 $('.link-cancel').on('click', function(e) {
                     e.preventDefault();
+                    MAIN.thinking(true, false);
                     
                     HELP.sendAJAX({
                         url: $(this).attr('href'),
                         data: HELP.ajaxMetaValues(),
                         method: "GET",
                         callbackSuccess: function(data) {
+                            MAIN.thinking(false);
+
                             // TODO: move this logic inside Make Webhook response and use MAIN.handleAjaxResponse().
-                            var msg = "Your subscription has been cancelled. We hope you will join us again in future.",
+                            var msg = "Your subscription has been cancelled. We hope you will join us again soon.",
                                 type = "success";
 
                             if (data.status != "canceled") {
@@ -121,6 +124,7 @@ var BILLING = (function($, window, document, undefined){
                             });
                         },
                         callbackError: function(data) {
+                            MAIN.thinking(false);
                             console.log('error');
                         }
                     });
