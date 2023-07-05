@@ -66,32 +66,32 @@ USER = (function($, window, document, undefined){
     };
 
 
-    pub.getMemberPlans = function(planType, member) {
+    pub.getMemberPlans = function(planType, member, activeOnly) {
         member = member || pub.getCurrentMember();
 
         if (HELP.checkKeyExists(member, 'planConnections') && !!member.planConnections.length) {
             // Get active plans.
-            var plans = $.map(member.planConnections, function(item, i) {
-                if (item.active){
-                    return item.type.toLowerCase();
-                }
-            });
-            // Check if a plan type exists for member.
-            if (planType) {
-                // Is planType in the user's plans.
-                return $.inArray(planType, plans) > -1;
+            var plans = member.planConnections;
+
+            if (activeOnly) {
+                // Filter out plans with status NOT set to "ACTIVE".
+                plans = HELP.filterArrayByObjectValue(plans, 'status', 'ACTIVE');
             }
-            // Return all active user plans.
+
+            // Filter out plans with type NOT set to planType.
+            if (planType) {
+                plans = HELP.filterArrayByObjectValue(plans, 'type', planType);
+            }
             return plans;
         }
-        return planType ? false : [];
+        return [];
     };
 
 
     // Check if the user is exceeding the number of active companies allowed for the current subscription.
     // If so, launch a UI to select which companies they want to keep active within the limit.
     pub.checkCompanyLimits = function(companies, activeOnly) {
-        var plans = pub.getMemberPlans(),
+        var plans = pub.getMemberPlans(false, false, true),// Active plans only.
             planLimits = MAIN.planCompanyLimits;
 
         // Update global vars (to be used elsewhere).
