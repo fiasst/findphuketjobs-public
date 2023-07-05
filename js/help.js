@@ -275,30 +275,27 @@ HELP = (function($, window, document, undefined){
 
     // Add useful metadata to an AJAX request.
     pub.ajaxMetaValues = function(data, type) {
-        data = data || {};
+        var obj = data || {};
         //Member ID.
-        data.member_id = USER.current.id || null;
+        obj.member_id = USER.current.id || null;
 
         // Add Environment details.
-        data.env = pub.getEnvType();
-        data.url = pub.getCurrentDomain();
+        obj.env = pub.getEnvType();
+        obj.url = pub.getCurrentDomain();
 
         // Language.
-        data.language = pub.getCurrentLang();
+        obj.language = pub.getCurrentLang();
 
         // Add submitted date/time value.
-        data.submitted = pub.getISOdate();
-        data.submittedTimestamp = pub.getTimestamp();
+        obj.submitted = pub.getISOdate();
+        obj.submittedTimestamp = pub.getTimestamp();
 
-        if (type == 'formData') {
-            // Convert JS Object to FormData.
-            var formData = new FormData($('<form/>')[0]);
-            $.each(data, function(key, value) {
-                formData.set(key, value);
-            });
-            return formData;
-        }
-        return data;
+        if (type != 'formData') return obj;
+        
+        // Convert JS Object to FormData.
+        return $.each(obj, function(key, value) {
+            data.set(key, value);
+        });
     };
 
 
