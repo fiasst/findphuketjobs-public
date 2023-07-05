@@ -143,15 +143,12 @@ var BILLING = (function($, window, document, undefined){
                     var invoices = [];
 
                     $.each(data, function(i, item) {
-                        var currencySymbol = HELP.getCurrencySymbol('en-US', item['Amount']['Currency']),  
-                            periodDate = HELP.formatTimestamp(item['Period']['Start'], false, true),
+                        var periodDate = HELP.formatTimestamp(item['Period']['Start'], false, true),
+                            currencySymbol = HELP.getCurrencySymbol('en-US', item['Amount']['Currency']),  
                             paidDate = null,
                             // title = item['Subscription'] ? "Subscription" : "One-time";
-                            title = pub.invoiceReasons[item['Billing Reason']];
+                            title = item['Subscription'] ? pub.invoiceReasons[item['Billing Reason']] : "Credits purchased";
 
-                        if (item['Period']['Start'] != item['Period']['End']) {
-                            periodDate += " - "+HELP.formatTimestamp(item['Period']['End'], false, true);   
-                        }
                         if (item['Paid date']) {
                             paidDate = $('<div>', {
                                 class: ["date-paid"],
@@ -172,7 +169,9 @@ var BILLING = (function($, window, document, undefined){
                                     class: ["amount"],
                                     html:
                                         '<span>'+item['Amount']['Currency'].toUpperCase()+'</span> '+
-                                        currencySymbol+HELP.formatCurrency(item['Amount']['Paid'] / 100)
+                                        // We don't need getCurrencySymbol() as it outputs "THB" which is displayed by payment.currency already.
+                                        // currencySymbol+
+                                        HELP.formatCurrency(item['Amount']['Paid'] / 100)
                                 }),
                                 paidDate
                             )

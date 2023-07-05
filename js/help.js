@@ -277,18 +277,21 @@ HELP = (function($, window, document, undefined){
     pub.ajaxMetaValues = function(data, type) {
         data = data || {};
         //Member ID.
-        // data.append("member_id", USER.current.id || null);
         data.member_id = USER.current.id || null;
 
         // Add Environment details.
         data.env = pub.getEnvType();
         data.url = pub.getCurrentDomain();
 
-        // Add subbmitted date/time value.
+        // Language.
+        data.language = pub.getCurrentLang();
+
+        // Add submitted date/time value.
         data.submitted = pub.getISOdate();
         data.submittedTimestamp = pub.getTimestamp();
 
         if (type == 'formData') {
+            // Convert JS Object to FormData.
             var formData = new FormData($('<form/>')[0]);
             $.each(data, function(key, value) {
                 formData.set(key, value);
