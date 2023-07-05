@@ -109,7 +109,7 @@ USER = (function($, window, document, undefined){
             }
         });
 
-        return (companies.length > companiesMax);
+        return (companies.length >= companiesMax);
     };
 
 
@@ -123,7 +123,7 @@ USER = (function($, window, document, undefined){
             // Replace token text with company limit.
             $form.find('.js-num-companies').text(companiesText);
 
-            
+
             // Remove the Add Job and Add Company forms.
             $('.form-job-step-2, #company-form-wrapper').remove();
 
