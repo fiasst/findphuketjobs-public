@@ -26,8 +26,11 @@ var ADD_JOB = (function($, window, document, undefined){
                     if (HELP.checkKeyExists(data, "companies")) {
                         USER.current.companies = data.companies;
 
+                        // Check "active" companies against limit.
+                        var companiesExceeding = USER.checkCompanyLimits(data.companies, true);
+
                         // If user IS exceeding the max "active" companies limit.
-                        if (USER.checkCompanyLimits(data.companies, true)) {
+                        if (companiesExceeding > 0) {
                             // Update which companies are active to not exceed plan limit.
                             USER.updateActiveCompanies(data.companies);
                         }
@@ -113,8 +116,10 @@ var ADD_JOB = (function($, window, document, undefined){
             }
             if (!!companies.length){
                 // Check all companies against limit, not just active companies.
-                // Don't add new comapnies if the limit is already reached.
-                if (USER.checkCompanyLimits(companies, false)) {
+                var companiesExceeding = USER.checkCompanyLimits(companies, false);
+
+                // Don't add new companies if the limit is already reached.
+                if (companiesExceeding >= 0) {
                     MAIN.dialog({
                         message: "<p>You have reached the active businesses limit for your current member plan. <a href=\"/plans\">Upgrade your plan</a> to post jobs for more businesses.</p>",
                         type: "success",

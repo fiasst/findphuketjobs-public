@@ -90,7 +90,7 @@ USER = (function($, window, document, undefined){
 
     // Check if the user is exceeding the number of active companies allowed for the current subscription.
     // If so, launch a UI to select which companies they want to keep active within the limit.
-    pub.checkCompanyLimits = function(companies, activeOnly) {
+    pub.checkCompanyLimits = function(companies, activeOnly) {//, exceeding) {
         var plans = pub.getMemberPlans(),
             planLimits = MAIN.planCompanyLimits;
 
@@ -109,7 +109,11 @@ USER = (function($, window, document, undefined){
             }
         });
 
-        return (companies.length >= companiesMax);
+        // Want to know if > (exceeding) when building company dropdown list.
+        // Want to know when >= when trying to add a new company.
+        // return exceeding === true ? (companies.length > companiesMax) : (companies.length >= companiesMax);
+        // How much are they exceeding their company limit by.
+        return companies.length - companiesMax;
     };
 
 
