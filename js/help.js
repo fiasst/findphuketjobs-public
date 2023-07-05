@@ -275,7 +275,8 @@ HELP = (function($, window, document, undefined){
 
     // Add useful metadata to an AJAX request.
     pub.ajaxMetaValues = function(data, type) {
-        var obj = data || {};
+        var obj = {};
+        
         //Member ID.
         obj.member_id = USER.current.id || null;
 
