@@ -243,9 +243,9 @@ var MAIN = (function($, window, document, undefined){
             //}
             console.log(member);
 
-            // if (HELP.checkKeyExists(member, 'metaData')){
-                // pub.replaceTextWithMetadata(member.metaData);
-            // }
+            if (HELP.checkKeyExists(member, 'metaData')) {
+                pub.replaceTextWithMetadata(member.metaData);
+            }
 
             if (HELP.checkKeyExists(member, 'id')){
                 // Add member ID to form field.

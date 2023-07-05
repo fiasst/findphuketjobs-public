@@ -44,7 +44,13 @@ var BILLING = (function($, window, document, undefined){
                     }
                     var planName = MAIN.planNames[item['planId']],
                         payment = item['payment'],
+                        currencySymbol = HELP.getCurrencySymbol('en-US', payment.currency),
                         cancelLink = nextBillDate = lastBillDate = null;
+
+                    if (currencySymbol == "THB") {
+                        // We don't need getCurrencySymbol() as it outputs "THB" which is displayed by payment.currency already.
+                        currencySymbol = "";
+                    }
 
                     if (payment.nextBillingDate) {
                         nextBillDate = $('<div>', {class: ["bill-next"], html: '<strong>Your plan renews on</strong> '+ HELP.formatTimestamp(payment.nextBillingDate) });  
@@ -71,9 +77,7 @@ var BILLING = (function($, window, document, undefined){
                                 html:
                                     '<strong>Amount:</strong> '+ 
                                     '<span>'+payment.currency.toUpperCase()+'</span> '+
-                                    // We don't need getCurrencySymbol() as it outputs "THB" which is displayed by payment.currency already.
-                                    // HELP.getCurrencySymbol('en-US', payment.currency)+
-                                    HELP.formatCurrency(payment.amount)
+                                    currencySymbol + HELP.formatCurrency(payment.amount)
                             }),
                             nextBillDate,
                             lastBillDate,
@@ -149,6 +153,11 @@ var BILLING = (function($, window, document, undefined){
                             // title = item['Subscription'] ? "Subscription" : "One-time";
                             title = item['Subscription'] ? pub.invoiceReasons[item['Billing Reason']] : "Credits purchased";
 
+                        if (currencySymbol == "THB") {
+                            // We don't need getCurrencySymbol() as it outputs "THB" which is displayed by payment.currency already.
+                            currencySymbol = "";
+                        }
+
                         if (item['Paid date']) {
                             paidDate = $('<div>', {
                                 class: ["date-paid"],
@@ -169,9 +178,7 @@ var BILLING = (function($, window, document, undefined){
                                     class: ["amount"],
                                     html:
                                         '<span>'+item['Amount']['Currency'].toUpperCase()+'</span> '+
-                                        // We don't need getCurrencySymbol() as it outputs "THB" which is displayed by payment.currency already.
-                                        // currencySymbol+
-                                        HELP.formatCurrency(item['Amount']['Paid'] / 100)
+                                        currencySymbol + HELP.formatCurrency(item['Amount']['Paid'] / 100)
                                 }),
                                 paidDate
                             )
