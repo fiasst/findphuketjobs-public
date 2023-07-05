@@ -24,15 +24,18 @@ var ADD_JOB = (function($, window, document, undefined){
                     USER.updateCurrentUser(data);
 
                     if (HELP.checkKeyExists(data, "companies")) {
-                        USER.current.companies = data.companies;
+                        var companies = data.companies;
+                        USER.current.companies = companies;
 
                         // Check "active" companies against limit.
-                        var companiesExceeding = USER.checkCompanyLimits(data.companies, true);
+                        var numBeyondLimit = USER.checkCompanyLimits(companies, true),
+                            companiesActive = HELP.filterArrayByObjectValue(companies, 'state', 'active');
 
                         // If user IS exceeding the max "active" companies limit.
-                        if (companiesExceeding > 0) {
-                            // Update which companies are active to not exceed plan limit.
-                            USER.updateActiveCompanies(data.companies);
+                        // Or, they have less active companies than their limit and more companies than are currently active.
+                        if (numBeyondLimit > 0 || (numBeyondLimit < 0 && companiesActive.length < companies.length)) {
+                            // Update which companies are active to meet/not exceed plan limit.
+                            USER.updateActiveCompanies(companies);
                         }
                         else {
                             buildCompanySelectField(USER.current);
@@ -116,10 +119,10 @@ var ADD_JOB = (function($, window, document, undefined){
             }
             if (!!companies.length){
                 // Check all companies against limit, not just active companies.
-                var companiesExceeding = USER.checkCompanyLimits(companies, false);
+                var numBeyondLimit = USER.checkCompanyLimits(companies, false);
 
                 // Don't add new companies if the limit is already reached.
-                if (companiesExceeding >= 0) {
+                if (numBeyondLimit >= 0) {
                     // Remove form.
                     $('#company-form-wrapper').remove();
 
