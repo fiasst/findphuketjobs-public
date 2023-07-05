@@ -56,7 +56,7 @@ var BILLING = (function($, window, document, undefined){
                         hasActiveSubscription = true;
 
                         cancelLink = $('<a>', {
-                            'href': cancelMembersSubscription(item.planId, item.payment.priceId, customerID, payment.amount),
+                            'href': cancelMembersSubscription(item.planId, payment.priceId, customerID, payment.amount),
                             'text': 'Cancel subscription',
                             'class': 'link-cancel'
                         });
@@ -142,7 +142,8 @@ var BILLING = (function($, window, document, undefined){
                         var currencySymbol = HELP.getCurrencySymbol('en-US', item['Amount']['Currency']),  
                             periodDate = HELP.formatTimestamp(item['Period']['Start'], false, true),
                             paidDate = null,
-                            title = item['Subscription'] ? "Subscription" : "One-time";
+                            // title = item['Subscription'] ? "Subscription" : "One-time";
+                            title = pub.invoiceReasons[item['Billing Reason']];
 
                         if (item['Period']['Start'] != item['Period']['End']) {
                             periodDate += " - "+HELP.formatTimestamp(item['Period']['End'], false, true);   
@@ -163,10 +164,6 @@ var BILLING = (function($, window, document, undefined){
                                         item['Invoice Number']+'</a>'
                                 }),
                                 $('<div>', {class: ["status"], html: '<strong>Status:</strong> '+item['Status']}),
-                                $('<div>', {
-                                    class: ["status"],
-                                    html: '<strong>Type:</strong> '+pub.invoiceReasons[item['Billing Reason']]
-                                }),
                                 $('<div>', {
                                     class: ["amount"],
                                     html:
