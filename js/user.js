@@ -105,7 +105,7 @@ USER = (function($, window, document, undefined){
         // Get the max company limit of a user for all active plans in their account.
         $.each(plans, function(i, plan) {
             if (planLimits[plan.planId] > companiesMax) {
-                companiesMax = planLimits[planId];
+                companiesMax = planLimits[plan.planId];
             }
         });
 

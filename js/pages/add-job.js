@@ -120,6 +120,9 @@ var ADD_JOB = (function($, window, document, undefined){
 
                 // Don't add new companies if the limit is already reached.
                 if (companiesExceeding >= 0) {
+                    // Remove form.
+                    $('#company-form-wrapper').remove();
+
                     MAIN.dialog({
                         message: "<p>You have reached the active businesses limit for your current member plan. <a href=\"/plans\">Upgrade your plan</a> to post jobs for more businesses.</p>",
                         type: "success",
@@ -136,12 +139,11 @@ var ADD_JOB = (function($, window, document, undefined){
                             }]
                         }
                     });
-                    $('#trigger-add-company').remove();
                     return false;
                 }
             }
 
-            onComplete = onComplete || false;
+            // onComplete = onComplete || false;// Should be able to remove this. Moved code below.
             
             HELP.waitFor(window.jQuery, 'litbox', 100, function(){
                 // Litbox.
@@ -164,7 +166,7 @@ var ADD_JOB = (function($, window, document, undefined){
                             offset: '5% 20px'
                         }
                     },
-                    onComplete: onComplete
+                    onComplete: onComplete || false
                 });
             });
         });
