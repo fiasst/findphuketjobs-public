@@ -1,16 +1,16 @@
-var APPLY = (function($, window, document, undefined){
+var APPLY = (function($, window, document, undefined) {
     var pub = {};
 
 
     // On DOM ready.
-    $(function(){
+    $(function() {
     
         // AJAX form.
         $('#wf-form-Apply-Form')
-        .on('click', '.form-submit', function(e){
+        .on('click', '.form-submit', function(e) {
             $(e.target).addClass('clicked');
         })
-        .on('submit', function(e){
+        .on('submit', function(e) {
             e.preventDefault();
 
             var form = $(this),
@@ -27,7 +27,7 @@ var APPLY = (function($, window, document, undefined){
                 contentType: false,
                 cache: false,
                 timeout: 120000,
-                callbackSuccess: function(data, textStatus){
+                callbackSuccess: function(data, textStatus) {
                     MAIN.handleAjaxResponse(data, form);
                 }
             }, form);
@@ -35,10 +35,10 @@ var APPLY = (function($, window, document, undefined){
 
 
         // Add company form in Colorbox.
-        $('.trigger-apply').on('click', function(e, onComplete){
+        $('.trigger-apply').on('click', function(e, onComplete) {
             e.preventDefault();
 
-            HELP.waitFor(window.jQuery, 'litbox', 100, function(){
+            HELP.waitFor(window.jQuery, 'litbox', 100, function() {
                 // Litbox.
                 $.litbox({
                     title: 'Apply for this job',

@@ -6,7 +6,7 @@ var USER = {},
     MAIN = {},
     ADD_JOB = {},
 
-HELP = (function($, window, document, undefined){
+HELP = (function($, window, document, undefined) {
     var pub = {};
 
     pub.timezone = "Asia/Bangkok";
@@ -19,12 +19,12 @@ HELP = (function($, window, document, undefined){
     };
 
 
-    pub.cleanLowerString = function(string){
+    pub.cleanLowerString = function(string) {
         return $.trim(string.toLowerCase());
     };
 
 
-    pub.stripHTML = function(str){
+    pub.stripHTML = function(str) {
         return $("<div/>").html(str).text();
     }
 
@@ -41,23 +41,23 @@ HELP = (function($, window, document, undefined){
     }
 
 
-    pub.getEnvType = function(){
+    pub.getEnvType = function() {
         return location.hostname.indexOf('webflow') > -1 ? 'dev' : 'live';
     };
 
 
-    pub.getCurrentDomain = function(){
+    pub.getCurrentDomain = function() {
         return window.location.origin;
     };
 
 
-    pub.getCurrentLang = function(){
+    pub.getCurrentLang = function() {
         return pub.checkKeyExists(window, "Weglot") ? Weglot.getCurrentLang() : 'en';
     };
 
 
     // Format money.
-    pub.formatCurrency = function(amount){
+    pub.formatCurrency = function(amount) {
         return parseFloat(amount, 10).toFixed(2).toString();
     };
 
@@ -85,7 +85,7 @@ HELP = (function($, window, document, undefined){
 
 
     // Return human-friendly date.
-    pub.formatTimestamp = function(timestamp, showTime, localTimezone){
+    pub.formatTimestamp = function(timestamp, showTime, localTimezone) {
         var date = new Date(timestamp),
             locale = pub.getCurrentLang(),
             options = {
@@ -94,36 +94,36 @@ HELP = (function($, window, document, undefined){
                 month: 'long',
                 day: 'numeric'
             };
-        if (localTimezone){
+        if (localTimezone) {
             // Convert to localtime if it's not already converted.
             options.timeZone = pub.timezone;
         }
-        if (showTime){
+        if (showTime) {
             $.extend(options, {
                 hour12: false,
                 hour: '2-digit',
                 minute: '2-digit'
             });
         }
-        if (typeof timestamp == "string"){
+        if (typeof timestamp == "string") {
             // Convert to a timestamp.
             timestamp = date.getTime();
         }
-        if (timestamp.toString().length < 11){
+        if (timestamp.toString().length < 11) {
             date.setTime(timestamp * 1000);
         }
         return date.toLocaleDateString(locale, options);
     };
 
 
-    pub.getTimestamp = function(dateString, localTimezone){
-        if (dateString){
+    pub.getTimestamp = function(dateString, localTimezone) {
+        if (dateString) {
             return new Date(dateString).getTime();
         }
         var date = new Date(),
             options = {};
 
-        if (localTimezone){
+        if (localTimezone) {
             options.timeZone = pub.timezone;
         }
         date = date.toLocaleString(pub.getCurrentLang(), options);
@@ -132,7 +132,7 @@ HELP = (function($, window, document, undefined){
     };
     
 
-    pub.getISOdate = function(dateString, localTimezone){
+    pub.getISOdate = function(dateString, localTimezone) {
         var date = pub.getTimestamp(dateString, localTimezone);
         return new Date(date).toISOString();
     };
@@ -180,7 +180,7 @@ HELP = (function($, window, document, undefined){
 
 
     // Check whether Object key exists
-    pub.checkKeyExists = function(obj, keys){
+    pub.checkKeyExists = function(obj, keys) {
         // If  obj is falsy.
         if (!(!!obj)) return false;
         keys = typeof keys === 'string' ? keys.split('.') : keys;
@@ -218,10 +218,10 @@ HELP = (function($, window, document, undefined){
     };
 
 
-    pub.waitFor = function(key, value, timer, callback){
-        var nTimer = setInterval(function(){
+    pub.waitFor = function(key, value, timer, callback) {
+        var nTimer = setInterval(function() {
             // wait for something to load...
-            if (pub.checkKeyExists(key, value)){
+            if (pub.checkKeyExists(key, value)) {
                 callback();
                 clearInterval(nTimer);
             }
@@ -317,7 +317,7 @@ HELP = (function($, window, document, undefined){
                 value = $element.val();
             
             // Re-build multi-select values.
-            if ($element.is('select[multiple]')){
+            if ($element.is('select[multiple]')) {
                 formData.set(key, $element.val());
             }
             // Re-build checkbox values for grouped elements.
@@ -351,17 +351,17 @@ console.log('formData', formData);
     };
 
 
-    pub.sendAJAX = function(options, form){
+    pub.sendAJAX = function(options, form) {
         params = $.extend({
             //url: "",// Required and must be provided.
             //data: {},// Required and must be provided.
             method: "POST",
             timeout: 60000,
-            success: function(data, textStatus){
+            success: function(data, textStatus) {
                 console.log(textStatus, data);
                 if (typeof params.callbackSuccess === "function") params.callbackSuccess(data);
             },
-            error: function(jqXHR, textStatus, errorThrown){
+            error: function(jqXHR, textStatus, errorThrown) {
                 console.log(textStatus, errorThrown);
                 if (typeof params.callbackError === "function") params.callbackError(textStatus, errorThrown);
                 
@@ -430,7 +430,7 @@ console.log('formData', formData);
 
 
     // Manage cookies.
-    pub.setCookie = function(name, value, days){
+    pub.setCookie = function(name, value, days) {
         var expires = "";
         
         if (days) {
@@ -440,11 +440,11 @@ console.log('formData', formData);
         }
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
     };
-    pub.getCookie = function(name){
+    pub.getCookie = function(name) {
         var nameEQ = name + "=",
             cookies = document.cookie.split(';');
         
-        for (var i = 0; i < cookies.length; i++){
+        for (var i = 0; i < cookies.length; i++) {
             var cookie = cookies[i].trim();
             if (cookie.indexOf(nameEQ) === 0) {
                 return pub.parseIfStringJSON(cookie.substring(nameEQ.length));
@@ -452,13 +452,13 @@ console.log('formData', formData);
         }
         return null;
     };
-    pub.deleteCookie = function(name){
+    pub.deleteCookie = function(name) {
         document.cookie = name+'=; expires=Thu, 01-Jan-70 00:00:01 GMT; path=/';
     };
     
 
     // On DOM ready.
-    // $(function(){});
+    // $(function() {});
 
     
     return pub;

@@ -1,4 +1,4 @@
-var MAIN = (function($, window, document, undefined){
+var MAIN = (function($, window, document, undefined) {
     var pub = {};
 
 
@@ -38,8 +38,8 @@ var MAIN = (function($, window, document, undefined){
     };
 
 
-    pub.itemState = function(state, status){
-        switch (state){
+    pub.itemState = function(state, status) {
+        switch (state) {
             case 'edit':
                 // Can the item be edited.
                 if ($.inArray(status, ['Rejected', 'Deleted']) > -1) return false;
@@ -126,10 +126,10 @@ var MAIN = (function($, window, document, undefined){
     };
 
 
-    pub.buttonThinking = function(btn, revert){
-        if (!revert){
+    pub.buttonThinking = function(btn, revert) {
+        if (!revert) {
             btn.attr('disabled', true).addClass('thinking');
-            if (btn.get(0).nodeName == 'BUTTON'){
+            if (btn.get(0).nodeName == 'BUTTON') {
                 btn.data('dataValue', btn.text()).text(btn.attr('data-wait'));
             }
             else {
@@ -139,7 +139,7 @@ var MAIN = (function($, window, document, undefined){
         else {
             // Revert the button back to initial state.
             btn.removeAttr('disabled').removeClass('thinking clicked');
-            if (btn.get(0).nodeName == 'BUTTON'){
+            if (btn.get(0).nodeName == 'BUTTON') {
                 btn.text(btn.data('dataValue'));
             }
             else {
@@ -208,7 +208,7 @@ var MAIN = (function($, window, document, undefined){
 
 
     // On DOM ready.
-    $(function(){
+    $(function() {
         // Init.
         pub.jobItem();
         pub.uploadFields();
@@ -233,7 +233,7 @@ var MAIN = (function($, window, document, undefined){
 
 
         // Get current Member.
-        USER.getCurrentMember(function(member){
+        USER.getCurrentMember(function(member) {
             //if (!data) {
                 //member is logged out
             //}
@@ -247,11 +247,11 @@ var MAIN = (function($, window, document, undefined){
                 pub.replaceTextWithMetadata(member.metaData);
             }
 
-            if (HELP.checkKeyExists(member, 'id')){
+            if (HELP.checkKeyExists(member, 'id')) {
                 // Add member ID to form field.
                 var hiddenInput = $('.input-member-id');
 
-                if (!!hiddenInput && !hiddenInput.val()){
+                if (!!hiddenInput && !hiddenInput.val()) {
                     hiddenInput.val(member.id);
                     hiddenInput.parents('form').find('.form-submit').removeAttr('disabled');
                 }
@@ -279,7 +279,7 @@ var MAIN = (function($, window, document, undefined){
             * Removed this for now because Weglot can't translate Thai to English, only the other way around...
             * Could use Google Translate API for this feature instead.
             *
-            $('.form-translate').on('click', function(){
+            $('.form-translate').on('click', function() {
               var form = $('#' + $(this).attr('data-form')),
                   clone = form.clone(),
                   fields = [],
@@ -289,8 +289,8 @@ var MAIN = (function($, window, document, undefined){
               clone.find(':input:not(.translate)').remove();
               var fieldValues = HELP.getFormValues(clone);
               
-              $.each(fieldValues, function(key, value){
-                if (!!value){
+              $.each(fieldValues, function(key, value) {
+                if (!!value) {
                   strings.push({ 'w': value, 't': 2 });
                   fields.push(key);
                 }
@@ -302,9 +302,9 @@ var MAIN = (function($, window, document, undefined){
                 {
                   'words': strings,
                   'languageTo': 'th'
-                }, function(data){
+                }, function(data) {
                   console.log('data', data);
-                  $.each(data, function(i, value){
+                  $.each(data, function(i, value) {
                     form.find('[name="'+ fields[i] +'"]').val(value);
                     console.log(fields[i], value);
                   });
@@ -315,17 +315,17 @@ var MAIN = (function($, window, document, undefined){
 
 
         // Accordions.
-        $('.accordion').on('click', '.accordion-header', function(){
+        $('.accordion').on('click', '.accordion-header', function() {
             $(this).parent().toggleClass('active').find('.accordion-content').toggleClass('active');
         });
 
 
         // Delay forms.
-        //$('.delay-submit').one('submit', function(){
+        //$('.delay-submit').one('submit', function() {
         /*
         * Doesn't work well with .ajax-submit submit handler. Fires AJAX twice...
         *
-        $('.delay-submit').on('click.delaySubmit', '.delay-button', function(e){
+        $('.delay-submit').on('click.delaySubmit', '.delay-button', function(e) {
             console.log('delay-submit');
             e.preventDefault();
 
@@ -337,7 +337,7 @@ var MAIN = (function($, window, document, undefined){
             cookieFormValid = !!cookieFormValid?Number(cookieFormValid):d;
             pub.buttonThinking(button);
 
-            setTimeout(function(){
+            setTimeout(function() {
               form.off('.delaySubmit').submit();
             }, cookieFormValid);
             HELP.setCookie('form-valid',cookieFormValid+d);
@@ -351,9 +351,9 @@ var MAIN = (function($, window, document, undefined){
         if (queryDest) {
             $('form').find('.fp_redirect').attr('data-redirect', '/'+queryDest);// Relative URIs only.
         }
-        $('form').on('submit', function(){
+        $('form').on('submit', function() {
             var redir = $(this).find('.fp_redirect').attr('data-redirect');
-            if (redir){
+            if (redir) {
                 localStorage.setItem('fp_redirect', redir);
             }
         });
@@ -429,24 +429,24 @@ var MAIN = (function($, window, document, undefined){
 
 
         // Form fields: Populate field's default values.
-        $(':input[data-default-value]').each(function(){
+        $(':input[data-default-value]').each(function() {
             if (!$(this).val()) {
                 $(this).val( $(this).attr('data-default-value') );
             }
         });
         // Form fields: Add maxlength attribute to fields.
-        $(':input[data-maxlength]').each(function(){
+        $(':input[data-maxlength]').each(function() {
             $(this).attr('maxlength', $(this).attr('data-maxlength') );
         });
 
 
         // Launch "Confirm" alert dialogs on element click.
-        $('.alert-confirm').on('click.alertConfirm', function(e){
+        $('.alert-confirm').on('click.alertConfirm', function(e) {
             var msg = $(this).attr('data-confirm');
-            if (msg){
+            if (msg) {
                 e.preventDefault();
               
-                if (confirm(msg)){
+                if (confirm(msg)) {
                     $(this).off('click.alertConfirm').trigger('click');
                 }
                 else {
@@ -459,10 +459,10 @@ var MAIN = (function($, window, document, undefined){
 
 
         // Toggle element visibility.
-        $('.toggle-vis').on('click', function(e){
+        $('.toggle-vis').on('click', function(e) {
             var target = $(this).attr('data-target');
 
-            if (target){
+            if (target) {
                 e.preventDefault();
                 $('#'+target).toggleClass('hide');
             }
@@ -471,9 +471,9 @@ var MAIN = (function($, window, document, undefined){
 
         // Trigger for newly introduced Dashboard links on the page (LitBox) to
         // imitate Memberstack.js functionality.
-        $(document).on('click', '.link-dashboard', function(e){
+        $(document).on('click', '.link-dashboard', function(e) {
             e.preventDefault();
-            if (HELP.checkKeyExists(USER, "current.loginRedirect")){
+            if (HELP.checkKeyExists(USER, "current.loginRedirect")) {
                 window.location.href = USER.current.loginRedirect;
             }
         });
@@ -481,20 +481,20 @@ var MAIN = (function($, window, document, undefined){
 
         // Update form "op" (operation) value on button click.
         // Because Webflow doesn't pass submit button values through to Make...
-        $('.form-submit[name="op"]').on('click', function(){
+        $('.form-submit[name="op"]').on('click', function() {
             $(this).parents('form').find('.form-action-op').val( $(this).val() );
         });
 
 
-        $('.node-job-row').each(function(){
+        $('.node-job-row').each(function() {
             var row = $(this),
                 actions = row.find('.table-links a'),
                 status = row.find('.col-status').text().toLowerCase();
 
-            if (!!status){
+            if (!!status) {
                 row.addClass(status);
               
-                switch (status){
+                switch (status) {
                     case 'draft':
                         // Show all links.
                         actions.removeClass('hide');
@@ -513,11 +513,11 @@ var MAIN = (function($, window, document, undefined){
         });
 
         // Publish Draft/Republish existing Job.
-        $('.link-hook-publish').on('click', function(e){
+        $('.link-hook-publish').on('click', function(e) {
             e.preventDefault();
             var link = $(this);
 
-            if (link.hasClass('disabled')){
+            if (link.hasClass('disabled')) {
                 return false;
             }
             link.addClass('disabled');
@@ -540,10 +540,10 @@ var MAIN = (function($, window, document, undefined){
                 url: publishExistingJob,
                 data: data,
                 timeout: 120000,
-                callbackSuccess: function(data){
+                callbackSuccess: function(data) {
                     //pub.handleAjaxResponse(data);
                 },
-                callbackError: function(data){
+                callbackError: function(data) {
                     console.log('error');
                 }
             });
@@ -555,16 +555,16 @@ var MAIN = (function($, window, document, undefined){
 
 
         // Translate select lists and rebuild any jQuery Select2 widgets.
-        HELP.waitFor(window, "Weglot", 400, function(){
-            Weglot.on("languageChanged", function(){
-                $('.select-list-options').each(function(){
+        HELP.waitFor(window, "Weglot", 400, function() {
+            Weglot.on("languageChanged", function() {
+                $('.select-list-options').each(function() {
                     var select = $(this).parent('.select-list-wrapper').find('select');
 
-                    $(this).find('.w-dyn-item').each(function(i){
+                    $(this).find('.w-dyn-item').each(function(i) {
                         console.log(i, $(this).text());
                         select.find('option').eq(i).text( $(this).text() ).val( $(this).data('lang-en') );
                     });
-                    if (select.hasClass('select2-hidden-accessible')){
+                    if (select.hasClass('select2-hidden-accessible')) {
                         select.select2('destroy');
                         select.select2( select.data('select2-options') );
                     }
@@ -576,8 +576,8 @@ var MAIN = (function($, window, document, undefined){
         // Select2 dropdowns.
         // Must be called after the .select-list-options select options have been built. 
         /*var select2Fields = $('.select2-field');
-        if (!!select2Fields.length){
-            HELP.waitFor(jQuery.fn, "select2", 100, function(){
+        if (!!select2Fields.length) {
+            HELP.waitFor(jQuery.fn, "select2", 100, function() {
                 select2Fields.createSelect2();
             });
         }*/
@@ -586,7 +586,7 @@ var MAIN = (function($, window, document, undefined){
 
         // LitBox support.
         $(document)
-            .on('lbox_open', function(){
+            .on('lbox_open', function() {
                 // Create any new Select2 fields.
                 // Make sure it's not been initiated already (inline HTML from the same page) using :not().
                 // $('#litbox .select2-field:not(.select2-hidden-accessible)').createSelect2();
@@ -603,16 +603,16 @@ var MAIN = (function($, window, document, undefined){
 * Extend jQuery.
 */
 // Form fields: Populate select with option elements built from Collection List data.
-$.fn.createSelectOptions = function(options){
+$.fn.createSelectOptions = function(options) {
     options = options || {};
 
-    $.each(this, function(i, el){
+    $.each(this, function(i, el) {
         var wrapper = $(this).parent('.select-list-wrapper'),
             select = wrapper.find('select'),
             defaultValue = wrapper.find('.select-list-default-value').attr('data-value') || '',
             values = [];
 
-        $(this).find('.w-dyn-item').each(function(){
+        $(this).find('.w-dyn-item').each(function() {
             var val = $(this).text();
             if ($.inArray(val, values) > -1) return;// Skip duplicate values.
             values.push(val);
@@ -624,7 +624,7 @@ $.fn.createSelectOptions = function(options){
                 selected: (val == defaultValue) ? 'selected' : false
             }).text(val).appendTo( $(select) );
         });
-        if (select.hasClass('select2-field')){
+        if (select.hasClass('select2-field')) {
             select.createSelect2();
         }
     });
@@ -633,22 +633,22 @@ $.fn.createSelectOptions = function(options){
 
 // Create jQuery Select2 widget.
   // Use this instead of .select2() when first initializing a widget.
-$.fn.createSelect2 = function(options){
+$.fn.createSelect2 = function(options) {
     options = options || {};
     var items = this;
 
     if (!$(items).length) return false;
 
-    HELP.waitFor(jQuery, "fn.select2", 100, function(){
+    HELP.waitFor(jQuery, "fn.select2", 100, function() {
         console.log("select2 found");
         var ops;
-        $.each(items, function(i, el){
+        $.each(items, function(i, el) {
             ops = options;
             ops.placeholder = $(el).attr('placeholder') || "Select...";
             var selected = $(el).find('option[selected]');
             
             // If the select doesn't have a "multiple" attribute.
-            if (!(!!$(el).attr('multiple'))){
+            if (!(!!$(el).attr('multiple'))) {
                 // For the placeholder to appear, you need a blank <option> as the first option.
                 $(el).prepend('<option value="">'+ ops.placeholder +'</option>');
             }
@@ -665,19 +665,19 @@ $.fn.createSelect2 = function(options){
 
 
 // Not being used yet but is useful.
-/*$.fn.nextprev = function(dir){
+/*$.fn.nextprev = function(dir) {
     return (dir === 'prev') ? this.prev() : this.next();
 };*/
 
 
 // Case-insensitive selector ":icontains()".
-jQuery.expr[':'].icontains = function(el, i, m, array){
+jQuery.expr[':'].icontains = function(el, i, m, array) {
     return (el.textContent || el.innerText || "").toLowerCase().indexOf((m[3] || "").toLowerCase()) >= 0;
 };
 
 
 // Form element has value/is selected or is checked, selector ":selectedInput".
-jQuery.expr[':'].selectedInput = function(el, i, m){
+jQuery.expr[':'].selectedInput = function(el, i, m) {
     return el.type == "checkbox" || el.type == "radio" ? el.checked : el.value != "";
 };
 

@@ -1,4 +1,4 @@
-var ADD_JOB = (function($, window, document, undefined){
+var ADD_JOB = (function($, window, document, undefined) {
     var pub = {}
 
     // Webhooks.
@@ -96,10 +96,10 @@ var ADD_JOB = (function($, window, document, undefined){
 
 
         // Callback that is set in Make.com Scenario's AJAX response.
-        pub.companyAddedCallback = function(data, form){
+        pub.companyAddedCallback = function(data, form) {
             data = data || {};
 
-            if (HELP.checkKeyExists(data, "company")){
+            if (HELP.checkKeyExists(data, "company")) {
                 USER.current.companies = USER.current.companies || [];
                 USER.current.companies.push(data.company);
                 HELP.setCookie("MSmember", JSON.stringify({"companies": USER.current.companies}) );
@@ -109,15 +109,15 @@ var ADD_JOB = (function($, window, document, undefined){
 
           
         // Add company form in Colorbox.
-        $('#trigger-add-company').on('click', function(e, onComplete){
+        $('#trigger-add-company').on('click', function(e, onComplete) {
             e.preventDefault();
 
             // Don't add new companies if limit is reached.
             var companies = [];
-            if (HELP.checkKeyExists(USER, "current.companies")){
+            if (HELP.checkKeyExists(USER, "current.companies")) {
                 companies = USER.current.companies;
             }
-            if (!!companies.length){
+            if (!!companies.length) {
                 // Check all companies against limit, not just active companies.
                 var numBeyondLimit = USER.checkCompanyLimits(companies, false);
 
@@ -148,7 +148,7 @@ var ADD_JOB = (function($, window, document, undefined){
 
             // onComplete = onComplete || false;// Should be able to remove this. Moved code below.
             
-            HELP.waitFor(window.jQuery, 'litbox', 100, function(){
+            HELP.waitFor(window.jQuery, 'litbox', 100, function() {
                 // Litbox.
                 $.litbox({
                     title: 'Add a new company',
@@ -176,32 +176,32 @@ var ADD_JOB = (function($, window, document, undefined){
 
 
         
-        let salary = function(){
+        let salary = function() {
             var $salaryAmount = $('#job-salary'),
                 $salaryType = $('#job-salary-type'),
                 $salaryMonthly = $('#job-salary-monthly'),
 
-                salaryType = function(){
+                salaryType = function() {
                     return $($salaryType).val().toLowerCase();
                 },
-                isNumericType = function(){
+                isNumericType = function() {
                     return ($.inArray(salaryType(), [
                         'per hour', 'per day', 'per month', 'per year'
                     ]) > -1);
                 }
-                calculateSalary = function(){
+                calculateSalary = function() {
                     var numericType = isNumericType(),
                         salary = $($salaryAmount).val(),
                         val = '';
                     
 
-                    if (numericType && !!salary){
-                        if (salary < 1){
+                    if (numericType && !!salary) {
+                        if (salary < 1) {
                             alert("Salary amount must be a positive number");
                             $($salaryAmount).val('').focus();
                         }
 
-                        switch (salaryType()){
+                        switch (salaryType()) {
                             case 'per year':
                                 val = salary / 12;
                                 break;
@@ -221,7 +221,7 @@ var ADD_JOB = (function($, window, document, undefined){
 
 
             // Salary type and salary amount.
-            $salaryType.on('change', function(){
+            $salaryType.on('change', function() {
                 var numericType = isNumericType();
 
                 $('#wrapper-salary-amount').toggle(numericType)
@@ -229,9 +229,9 @@ var ADD_JOB = (function($, window, document, undefined){
                         $(this).find('option:selected').text()
                     );
 
-                $salaryAmount.attr('required', function(i, attr){ return numericType });
+                $salaryAmount.attr('required', function(i, attr) { return numericType });
 
-                if (!numericType){
+                if (!numericType) {
                     $salaryAmount.val('');
                 }
                 calculateSalary();

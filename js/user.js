@@ -1,4 +1,4 @@
-USER = (function($, window, document, undefined){
+USER = (function($, window, document, undefined) {
     var pub = {},
         companiesMax,
         formActiveCompaniesID = 'wf-form-update-active-companies-form';
@@ -7,7 +7,7 @@ USER = (function($, window, document, undefined){
     pub.current = HELP.getCookie("MSmember") || {};
 
 
-    pub.updateCurrentUser = function(obj){
+    pub.updateCurrentUser = function(obj) {
         USER.current = USER.current || pub.current;
 
         // Merge into current user var.
@@ -19,10 +19,10 @@ USER = (function($, window, document, undefined){
     pub.getCurrentMember = function(callback) {
         USER.current = USER.current || pub.current;
 
-        if (HELP.checkKeyExists(USER, 'current.id')){
+        if (HELP.checkKeyExists(USER, 'current.id')) {
             return USER.current;
         }
-        HELP.waitFor(window, "$memberstackDom", 50, function(){
+        HELP.waitFor(window, "$memberstackDom", 50, function() {
             window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
                 member = member || {};
                 pub.updateCurrentUser(member);
@@ -38,7 +38,7 @@ USER = (function($, window, document, undefined){
 
     // get Member's JSON then fire callback function.
     pub.getMemberJSON = function(callback) {
-        HELP.waitFor(window, "$memberstackDom", 50, function(){
+        HELP.waitFor(window, "$memberstackDom", 50, function() {
             window.$memberstackDom.getMemberJSON().then(({ data: memberJSON }) => {
                 memberJSON = memberJSON || {};
 
@@ -53,7 +53,7 @@ USER = (function($, window, document, undefined){
 
     // update Member's JSON.
     pub.updateMemberJSON = function(json, callback) {
-        HELP.waitFor(window, "$memberstackDom", 50, function(){
+        HELP.waitFor(window, "$memberstackDom", 50, function() {
             window.$memberstackDom.updateMemberJSON({ json: json }).then(({ data: memberJSON }) => {
                 memberJSON = memberJSON || {};
 

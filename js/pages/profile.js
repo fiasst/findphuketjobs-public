@@ -1,9 +1,9 @@
-var PROFILE = (function($, window, document, undefined){
+var PROFILE = (function($, window, document, undefined) {
     var pub = {};
 
 
     // On DOM ready.
-    $(function(){
+    $(function() {
         
         // AJAX form.
         $('#wf-form-Profile-Form')
