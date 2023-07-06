@@ -28,8 +28,8 @@ var MAIN = (function($, window, document, undefined){
 
 
     // Show or remove content based on conditions.
-    pub.controlHTML = function(element, display){
-        if (display){
+    pub.controlHTML = function(element, display) {
+        if (display) {
             element.removeClass('hide');
         }
         else {
@@ -259,8 +259,8 @@ var MAIN = (function($, window, document, undefined){
 
 
             // Show content author controls (edit link...).
-            if (!!$('.node-author').length){
-                $('.node-author').each(function(){
+            if (!!$('.node-author').length) {
+                $('.node-author').each(function() {
                     var authorID = $(this).attr('data-author'),
                     display = (!!member && HELP.checkKeyExists(member, 'id') && (member.id == authorID || HELP.hasPermissions('can:moderate', member)));
                     //console.log(member.id+' == '+authorID+' || '+hasPermissions('can:moderate', member));
@@ -270,7 +270,7 @@ var MAIN = (function($, window, document, undefined){
 
 
             // Show content if User has permissions.
-            $('[data-ms-perm]').each(function(){
+            $('[data-ms-perm]').each(function() {
                 pub.controlHTML($(this), HELP.hasPermissions($(this).attr('data-ms-perm'), member));
             });
 

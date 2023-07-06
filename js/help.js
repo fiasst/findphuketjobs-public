@@ -268,15 +268,20 @@ HELP = (function($, window, document, undefined){
 
 
     // Check if member has permissions.
-    pub.hasPermissions = function(permissions, member){
-        return $.inArray(permissions, member.permissions) > -1;
+    pub.hasPermissions = function(permission, member) {
+        var negative = permission.indexOf("!") === 0,
+            perm = permission.replace("!", ""),// Remove the ! so we can check array for permission String.
+            hasPerm  = $.inArray(perm, member.permissions);
+        
+        // Check if the permission exists or that it doesn't (negative).
+        return negative ? hasPerm < 0 : hasPerm > -1;
     };
 
 
     // Add useful metadata to an AJAX request.
     pub.ajaxMetaValues = function(data, type) {
         var obj = {};
-        
+
         //Member ID.
         obj.member_id = USER.current.id || null;
 
