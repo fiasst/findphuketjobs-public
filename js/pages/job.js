@@ -21,7 +21,7 @@ var JOB = (function($, window, document, undefined) {
 
 
         // Add Edit form in Litbox.
-        $('.trigger-edit').on('click', function(e) {
+        $('#trigger-edit').on('click', function(e) {
             e.preventDefault();
 
             HELP.waitFor(window.jQuery, 'litbox', 100, function() {
