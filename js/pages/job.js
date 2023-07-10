@@ -6,7 +6,7 @@ var JOB = (function($, window, document, undefined) {
     $(function() {
         // Show/Remove review section.
         var $reviewForm = $('form[data-name="Static job revision form"]'),
-            status = "{{wf {&quot;path&quot;:&quot;published-status&quot;,&quot;type&quot;:&quot;Option&quot;\} }}";
+            status = $('.node-status').attr('data-status');
         
 
         // Show/Remove review section.
