@@ -8,16 +8,87 @@ var JOB = (function($, window, document, undefined) {
         var $reviewForm = $('form[data-name="Static job revision form"]'),
             status = "{{wf {&quot;path&quot;:&quot;published-status&quot;,&quot;type&quot;:&quot;Option&quot;\} }}";
         
+
+        // Show/Remove review section.
         MAIN.controlHTML(
             $('#section-review'), 
             (status != "Published" || MAIN.itemState("review", status) && !!$reviewForm.length)
         );
+
+
         // Show/Remove edit section.
         MAIN.controlHTML($('#section-edit'), MAIN.itemState("edit", status));
 
 
+        // Add Edit form in Litbox.
+        $('.trigger-edit').on('click', function(e) {
+            e.preventDefault();
+
+            HELP.waitFor(window.jQuery, 'litbox', 100, function() {
+                // Litbox.
+                $.litbox({
+                    title: 'Edit this job',
+                    href: '#section-edit',
+                    inline: true,
+                    returnFocus: false,
+                    trapFocus: false,
+                    overlayClose: false,
+                    escKey: false,
+                    css: {
+                        xxs: {
+                            offset: 20,
+                            maxWidth: 900,
+                            width: '100%',
+                            opacity: 0.4
+                        },
+                        sm: {
+                            offset: '5% 20px'
+                        }
+                    }
+                });
+            });
+        });
+
+
+        // Publish Draft/Republish existing Job.
+        $('.trigger-publish').on('click', function(e) {
+            e.preventDefault();
+            var link = $(this);
+
+            if (link.hasClass('disabled')) {
+                return false;
+            }
+            link.addClass('disabled');
+
+            var data = $.extend(true, {}, HELP.ajaxMetaValues(), {
+                    member_id: $(this).attr('data-member-id'),
+                    item_id: $(this).attr('data-item-id')
+                }),
+            formIncrement = HELP.getCookie('form-valid'),
+            i = 2;
+
+            formIncrement = !!formIncrement ? Number(formIncrement) : 0;
+            data.increment = ++formIncrement;
+            HELP.setCookie('form-valid', data.increment);
+
+            // Add thinking icon...
+
+            HELP.sendAJAX({
+                url: publishExistingJob,
+                data: data,
+                timeout: 120000,
+                callbackSuccess: function(data) {
+                    //pub.handleAjaxResponse(data);
+                },
+                callbackError: function(data) {
+                    console.log('error');
+                }
+            });
+        });
+
+
         // Archive Job Trigger.
-        $('#link-archive').on('click', function() {
+        $('#trigger-archive').on('click', function() {
             $('#form-edit-job button[value="archive"]').trigger('click');
         });
 
@@ -81,6 +152,7 @@ var JOB = (function($, window, document, undefined) {
                 $('#compare-review').find('[name="'+ key +'"]').val(value).trigger('change');
             });
         }
+
 
         // Make the Current tab active if there's no Revisions.
         if (!!$('#compare-existing .w-tab-pane:last-child .w-dyn-empty').length) {

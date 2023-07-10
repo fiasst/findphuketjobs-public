@@ -512,43 +512,6 @@ var MAIN = (function($, window, document, undefined) {
             }
         });
 
-        // Publish Draft/Republish existing Job.
-        $('.link-hook-publish').on('click', function(e) {
-            e.preventDefault();
-            var link = $(this);
-
-            if (link.hasClass('disabled')) {
-                return false;
-            }
-            link.addClass('disabled');
-
-            var data = {
-                member_id: $(this).attr('data-member-id'),
-                item_id: $(this).attr('data-item-id'),
-                submitted: HELP.getISOdate()
-            },
-            formIncrement = HELP.getCookie('form-valid'),
-            i = 2;
-
-            formIncrement = !!formIncrement?Number(formIncrement):0;
-            data.increment = ++formIncrement;
-            HELP.setCookie('form-valid',data.increment);
-
-            // Add thinking icon...
-
-            HELP.sendAJAX({
-                url: publishExistingJob,
-                data: data,
-                timeout: 120000,
-                callbackSuccess: function(data) {
-                    //pub.handleAjaxResponse(data);
-                },
-                callbackError: function(data) {
-                    console.log('error');
-                }
-            });
-        });
-
 
         // Must appear before the createSelect2() call.
         $('.select-list-options').createSelectOptions();
