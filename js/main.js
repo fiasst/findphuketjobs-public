@@ -28,16 +28,19 @@ var MAIN = (function($, window, document, undefined) {
 
 
     // Show or remove content based on conditions.
-    pub.controlHTML = function(element, display) {
-        if (display) {
-            element.removeClass('hide');
-        }
-        else {
-            element.remove();
-        }
+    pub.controlHTML = function($elements, display) {
+        $($elements).each(function(i, $el) {
+            if (display) {
+                element.removeClass('hide');
+            }
+            else {
+                element.remove();
+            }
+        })
     };
 
 
+    // Check the status of a node against the intended action (edit/review...).
     pub.itemState = function(state, status) {
         switch (state) {
             case 'edit':
