@@ -31,10 +31,10 @@ var MAIN = (function($, window, document, undefined) {
     pub.controlHTML = function($elements, display) {
         $($elements).each(function(i, $el) {
             if (display) {
-                element.removeClass('hide');
+                $el.removeClass('hide');
             }
             else {
-                element.remove();
+                $el.remove();
             }
         })
     };
