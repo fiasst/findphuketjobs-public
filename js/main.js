@@ -428,10 +428,21 @@ var MAIN = (function($, window, document, undefined) {
             });
 
 
-        // Form fields: Populate field's default values.
+        // Form fields: Populate field's default values with inline attribute's value.
         $(':input[data-default-value]').each(function() {
-            if (!$(this).val()) {
-                $(this).val( $(this).attr('data-default-value') );
+            var $el = $(this);
+
+            if (!$el.val()) {
+                $el.val( $el.attr('data-default-value') );
+            }
+        });
+        // Form fields: Populate field's default values with sibling DIV's content.
+        $('.input-default-value').each(function() {
+            var $el = $(this),
+                $input = $el.parents('.input-wrapper').find(':input');
+
+            if (!$input.val()) {
+                $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
             }
         });
         // Form fields: Add maxlength attribute to fields.
@@ -572,7 +583,7 @@ $.fn.createSelectOptions = function(options) {
     $.each(this, function(i, el) {
         var wrapper = $(this).parent('.select-list-wrapper'),
             select = wrapper.find('select'),
-            defaultValue = wrapper.find('.select-list-default-value').attr('data-value') || '',
+            defaultValue = wrapper.find('.input-default-value').attr('data-value') || '',
             values = [];
 
         $(this).find('.w-dyn-item').each(function() {

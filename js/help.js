@@ -19,14 +19,22 @@ HELP = (function($, window, document, undefined) {
     };
 
 
-    pub.cleanLowerString = function(string) {
-        return $.trim(string.toLowerCase());
+    pub.cleanLowerString = (string) => $.trim(string.toLowerCase());
+
+
+    pub.stripHTML = (str) => $("<div/>").html(str).text();
+
+
+    // Strip HTML but include line-breaks for block-level elements and <BR> tags.
+    // This is useful for textarea formatting.
+    pub.stripHTMLWithLinebreaks = function(str) {
+        // Replace <br> tags with newline characters.
+        str = str.replace(/<br\s*\/?>/gi, '\n');
+        // Replace block-level tags with newline characters.
+        str = str.replace(/<(?:div|p|blockquote|h[1-6]|table|ul|ol)[^>]*>/gi, '\n');
+        // Remove remaining HTML tags and trim whitespace.
+        return $('<div>').html(str).text().trim();
     };
-
-
-    pub.stripHTML = function(str) {
-        return $("<div/>").html(str).text();
-    }
 
 
     // Remove <script> tags and any attributes that start with 'on' (onclick, etc).

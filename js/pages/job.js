@@ -27,7 +27,7 @@ var JOB = (function($, window, document, undefined) {
             HELP.waitFor(window.jQuery, 'litbox', 100, function() {
                 // Litbox.
                 $.litbox({
-                    title: 'Edit this job',
+                    title: 'Edit job',
                     href: '#section-edit',
                     inline: true,
                     returnFocus: false,
