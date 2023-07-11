@@ -2,13 +2,13 @@
 * Used by the Add Job and Edit Job forms to calculate salary and control form fields.
 */
 
-const SALARY = (function($, window, document, undefined) {
-    const pub = {};
+var SALARY = (function($, window, document, undefined) {
+    var pub = {};
 
 
     // On DOM ready.
     $(function() {
-        function salary() {
+        var salary = function() {
             var $salaryAmount = $('#job-salary'),
                 $salaryType = $('#job-salary-type'),
                 $salaryMonthly = $('#job-salary-monthly'),

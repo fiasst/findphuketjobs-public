@@ -1,5 +1,5 @@
-const APPLY = (function($, window, document, undefined) {
-    const pub = {};
+var APPLY = (function($, window, document, undefined) {
+    var pub = {};
 
 
     // On DOM ready.
