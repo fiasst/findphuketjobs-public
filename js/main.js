@@ -29,12 +29,12 @@ var MAIN = (function($, window, document, undefined) {
 
     // Show or remove content based on conditions.
     pub.controlHTML = function($elements, display) {
-        $($elements).each(function(i, $el) {
+        $($elements).each(function() {
             if (display) {
-                $el.removeClass('hide');
+                $(this).removeClass('hide');
             }
             else {
-                $el.remove();
+                $(this).remove();
             }
         })
     };
