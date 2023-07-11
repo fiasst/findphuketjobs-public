@@ -430,10 +430,14 @@ var MAIN = (function($, window, document, undefined) {
 
         // Form fields: Populate field's default values with inline attribute's value.
         $(':input[data-default-value]').each(function() {
-            var $el = $(this);
+            var $el = $(this),
+                val = $el.attr('data-default-value');
 
             if (!$el.val()) {
-                $el.val( $el.attr('data-default-value') );
+                // Remove non-number characters from value so it can be set as a value.
+                if ($el.attr('type') == 'number') val = HELP.removeNonNumeric(val);
+
+                $el.val(val);
             }
         });
         // Form fields: Populate field's default values with sibling DIV's content.
