@@ -1,5 +1,5 @@
-var MAIN = (function($, window, document, undefined) {
-    var pub = {};
+const MAIN = (function($, window, document, undefined) {
+    const pub = {};
 
 
     // Webhooks.

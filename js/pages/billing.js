@@ -1,5 +1,5 @@
-var BILLING = (function($, window, document, undefined) {
-    var pub = {}
+const BILLING = (function($, window, document, undefined) {
+    const pub = {};
 
 
     // User-friendly versions of Stripe invoice terminology.

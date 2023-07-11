@@ -1,5 +1,5 @@
-var JOB = (function($, window, document, undefined) {
-    var pub = {};
+const JOB = (function($, window, document, undefined) {
+    const pub = {};
 
 
     // On DOM ready.

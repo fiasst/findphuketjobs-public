@@ -2,12 +2,12 @@
 * functions that help other functions to do their thing.
 */
 
-var USER = {},
+const USER = {},
     MAIN = {},
     ADD_JOB = {},
 
 HELP = (function($, window, document, undefined) {
-    var pub = {};
+    const pub = {};
 
     pub.timezone = "Asia/Bangkok";
 

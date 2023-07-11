@@ -1,6 +1,8 @@
 USER = (function($, window, document, undefined) {
-    var pub = {},
-        companiesMax,
+    const pub = {};
+    
+    
+    var companiesMax,
         formActiveCompaniesID = 'wf-form-update-active-companies-form';
 
 
