@@ -444,9 +444,18 @@ var MAIN = (function($, window, document, undefined) {
         // Form fields: Populate field's default values with sibling DIV's content.
         $('.input-default-value').each(function() {
             var $el = $(this),
-                $input = $el.parents('.input-wrapper').find(':input');
-
-            if (!$input.val()) {
+                $input = $el.parent().find(':input'),
+                $customInput = $input.siblings('.w-checkbox-input'),
+                hasText = !!$el.text();
+            
+            if ($input.attr('type') == 'checkbox') {
+                if ($customInput && ($customInput.hasClass('w--redirected-checked') !== hasText)) {
+                    $customInput.trigger('click');
+                }
+                // Make sure the checkbox reflects the same state as the custom faux checkbox...
+                $input.prop('checked', hasText);
+            }
+            else if (!$input.val()) {
                 $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
             }
         });
