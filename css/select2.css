@@ -550,12 +550,12 @@
   background: #f6feff;
   border: 1px solid #d5eff1;
   border-radius: 4px;
-  padding: 5px 16px;
+  padding: 5px 12px;
   height: auto;
   overflow: hidden;
   min-height: 40px;
   color: #202d2f;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.6em;
 }
 .select2-container .select2-selection.large {
