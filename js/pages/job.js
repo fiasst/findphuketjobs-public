@@ -64,8 +64,8 @@ var JOB = (function($, window, document, undefined) {
                     member_id: $(this).attr('data-member-id'),
                     item_id: $(this).attr('data-item-id')
                 }),
-            formIncrement = HELP.getCookie('form-valid'),
-            i = 2;
+                formIncrement = HELP.getCookie('form-valid'),
+                i = 2;
 
             formIncrement = !!formIncrement ? Number(formIncrement) : 0;
             data.increment = ++formIncrement;
@@ -135,21 +135,23 @@ var JOB = (function($, window, document, undefined) {
 
 
         // Clone form values to the Review form.
-        var $forms = $('#compare-existing').find('form');
+        var $forms = $('#compare-existing form');
         if ($forms.length > 1) {
-            var formValues = HELP.getFormValues($forms.last());
-
-            $.each(formValues, function(key, value) {
-                if ($forms.length > 1) {
+            var $form1 = $($forms.get(0)),// Current form.
+                $form2 = $($forms.get(1));// Revision form.
+            
+            $.each(HELP.getFormValues($form2), function(key, value) {
+                if ($form2.length > -1) {
                     // Compare fields in both forms and highlight differences.
-                    var $field1 = $($forms.get(0)).find('[name="'+ key +'"]'),
-                        $field2 = $($forms.get(1)).find('[name="'+ key +'"]');
+                    var $field1 = $form1.find(`[name="${key}"]`),
+                        $field2 = $form2.find(`[name="${key}"]`);
+
                     if (!!($field1.length && $field2.length) && ($field1.val() != $field2.val())) {
                         $field2.addClass('difference');
                     }
                 }
                 // Copy value from last existing form to the review form's fields.
-                $('#compare-review').find('[name="'+ key +'"]').val(value).trigger('change');
+                $('#compare-review').find(`[name="${key}"]`).val(value).trigger('change');
             });
         }
 

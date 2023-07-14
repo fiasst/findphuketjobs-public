@@ -43,13 +43,16 @@ HELP = (function($, window, document, undefined) {
     // Remove <script> tags and any attributes that start with 'on' (onclick, etc).
     // This helps to guards against XSS attack.
     pub.sanitizeHTML = (html) => {
-            // Remove <script> tags and content.
-        return html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-            // Remove attributes that start with "on" or "onclick".
-            .replace(/(\s*<[^>]*)(\s+(on\w+|onclick)="[^"]*")/gi, '$1')
-            // Remove instances of "javascript:".
-            .replace(/javascript:/gi, '');
-    }
+        // Remove <script> tags and content.
+        return html.replace(/<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>/gi, '')
+        // Remove attributes that start with "on" (eg: "onclick")
+        .replace(/(\s*<[^>]*)(\s+(on\w+)="[^"]*")/gi, '$1')
+        // Remove instances of "javascript:".
+        .replace(/javascript:/gi, '');
+        
+        // Short version:
+        // /javascript:|<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>|\s*on\w+="[^"]*"/gi
+    };
 
 
     pub.getEnvType = function() {
