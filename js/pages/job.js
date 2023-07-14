@@ -134,24 +134,24 @@ var JOB = (function($, window, document, undefined) {
         });
 
 
-        // Clone form values to the Review form.
+        // Clone Revision form values to the Review form.
         var $forms = $('#compare-existing form');
+        // Check that the Revision form exists.
         if ($forms.length > 1) {
             var $form1 = $($forms.get(0)),// Current form.
                 $form2 = $($forms.get(1));// Revision form.
             
             $.each(HELP.getFormValues($form2), function(key, value) {
-                if ($form2.length > -1) {
-                    // Compare fields in both forms and highlight differences.
-                    var $field1 = $form1.find(`[name="${key}"]`),
-                        $field2 = $form2.find(`[name="${key}"]`);
+                var selector = `[name="${key}"]`,
+                    $field1 = $(selector, $form1),
+                    $field2 = $(selector, $form2);
 
-                    if (!!($field1.length && $field2.length) && ($field1.val() != $field2.val())) {
-                        $field2.addClass('difference');
-                    }
+                // Compare fields in both forms and highlight differences.
+                if (!!($field1.length && $field2.length) && ($field1.val() != $field2.val())) {
+                    $field2.addClass('difference');
                 }
                 // Copy value from last existing form to the review form's fields.
-                $('#compare-review').find(`[name="${key}"]`).val(value).trigger('change');
+                $('#compare-review').find(selector).val(value).trigger('change');
             });
         }
 
