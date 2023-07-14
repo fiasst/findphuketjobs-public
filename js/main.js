@@ -524,6 +524,16 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
+        // Check if URL hash exists as a Litbox trigger on page load.
+        var litboxAutoLaunch = function() {
+            // If there's a location hash longer than simply "#" in the URL.
+            if (window.location.hash.length > 1) {
+                // Look for an inline Litbox trigger and click the first instance you find.
+                $(`.trigger-lbox[href="${window.location.hash}"]:eq(0)`).trigger('click');
+            }
+        }();
+
+
         // Toggle element visibility.
         $('.toggle-vis').on('click', function(e) {
             var target = $(this).attr('data-target');
