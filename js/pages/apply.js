@@ -35,7 +35,7 @@ var APPLY = (function($, window, document, undefined) {
 
 
         // Add company form in Colorbox.
-        $('.trigger-apply').on('click', function(e, onComplete) {
+        /*$('.trigger-apply').on('click', function(e, onComplete) {
             e.preventDefault();
 
             HELP.waitFor(window.jQuery, 'litbox', 100, function() {
@@ -61,7 +61,7 @@ var APPLY = (function($, window, document, undefined) {
                     }
                 });
             });
-        });
+        });*/
     });
 
     return pub;

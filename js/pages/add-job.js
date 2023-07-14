@@ -1,6 +1,6 @@
 var ADD_JOB = (function($, window, document, undefined) {
     var pub = {};
-    
+
 
     // Webhooks.
     const listMembersCompanies = "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp";
@@ -149,7 +149,7 @@ var ADD_JOB = (function($, window, document, undefined) {
 
             // onComplete = onComplete || false;// Should be able to remove this. Moved code below.
             
-            HELP.waitFor(window.jQuery, 'litbox', 100, function() {
+            /*HELP.waitFor(window.jQuery, 'litbox', 100, function() {
                 // Litbox.
                 $.litbox({
                     title: 'Add a new company',
@@ -172,6 +172,12 @@ var ADD_JOB = (function($, window, document, undefined) {
                     },
                     onComplete: onComplete || false
                 });
+            });*/
+            // Open Litbox.
+            MAIN.openLitbox({
+                title: 'Add a new company',
+                href: '#company-form-wrapper',
+                onComplete: onComplete || false
             });
         });
     });

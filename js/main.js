@@ -208,6 +208,35 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    pub.openLitbox = (params) => {
+        var defaults = {
+                title: false,
+                // href: '#',
+                inline: true,
+                returnFocus: false,
+                trapFocus: false,
+                overlayClose: false,
+                escKey: false,
+                css: {
+                    xxs: {
+                        offset: 20,
+                        maxWidth: 900,
+                        width: '100%',
+                        opacity: 0.4
+                    },
+                    sm: {
+                        offset: '5% 20px'
+                    }
+                }
+            };
+
+        HELP.waitFor(window.jQuery, 'litbox', 100, function() {
+            // Litbox.
+            $.litbox( $.extend(true, {}, defaults, params) );
+        });
+    };
+
+
     // On DOM ready.
     $(function() {
         // Init.
@@ -480,6 +509,18 @@ var MAIN = (function($, window, document, undefined) {
                     return false;
                 }
             }
+        });
+
+
+        // General Litbox trigger handler.
+        $('.trigger-lbox').on('click', function(e) {
+            e.preventDefault();
+
+            // Open Litbox.
+            pub.openLitbox({
+                title: $(this).attr('data-title'),
+                href: $(this).attr('href')
+            });
         });
 
 

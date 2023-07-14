@@ -144,7 +144,7 @@ USER = (function($, window, document, undefined) {
             });
 
             // Explain problem and open UI to update active companies.
-            HELP.waitFor(window.jQuery, 'litbox', 100, function() {
+            /*HELP.waitFor(window.jQuery, 'litbox', 100, function() {
                 // Litbox.
                 $.litbox({
                     title: 'Update active businesses',
@@ -166,6 +166,16 @@ USER = (function($, window, document, undefined) {
                         }
                     }
                 });
+            });*/
+            // Open Litbox.
+            MAIN.openLitbox({
+                title: 'Update active businesses',
+                href: '#update-companies-form-wrapper',
+                css: {
+                    xxs: {
+                        maxWidth: 700
+                    }
+                }
             });
         }
     }
