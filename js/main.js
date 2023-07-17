@@ -59,6 +59,7 @@ var MAIN = (function($, window, document, undefined) {
             HELP.callNestedFunction(data.callback, data, form);
         }
         if (form && HELP.checkKeyExists(data, "enableForm") && !!data.enableForm) {
+            // Revert button back to default, enabled button.
             pub.buttonThinking(form.find('.form-submit'), true);
         }
     };
@@ -264,7 +265,7 @@ var MAIN = (function($, window, document, undefined) {
 
         // Get current Member.
         USER.getCurrentMember(function(member) {
-            //if (!data) {
+            //if (!member) {
                 //member is logged out
             //}
 
@@ -499,7 +500,9 @@ var MAIN = (function($, window, document, undefined) {
             var $el = $(this),
                 $input = $el.parent().find(':input'),
                 $customInput = $input.siblings('.w-checkbox-input'),
-                hasText = !!$el.text();
+                    // hasText value can either be empty, for non-Switch WF fields
+                    //or "true/false" (String), for Switch WF fields.
+                    hasText = !!$el.text() && $el.text() !== "false";
             
             if ($input.attr('type') == 'checkbox') {
                 if ($customInput && ($customInput.hasClass('w--redirected-checked') !== hasText)) {
