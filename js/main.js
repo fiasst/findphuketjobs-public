@@ -341,6 +341,30 @@ var MAIN = (function($, window, document, undefined) {
                 }
               );
             });*/
+
+            // Check if URL hash exists as a Litbox trigger on page load.
+                // IMPORTANT! Do this last so all HTML show/hide attribute logic can decide whether to remove
+                // the target element first. Eg: [data-ms-perm="can:moderate"] or [data-ms-content="business"].
+            var litboxAutoLaunch = function() {
+                // If there's a location hash longer than simply "#" in the URL.
+                // AND the element exists on the page.
+                if (window.location.hash.length > 1 && !!$(window.location.hash.length).length) {
+                    // Look for an inline Litbox trigger and click the first instance you find.
+                    $(`.trigger-lbox[href="${window.location.hash}"]:eq(0)`).trigger('click');
+                }
+            }();
+        });
+
+
+        // General Litbox trigger handler.
+        $('.trigger-lbox').on('click', function(e) {
+            e.preventDefault();
+
+            // Open Litbox.
+            pub.openLitbox({
+                title: $(this).attr('data-title'),
+                href: $(this).attr('href')
+            });
         });
 
 
@@ -510,29 +534,6 @@ var MAIN = (function($, window, document, undefined) {
                 }
             }
         });
-
-
-        // General Litbox trigger handler.
-        $('.trigger-lbox').on('click', function(e) {
-            e.preventDefault();
-
-            // Open Litbox.
-            pub.openLitbox({
-                title: $(this).attr('data-title'),
-                href: $(this).attr('href')
-            });
-        });
-
-
-        // Check if URL hash exists as a Litbox trigger on page load.
-        var litboxAutoLaunch = function() {
-            // If there's a location hash longer than simply "#" in the URL.
-            // AND the element exists on the page.
-            if (window.location.hash.length > 1 && !!$(window.location.hash.length).length) {
-                // Look for an inline Litbox trigger and click the first instance you find.
-                $(`.trigger-lbox[href="${window.location.hash}"]:eq(0)`).trigger('click');
-            }
-        }();
 
 
         // Toggle element visibility.
