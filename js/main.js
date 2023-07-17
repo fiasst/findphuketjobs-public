@@ -348,7 +348,7 @@ var MAIN = (function($, window, document, undefined) {
             var litboxAutoLaunch = function() {
                 // If there's a location hash longer than simply "#" in the URL.
                 // AND the element exists on the page.
-                if (window.location.hash.length > 1 && !!$(window.location.hash.length).length) {
+                if (window.location.hash.length > 1 && !!$(window.location.hash).length) {
                     // Look for an inline Litbox trigger and click the first instance you find.
                     $(`.trigger-lbox[href="${window.location.hash}"]:eq(0)`).trigger('click');
                 }
