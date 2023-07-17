@@ -143,15 +143,23 @@ var JOB = (function($, window, document, undefined) {
             
             $.each(HELP.getFormValues($form2), function(key, value) {
                 var selector = `[name="${key}"]`,
-                    $field1 = $(selector, $form1),
-                    $field2 = $(selector, $form2);
+                    $field1 = $(selector, $form1),// Edit field.
+                    $field2 = $(selector, $form2),// Revision field.
+                    $fieldReview = $(selector, '#compare-review');// Review field.
 
                 // Compare fields in both forms and highlight differences.
                 if (!!($field1.length && $field2.length) && ($field1.val() != $field2.val())) {
                     $field2.addClass('difference');
                 }
                 // Copy value from last existing form to the review form's fields.
-                $('#compare-review').find(selector).val(value).trigger('change');
+                // $('#compare-review').find(selector).val(value).trigger('change');
+                if ($fieldReview.attr('type') == "checkbox") {
+                    // Handle checkbox values.
+                    $fieldReview.prop('checked', $field2.prop('checked')).trigger('change');
+                }
+                else {
+                    $fieldReview.val(value).trigger('change');
+                }
             });
         }
 
