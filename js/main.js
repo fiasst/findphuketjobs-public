@@ -466,6 +466,7 @@ var MAIN = (function($, window, document, undefined) {
                 HELP.setCookie('form-valid', data.increment);
 
                 pub.buttonThinking($button);
+                pub.thinking(true, false);
                 console.log(data);
 
                 HELP.sendAJAX({
@@ -474,9 +475,11 @@ var MAIN = (function($, window, document, undefined) {
                     data: data,
                     timeout: 120000,
                     callbackSuccess: function(data) {
+                        pub.thinking(false);
                         pub.handleAjaxResponse(data, $form);
                     },
                     callbackError: function(data) {
+                        pub.thinking(false);
                         console.log('error');
                     }
                 }, $form);
