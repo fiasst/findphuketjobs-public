@@ -78,7 +78,7 @@ var JOB = (function($, window, document, undefined) {
                 data: data,
                 timeout: 120000,
                 callbackSuccess: function(data) {
-                    pub.handleAjaxResponse(data);
+                    MAIN.handleAjaxResponse(data);
                     MAIN.thinking(false);
                 },
                 callbackError: function(data) {
