@@ -52,12 +52,11 @@ var MAIN = (function($, window, document, undefined) {
         switch (state) {
             case 'edit':
                 // Can the item be edited.
-                if ($.inArray(status, ['Rejected', 'Deleted']) > -1) return false;
+                return ($.inArray(status, ['Rejected', 'Deleted']) < 0)// return false;
             case 'review':
                 // Can the item be reviwed.
-                if ($.inArray(status, ['Draft', 'Rejected', 'Archived', 'Deleted']) > -1) return false;
+                return ($.inArray(status, ['Draft', 'Rejected', 'Archived', 'Deleted']) < 0) //return false;
         }
-        return true;
     };
 
 
