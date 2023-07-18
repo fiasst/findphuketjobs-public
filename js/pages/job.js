@@ -71,17 +71,19 @@ var JOB = (function($, window, document, undefined) {
             data.increment = ++formIncrement;
             HELP.setCookie('form-valid', data.increment);
 
-            // Add thinking icon...
+            MAIN.thinking(true, false);
 
             HELP.sendAJAX({
-                url: publishExistingJob,
+                url: "https://hook.us1.make.com/dv56t4535h1sfag5g0693924h3sg5582",
                 data: data,
                 timeout: 120000,
                 callbackSuccess: function(data) {
-                    //pub.handleAjaxResponse(data);
+                    pub.handleAjaxResponse(data);
+                    MAIN.thinking(false);
                 },
                 callbackError: function(data) {
                     console.log('error');
+                    MAIN.thinking(false);
                 }
             });
         });
