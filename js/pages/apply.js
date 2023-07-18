@@ -32,36 +32,6 @@ var APPLY = (function($, window, document, undefined) {
                 }
             }, form);
         });
-
-
-        // Add company form in Colorbox.
-        /*$('.trigger-apply').on('click', function(e, onComplete) {
-            e.preventDefault();
-
-            HELP.waitFor(window.jQuery, 'litbox', 100, function() {
-                // Litbox.
-                $.litbox({
-                    title: 'Apply for this job',
-                    href: '#apply',
-                    inline: true,
-                    returnFocus: false,
-                    trapFocus: false,
-                    overlayClose: false,
-                    escKey: false,
-                    css: {
-                        xxs: {
-                            offset: 20,
-                            maxWidth: 900,
-                            width: '100%',
-                            opacity: 0.4
-                        },
-                        sm: {
-                            offset: '5% 20px'
-                        }
-                    }
-                });
-            });
-        });*/
     });
 
     return pub;

@@ -149,30 +149,6 @@ var ADD_JOB = (function($, window, document, undefined) {
 
             // onComplete = onComplete || false;// Should be able to remove this. Moved code below.
             
-            /*HELP.waitFor(window.jQuery, 'litbox', 100, function() {
-                // Litbox.
-                $.litbox({
-                    title: 'Add a new company',
-                    href: '#company-form-wrapper',
-                    inline: true,
-                    returnFocus: false,
-                    trapFocus: false,
-                    overlayClose: false,
-                    escKey: false,
-                    css: {
-                        xxs: {
-                            offset: 20,
-                            maxWidth: 900,
-                            width: '100%',
-                            opacity: 0.4
-                        },
-                        sm: {
-                            offset: '5% 20px'
-                        }
-                    },
-                    onComplete: onComplete || false
-                });
-            });*/
             // Open Litbox.
             MAIN.openLitbox({
                 title: 'Add a new company',

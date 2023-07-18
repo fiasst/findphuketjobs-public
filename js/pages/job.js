@@ -4,7 +4,7 @@ var JOB = (function($, window, document, undefined) {
 
     // On DOM ready.
     $(function() {
-        // Show/Remove review section.
+        /*// Show/Remove review section.
         var $reviewForm = $('form[data-name="Static job revision form"]'),
             status = $('.node-status').attr('data-status');
         
@@ -13,41 +13,22 @@ var JOB = (function($, window, document, undefined) {
         MAIN.controlHTML(
             $('#section-review'), 
             (status != "Published" || MAIN.itemState("review", status) && !!$reviewForm.length)
-        );
+        );*/
 
 
         // Show/Remove edit section.
-        MAIN.controlHTML($('#section-edit'), MAIN.itemState("edit", status));
+        // MAIN.controlHTML($('#section-edit'), MAIN.itemState("edit", status));
 
 
-        // Add Edit form in Litbox.
-        /*$('#trigger-edit').on('click', function(e) {
-            e.preventDefault();
+        // LOGIC:
+            // Check that the node can be Edited by its status:
+                // display.push( MAIN.itemState("edit", status) );
+            // Check user is either the node author OR can:moderate.
+                // display.push( MAIN.memberCanEdit(member, $node) );
 
-            HELP.waitFor(window.jQuery, 'litbox', 100, function() {
-                // Litbox.
-                $.litbox({
-                    title: 'Edit job',
-                    href: '#section-edit',
-                    inline: true,
-                    returnFocus: false,
-                    trapFocus: false,
-                    overlayClose: false,
-                    escKey: false,
-                    css: {
-                        xxs: {
-                            offset: 20,
-                            maxWidth: 900,
-                            width: '100%',
-                            opacity: 0.4
-                        },
-                        sm: {
-                            offset: '5% 20px'
-                        }
-                    }
-                });
-            });
-        });*/
+            // pub.controlHTML( $('.edit-access'), (MAIN.itemState("edit", status) && MAIN.memberCanEdit(member, $node)) );
+
+            // pub.controlHTML( $('.author-access'), MAIN.itemState("edit", status) );
 
 
         // Publish Draft/Republish existing Job.
@@ -59,7 +40,7 @@ var JOB = (function($, window, document, undefined) {
             if (msg && !confirm(msg)) {
                 return false;
             }
-            
+
             if ($link.hasClass('disabled')) {
                 return false;
             }

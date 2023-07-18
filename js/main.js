@@ -30,7 +30,14 @@ var MAIN = (function($, window, document, undefined) {
     // Show or remove content based on conditions.
     pub.controlHTML = function($elements, display) {
         if (display) {
-            $elements.removeClass('hide');
+            $elements.each(function(i, $el) {
+                if ($el.hasClass('hide')) {
+                    $el.removeClass('hide');
+                }
+                else {
+                    $el.show();
+                }
+            });
         }
         else {
             $elements.remove();
@@ -49,6 +56,19 @@ var MAIN = (function($, window, document, undefined) {
                 if ($.inArray(status, ['Draft', 'Rejected', 'Archived', 'Deleted']) > -1) return false;
         }
         return true;
+    };
+
+
+    // Check whether the member has credentials to edit a node.
+    pub.memberCanEdit = function(member, $node) {
+        var authorID = $node.find('.node-author').attr('data-author');
+        
+        if (HELP.checkKeyExists(member, 'id')) {
+            // Is author OR has Moderator permissions.
+            return (member.id == authorID || HELP.hasPermissions('can:moderate', member));
+        }
+        // Member not loaded. Maybe Anon.
+        return false;
     };
 
 
@@ -290,13 +310,39 @@ var MAIN = (function($, window, document, undefined) {
 
 
             // Show content author controls (edit link...).
-            if (!!$('.node-author').length) {
+            /*if (!!$('.node-author').length) {
                 $('.node-author').each(function() {
                     var authorID = $(this).attr('data-author'),
-                    display = (!!member && HELP.checkKeyExists(member, 'id') && (member.id == authorID || HELP.hasPermissions('can:moderate', member)));
+                        display = (HELP.checkKeyExists(member, 'id') && (member.id == authorID || HELP.hasPermissions('can:moderate', member)));
+
                     //console.log(member.id+' == '+authorID+' || '+hasPermissions('can:moderate', member));
                     pub.controlHTML($(this).parents('.node').find('.author-access'), display);
                 });
+            }*/
+            // Show content author controls (edit link...).
+            if (!!$('.node-author').length) {
+                $('.node-author').each(function() {
+                    var $node = $(this).parents('.node'),
+                        status = $('.node-status', $node).attr('data-status');
+
+                    // Show/remove Author access elements.
+                    pub.controlHTML(
+                        $('.author-access', $node),
+                        pub.memberCanEdit(member, $node)
+                    );
+                    // Show/remove Edit access elements.
+                    pub.controlHTML(
+                        $('.edit-access', $node),
+                        (pub.itemState("edit", status) && pub.memberCanEdit(member, $node))
+                    );
+                    // Show/remove Review access elements.
+                    pub.controlHTML(
+                        $('.review-access', $node),
+                        // (status != "Published" || pub.itemState("review", status) && !!$('#form-review-job').length)
+                        (pub.itemState("review", status) && !!$('#form-review-job').length)
+                    );
+                });
+
             }
 
 
@@ -536,7 +582,7 @@ var MAIN = (function($, window, document, undefined) {
                 else {
                     // Remove a class that's added in another listener.
                     $(this).removeClass('clicked');
-                    
+
                     return false;
                 }
             }
