@@ -53,12 +53,17 @@ var JOB = (function($, window, document, undefined) {
         // Publish Draft/Republish existing Job.
         $('.trigger-publish').on('click', function(e) {
             e.preventDefault();
-            var link = $(this);
+            var $link = $(this),
+                msg = $link.attr('data-confirm');
 
-            if (link.hasClass('disabled')) {
+            if (msg && !confirm(msg)) {
                 return false;
             }
-            link.addClass('disabled');
+            
+            if ($link.hasClass('disabled')) {
+                return false;
+            }
+            $link.addClass('disabled');
 
             var data = $.extend(true, {}, HELP.ajaxMetaValues(), {
                     member_id: $(this).attr('data-member-id'),

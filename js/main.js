@@ -536,6 +536,7 @@ var MAIN = (function($, window, document, undefined) {
                 else {
                     // Remove a class that's added in another listener.
                     $(this).removeClass('clicked');
+                    
                     return false;
                 }
             }
