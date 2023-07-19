@@ -132,7 +132,9 @@ var MAIN = (function($, window, document, undefined) {
 
                     $(document)
                         .on('click', '.trigger-lbox-close', function(e) {
-                            e.preventDefault();
+                            if ($(this).attr('href') == '#') {
+                                e.preventDefault();
+                            }
                             $.litbox.close();
                         })
                         .on('click', '.trigger-reload', function(e) {
