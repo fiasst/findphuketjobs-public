@@ -54,7 +54,7 @@ var MAIN = (function($, window, document, undefined) {
                 // Can the item be edited.
                 return ($.inArray(status, ['Rejected', 'Deleted']) < 0)// return false;
             case 'review':
-                // Can the item be reviwed.
+                // Can the item be reviewed.
                 return ($.inArray(status, ['Draft', 'Rejected', 'Archived', 'Deleted']) < 0) //return false;
         }
     };
@@ -135,7 +135,8 @@ var MAIN = (function($, window, document, undefined) {
                             e.preventDefault();
                             $.litbox.close();
                         })
-                        .on('click', '.trigger-reload', function() {
+                        .on('click', '.trigger-reload', function(e) {
+                            e.preventDefault();
                             window.location = window.location.href;
                         });
             }
