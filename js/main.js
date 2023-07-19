@@ -145,7 +145,11 @@ var MAIN = (function($, window, document, undefined) {
                                 $.litbox.close();
                             }
                             pub.thinking(true);
-                            window.location = window.location.href;
+                            
+                            // Reload the URL without including the hash.
+                                // The Hash prevents the page reloading.
+                                // And it'll launch a Litbox on page load if it finds an ID matching the hash.
+                            window.location = window.location.href.split('#')[0];
                         });
             }
         }
