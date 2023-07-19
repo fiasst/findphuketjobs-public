@@ -137,8 +137,14 @@ var MAIN = (function($, window, document, undefined) {
                             }
                             $.litbox.close();
                         })
+                        // Don't combine the close and reload classes or reload won't work.
                         .on('click', '.trigger-reload', function(e) {
                             e.preventDefault();
+                            
+                            if ($('body').hasClass('litbox-show')) {
+                                $.litbox.close();
+                            }
+                            pub.thinking(true);
                             window.location = window.location.href;
                         });
             }
