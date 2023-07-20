@@ -9,9 +9,11 @@ var SALARY = (function($, window, document, undefined) {
     // On DOM ready.
     $(function() {
         var salary = function() {
-            var $salaryAmount = $('#job-salary'),
-                $salaryType = $('#job-salary-type'),
-                $salaryMonthly = $('#job-salary-monthly'),
+            // We use name attributes and not ID for these selectors because this
+            // widget appears twice on the Job page (Edit and Review forms).
+            var $salaryAmount = $('input[name="job_salary_amount"]'),
+                $salaryType = $('select[name="job-salary-type"]'),
+                $salaryMonthly = $('input[name="job_salary_monthly"]'),
 
                 salaryType = function() {
                     return $($salaryType).val().toLowerCase();
@@ -61,7 +63,9 @@ var SALARY = (function($, window, document, undefined) {
                         $(this).find('option:selected').text()
                     );
 
-                $salaryAmount.attr('required', function(i, attr) { return numericType });
+                $salaryAmount.attr('required', function(i, attr) {
+                    return numericType;
+                });
 
                 if (!numericType) {
                     $salaryAmount.val('');
