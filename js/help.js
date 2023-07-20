@@ -22,7 +22,7 @@ HELP = (function($, window, document, undefined) {
     pub.cleanLowerString = (string) => $.trim(string.toLowerCase());
 
 
-    pub.removeNonNumeric = (str) => str.replace(/\D/g, '');
+    pub.removeNonNumeric = (str) => str.toString().replace(/\D/g, '');
 
 
     pub.stripHTML = (str) => $("<div/>").html(str).text();
