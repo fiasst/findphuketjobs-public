@@ -19,13 +19,13 @@ HELP = (function($, window, document, undefined) {
     };
 
 
-    pub.cleanLowerString = (string) => $.trim(string.toLowerCase());
+    pub.cleanLowerString = (string = '') => $.trim(string.toLowerCase());
 
 
-    pub.removeNonNumeric = (str) => str.toString().replace(/\D/g, '');
+    pub.removeNonNumeric = (str = '') => str.toString().replace(/\D/g, '');
 
 
-    pub.stripHTML = (str) => $("<div/>").html(str).text();
+    pub.stripHTML = (str = '') => $("<div/>").html(str).text();
 
 
     // Strip HTML but include line-breaks for block-level elements and <BR> tags.

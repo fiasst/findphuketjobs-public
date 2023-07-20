@@ -126,17 +126,16 @@ var JOB = (function($, window, document, undefined) {
         var $forms = $('#compare-existing form');
         // Check that the Revision form exists.
         if ($forms.length > 0) {
-            var $form1 = $($forms.get(0)),// Current form.
-                $form2 = $($forms.get(1));// Revision form.
+            var $formLast = $forms.last();
             
-            $.each(HELP.getFormValues($forms.last()), function(key, value) {
+            $.each(HELP.getFormValues($formLast), function(key, value) {
                 var selector = `[name="${key}"]`,
                     $fieldReview = $(selector, '#compare-review');// Review field.
 
                 // Check if there's both Current AND Revision forms.
                 if ($forms.length > 1) {
-                    var $field1 = $(selector, $form1),// Edit field.
-                        $field2 = $(selector, $form2);// Revision field.
+                    var $field1 = $(selector, $forms.get(0)),// Current form field.
+                        $field2 = $(selector, $forms.get(1));// Revision form field.
 
                     // Compare fields in both forms and highlight differences.
                     if (!!($field1.length && $field2.length) && ($field1.val() != $field2.val())) {
@@ -147,12 +146,12 @@ var JOB = (function($, window, document, undefined) {
                 // Copy value from last existing form to the review form's fields.
                 if ($fieldReview.attr('type') == "checkbox") {
                     // Handle checkbox values.
-                    $fieldReview.prop('checked', $field2.prop('checked')).trigger('change');
+                    $fieldReview.prop('checked', $(selector, $formLast).prop('checked')).trigger('change');
                 }
                 else if ($fieldReview.attr('type') == "number") {
                     // Handle input number values.
                     // Formatted values with a comma aren't accepted by number fields.
-                    $fieldReview.val( HELP.removeNonNumeric($field2.val()) ).trigger('change');
+                    $fieldReview.val( HELP.removeNonNumeric($(selector, $formLast).val()) ).trigger('change');
                 }
                 else {
                     $fieldReview.val(value).trigger('change');
