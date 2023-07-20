@@ -60,13 +60,18 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    pub.memberCanModerate = function(member) {
+        return HELP.hasPermissions('can:moderate', member);
+    };
+
+
     // Check whether the member has credentials to edit a node.
     pub.memberCanEdit = function(member, $node) {
         var authorID = $node.find('.node-author').attr('data-author');
         
         if (HELP.checkKeyExists(member, 'id')) {
             // Is author OR has Moderator permissions.
-            return (member.id == authorID || HELP.hasPermissions('can:moderate', member));
+            return (member.id == authorID || pub.memberCanModerate(member));
         }
         // Member not loaded. Maybe Anon.
         return false;
@@ -333,7 +338,7 @@ var MAIN = (function($, window, document, undefined) {
                     pub.controlHTML($(this).parents('.node').find('.author-access'), display);
                 });
             }*/
-            // Show content author controls (edit link...).
+            // Show content author controls (edit, republish, archive links...).
             if (!!$('.node-author').length) {
                 $('.node-author').each(function() {
                     var $node = $(this).parents('.node'),
@@ -353,7 +358,7 @@ var MAIN = (function($, window, document, undefined) {
                     pub.controlHTML(
                         $('.review-access', $node),
                         // (status != "Published" || pub.itemState("review", status) && !!$('#form-review-job').length)
-                        (pub.itemState("review", status) && !!$('#form-review-job').length)
+                        (pub.itemState("review", status) && pub.memberCanModerate(member) && !!$('#form-review-job').length)
                     );
                 });
 
