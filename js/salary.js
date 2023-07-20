@@ -11,31 +11,33 @@ var SALARY = (function($, window, document, undefined) {
         var salary = function() {
             // We use name attributes and not ID for these selectors because this
             // widget appears twice on the Job page (Edit and Review forms).
-            var $salaryAmount = $('input[name="job_salary_amount"]'),
-                $salaryType = $('select[name="job-salary-type"]'),
-                $salaryMonthly = $('input[name="job_salary_monthly"]'),
+            var salaryAmount = 'input[name="job_salary_amount"]',
+                salaryType = 'select[name="job-salary-type"]',
+                salaryMonthly = 'input[name="job_salary_monthly"]',
 
-                salaryType = function() {
-                    return $($salaryType).val().toLowerCase();
+                type = function(context) {
+                    return $(salaryType, context).val().toLowerCase();
                 },
-                isNumericType = function() {
-                    return ($.inArray(salaryType(), [
+                isNumericType = function(context) {
+                    return ($.inArray(type(context), [
                         'per hour', 'per day', 'per month', 'per year'
                     ]) > -1);
                 }
-                calculateSalary = function() {
-                    var numericType = isNumericType(),
-                        salary = $($salaryAmount).val(),
+                calculateSalary = function(element) {
+                    var $form = $(element).parents('form'),
+                        $salaryAmount = $(salaryAmount, $form),
+                        numericType = isNumericType($form),
+                        salary = $salaryAmount.val(),
                         val = '';
                     
 
                     if (numericType && !!salary) {
                         if (salary < 1) {
                             alert("Salary amount must be a positive number");
-                            $($salaryAmount).val('').focus();
+                            $salaryAmount.val('').focus();
                         }
 
-                        switch (salaryType()) {
+                        switch (type($form)) {
                             case 'per year':
                                 val = salary / 12;
                                 break;
@@ -50,15 +52,19 @@ var SALARY = (function($, window, document, undefined) {
                                 break;
                         }
                     }
-                    $salaryMonthly.val(val);
+                    $(salaryMonthly, $form).val(val);
                 };
 
 
             // Salary type and salary amount.
-            $salaryType.on('change', function() {
-                var numericType = isNumericType();
+            $(salaryType).on('change', function() {
+                var // Used as context when there's multiple forms with this widget on a page.
+                    $form = $(this).parents('form'),
 
-                $('#wrapper-salary-amount').toggle(numericType)
+                    numericType = isNumericType($form),
+                    $salaryAmount = $(salaryAmount, $form);
+
+                $('.wrapper-salary-amount', $form).toggle(numericType)
                     .find('.suffix').text(
                         $(this).find('option:selected').text()
                     );
@@ -70,10 +76,12 @@ var SALARY = (function($, window, document, undefined) {
                 if (!numericType) {
                     $salaryAmount.val('');
                 }
-                calculateSalary();
+                calculateSalary(this);
             });
 
-            $salaryAmount.on('focusout', calculateSalary);
+            $(salaryAmount).on('focusout', function(){
+                calculateSalary(this);
+            });
         }();
     });
 
