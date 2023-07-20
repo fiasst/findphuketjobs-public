@@ -145,6 +145,11 @@ var JOB = (function($, window, document, undefined) {
                     // Handle checkbox values.
                     $fieldReview.prop('checked', $field2.prop('checked')).trigger('change');
                 }
+                if ($fieldReview.attr('type') == "number") {
+                    // Handle input number values.
+                    // Formatted values with a comma aren't accepted by number fields.
+                    $fieldReview.val( HELP.removeNonNumeric($field2.val()) ).trigger('change');
+                }
                 else {
                     $fieldReview.val(value).trigger('change');
                 }
