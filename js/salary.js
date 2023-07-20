@@ -12,7 +12,7 @@ var SALARY = (function($, window, document, undefined) {
             // We use name attributes and not ID for these selectors because this
             // widget appears twice on the Job page (Edit and Review forms).
             var salaryAmount = 'input[name="job_salary_amount"]',
-                salaryType = 'select[name="job-salary-type"]',
+                salaryType = 'select[name="job_salary_type"]',
                 salaryMonthly = 'input[name="job_salary_monthly"]',
 
                 type = function(context) {
