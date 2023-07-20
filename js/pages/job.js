@@ -4,33 +4,6 @@ var JOB = (function($, window, document, undefined) {
 
     // On DOM ready.
     $(function() {
-        /*// Show/Remove review section.
-        var $reviewForm = $('form[data-name="Static job revision form"]'),
-            status = $('.node-status').attr('data-status');
-        
-
-        // Show/Remove review section.
-        MAIN.controlHTML(
-            $('#section-review'), 
-            (status != "Published" || MAIN.itemState("review", status) && !!$reviewForm.length)
-        );*/
-
-
-        // Show/Remove edit section.
-        // MAIN.controlHTML($('#section-edit'), MAIN.itemState("edit", status));
-
-
-        // LOGIC:
-            // Check that the node can be Edited by its status:
-                // display.push( MAIN.itemState("edit", status) );
-            // Check user is either the node author OR can:moderate.
-                // display.push( MAIN.memberCanEdit(member, $node) );
-
-            // pub.controlHTML( $('.edit-access'), (MAIN.itemState("edit", status) && MAIN.memberCanEdit(member, $node)) );
-
-            // pub.controlHTML( $('.author-access'), MAIN.itemState("edit", status) );
-
-
         // Publish Draft/Republish existing Job.
         $('.trigger-publish').on('click', function(e) {
             e.preventDefault();
@@ -158,24 +131,6 @@ var JOB = (function($, window, document, undefined) {
                 }
             });
         }
-
-        var forms = $('#compare-existing form');
-          if (forms.length > 1){
-            var formValues = getFormValues(forms.last());
-            
-            $.each(formValues, function(key, value){
-              if (forms.length > 1){
-                // Compare fields in both forms and highlight differences.
-                var field1 = $(forms.get(0)).find('[name="'+ key +'"]'),
-                    field2 = $(forms.get(1)).find('[name="'+ key +'"]');
-                if (!!(field1.length && field2.length) && (field1.val() != field2.val())){
-                  field2.addClass('difference');
-                }
-              }
-              // Copy value from last existing form to the review form's fields.
-              $('#compare-review').find('[name="'+ key +'"]').val(value).trigger('change');
-            });
-          }
 
 
         // Make the Current tab active if there's no Revisions.

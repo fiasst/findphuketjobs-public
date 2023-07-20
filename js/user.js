@@ -144,30 +144,6 @@ USER = (function($, window, document, undefined) {
             });
 
             // Explain problem and open UI to update active companies.
-            /*HELP.waitFor(window.jQuery, 'litbox', 100, function() {
-                // Litbox.
-                $.litbox({
-                    title: 'Update active businesses',
-                    href: '#update-companies-form-wrapper',
-                    inline: true,
-                    returnFocus: false,
-                    trapFocus: false,
-                    overlayClose: false,
-                    escKey: false,
-                    css: {
-                        xxs: {
-                            offset: 20,
-                            maxWidth: 700,
-                            width: '100%',
-                            opacity: 0.4
-                        },
-                        sm: {
-                            offset: '5% 20px'
-                        }
-                    }
-                });
-            });*/
-            // Open Litbox.
             MAIN.openLitbox({
                 title: 'Update active businesses',
                 href: '#update-companies-form-wrapper',
