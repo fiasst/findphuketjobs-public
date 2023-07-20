@@ -125,22 +125,26 @@ var JOB = (function($, window, document, undefined) {
         // Clone Revision form values to the Review form.
         var $forms = $('#compare-existing form');
         // Check that the Revision form exists.
-        if ($forms.length > 1) {
+        if ($forms.length > 0) {
             var $form1 = $($forms.get(0)),// Current form.
                 $form2 = $($forms.get(1));// Revision form.
             
-            $.each(HELP.getFormValues($form2), function(key, value) {
+            $.each(HELP.getFormValues($forms.last()), function(key, value) {
                 var selector = `[name="${key}"]`,
-                    $field1 = $(selector, $form1),// Edit field.
-                    $field2 = $(selector, $form2),// Revision field.
                     $fieldReview = $(selector, '#compare-review');// Review field.
 
-                // Compare fields in both forms and highlight differences.
-                if (!!($field1.length && $field2.length) && ($field1.val() != $field2.val())) {
-                    $field2.addClass('difference');
+                // Check if there's both Current AND Revision forms.
+                if ($forms.length > 1) {
+                    var $field1 = $(selector, $form1),// Edit field.
+                        $field2 = $(selector, $form2);// Revision field.
+
+                    // Compare fields in both forms and highlight differences.
+                    if (!!($field1.length && $field2.length) && ($field1.val() != $field2.val())) {
+                        $field2.addClass('difference');
+                    }
                 }
+
                 // Copy value from last existing form to the review form's fields.
-                // $('#compare-review').find(selector).val(value).trigger('change');
                 if ($fieldReview.attr('type') == "checkbox") {
                     // Handle checkbox values.
                     $fieldReview.prop('checked', $field2.prop('checked')).trigger('change');
@@ -155,6 +159,24 @@ var JOB = (function($, window, document, undefined) {
                 }
             });
         }
+
+        var forms = $('#compare-existing form');
+          if (forms.length > 1){
+            var formValues = getFormValues(forms.last());
+            
+            $.each(formValues, function(key, value){
+              if (forms.length > 1){
+                // Compare fields in both forms and highlight differences.
+                var field1 = $(forms.get(0)).find('[name="'+ key +'"]'),
+                    field2 = $(forms.get(1)).find('[name="'+ key +'"]');
+                if (!!(field1.length && field2.length) && (field1.val() != field2.val())){
+                  field2.addClass('difference');
+                }
+              }
+              // Copy value from last existing form to the review form's fields.
+              $('#compare-review').find('[name="'+ key +'"]').val(value).trigger('change');
+            });
+          }
 
 
         // Make the Current tab active if there's no Revisions.
