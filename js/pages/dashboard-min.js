@@ -1,0 +1,1 @@
+var DASHBOARD=function($,t,n,a){return $((function(){var t=$("#my-content .w-tab-pane");1===t.length&&t.addClass("w--tab-active")})),{}}(jQuery,0,this.document);
