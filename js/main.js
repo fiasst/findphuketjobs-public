@@ -328,16 +328,6 @@ var MAIN = (function($, window, document, undefined) {
             }
 
 
-            // Show content author controls (edit link...).
-            /*if (!!$('.node-author').length) {
-                $('.node-author').each(function() {
-                    var authorID = $(this).attr('data-author'),
-                        display = (HELP.checkKeyExists(member, 'id') && (member.id == authorID || HELP.hasPermissions('can:moderate', member)));
-
-                    //console.log(member.id+' == '+authorID+' || '+hasPermissions('can:moderate', member));
-                    pub.controlHTML($(this).parents('.node').find('.author-access'), display);
-                });
-            }*/
             // Show content author controls (edit, republish, archive links...).
             if (!!$('.node-author').length) {
                 $('.node-author').each(function() {
@@ -727,7 +717,7 @@ $.fn.createSelectOptions = function(options) {
 
         $(this).find('.w-dyn-item').each(function() {
             var val = $(this).text();
-            if ($.inArray(val, values) > -1) return;// Skip duplicate values.
+            if (!val || $.inArray(val, values) > -1) return;// Skip empty or duplicate values.
             values.push(val);
 
             $(this).data('lang-en', val);// Store a non-translated string in .data().
