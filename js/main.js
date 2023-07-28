@@ -465,7 +465,7 @@ var MAIN = (function($, window, document, undefined) {
             // var redir = $(this).find('.fp_redirect').attr('data-redirect');
             var redir = HELP.getSetQuerystring('destination');
             if (redir) {
-                localStorage.setItem('fp_redirect', redir);
+                localStorage.setItem('fp_redirect', '/'+redir);
             }
         });
 
