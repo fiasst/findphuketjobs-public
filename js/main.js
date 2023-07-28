@@ -457,12 +457,13 @@ var MAIN = (function($, window, document, undefined) {
 
 
         // Redirect user after form submit.
-        const queryDest = HELP.getSetQuerystring('destination');
-        if (queryDest) {
-            $('form').find('.fp_redirect').attr('data-redirect', '/'+queryDest);// Relative URIs only.
-        }
+        // const queryDest = HELP.getSetQuerystring('destination');
+        // if (queryDest) {
+            // $('form').find('.fp_redirect').attr('data-redirect', '/'+queryDest);// Relative URIs only.
+        // }
         $('form').on('submit', function() {
-            var redir = $(this).find('.fp_redirect').attr('data-redirect');
+            // var redir = $(this).find('.fp_redirect').attr('data-redirect');
+            var redir = HELP.getSetQuerystring('destination');
             if (redir) {
                 localStorage.setItem('fp_redirect', redir);
             }
