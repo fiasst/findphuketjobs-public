@@ -25,7 +25,33 @@ HELP = (function($, window, document, undefined) {
     pub.removeNonNumeric = (str = '') => str.toString().replace(/\D/g, '');
 
 
-    pub.stripHTML = (str = '') => $("<div/>").html(str).text();
+    // Remove <script> tags and any attributes that start with 'on' (onclick, etc).
+    // This helps to guards against XSS attack.
+    pub.sanitizeHTML = (str) => {
+        // Remove <script> tags and content.
+        return str.replace(/<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>/gi, '')
+        // Remove attributes that start with "on" (eg: "onclick")
+        .replace(/(\s*<[^>]*)(\s+(on\w+)="[^"]*")/gi, '$1')
+        // Remove instances of "javascript:".
+        .replace(/javascript:/gi, '');
+        
+        // Short version:
+        // /javascript:|<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>|\s*on\w+="[^"]*"/gi
+    };
+
+
+    /*pub.stripHTML = (str = '') => {
+        str = pub.sanitizeHTML(str);
+        // Remove HTML and then remove any broken HTML tags.
+        return $("<div/>").html(str).text().replace(/<\s*\/?\s*([a-zA-Z0-9]+)\s*>/, '');
+    };*/
+    pub.stripHTML = function(str) {
+        return pub.sanitizeHTML(str)
+            // Try to strip any broken HTML.
+            .replace(/<\s*\/?\s*([a-zA-Z0-9]+)\s*>/g, '')
+            // Strip HTML.
+            .replace(/<[^>]*>/g, '');
+    };
 
 
     // Strip HTML but include line-breaks for block-level elements and <BR> tags.
@@ -37,21 +63,6 @@ HELP = (function($, window, document, undefined) {
         str = str.replace(/<(?:div|p|blockquote|h[1-6]|table|ul|ol)[^>]*>/gi, '\n');
         // Remove remaining HTML tags and trim whitespace.
         return $('<div>').html(str).text().trim();
-    };
-
-
-    // Remove <script> tags and any attributes that start with 'on' (onclick, etc).
-    // This helps to guards against XSS attack.
-    pub.sanitizeHTML = (html) => {
-        // Remove <script> tags and content.
-        return html.replace(/<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>/gi, '')
-        // Remove attributes that start with "on" (eg: "onclick")
-        .replace(/(\s*<[^>]*)(\s+(on\w+)="[^"]*")/gi, '$1')
-        // Remove instances of "javascript:".
-        .replace(/javascript:/gi, '');
-        
-        // Short version:
-        // /javascript:|<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>|\s*on\w+="[^"]*"/gi
     };
 
 
