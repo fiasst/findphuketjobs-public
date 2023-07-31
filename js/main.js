@@ -230,6 +230,7 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    // This get called whenever a Job teaser Item gets loaded on a page, including with AJAX.
     pub.jobItem = function() {
         $('.card.job').each(function() {
             var $card = $(this);
@@ -242,10 +243,19 @@ var MAIN = (function($, window, document, undefined) {
             if (!(!!$card.find('.salary').length)) {
                 $card.find('.js-salary-hidden').show();
             }
-            // Calculate the created "X ago" text.
-            pub.timePast( $card.find('.time-past:not(.parsed)') );
         });
     };
+
+
+    // This get called whenever a Collection Item gets loaded on a page, including with AJAX.
+    pub.collectionItem = function() {
+        $('.w-dyn-item').each(function() {
+            var $item = $(this);
+
+            // Calculate the created "X ago" text.
+            pub.timePast( $item.find('.time-past:not(.parsed)') );
+        });
+    }
 
 
     pub.openLitbox = (params) => {
@@ -281,6 +291,7 @@ var MAIN = (function($, window, document, undefined) {
     $(function() {
         // Init.
         pub.jobItem();
+        pub.collectionItem();
         pub.uploadFields();
 
 
@@ -295,8 +306,10 @@ var MAIN = (function($, window, document, undefined) {
 
                 // The `renderitems` event runs whenever the list renders items after filtering.
                 filterInstance.listInstance.on('renderitems', (renderedItems) => {
-                    // Calculate published date "ago" meta text and other things.
+                    // Prepare job teaser Item.
                     pub.jobItem();
+                    // Calculate published date "ago" meta text in Collection Items.
+                    pub.collectionItem();
                 });
             },
         ]);
@@ -465,7 +478,7 @@ var MAIN = (function($, window, document, undefined) {
             // var redir = $(this).find('.fp_redirect').attr('data-redirect');
             var redir = HELP.getSetQuerystring('destination');
             if (redir) {
-                localStorage.setItem('fp_redirect', '/'+redir);
+                localStorage.setItem('fp_redirect', '/'+redir);// Relative URIs only.
             }
         });
 
