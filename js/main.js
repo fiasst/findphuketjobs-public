@@ -105,59 +105,118 @@ var MAIN = (function($, window, document, undefined) {
 
                 case 'dialog':
                     var actions;
-                    if (HELP.checkKeyExists(data, "options.actions")) {
-                        actions = $('<div class="actions justify-center" />');
+                    // if (HELP.checkKeyExists(data, "options.actions")) {
+                    //     actions = $('<div class="actions justify-center" />');
 
-                        $.each(data.options.actions, function(i, item) {
-                            item.attributes.class = item.attributes.class || '';
-                            if (item.type == 'button') {
-                                item.attributes.class += ' w-button small';
-                            }
-                            actions.append(
-                                $('<a>', {
-                                    text: item.text,
-                                    attr: item.attributes
-                                })
-                            );
-                        })
-                    }
-                    var defaults = {
-                            bodyClasses: 'lbox-dialog',
-                            html: [HELP.sanitizeHTML(data.message), actions],
-                            css: {
-                                xxs: {
-                                    offset: 20,
-                                    maxWidth: 650,
-                                    contentInnerPadding: 20
-                                }
-                            }
-                        },
-                        options = $.extend(true, {}, defaults, data.options || {});
-                    $.litbox(options);
+                    //     $.each(data.options.actions, function(i, item) {
+                    //         item.attributes.class = item.attributes.class || '';
+                    //         if (item.type == 'button') {
+                    //             item.attributes.class += ' w-button small';
+                    //         }
+                    //         actions.append(
+                    //             $('<a>', {
+                    //                 text: item.text,
+                    //                 attr: item.attributes
+                    //             })
+                    //         );
+                    //     })
+                    // }
+                    // var defaults = {
+                    //         bodyClasses: 'lbox-dialog',
+                    //         html: [HELP.sanitizeHTML(data.message), actions],
+                    //         css: {
+                    //             xxs: {
+                    //                 offset: 20,
+                    //                 maxWidth: 650,
+                    //                 contentInnerPadding: 20
+                    //             }
+                    //         }
+                    //     },
+                        // options = $.extend(true, {}, defaults, data.options || {});
+                    // $.litbox(options);
+                    pub.openDialog(data);
 
-                    $(document)
-                        .on('click', '.trigger-lbox-close', function(e) {
-                            if ($(this).attr('href') == '#') {
-                                e.preventDefault();
-                            }
-                            $.litbox.close();
-                        })
-                        // Don't combine the close and reload classes or reload won't work.
-                        .on('click', '.trigger-reload', function(e) {
-                            e.preventDefault();
+                    // $(document)
+                    //     .on('click', '.trigger-lbox-close', function(e) {
+                    //         if ($(this).attr('href') == '#') {
+                    //             e.preventDefault();
+                    //         }
+                    //         $.litbox.close();
+                    //     })
+                    //     // Don't combine the close and reload classes or reload won't work.
+                    //     .on('click', '.trigger-reload', function(e) {
+                    //         e.preventDefault();
                             
-                            if ($('body').hasClass('litbox-show')) {
-                                $.litbox.close();
-                            }
-                            pub.thinking(true);
+                    //         if ($('body').hasClass('litbox-show')) {
+                    //             $.litbox.close();
+                    //         }
+                    //         pub.thinking(true);
                             
-                            // Reload the URL without including the hash.
-                                // The Hash prevents the page reloading.
-                                // And it'll launch a Litbox on page load if it finds an ID matching the hash.
-                            window.location = window.location.href.split('#')[0];
-                        });
+                    //         // Reload the URL without including the hash.
+                    //             // The Hash prevents the page reloading.
+                    //             // And it'll launch a Litbox on page load if it finds an ID matching the hash.
+                    //         window.location = window.location.href.split('#')[0];
+                    //     });
             }
         }
+    };
+
+
+    pub.openDialog = (params) => {
+        if (HELP.checkKeyExists(params, "options.actions")) {
+            actions = $('<div class="actions justify-center" />');
+
+            $.each(params.options.actions, function(i, item) {
+                item.attributes.class = item.attributes.class || '';
+                if (item.type == 'button') {
+                    item.attributes.class += ' w-button small';
+                }
+                actions.append(
+                    $('<a>', {
+                        text: item.text,
+                        attr: item.attributes
+                    })
+                );
+            })
+        }
+        var defaults = {
+            bodyClasses: 'lbox-dialog',
+            html: [HELP.sanitizeHTML(params.message), actions],
+            css: {
+                xxs: {
+                    offset: 20,
+                    maxWidth: 650,
+                    contentInnerPadding: 20
+                }
+            }
+        };
+
+        HELP.waitFor(window.jQuery, 'litbox', 100, function() {
+            // Litbox.
+            $.litbox( $.extend(true, {}, defaults, params.options) );
+        });
+
+        $(document)
+            .one('click', '.trigger-lbox-close', function(e) {
+                if ($(this).attr('href') == '#') {
+                    e.preventDefault();
+                }
+                $.litbox.close();
+            })
+            // Don't combine the close and reload classes or reload won't work.
+            .one('click', '.trigger-reload', function(e) {
+                e.preventDefault();
+                
+                if ($('body').hasClass('litbox-show')) {
+                    $.litbox.close();
+                }
+                pub.thinking(true);
+                
+                // Reload the URL without including the hash.
+                    // The Hash prevents the page reloading.
+                    // And it'll launch a Litbox on page load if it finds an ID matching the hash.
+                window.location = window.location.href.split('#')[0];
+            });
     };
 
 
