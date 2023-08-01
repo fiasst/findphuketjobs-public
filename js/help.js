@@ -93,6 +93,8 @@ HELP = (function($, window, document, undefined) {
 
     // Get/set querystring.
     pub.getSetQuerystring = (params = '', includePath) => {
+        if (!params) return;
+        
         const urlObj = new URL(window.location.href);
 
         // Set params it's an Object.
@@ -111,6 +113,8 @@ HELP = (function($, window, document, undefined) {
 
     // Return human-friendly date.
     pub.formatTimestamp = function(timestamp, showTime, localTimezone) {
+        if (!timestamp) return;
+
         var date = new Date(timestamp),
             locale = pub.getCurrentLang(),
             options = {
