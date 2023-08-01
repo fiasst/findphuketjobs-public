@@ -93,8 +93,6 @@ HELP = (function($, window, document, undefined) {
 
     // Get/set querystring.
     pub.getSetQuerystring = (params = '', includePath) => {
-        if (!params) return;
-        
         const urlObj = new URL(window.location.href);
 
         // Set params it's an Object.
@@ -107,7 +105,8 @@ HELP = (function($, window, document, undefined) {
         }
 
         // Get value.
-        return pub.stripHTML(urlObj.searchParams.get(params));
+        var query = urlObj.searchParams.get(params);
+        return query ? pub.stripHTML(query) : false;
     };
 
 

@@ -15,34 +15,37 @@ var DASHBOARD = (function($, window, document, undefined) {
         $('#wf-form-Delete-Account-Form').on('submit', function(e) {
             e.preventDefault();
 
-            var data = {
-                "message": "Confirm you want to cancel any subscriptions, delete you account, and erase your personal data.",
-                "type": "warning",
-                "options": {
-                    "title": "One final check...",
-                    "actions": [
-                        {
-                            "type": "button",
-                            "text": "No, take me to safety",
-                            "attributes": {
-                                "class": "button-secondary link-dashboard trigger-lbox-close",
-                                "href": "#"
+            // Final confirmation message.
+            var $confirm = $('#field-confirm'),
+                data = {
+                    "message": "Confirm you want to cancel any subscriptions, delete you account, and erase your personal data.",
+                    "type": "warning",
+                    "options": {
+                        "title": "One final check...",
+                        "actions": [
+                            {
+                                "type": "button",
+                                "text": "No, take me to safety",
+                                "attributes": {
+                                    "class": "button-secondary link-dashboard trigger-lbox-close",
+                                    "href": "#"
+                                }
+                            },
+                            {
+                                "type": "button",
+                                "text": "Yes, Delete my account",
+                                "attributes": {
+                                    "class": "button-primary danger trigger-lbox-close",
+                                    "href": "#",
+                                    "id": "trigger-delete-account"
+                                }
                             }
-                        },
-                        {
-                            "type": "button",
-                            "text": "Yes, Delete my account",
-                            "attributes": {
-                                "class": "button-primary danger trigger-lbox-close",
-                                "href": "#",
-                                "id": "trigger-delete-account"
-                            }
-                        }
-                    ]
-                }
-            };
+                        ]
+                    }
+                };
 
-            if ($('#field-confirm').val().toLowerCase() != "delete") {
+            // Validate confirm field.
+            if (!$confirm.val() || $confirm.val().toLowerCase() != "delete") {
                 data.message = "You must type \"DELETE\" in the required field to confirm that you want to delete your account.";
                 data.type = "info";
                 data.title = "Field required";
@@ -58,6 +61,7 @@ var DASHBOARD = (function($, window, document, undefined) {
                 ];
             }
             
+            // Show dialog.
             MAIN.openDialog(data);
 
             $(document).on('click', '#trigger-delete-account', function() {
