@@ -104,65 +104,14 @@ var MAIN = (function($, window, document, undefined) {
                     break;
 
                 case 'dialog':
-                    var actions;
-                    // if (HELP.checkKeyExists(data, "options.actions")) {
-                    //     actions = $('<div class="actions justify-center" />');
-
-                    //     $.each(data.options.actions, function(i, item) {
-                    //         item.attributes.class = item.attributes.class || '';
-                    //         if (item.type == 'button') {
-                    //             item.attributes.class += ' w-button small';
-                    //         }
-                    //         actions.append(
-                    //             $('<a>', {
-                    //                 text: item.text,
-                    //                 attr: item.attributes
-                    //             })
-                    //         );
-                    //     })
-                    // }
-                    // var defaults = {
-                    //         bodyClasses: 'lbox-dialog',
-                    //         html: [HELP.sanitizeHTML(data.message), actions],
-                    //         css: {
-                    //             xxs: {
-                    //                 offset: 20,
-                    //                 maxWidth: 650,
-                    //                 contentInnerPadding: 20
-                    //             }
-                    //         }
-                    //     },
-                        // options = $.extend(true, {}, defaults, data.options || {});
-                    // $.litbox(options);
                     pub.openDialog(data);
-
-                    // $(document)
-                    //     .on('click', '.trigger-lbox-close', function(e) {
-                    //         if ($(this).attr('href') == '#') {
-                    //             e.preventDefault();
-                    //         }
-                    //         $.litbox.close();
-                    //     })
-                    //     // Don't combine the close and reload classes or reload won't work.
-                    //     .on('click', '.trigger-reload', function(e) {
-                    //         e.preventDefault();
-                            
-                    //         if ($('body').hasClass('litbox-show')) {
-                    //             $.litbox.close();
-                    //         }
-                    //         pub.thinking(true);
-                            
-                    //         // Reload the URL without including the hash.
-                    //             // The Hash prevents the page reloading.
-                    //             // And it'll launch a Litbox on page load if it finds an ID matching the hash.
-                    //         window.location = window.location.href.split('#')[0];
-                    //     });
             }
         }
     };
 
 
     pub.openDialog = (params) => {
+        var actions;
         if (HELP.checkKeyExists(params, "options.actions")) {
             actions = $('<div class="actions justify-center" />');
 
@@ -529,12 +478,7 @@ var MAIN = (function($, window, document, undefined) {
 
 
         // Redirect user after form submit.
-        // const queryDest = HELP.getSetQuerystring('destination');
-        // if (queryDest) {
-            // $('form').find('.fp_redirect').attr('data-redirect', '/'+queryDest);// Relative URIs only.
-        // }
         $('form').on('submit', function() {
-            // var redir = $(this).find('.fp_redirect').attr('data-redirect');
             var redir = HELP.getSetQuerystring('destination');
             if (redir) {
                 localStorage.setItem('fp_redirect', '/'+redir);// Relative URIs only.
