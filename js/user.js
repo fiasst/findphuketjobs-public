@@ -75,7 +75,7 @@ USER = (function($, window, document, undefined) {
 
             if (activeOnly) {
                 // Filter out plans with status NOT set to "ACTIVE".
-                plans = HELP.filterArrayByObjectValue(plans, 'status', 'ACTIVE');
+                plans = HELP.filterArrayByObjectValue(plans, 'status', array('ACTIVE', 'TRIALING'));
             }
 
             // Filter out plans with type NOT set to planType.
