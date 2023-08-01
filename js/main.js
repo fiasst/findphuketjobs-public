@@ -613,12 +613,12 @@ var MAIN = (function($, window, document, undefined) {
 
 
         // Toggle element visibility.
-        $('.toggle-vis').on('click', function(e) {
-            var target = $(this).attr('data-target');
+        $(document).on('click', '.toggle-vis', function(e) {
+            var target = $(this).attr('href');
 
             if (target) {
                 e.preventDefault();
-                $('#'+target).toggleClass('hide');
+                $(target).toggleClass('hide');
             }
         });
 
