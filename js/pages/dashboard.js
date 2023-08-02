@@ -71,7 +71,7 @@ var DASHBOARD = (function($, window, document, undefined) {
 
                 $(document).on('click', '#trigger-logout', function() {
                     // Log user out.
-                    $('#header a[data-ms-action="logout"]').trigger('click');
+                    USER.logout();
                 });
             },
             callbackError: function(data) {

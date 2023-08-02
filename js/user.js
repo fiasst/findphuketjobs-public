@@ -34,6 +34,11 @@ USER = (function($, window, document, undefined) {
             });
         });
     };
+
+
+    pub.logout = function() {
+        $('#header a[data-ms-action="logout"]').trigger('click');
+    };
     
 
     // get Member's JSON then fire callback function.
