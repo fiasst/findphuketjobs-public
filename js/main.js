@@ -103,7 +103,7 @@ var MAIN = (function($, window, document, undefined) {
                     alert(data.message);//temp
                     break;
 
-                case 'dialog':
+                default:
                     pub.openDialog(data);
             }
         }

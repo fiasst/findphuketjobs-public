@@ -69,7 +69,10 @@ var DASHBOARD = (function($, window, document, undefined) {
                 MAIN.thinking(false);
                 MAIN.handleAjaxResponse(data, $form);
 
-                // $('#header a[data-ms-action="logout"]').trigger('click');
+                $(document).on('click', '#trigger-logout', function() {
+                    // Log user out.
+                    $('#header a[data-ms-action="logout"]').trigger('click');
+                });
             },
             callbackError: function(data) {
                 MAIN.thinking(false);
