@@ -151,34 +151,37 @@ textarea {
   margin-bottom: 96px !important;
 }
 
-@media screen and (min-width: 568px){
+.hide {
+  display: none !important;
+}
+@media screen and (min-width: 568px) {
   .hide-sm-up {
-    display: none;
+    display: none !important
   }
 }
-@media screen and (min-width: 768px){
+@media screen and (min-width: 768px) {
   .hide-md-up {
-    display: none;
+    display: none !important
   }
 }
-@media screen and (min-width: 992px){
+@media screen and (min-width: 992px) {
   .hide-lg-up {
-    display: none;
+    display: none !important
   }
 }
-@media screen and (min-width: 1248px){
+@media screen and (min-width: 1248px) {
   .hide-xl-up {
-    display: none;
+    display: none !important
   }
 }
-@media screen and (min-width: 1441px){
+@media screen and (min-width: 1441px) {
   .hide-xxl-up {
-    display: none;
+    display: none !important
   }
 }
-@media screen and (min-width: 1921px){
+@media screen and (min-width: 1921px) {
   .hide-xxxl-up {
-    display: none;
+    display: none !important
   }
 }
 
