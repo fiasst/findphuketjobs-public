@@ -152,36 +152,40 @@ textarea {
 }
 
 .hide {
-  display: none !important;
+  /*
+  * You cant put !important on .hide elements beause memberstack's
+  * [bind:style=display:flex] display attributes won't work.
+  */
+  display: none;
 }
 @media screen and (min-width: 568px) {
   .hide-sm-up {
-    display: none !important
+    display: none;
   }
 }
 @media screen and (min-width: 768px) {
   .hide-md-up {
-    display: none !important
+    display: none;
   }
 }
 @media screen and (min-width: 992px) {
   .hide-lg-up {
-    display: none !important
+    display: none;
   }
 }
 @media screen and (min-width: 1248px) {
   .hide-xl-up {
-    display: none !important
+    display: none;
   }
 }
 @media screen and (min-width: 1441px) {
   .hide-xxl-up {
-    display: none !important
+    display: none;
   }
 }
 @media screen and (min-width: 1921px) {
   .hide-xxxl-up {
-    display: none !important
+    display: none;
   }
 }
 
