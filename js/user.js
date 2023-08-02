@@ -75,7 +75,7 @@ USER = (function($, window, document, undefined) {
 
             if (activeOnly) {
                 // Filter out plans with status NOT set to "ACTIVE".
-                plans = HELP.filterArrayByObjectValue(plans, 'status', array('ACTIVE', 'TRIALING'));
+                plans = HELP.filterArrayByObjectValue(plans, 'status', ['ACTIVE', 'TRIALING']);
             }
 
             // Filter out plans with type NOT set to planType.
@@ -177,9 +177,49 @@ USER = (function($, window, document, undefined) {
 
 
     // On DOM ready.
-    // $(function(){
-        //
-    // });
+    $(function() {
+        // Register form validation.
+        HELP.waitFor(window.jQuery.fn, "validate", 400, function() {
+            var emailRule = {
+                required: true,
+                email: true
+            },
+            passwordRule = {
+                required: true,
+                minlength: 8
+            },
+                emailMsg = {
+                required: "Email is required",
+                email: "Must be a valid email address"
+            },
+                passwordMsg = {
+                required: "Password is required",
+                minlength: jQuery.validator.format("Password must be at least {0} characters")
+            };
+            // Business form.
+            $('#wf-form-Register-Business').validate({
+                rules: {
+                    biz_email: emailRule,
+                    biz_password: passwordRule
+                },
+                messages: {
+                    biz_email: emailMsg,
+                    biz_password: passwordMsg
+                }
+            });
+            // Jobseeker form.
+            $('#wf-form-Register-User').validate({
+                rules: {
+                    user_email: emailRule,
+                    user_password: passwordRule
+                },
+                messages: {
+                    user_email: emailMsg,
+                    user_password: passwordMsg
+                }
+            });
+        });
+    });
 
 
     return pub;

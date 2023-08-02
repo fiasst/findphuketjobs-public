@@ -21,7 +21,7 @@ var MAIN = (function($, window, document, undefined) {
         "pln_credit-package-1-p63bl01ya": 1,
         "pln_credit-package-2-pg3bd0zgw": 1,
         "pln_credit-package-3-la3be0z5o": 1,
-        "pln_subscription-package-1-p73bj0zxa": 2,
+        "pln_subscription-package-1-p73bj0zxa": 1,
         "pln_subscription-package-2-il3bk0zto": 3,
         "pln_subscription-package-3-9x3bl0z6j": 5
     };
