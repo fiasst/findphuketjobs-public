@@ -374,19 +374,20 @@ HELP = (function($, window, document, undefined) {
           formData.set(elementName, groupedArrays[elementName]);
         }
 
-        // Metadata:
+        // Add metadata to formData:
         pub.ajaxMetaValues(formData, 'formData');
 
 console.log('formData', formData);
 
-        // return values;
         if (type == 'formData') {
             return formData;
         }
         if (type == 'json') {
+            // Convert to JSON.
             return JSON.stringify(Object.fromEntries(formData));
         }
-        return Object.fromEntries(formData);// JS Object.
+        // JS Object.
+        return Object.fromEntries(formData);
     };
 
 
