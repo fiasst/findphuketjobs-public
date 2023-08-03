@@ -134,9 +134,10 @@ USER = (function($, window, document, undefined) {
         // Build a checkbox list of user's companies.
         $.each(companies, function(i, company) {
             // Clone template item.
-            var $newItem = $companyItem.clone().show();
+            var $newItem = $companyItem.clone().show(),
+                registeredName = !!company.registeredName ? ` (${company.registeredName})`: '';
             // Add company using template.
-            $('.js-company-name', $newItem).text(`${company.tradingName} (${company.registeredName})`);
+            $('.js-company-name', $newItem).text(`${company.tradingName}${registeredName}`);
             $('[type="checkbox"]', $newItem).attr('name', `company[]`).val(company.itemId);
             $form.find('.checkbox-list').append($newItem)
         });
