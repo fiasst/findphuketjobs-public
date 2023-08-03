@@ -28,12 +28,14 @@ HELP = (function($, window, document, undefined) {
     // Remove <script> tags and any attributes that start with 'on' (onclick, etc).
     // This helps to guards against XSS attack.
     pub.sanitizeHTML = (str) => {
+        if (!str) return;
+
         // Remove <script> tags and content.
         return str.replace(/<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>/gi, '')
-        // Remove attributes that start with "on" (eg: "onclick")
-        .replace(/(\s*<[^>]*)(\s+(on\w+)="[^"]*")/gi, '$1')
-        // Remove instances of "javascript:".
-        .replace(/javascript:/gi, '');
+            // Remove attributes that start with "on" (eg: "onclick")
+            .replace(/(\s*<[^>]*)(\s+(on\w+)="[^"]*")/gi, '$1')
+            // Remove instances of "javascript:".
+            .replace(/javascript:/gi, '');
         
         // Short version:
         // /javascript:|<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>|\s*on\w+="[^"]*"/gi
@@ -46,6 +48,8 @@ HELP = (function($, window, document, undefined) {
         return $("<div/>").html(str).text().replace(/<\s*\/?\s*([a-zA-Z0-9]+)\s*>/, '');
     };*/
     pub.stripHTML = function(str) {
+        if (!str) return;
+
         return pub.sanitizeHTML(str)
             // Try to strip any broken HTML.
             .replace(/<\s*\/?\s*([a-zA-Z0-9]+)\s*>/g, '')
@@ -103,10 +107,8 @@ HELP = (function($, window, document, undefined) {
             // Return path and querystring or just the string.
             return includePath ? urlObj.pathname + urlObj.search : urlObj.search;
         }
-
         // Get value.
-        var query = urlObj.searchParams.get(params);
-        return query ? pub.stripHTML(query) : false;
+        return urlObj.searchParams.get( pub.stripHTML(params.toString()) );
     };
 
 

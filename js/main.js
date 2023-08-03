@@ -423,11 +423,12 @@ var MAIN = (function($, window, document, undefined) {
                 // IMPORTANT! Do this last so all HTML show/hide attribute logic can decide whether to remove
                 // the target element first. Eg: [data-ms-perm="can:moderate"] or [data-ms-content="business"].
             var litboxAutoLaunch = function() {
+                var hash = window.location.hash;
                 // If there's a location hash longer than simply "#" in the URL.
                 // AND the element exists on the page.
-                if (window.location.hash.length > 1 && !!$(window.location.hash).length) {
+                if (hash.length > 1 && !!$(hash).length) {
                     // Look for an inline Litbox trigger and click the first instance you find.
-                    $(`.trigger-lbox[href="${window.location.hash}"]:eq(0)`).trigger('click');
+                    $(`.trigger-lbox[href="${hash}"]:eq(0)`).trigger('click');
                 }
             }();
         });
@@ -478,6 +479,17 @@ var MAIN = (function($, window, document, undefined) {
 
 
         // Redirect user after form submit.
+        const queryDest = HELP.getSetQuerystring('dest');
+        if (queryDest) {
+            $('form').find('.fp_redirect').attr('data-redirect', '/'+queryDest);// Relative URIs only.
+        }
+        $('form').on('submit', function() {
+            var redir = $(this).find('.fp_redirect').attr('data-redirect');
+            if (redir) {
+                localStorage.setItem('fp_redirect', redir);
+            }
+        });
+
         $('form').on('submit', function() {
             var redir = HELP.getSetQuerystring('destination');
             if (redir) {
