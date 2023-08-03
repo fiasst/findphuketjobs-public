@@ -79,7 +79,8 @@ var ADD_JOB = (function($, window, document, undefined) {
                 }) );
 
                 $.each(list, function(i, item) {
-                    var name = HELP.stripHTML(item.tradingName);// Sanatize values.
+                    var name = HELP.stripHTML(item.tradingName),// Sanatize value.
+                        registeredName = !!item.registeredName ? ` (${HELP.stripHTML(item.registeredName)})` : '';// Sanatize value.
                     
                     if (selectedCompany) {
                         isSelected = (selectedCompany == name);
@@ -87,7 +88,7 @@ var ADD_JOB = (function($, window, document, undefined) {
                     
                     companySelect.append($('<option>', {
                         value: (item.state == 'disabled') ? '0' : item.itemId,
-                        text: name + ' ('+ HELP.stripHTML(item.registeredName) +')',// Sanatize values.
+                        text: name + registeredName,// Sanatize values.
                         selected: isSelected,
                         disabled: (item.state == 'disabled')
                     }));
