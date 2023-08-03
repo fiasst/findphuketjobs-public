@@ -490,13 +490,6 @@ var MAIN = (function($, window, document, undefined) {
             }
         });
 
-        $('form').on('submit', function() {
-            var redir = HELP.getSetQuerystring('destination');
-            if (redir) {
-                localStorage.setItem('fp_redirect', '/'+redir);// Relative URIs only.
-            }
-        });
-
 
         // Show a hidden block if it contains Collection list items (not empty).
         $('.job-block-visibility').each(function() {
