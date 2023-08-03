@@ -68,11 +68,6 @@ var DASHBOARD = (function($, window, document, undefined) {
             callbackSuccess: function(data) {
                 MAIN.thinking(false);
                 MAIN.handleAjaxResponse(data, $form);
-
-                $(document).on('click', '#trigger-logout', function() {
-                    // Log user out.
-                    USER.logout();
-                });
             },
             callbackError: function(data) {
                 MAIN.thinking(false);

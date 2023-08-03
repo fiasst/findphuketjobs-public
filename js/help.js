@@ -268,15 +268,15 @@ HELP = (function($, window, document, undefined) {
     // Useful for filtering an Array of company Objects to only state.active ones.
         // or, for filtering out member plans without a status of ACTIVE or TRIALING.
     pub.filterArrayByObjectValue = function(array, key, values) {
-        // Check if the 'values' parameter is an array
+        // Check if the 'values' parameter is an array.
         if (Array.isArray(values)) {
             return $.map(array, function(obj, i) {
-                // Check if the object's 'key' matches any value in the 'values' array
+                // Check if the object's 'key' matches any value in the 'values' array.
                 return values.includes(obj[key]) ? obj : null;
             });
         }
         else {
-            // 'values' is a single value, not an array
+            // 'values' is a single value, not an array.
             return $.map(array, function(obj, i) {
                 return obj[key] == values ? obj : null;
             });

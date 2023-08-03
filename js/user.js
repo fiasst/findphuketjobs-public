@@ -34,11 +34,6 @@ USER = (function($, window, document, undefined) {
             });
         });
     };
-
-
-    pub.logout = function() {
-        $('#header a[data-ms-action="logout"]').trigger('click');
-    };
     
 
     // get Member's JSON then fire callback function.
@@ -79,11 +74,11 @@ USER = (function($, window, document, undefined) {
             var plans = member.planConnections;
 
             if (activeOnly) {
-                // Filter out plans with status NOT set to "ACTIVE".
+                // Filter plans by status set to "ACTIVE" or "TRIALING".
                 plans = HELP.filterArrayByObjectValue(plans, 'status', ['ACTIVE', 'TRIALING']);
             }
 
-            // Filter out plans with type NOT set to planType.
+            // Filter plans by type set to <planType>.
             if (planType) {
                 plans = HELP.filterArrayByObjectValue(plans, 'type', planType);
             }
@@ -122,43 +117,40 @@ USER = (function($, window, document, undefined) {
 
 
     pub.updateActiveCompanies = function(companies) {
-        // If company limit is exceeded.
-        if (companies.length > companiesMax) {
-            var companiesText = HELP.pluralize(companiesMax, 'business', 'businesses'),
-                $form = $('#'+formActiveCompaniesID),
-                $companyItem = $form.find('.js-company');
+        var companiesText = HELP.pluralize(companiesMax, 'business', 'businesses'),
+            $form = $('#'+formActiveCompaniesID),
+            $companyItem = $form.find('.js-company');
 
-            // Replace token text with company limit.
-            $form.find('.js-num-companies').text(companiesText);
+        // Replace token text with company limit.
+        $form.find('.js-num-companies').text(companiesText);
 
 
-            // Remove the Add Job and Add Company forms.
-            $('.form-job-step-2, #company-form-wrapper').remove();
+        // Remove the Add Job and Add Company forms.
+        $('.form-job-step-2, #company-form-wrapper').remove();
 
-            // Remove the template item.
-            $companyItem.hide();
+        // Remove the template item.
+        $companyItem.hide();
 
-            // Build a checkbox list of user's companies.
-            $.each(companies, function(i, company) {
-                // Clone template item.
-                var $newItem = $companyItem.clone().show();
-                // Add company using template.
-                $('.js-company-name', $newItem).text(`${company.tradingName} (${company.registeredName})`);
-                $('[type="checkbox"]', $newItem).attr('name', `company[]`).val(company.itemId);
-                $form.find('.checkbox-list').append($newItem)
-            });
+        // Build a checkbox list of user's companies.
+        $.each(companies, function(i, company) {
+            // Clone template item.
+            var $newItem = $companyItem.clone().show();
+            // Add company using template.
+            $('.js-company-name', $newItem).text(`${company.tradingName} (${company.registeredName})`);
+            $('[type="checkbox"]', $newItem).attr('name', `company[]`).val(company.itemId);
+            $form.find('.checkbox-list').append($newItem)
+        });
 
-            // Explain problem and open UI to update active companies.
-            MAIN.openLitbox({
-                title: 'Update active businesses',
-                href: '#update-companies-form-wrapper',
-                css: {
-                    xxs: {
-                        maxWidth: 700
-                    }
+        // Explain problem and open UI to update active companies.
+        MAIN.openLitbox({
+            title: 'Update active businesses',
+            href: '#update-companies-form-wrapper',
+            css: {
+                xxs: {
+                    maxWidth: 700
                 }
-            });
-        }
+            }
+        });
     }
 
 

@@ -31,8 +31,6 @@ var APPLY = (function($, window, document, undefined) {
                         MAIN.handleAjaxResponse(data, form);
                     }
                 }, form);
-
-                return false;
             });
     });
 
