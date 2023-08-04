@@ -7,6 +7,9 @@ USER = (function($, window, document, undefined) {
     pub.current = HELP.getCookie("MSmember") || {};
 
 
+    pub.logout = () => $memberstackDom.logout();
+
+
     pub.updateCurrentUser = function(obj) {
         USER.current = USER.current || pub.current;
 
@@ -167,6 +170,15 @@ USER = (function($, window, document, undefined) {
             return false;
         }
         return true;
+    };
+
+
+    // When a user deletes their account and clicks the final modal CTA.
+    pub.deleteAccountCallback = () => {
+        MAIN.thinking(true);
+        $memberstackDom.logout().then(() => {
+            window.location.href = '/';
+        });
     };
 
 
