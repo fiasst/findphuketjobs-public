@@ -418,6 +418,7 @@ var MAIN = (function($, window, document, undefined) {
                 }
               );
             });*/
+            
 
             // Check if URL hash exists as an element's ID on page load.
                 // IMPORTANT! Do this last so all HTML show/hide attribute logic can decide whether to remove

@@ -36,9 +36,7 @@ USER = (function($, window, document, undefined) {
                 member = member || {};
                 pub.updateCurrentUser(member);
 
-                if (!!callback) {
-                    callback(USER.current);
-                }
+                if (!!callback) callback(USER.current);
                 return USER.current;
             });
         });
@@ -51,9 +49,7 @@ USER = (function($, window, document, undefined) {
             window.$memberstackDom.getMemberJSON().then(({ data: memberJSON }) => {
                 memberJSON = memberJSON || {};
 
-                if (!!callback) {
-                    callback(memberJSON);
-                }
+                if (!!callback) callback(memberJSON);
                 return memberJSON;
             });
         });
@@ -66,9 +62,7 @@ USER = (function($, window, document, undefined) {
             window.$memberstackDom.updateMemberJSON({ json: json }).then(({ data: memberJSON }) => {
                 memberJSON = memberJSON || {};
 
-                if (!!callback) {
-                    callback(memberJSON);
-                }
+                if (!!callback) callback(memberJSON);
                 return memberJSON;
             });
         });
@@ -227,6 +221,15 @@ USER = (function($, window, document, undefined) {
             });
         });
     });
+
+
+
+    // Deleted user account callback.
+    pub.ghostLogout = function() {
+        // CTA button in the dialog explaining your acount was deleted.
+        $('#trigger-ghost-logout').on('click', pub.logout);
+    };
+    
 
 
     return pub;

@@ -211,7 +211,7 @@ HELP = (function($, window, document, undefined) {
 
     // Check whether Object key exists
     pub.checkKeyExists = function(obj, keys) {
-        // If  obj is falsy.
+        // If obj is falsy.
         if (!(!!obj)) return false;
         keys = typeof keys === 'string' ? keys.split('.') : keys;
         if (keys.length === 0) return true;
