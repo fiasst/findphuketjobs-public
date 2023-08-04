@@ -150,7 +150,7 @@ var FORMS = (function($, window, document, undefined) {
 
 
         // Must appear before the createSelect2() call.
-        $('.select-list-options').createSelectOptions();
+        $('.select-list-options').buildSelectOptions();
 
 
         // Translate select lists and rebuild any jQuery Select2 widgets.
@@ -202,7 +202,7 @@ var FORMS = (function($, window, document, undefined) {
 * Extend jQuery.
 */
 // Form fields: Populate select with option elements built from Collection List data.
-$.fn.createSelectOptions = function(options) {
+$.fn.buildSelectOptions = function(options) {
     options = options || {};
 
     $.each(this, function(i, el) {
@@ -239,7 +239,6 @@ $.fn.createSelect2 = function(options) {
     if (!$(items).length) return false;
 
     HELP.waitFor(jQuery, "fn.select2", 100, function() {
-        console.log("select2 found");
         var ops;
         $.each(items, function(i, el) {
             ops = options;
@@ -247,7 +246,7 @@ $.fn.createSelect2 = function(options) {
             var selected = $(el).find('option[selected]');
             
             // If the select doesn't have a "multiple" attribute.
-            if (!(!!$(el).attr('multiple'))) {
+            if (!$(el).attr('multiple')) {
                 // For the placeholder to appear, you need a blank <option> as the first option.
                 $(el).prepend('<option value="">'+ ops.placeholder +'</option>');
             }
@@ -257,7 +256,7 @@ $.fn.createSelect2 = function(options) {
                 // This happens when the language is changed.
                 .data('select2-options', ops)
                 // Sets the default option:
-                .val( selected.length ? $(el).val() : '' ).trigger('change');
+                .val( !!selected.length ? $(el).val() : '' ).trigger('change');
         });
     });
 };
