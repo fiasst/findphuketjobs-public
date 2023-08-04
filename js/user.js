@@ -176,7 +176,9 @@ USER = (function($, window, document, undefined) {
     // When a user deletes their account and clicks the final modal CTA.
     pub.deleteAccountCallback = () => {
         MAIN.thinking(true);
-        $memberstackDom.logout().then(() => window.location.href = '/');
+        $memberstackDom.logout().then(() => {
+            window.location.href = '/';
+        });
     };
 
 
