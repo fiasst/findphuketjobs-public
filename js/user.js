@@ -10,6 +10,8 @@ USER = (function($, window, document, undefined) {
     // Useful for When a user deletes their account and clicks the final modal CTA.
     pub.logout = () => {
         MAIN.thinking(true);
+        USER.current = null;
+        HELP.setCookie("MSmember", null);
         $memberstackDom.logout().then(() => {
             window.location.href = '/';
         });
