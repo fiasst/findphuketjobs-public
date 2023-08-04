@@ -180,7 +180,8 @@ var FORMS = (function($, window, document, undefined) {
                 select2Fields.createSelect2();
             });
         }*/
-        $('.select2-field:not(.collection-list)').createSelect2();
+        // Not sure what .collection-list class was/is used for. Trying code without it.
+        // $('.select2-field:not(.collection-list)').createSelect2();
 
 
         // LitBox support.
