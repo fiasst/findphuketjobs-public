@@ -419,16 +419,18 @@ var MAIN = (function($, window, document, undefined) {
               );
             });*/
 
-            // Check if URL hash exists as a Litbox trigger on page load.
+            // Check if URL hash exists as an element's ID on page load.
                 // IMPORTANT! Do this last so all HTML show/hide attribute logic can decide whether to remove
                 // the target element first. Eg: [data-ms-perm="can:moderate"] or [data-ms-content="business"].
-            var litboxAutoLaunch = function() {
+            var hashAutoTrigger = function() {
                 var hash = window.location.hash;
-                // If there's a location hash longer than simply "#" in the URL.
+                // If there's a location hash longer than simply "#" in the URL
                 // AND the element exists on the page.
                 if (hash.length > 1 && !!$(hash).length) {
-                    // Look for an inline Litbox trigger and click the first instance you find.
+                    // Look for an inline Litbox trigger and click the first instance.
                     $(`.trigger-lbox[href="${hash}"]:eq(0)`).trigger('click');
+                    // Tab trigger.
+                    $(`.w-tab-menu .w-tab-link[href="${hash}"]`).trigger('click');
                 }
             }();
         });
