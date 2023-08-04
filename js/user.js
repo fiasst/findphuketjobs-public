@@ -13,7 +13,10 @@ USER = (function($, window, document, undefined) {
         USER.current = null;
         HELP.setCookie("MSmember", null);
         $memberstackDom.logout().then(() => {
-            window.location.href = '/';
+            // Delay so MS can catch up and display login/register links on page change.
+            setTimeout(function() {
+                window.location.href = '/';
+            }, 1500);
         });
     };
 

@@ -222,22 +222,6 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
-    // Show/hide existing file details and replace with file upload field.
-    pub.uploadFields = function() {
-        $('.upload-wrapper').each(function() {
-            var filename = !!$(this).find('.file-existing .file-upload-text').text();
-            $('.upload-field', this).toggle(!filename);
-            $('.file-existing', this).toggle(filename);
-        });
-        
-        $('.file-existing .file-upload-button').on('click', function() {
-            var wrapper = $(this).parents('.upload-wrapper');
-            wrapper.find('.file-existing').remove();
-            wrapper.find('.upload-field').fadeIn(500);
-        });
-    };
-
-
     // This get called whenever a Job teaser Item gets loaded on a page, including with AJAX.
     pub.jobItem = function() {
         $('.card.job').each(function() {
@@ -300,7 +284,6 @@ var MAIN = (function($, window, document, undefined) {
         // Init.
         pub.jobItem();
         pub.collectionItem();
-        pub.uploadFields();
 
 
         // FS cmsFilters loaded/rendered new items.
@@ -338,16 +321,6 @@ var MAIN = (function($, window, document, undefined) {
                 pub.replaceTextWithMetadata(member.metaData);
             }
 
-            if (HELP.checkKeyExists(member, 'id')) {
-                // Add member ID to form field.
-                var hiddenInput = $('.input-member-id');
-
-                if (!!hiddenInput && !hiddenInput.val()) {
-                    hiddenInput.val(member.id);
-                    hiddenInput.parents('form').find('.form-submit').removeAttr('disabled');
-                }
-            }
-
 
             // Show content author controls (edit, republish, archive links...).
             if (!!$('.node-author').length) {
@@ -380,44 +353,6 @@ var MAIN = (function($, window, document, undefined) {
             $('[data-ms-perm]').each(function() {
                 pub.controlHTML($(this), HELP.hasPermissions($(this).attr('data-ms-perm'), member));
             });
-
-
-            /*
-            * Removed this for now because Weglot can't translate Thai to English, only the other way around...
-            * Could use Google Translate API for this feature instead.
-            *
-            $('.form-translate').on('click', function() {
-              var form = $('#' + $(this).attr('data-form')),
-                  clone = form.clone(),
-                  fields = [],
-                  strings = [];
-              
-              // Remove selects, buttons, passwords, tel/email fields and metadata from being translated.
-              clone.find(':input:not(.translate)').remove();
-              var fieldValues = HELP.getFormValues(clone);
-              
-              $.each(fieldValues, function(key, value) {
-                if (!!value) {
-                  strings.push({ 'w': value, 't': 2 });
-                  fields.push(key);
-                }
-              });
-              console.log(strings);
-              console.log(fields);
-              
-              Weglot.translate(
-                {
-                  'words': strings,
-                  'languageTo': 'th'
-                }, function(data) {
-                  console.log('data', data);
-                  $.each(data, function(i, value) {
-                    form.find('[name="'+ fields[i] +'"]').val(value);
-                    console.log(fields[i], value);
-                  });
-                }
-              );
-            });*/
             
 
             // Check if URL hash exists as an element's ID on page load.
@@ -455,45 +390,6 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
-        // Delay forms.
-        //$('.delay-submit').one('submit', function() {
-        /*
-        * Doesn't work well with .ajax-submit submit handler. Fires AJAX twice...
-        *
-        $('.delay-submit').on('click.delaySubmit', '.delay-button', function(e) {
-            console.log('delay-submit');
-            e.preventDefault();
-
-            let cookieFormValid = HELP.getCookie('form-valid'),
-                form = $(this),
-                button = $(e.target),
-                d=20e3;
-
-            cookieFormValid = !!cookieFormValid?Number(cookieFormValid):d;
-            pub.buttonThinking(button);
-
-            setTimeout(function() {
-              form.off('.delaySubmit').submit();
-            }, cookieFormValid);
-            HELP.setCookie('form-valid',cookieFormValid+d);
-
-            return false;
-        });*/
-
-
-        // Redirect user after form submit.
-        const queryDest = HELP.getSetQuerystring('dest');
-        if (queryDest) {
-            $('form').find('.fp_redirect').attr('data-redirect', '/'+queryDest);// Relative URIs only.
-        }
-        $('form').on('submit', function() {
-            var redir = $(this).find('.fp_redirect').attr('data-redirect');
-            if (redir) {
-                localStorage.setItem('fp_redirect', redir);
-            }
-        });
-
-
         // Show a hidden block if it contains Collection list items (not empty).
         $('.job-block-visibility').each(function() {
             $(this).toggle( !!$(this).find('.w-dyn-item').length );
@@ -514,93 +410,6 @@ var MAIN = (function($, window, document, undefined) {
             if (e && !(e.key == 'Backspace' || e.key == 'Delete')) {
                 $(this).val( HELP.formatDDMMYYYY($(this).val()) );
             }
-        });
-
-
-        //  General AJAX form submit handler.
-        $('.ajax-submit')
-            .on('click', '.form-submit', function(e) {
-                $(e.target).addClass('clicked');
-            })
-            .on('submit', function(e) {
-                e.preventDefault();
-                var $form = $(this),
-                    $button = $form.find('.form-submit.clicked'),
-                    validation = $form.attr('data-validation');
-
-                // Custom form validation.
-                if (validation && !HELP.callNestedFunction(validation)) {
-                    // Validation function retured false.
-                    console.log('Validation failed');
-                    pub.buttonThinking($button, true);
-                    // Don't proceed.
-                    return false;
-                }
-
-                var data = HELP.getFormValues($form),
-                    formIncrement = HELP.getCookie('form-valid'),
-                    i = 2;
-
-                formIncrement = !!formIncrement ? Number(formIncrement) : 0;
-                data.increment = ++formIncrement;
-                HELP.setCookie('form-valid', data.increment);
-
-                pub.buttonThinking($button);
-                pub.thinking(true, false);
-                console.log(data);
-
-                HELP.sendAJAX({
-                    url: $form.attr('action'),
-                    method: $form.attr('method'),
-                    data: data,
-                    timeout: 120000,
-                    callbackSuccess: function(data) {
-                        pub.thinking(false);
-                        pub.handleAjaxResponse(data, $form);
-                    },
-                    callbackError: function(data) {
-                        pub.thinking(false);
-                        console.log('error');
-                    }
-                }, $form);
-            });
-
-
-        // Form fields: Populate field's default values with inline attribute's value.
-        $(':input[data-default-value]').each(function() {
-            var $el = $(this),
-                val = $el.attr('data-default-value');
-
-            if (!$el.val()) {
-                // Remove non-number characters from value so it can be set as a value.
-                if ($el.attr('type') == 'number') val = HELP.removeNonNumeric(val);
-
-                $el.val(val);
-            }
-        });
-        // Form fields: Populate field's default values with sibling DIV's content.
-        $('.input-default-value').each(function() {
-            var $el = $(this),
-                $input = $el.parent().find(':input'),
-                $customInput = $input.siblings('.w-checkbox-input'),
-                    // hasText value can either be empty, for non-Switch WF fields
-                    //or "true/false" (String), for Switch WF fields.
-                    hasText = !!$el.text() && $el.text() !== "false";
-            
-            if ($input.attr('type') == 'checkbox') {
-                if ($customInput && ($customInput.hasClass('w--redirected-checked') !== hasText)) {
-                    $customInput.trigger('click');
-                }
-                // Make sure the checkbox reflects the same state as the custom faux checkbox...
-                $input.prop('checked', hasText);
-            }
-            else if (!$input.val()) {
-                $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
-            }
-        });
-        // Form fields: Add maxlength attribute to fields.
-        $(':input[data-maxlength]').each(function() {
-            $(this).attr('maxlength', $(this).attr('data-maxlength') );
         });
 
 
@@ -641,14 +450,7 @@ var MAIN = (function($, window, document, undefined) {
             if (HELP.checkKeyExists(USER, "current.loginRedirect")) {
                 window.location.href = USER.current.loginRedirect;
             }
-        });
-
-
-        // Update form "op" (operation) value on button click.
-        // Because Webflow doesn't pass submit button values through to Make...
-        $('.form-submit[name="op"]').on('click', function() {
-            $(this).parents('form').find('.form-action-op').val( $(this).val() );
-        });
+        })
 
 
         $('.node-job-row').each(function() {
@@ -676,49 +478,6 @@ var MAIN = (function($, window, document, undefined) {
                 }
             }
         });
-
-
-        // Must appear before the createSelect2() call.
-        $('.select-list-options').createSelectOptions();
-
-
-        // Translate select lists and rebuild any jQuery Select2 widgets.
-        HELP.waitFor(window, "Weglot", 400, function() {
-            Weglot.on("languageChanged", function() {
-                $('.select-list-options').each(function() {
-                    var select = $(this).parent('.select-list-wrapper').find('select');
-
-                    $(this).find('.w-dyn-item').each(function(i) {
-                        console.log(i, $(this).text());
-                        select.find('option').eq(i).text( $(this).text() ).val( $(this).data('lang-en') );
-                    });
-                    if (select.hasClass('select2-hidden-accessible')) {
-                        select.select2('destroy');
-                        select.select2( select.data('select2-options') );
-                    }
-                });
-            });
-        });
-
-
-        // Select2 dropdowns.
-        // Must be called after the .select-list-options select options have been built. 
-        /*var select2Fields = $('.select2-field');
-        if (!!select2Fields.length) {
-            HELP.waitFor(jQuery.fn, "select2", 100, function() {
-                select2Fields.createSelect2();
-            });
-        }*/
-        $('.select2-field:not(.collection-list)').createSelect2();
-
-
-        // LitBox support.
-        $(document)
-            .on('lbox_open', function() {
-                // Create any new Select2 fields.
-                // Make sure it's not been initiated already (inline HTML from the same page) using :not().
-                // $('#litbox .select2-field:not(.select2-hidden-accessible)').createSelect2();
-            });
     });
 
     return pub;
@@ -730,68 +489,6 @@ var MAIN = (function($, window, document, undefined) {
 /*
 * Extend jQuery.
 */
-// Form fields: Populate select with option elements built from Collection List data.
-$.fn.createSelectOptions = function(options) {
-    options = options || {};
-
-    $.each(this, function(i, el) {
-        var wrapper = $(this).parent('.select-list-wrapper'),
-            select = wrapper.find('select'),
-            defaultValue = wrapper.find('.input-default-value').attr('data-value') || '',
-            values = [];
-
-        $(this).find('.w-dyn-item').each(function() {
-            var val = $(this).text();
-            if (!val || $.inArray(val, values) > -1) return;// Skip empty or duplicate values.
-            values.push(val);
-
-            $(this).data('lang-en', val);// Store a non-translated string in .data().
-
-            $('<option />', {
-                value: val,
-                selected: (val == defaultValue) ? 'selected' : false
-            }).text(val).appendTo( $(select) );
-        });
-        if (select.hasClass('select2-field')) {
-            select.createSelect2();
-        }
-    });
-};
-
-
-// Create jQuery Select2 widget.
-  // Use this instead of .select2() when first initializing a widget.
-$.fn.createSelect2 = function(options) {
-    options = options || {};
-    var items = this;
-
-    if (!$(items).length) return false;
-
-    HELP.waitFor(jQuery, "fn.select2", 100, function() {
-        console.log("select2 found");
-        var ops;
-        $.each(items, function(i, el) {
-            ops = options;
-            ops.placeholder = $(el).attr('placeholder') || "Select...";
-            var selected = $(el).find('option[selected]');
-            
-            // If the select doesn't have a "multiple" attribute.
-            if (!(!!$(el).attr('multiple'))) {
-                // For the placeholder to appear, you need a blank <option> as the first option.
-                $(el).prepend('<option value="">'+ ops.placeholder +'</option>');
-            }
-            
-            $(el).select2(ops)
-                // Store options in .data() incase we need to destroy and rebuild the select2 widget.
-                // This happens when the language is changed.
-                .data('select2-options', ops)
-                // Sets the default option:
-                .val( selected.length ? $(el).val() : '' ).trigger('change');
-        });
-    });
-};
-
-
 // Not being used yet but is useful.
 /*$.fn.nextprev = function(dir) {
     return (dir === 'prev') ? this.prev() : this.next();
@@ -802,12 +499,5 @@ $.fn.createSelect2 = function(options) {
 jQuery.expr[':'].icontains = function(el, i, m, array) {
     return (el.textContent || el.innerText || "").toLowerCase().indexOf((m[3] || "").toLowerCase()) >= 0;
 };
-
-
-// Form element has value/is selected or is checked, selector ":selectedInput".
-jQuery.expr[':'].selectedInput = function(el, i, m) {
-    return el.type == "checkbox" || el.type == "radio" ? el.checked : el.value != "";
-};
-
 
 
