@@ -117,13 +117,14 @@ var FORMS = (function($, window, document, undefined) {
         // Form fields: Populate field's default values with sibling DIV's content.
         $('.input-default-value').each(function() {
             var $el = $(this),
-                $input = $el.parent().find(':input'),
-                $customInput = $input.siblings('.w-checkbox-input'),
+                $input = $el.parent().find(':input');                
+            
+            if ($input.attr('type') == 'checkbox') {
+                var $customInput = $input.siblings('.w-checkbox-input'),
                     // hasText value can either be empty, for non-Switch WF fields
                     //or "true/false" (String), for Switch WF fields.
                     hasText = !!$el.text() && $el.text() !== "false";
-            
-            if ($input.attr('type') == 'checkbox') {
+
                 if ($customInput && ($customInput.hasClass('w--redirected-checked') !== hasText)) {
                     $customInput.trigger('click');
                 }
@@ -208,8 +209,9 @@ $.fn.buildSelectOptions = function(options) {
 
     $.each(this, function(i, el) {
         var wrapper = $(this).parent('.select-list-wrapper'),
-            select = wrapper.find('select'),
-            defaultValue = wrapper.find('.input-default-value').attr('data-value') || '',
+            select = $('select', wrapper),
+            $default = $('.input-default-value', wrapper),
+            defaultValue = HELP.stripHTML(!!$default.text() ? $default.text() : $default.attr('data-value')) || '',
             values = [];
 
         $(this).find('.w-dyn-item').each(function() {
