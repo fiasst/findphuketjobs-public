@@ -174,15 +174,10 @@ var FORMS = (function($, window, document, undefined) {
 
 
         // Select2 dropdowns.
-        // Must be called after the .select-list-options select options have been built. 
-        /*var select2Fields = $('.select2-field');
-        if (!!select2Fields.length) {
-            HELP.waitFor(jQuery.fn, "select2", 100, function() {
-                select2Fields.createSelect2();
-            });
-        }*/
-        // Not sure what .collection-list class was/is used for. Trying code without it.
-        // $('.select2-field:not(.collection-list)').createSelect2();
+        $('.select2-field').filter(function() {
+            // Remove select fields with a certain parent. These get initialized in $.fn.buildSelectOptions().
+            return !$(this).parents('.select-list-wrapper').length;
+        }).createSelect2();
 
 
         // LitBox support.
