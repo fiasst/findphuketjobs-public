@@ -372,6 +372,23 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
+        // Add querystring to a links href based on two attributes set on the link.
+        $('a').filter('[data-query-value]').each(function() {
+            var $el = $(this);
+            $el.attr('href', HELP.getSetQuerystring({
+                [$el.attr('data-query-name')]: $el.attr('data-query-value')
+            }, true));
+        });
+
+
+        // Add a hash to a link's href based on an attribute.
+        // Using a and filter() to speed up the search.
+        $('a').filter('[data-hash]').each(function() {
+            var $el = $(this);
+            $el.attr('href', $el.attr('href') + '#' + $el.attr('data-hash'));
+        });
+
+
         // General Litbox trigger handler.
         $('.trigger-lbox').on('click', function(e) {
             e.preventDefault();
@@ -393,22 +410,6 @@ var MAIN = (function($, window, document, undefined) {
         // Show a hidden block if it contains Collection list items (not empty).
         $('.job-block-visibility').each(function() {
             $(this).toggle( !!$(this).find('.w-dyn-item').length );
-        });
-
-
-        // Add querystring to a links href based on two attributes set on the link.
-        $('.link-add-querystring').each(function() {
-            var $el = $(this);
-            $el.attr('href', HELP.getSetQuerystring({
-                [$el.attr('data-query-name')]: $el.attr('data-query-value')
-            }, true));
-        });
-
-
-        // Add a hash to an element's href (link probably) based on an attribute.
-        $('[data-hash]').each(function() {
-            var $el = $(this);
-            $el.attr('href', $el.attr('href') + '#' + $el.attr('data-hash'));
         });
 
 
