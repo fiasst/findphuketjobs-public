@@ -261,8 +261,16 @@ $.fn.createSelect2 = function(options) {
 
 
 // Form element has value/is selected or is checked, selector ":selectedInput".
-jQuery.expr[':'].selectedInput = function(el, i, m) {
-    return el.type == "checkbox" || el.type == "radio" ? el.checked : el.value != "";
+jQuery.expr[':'].selectedInput = (el, i, m) => {
+    var exclude = ['submit', 'button', 'reset', 'hidden'];
+
+    if (el.type == 'checkbox' || el.type == 'radio') {
+        return el.checked;
+    }
+    else if (exclude.indexOf(el.type) < 0) {
+        return el.value;
+    }
+    return false;
 };
 
 
