@@ -405,6 +405,13 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
+        // Add a hash to an element's href (link probably) based on an attribute.
+        $('[data-hash]').each(function() {
+            var $el = $(this);
+            $el.attr('href', $el.attr('href') + '#' + $el.attr('data-hash'));
+        });
+
+
         // Format DOB and other date fields on key press.
         $('.format-ddmmyyyy').on('keyup', function(e) {
             if (e && !(e.key == 'Backspace' || e.key == 'Delete')) {
