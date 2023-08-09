@@ -324,17 +324,20 @@ body.no-scroll .fp-overlay {
 */
 #weglot-wrapper {
   display: block !important;
+  height: 39px;
+  margin-left: 1rem;
 }
 .weglot-container {
   z-index: 20;
-  width: 100px;
+  width: 95px;
   height: 39px;
   position: relative;
 
   .wg-drop {
     width: 100%;
     position: absolute;
-    box-shadow: 0 2px 3px rgba(0,0,0, .16);
+    // box-shadow: 0 2px 3px rgba(0,0,0, .16);
+    border: 1px solid #b7d8db;
     border-radius: 8px;
     display: block;
     overflow: hidden;
