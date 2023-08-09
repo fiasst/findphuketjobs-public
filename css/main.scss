@@ -322,12 +322,15 @@ body.no-scroll .fp-overlay {
 /*
 * Weglot widget.
 */
+#weglot-wrapper {
+  display: block !important;
+}
 .weglot-container {
   z-index: 20;
   width: 100px;
   height: 39px;
   position: relative;
-  
+
   .wg-drop {
     width: 100%;
     position: absolute;
