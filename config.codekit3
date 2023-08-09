@@ -72,6 +72,17 @@
       "oF" : 0,
       "pg" : 0
     },
+    "\/js\/forms-min.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/js\/forms-min-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
     "\/js\/forms.js" : {
       "bF" : 0,
       "ft" : 64,
@@ -156,6 +167,17 @@
       "mi" : 1,
       "oA" : 0,
       "oAP" : "\/js\/pages\/add-job-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
+    "\/js\/pages\/all-jobs.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/js\/pages\/all-jobs-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0

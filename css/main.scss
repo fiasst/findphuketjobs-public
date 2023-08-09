@@ -159,32 +159,63 @@ textarea {
   display: none;
 }
 @media screen and (min-width: 568px) {
-  .hide-sm-up {
+  .hide-sm {
     display: none;
   }
 }
 @media screen and (min-width: 768px) {
-  .hide-md-up {
+  .hide-md {
     display: none;
   }
 }
 @media screen and (min-width: 992px) {
-  .hide-lg-up {
+  .hide-lg {
     display: none;
   }
 }
 @media screen and (min-width: 1248px) {
-  .hide-xl-up {
+  .hide-xl {
     display: none;
   }
 }
 @media screen and (min-width: 1441px) {
-  .hide-xxl-up {
+  .hide-xxl {
     display: none;
   }
 }
 @media screen and (min-width: 1921px) {
-  .hide-xxxl-up {
+  .hide-xxxl {
+    display: none;
+  }
+}
+// Downwards.
+@media screen and (max-width: 567px) {
+  .hide-sm-down {
+    display: none;
+  }
+}
+@media screen and (max-width: 767px) {
+  .hide-md-down {
+    display: none;
+  }
+}
+@media screen and (max-width: 991px) {
+  .hide-lg-down {
+    display: none;
+  }
+}
+@media screen and (max-width: 1247px) {
+  .hide-xl-down {
+    display: none;
+  }
+}
+@media screen and (max-width: 1440px) {
+  .hide-xxl-down {
+    display: none;
+  }
+}
+@media screen and (max-width: 1920px) {
+  .hide-xxxl-down {
     display: none;
   }
 }
@@ -291,7 +322,49 @@ body.no-scroll .fp-overlay {
 /*
 * Weglot widget.
 */
-.wg-list {
+.weglot-container {
+  z-index: 20;
+  width: 100px;
+  height: 39px;
+  position: relative;
+}
+.wg-drop {
+  width: 100%;
+  position: absolute;
+  box-shadow: 0 2px 3px rgba(0,0,0, 0.16);
+  border-radius: 8px;
+  display: block;
+  overflow: hidden;
+
+  &.country-selector {
+    ul {
+      position: relative;
+      border: 0;
+    }
+    .wg-li {
+      border: 0;
+    }
+    :not(.wgcurrent) {
+      a {
+        width: 100%;
+
+        &:hover {
+          background: #f5feff;
+          color: #bf1363;
+        }
+      }
+    }
+
+    &.closed {
+      .wgcurrent {
+        &::after {
+          transform: rotate(-180deg);
+        }
+      }
+    }
+  }
+}
+/*.wg-list {
   &.country-selector {
     ul {
       display: flex !important;
@@ -348,7 +421,7 @@ body.no-scroll .fp-overlay {
       }
     }
   }
-}
+}*/
 
 
 
