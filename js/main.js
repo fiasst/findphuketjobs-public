@@ -442,11 +442,11 @@ var MAIN = (function($, window, document, undefined) {
 
         // Toggle element visibility.
         $(document).on('click', '.toggle-vis', function(e) {
-            var target = $(this).attr('href');
+            var target = $(this).attr('href')
 
             if (!!target.length) {
                 e.preventDefault();
-                $(target).toggleClass('hide active');
+                $(target).toggleClass($(this).attr('data-toggle-class') || 'hide');
             }
         });
 
