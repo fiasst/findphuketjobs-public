@@ -34,7 +34,8 @@ textarea {
     margin-right: 5rem;
   }
 }
-.char-count {
+// The textarea has this class too so use "div".
+div.char-count {
   position: absolute;
   right: 0;
   font-size: 12px;
