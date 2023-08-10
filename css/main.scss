@@ -26,6 +26,20 @@ select {
 textarea {
   resize: vertical;
 }
+// Character count textarea widget.
+.char-count-wrapper {
+  position: relative;
+
+  .helptext {
+    margin-right: 5rem;
+  }
+}
+.char-count {
+  position: absolute;
+  right: 0;
+  font-size: 12px;
+  line-height: 1.7;
+}
 
 .w-checkbox-input--inputType-custom.w--redirected-checked,
 .w-checkbox-input--inputType-custom.w--redirected-focus {

@@ -247,7 +247,7 @@ $.fn.createSelect2 = function(options) {
             // If the select doesn't have a "multiple" attribute.
             if (!$(el).attr('multiple')) {
                 // For the placeholder to appear, you need a blank <option> as the first option.
-                $(el).prepend('<option value="">'+ ops.placeholder +'</option>');
+                $(el).prepend('<option value="">'+ HELP.stripHTML(ops.placeholder) +'</option>');
             }
             
             $(el).select2(ops)
@@ -264,8 +264,12 @@ $.fn.createSelect2 = function(options) {
 // Add a character count widget to textareas that have a class and maxlength attr.
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
-        var maxLength = $(this).attr('maxlength');
-        $(this).after(`<div class="char-count"><span>0</span>/${maxLength}</div>`);
+        // Sanitize (XSS safe) attribute value to remove any HTML.
+        var maxLength = HELP.stripHTML($(this).attr('maxlength'));
+        
+        $(this)
+          .after(`<div class="char-count"><span>0</span> / ${maxLength}</div>`)
+          .parent().addClass('char-count-wrapper')
     });
     $(document).on('keyup', this, function(e) {
         $(e.target).parent().find('.char-count span').text( $(e.target).val().length );
