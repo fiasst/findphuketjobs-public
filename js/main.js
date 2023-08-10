@@ -444,9 +444,9 @@ var MAIN = (function($, window, document, undefined) {
         $(document).on('click', '.toggle-vis', function(e) {
             var target = $(this).attr('href');
 
-            if (target) {
+            if (!!target.length) {
                 e.preventDefault();
-                $(target).toggleClass('hide');
+                $(target).toggleClass('hide active');
             }
         });
 
