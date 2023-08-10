@@ -20,12 +20,6 @@ var FORMS = (function($, window, document, undefined) {
 
     // On DOM ready.
     $(function() {
-        // Init:
-        pub.uploadFields();
-        // Textarea char count.
-        $('.char-count[maxlength]').charCountTextareas();
-
-
         // Get current Member.
         USER.getCurrentMember(function(member) {
             if (HELP.checkKeyExists(member, 'id')) {
@@ -189,6 +183,12 @@ var FORMS = (function($, window, document, undefined) {
                 // Make sure it's not been initiated already (inline HTML from the same page) using :not().
                 // $('#litbox .select2-field:not(.select2-hidden-accessible)').createSelect2();
             });
+
+
+        // Init:
+        pub.uploadFields();
+        // Textarea char count.
+        $('.char-count[maxlength]').charCountTextareas();
     });
 
     return pub;
