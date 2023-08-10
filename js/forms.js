@@ -20,8 +20,10 @@ var FORMS = (function($, window, document, undefined) {
 
     // On DOM ready.
     $(function() {
-        // Init.
+        // Init:
         pub.uploadFields();
+        // Textarea char count.
+        $('.char-count[maxlength]').charCountTextareas();
 
 
         // Get current Member.
@@ -194,7 +196,6 @@ var FORMS = (function($, window, document, undefined) {
 
 
 
-
 /*
 * Extend jQuery.
 */
@@ -256,6 +257,18 @@ $.fn.createSelect2 = function(options) {
                 // Sets the default option:
                 .val( !!selected.length ? $(el).val() : '' ).trigger('change');
         });
+    });
+};
+
+
+// Add a character count widget to textareas that have a class and maxlength attr.
+$.fn.charCountTextareas = function() {
+    $(this).each(function() {
+        var maxLength = $(this).attr('maxlength');
+        $(this).after(`<div class="char-count"><span>0</span>/${maxLength}</div>`);
+    });
+    $(document).on('keyup', this, function(e) {
+        $(e.target).parent().find('.char-count span').text( $(e.target).val().length );
     });
 };
 
