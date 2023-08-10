@@ -15,14 +15,15 @@ var SALARY = (function($, window, document, undefined) {
                 salaryType = 'select[name="job_salary_type"]',
                 salaryMonthly = 'input[name="job_salary_monthly"]',
 
-                type = function(context) {
-                    return $(salaryType, context).val().toLowerCase();
+                typeVal = function(context) {
+                    var val = $(salaryType, context).val();
+                    return val ? val.toLowerCase() : false;
                 },
                 isNumericType = function(context) {
-                    return ($.inArray(type(context), [
+                    return ($.inArray(typeVal(context), [
                         'per hour', 'per day', 'per month', 'per year'
                     ]) > -1);
-                }
+                },
                 calculateSalary = function(element) {
                     var $form = $(element).parents('form'),
                         $salaryAmount = $(salaryAmount, $form),
@@ -37,7 +38,7 @@ var SALARY = (function($, window, document, undefined) {
                             $salaryAmount.val('').focus();
                         }
 
-                        switch (type($form)) {
+                        switch (typeVal($form)) {
                             case 'per year':
                                 val = salary / 12;
                                 break;
