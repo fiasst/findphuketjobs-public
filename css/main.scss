@@ -336,7 +336,6 @@ body.no-scroll .fp-overlay {
   .wg-drop {
     width: 100%;
     position: absolute;
-    // box-shadow: 0 2px 3px rgba(0,0,0, .16);
     border: 1px solid #b7d8db;
     border-radius: 8px;
     display: block;
@@ -370,7 +369,9 @@ body.no-scroll .fp-overlay {
           }
         }
       }
-
+      &.open {
+        box-shadow: 0 1px 2px rgba(0,0,0, .16);
+      }
       &.closed {
         .wgcurrent {
           &::after {
