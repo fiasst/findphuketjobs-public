@@ -176,7 +176,7 @@ var MAIN = (function($, window, document, undefined) {
 
 
     pub.buttonThinking = function(btn, revert) {
-        if (!!btn.length) return false;
+        if (btn.length < 1) return false;
 
         if (!revert) {
             btn.attr('disabled', true).addClass('thinking');
