@@ -116,7 +116,7 @@ var FORMS = (function($, window, document, undefined) {
                 $input = $el.parent().find(':input'),
                 type = $input.attr('type');
             
-            if (type == 'checkbox') {
+            /*if (type == 'checkbox') {
                 var $customInput = $input.siblings('.w-checkbox-input'),
                     // hasText value can either be empty, for non-Switch WF fields
                     //or "true/false" (String), for Switch WF fields.
@@ -139,6 +139,26 @@ var FORMS = (function($, window, document, undefined) {
                     }
                     // Make sure the radio reflects the same state as the custom faux radio...
                     $(this).prop('checked', text);
+                });
+            }*/
+
+            if (type == 'checkbox' || type == 'radio') {
+                $input.each(function() {
+                    var $customInput = $input.siblings(`.w-${type}-input`),
+                        // If text of the .input-default-value matches the radio's value.
+                        bool = !!$el.text() && $el.text() == $(this).val();
+
+                    if (type == 'checkbox') {
+                        // bool value can either be empty, for non-Switch WF fields
+                        //or "true/false" (String), for Switch WF fields.
+                        bool = !!$el.text() && $el.text() !== "false";
+                    }
+
+                    if ($customInput && ($customInput.hasClass('w--redirected-checked') !== bool)) {
+                        $customInput.trigger('click');
+                    }
+                    // Make sure the checkbox/radio reflects the same state as the custom input field...
+                    $input.prop('checked', bool);
                 });
             }
             else if (!$input.val()) {
