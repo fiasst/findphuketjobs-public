@@ -113,52 +113,27 @@ var FORMS = (function($, window, document, undefined) {
         // Form fields: Populate field's default values with sibling DIV's content.
         $('.input-default-value').each(function() {
             var $el = $(this),
+                text = $el.text(),
                 $input = $el.parent().find(':input'),
-                type = $input.attr('type');
-            
-            /*if (type == 'checkbox') {
-                var $customInput = $input.siblings('.w-checkbox-input'),
-                    // hasText value can either be empty, for non-Switch WF fields
-                    //or "true/false" (String), for Switch WF fields.
-                    hasText = !!$el.text() && $el.text() !== "false";
-
-                if ($customInput && ($customInput.hasClass('w--redirected-checked') !== hasText)) {
-                    $customInput.trigger('click');
-                }
-                // Make sure the checkbox reflects the same state as the custom faux checkbox...
-                $input.prop('checked', hasText);
-            }
-            if (type == 'radio') {
-                $input.each(function() {
-                    var $customInput = $(this).siblings('.w-radio-input'),
-                        // If text of the .input-default-value matches the radio's value.
-                        text = !!$el.text() && $el.text() == $(this).val();
-
-                    if ($customInput && ($customInput.hasClass('w--redirected-checked') !== text)) {
-                        $customInput.trigger('click');
-                    }
-                    // Make sure the radio reflects the same state as the custom faux radio...
-                    $(this).prop('checked', text);
-                });
-            }*/
+                type = $input.eq(0).attr('type');
 
             if (type == 'checkbox' || type == 'radio') {
                 $input.each(function() {
-                    var $customInput = $input.siblings(`.w-${type}-input`),
+                    var $customInput = $(this).siblings(`.w-${type}-input`),
                         // If text of the .input-default-value matches the radio's value.
-                        bool = !!$el.text() && $el.text() == $(this).val();
+                        bool = !!text && text == $(this).val();
 
                     if (type == 'checkbox') {
                         // bool value can either be empty, for non-Switch WF fields
                         //or "true/false" (String), for Switch WF fields.
-                        bool = !!$el.text() && $el.text() !== "false";
+                        bool = !!text && text !== "false";
                     }
 
                     if ($customInput && ($customInput.hasClass('w--redirected-checked') !== bool)) {
                         $customInput.trigger('click');
                     }
                     // Make sure the checkbox/radio reflects the same state as the custom input field...
-                    $input.prop('checked', bool);
+                    $(this).prop('checked', bool);
                 });
             }
             else if (!$input.val()) {
