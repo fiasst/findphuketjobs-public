@@ -113,9 +113,10 @@ var FORMS = (function($, window, document, undefined) {
         // Form fields: Populate field's default values with sibling DIV's content.
         $('.input-default-value').each(function() {
             var $el = $(this),
-                $input = $el.parent().find(':input');                
+                $input = $el.parent().find(':input'),
+                type = $input.attr('type');
             
-            if ($input.attr('type') == 'checkbox') {
+            if (type == 'checkbox') {
                 var $customInput = $input.siblings('.w-checkbox-input'),
                     // hasText value can either be empty, for non-Switch WF fields
                     //or "true/false" (String), for Switch WF fields.
@@ -126,6 +127,19 @@ var FORMS = (function($, window, document, undefined) {
                 }
                 // Make sure the checkbox reflects the same state as the custom faux checkbox...
                 $input.prop('checked', hasText);
+            }
+            if (type == 'radio') {
+                $input.each(function() {
+                    var $customInput = $(this).siblings('.w-radio-input'),
+                        // If text of the .input-default-value matches the radio's value.
+                        text = !!$el.text() && $el.text() == $(this).val();
+
+                    if ($customInput && ($customInput.hasClass('w--redirected-checked') !== text)) {
+                        $customInput.trigger('click');
+                    }
+                    // Make sure the radio reflects the same state as the custom faux radio...
+                    $(this).prop('checked', text);
+                });
             }
             else if (!$input.val()) {
                 $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
