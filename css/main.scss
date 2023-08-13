@@ -109,7 +109,16 @@ div.char-count {
     display: block;
   }
 }
-
+#toggle-sidebar {
+  .toggle-sidebar-icon {
+    transition: transform .5s
+  }
+  &.active {
+    .toggle-sidebar-icon {
+      transform: rotate(180deg);
+    }
+  }
+}
 
 
 /*
