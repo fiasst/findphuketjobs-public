@@ -448,6 +448,7 @@ var MAIN = (function($, window, document, undefined) {
 
             if (!!target.length) {
                 e.preventDefault();
+                $(this).toggleClass('active');
                 $(target).toggleClass($(this).attr('data-toggle-class') || 'hide');
             }
         });

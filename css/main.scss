@@ -396,65 +396,6 @@ body.no-scroll .fp-overlay {
     }
   }
 }
-/*.wg-list {
-  &.country-selector {
-    ul {
-      display: flex !important;
-    }
-    .wg-flags {
-      margin: 0;
-
-      a {
-        color: #444;
-        padding: 0 8px 4px;
-        opacity: 0.6;
-        text-decoration: none;
-        transition: opacity 0.1s;
-        align-items: center;
-        text-indent: -99999px;
-        
-        &:hover {
-          text-decoration: none;
-          color: #000;
-          opacity: 0.8;
-        }
-        img.wg-flag {
-          margin-right: 0;
-          width: 20px;
-          height: 16px;
-        }
-      }
-    }
-    .wgcurrent {
-      vertical-align: middle;
-      font-weight: 500;
-      
-      a {
-        text-decoration: none;
-        color: #000;
-        align-items: center;
-        opacity: 1;
-        cursor: default;
-        border-bottom: 2px solid;
-      }
-    }
-  }
-
-  @media screen and (min-width: 568px){
-    &.country-selector {
-      .wg-flags {
-        a {
-          text-indent: 0;
-
-          img.wg-flag {
-            margin-right: 7px;
-          }
-        }
-      }
-    }
-  }
-}*/
-
 
 
 
