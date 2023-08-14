@@ -86,11 +86,18 @@ div.char-count {
 * Accordion.
 *
 */
-.accordion.active .accordion-icon {
-  background: #00EBEB;
-  color: #354F52;
-  transform: rotate(90deg);
-  box-shadow: none;
+.accordion {
+  &.active {
+    .accordion-icon {
+      background: #00EBEB;
+      color: #354F52;
+      box-shadow: none;
+      
+      .accordion-x {
+        transform: rotate(90deg);
+      }
+    }
+  }
 }
 
 
