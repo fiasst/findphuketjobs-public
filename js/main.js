@@ -454,6 +454,17 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
+        // Pullout sidebar starts open, then collapses to show users how to find it.
+        setTimeout(function() {
+            var $pulloutSidebar = $('.sidebar.pullout.start-open.active');
+            // If it exists, close it.
+            if (!!$pulloutSidebar.length) {
+                $pulloutSidebar.removeClass('active');
+                $('#toggle-sidebar').removeClass('active');
+            }
+        }, 300);
+
+
         // Trigger for newly introduced Dashboard links on the page (LitBox) to
         // imitate Memberstack.js functionality.
         $(document).on('click', '.link-dashboard', function(e) {
