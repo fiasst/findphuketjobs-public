@@ -109,9 +109,9 @@ div.char-count {
     display: block;
   }
 }
-#toggle-sidebar {
+.sidebar.pullout {
   .toggle-sidebar-icon {
-    transition: transform .5s
+    transition: transform .5s;
   }
   &.active {
     .toggle-sidebar-icon {
