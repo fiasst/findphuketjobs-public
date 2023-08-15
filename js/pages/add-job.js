@@ -8,11 +8,14 @@ var ADD_JOB = (function($, window, document, undefined) {
 
     // On DOM ready.
     $(function() {
+        const $triggerAddBusiness = $('#trigger-add-business');
+
+
         // Build Company select list options from JSON.
         HELP.waitFor(USER, "current.id", 100, function() {
             MAIN.thinking(true, false);
 
-            // Get list of Member's Companies via AJAX.
+            // Get list of Member's Businesses via AJAX.
             HELP.sendAJAX({
                 url: listMembersCompanies,
                 method: "GET",
@@ -29,14 +32,14 @@ var ADD_JOB = (function($, window, document, undefined) {
                         USER.current.companies = companies;
 
                         // Check "active" companies against limit.
-                        var numBeyondLimit = USER.checkCompanyLimits(companies, true),
+                        var numBeyondLimit = BUSINESS.checkBusinessLimits(companies, true),
                             companiesActive = HELP.filterArrayByObjectValue(companies, 'state', 'active');
 
                         // If user IS exceeding the max "active" companies limit.
                         // Or, they have less active companies than their limit and more companies than are currently active.
                         if (numBeyondLimit > 0 || (numBeyondLimit < 0 && companiesActive.length < companies.length)) {
                             // Update which companies are active to meet/not exceed plan limit.
-                            USER.updateActiveCompanies(companies);
+                            BUSINESS.updateActiveBusinesses(companies);
                         }
                         else {
                             buildCompanySelectField(USER.current);
@@ -58,7 +61,7 @@ var ADD_JOB = (function($, window, document, undefined) {
             if (list.length < 1) {
                 // No companies exist.
                 // The second parameter is a callback function for the "onComplete" LitBox options.
-                $('#trigger-add-company').trigger('click', function() {
+                $triggerAddBusiness.trigger('click', function() {
                     alert("You need to add your business before you can post a job");
                 });
             }
@@ -111,7 +114,7 @@ var ADD_JOB = (function($, window, document, undefined) {
 
           
         // Add company form in Colorbox.
-        $('#trigger-add-company').on('click', function(e, onComplete) {
+        $triggerAddBusiness.on('click', function(e, onComplete) {
             e.preventDefault();
 
             // Don't add new companies if limit is reached.
@@ -121,12 +124,12 @@ var ADD_JOB = (function($, window, document, undefined) {
             }
             if (!!companies.length) {
                 // Check all companies against limit, not just active companies.
-                var numBeyondLimit = USER.checkCompanyLimits(companies, false);
+                var numBeyondLimit = BUSINESS.checkBusinessLimits(companies, false);
 
                 // Don't add new companies if the limit is already reached.
                 if (numBeyondLimit >= 0) {
                     // Remove form.
-                    $('#company-form-wrapper').remove();
+                    $('#business-form-wrapper').remove();
 
                     MAIN.dialog({
                         message: "<p>You have reached the active businesses limit for your current member plan. <a href=\"/plans\">Upgrade your plan</a> to post jobs for more businesses.</p>",
@@ -152,8 +155,8 @@ var ADD_JOB = (function($, window, document, undefined) {
             
             // Open Litbox.
             MAIN.openLitbox({
-                title: 'Add a new company',
-                href: '#company-form-wrapper',
+                title: 'Add a new business',
+                href: '#business-form-wrapper',
                 onComplete: onComplete || false
             });
         });
