@@ -1,6 +1,7 @@
 var BUSINESS = (function($, window, document, undefined) {
     var pub = {},
-        businessesMax;
+        businessesMax,
+        formActivebusinessesID = '#wf-form-Update-Active-Businesses-Form';
 
 
     // Memberstack user business limits by planId.
@@ -44,7 +45,7 @@ var BUSINESS = (function($, window, document, undefined) {
 
     pub.updateActiveBusinesses = function(businesses) {
         var businessesText = HELP.pluralize(businessesMax, 'business', 'businesses'),
-            $form = $('#'+formActivebusinessesID),
+            $form = $(formActivebusinessesID),
             $businessItem = $form.find('.js-business');
 
         // Replace token text with business limit.
@@ -84,7 +85,7 @@ var BUSINESS = (function($, window, document, undefined) {
     // Form validation for active businesses (limit) form.
         // This gets set on the form element as an attribute in Webflow. Shit, I know...
     pub.formValidateActiveBusinesses = function() {
-        var $form = $('#wf-form-Update-Active-Businesses-Form'),
+        var $form = $(formActivebusinessesID),
             businessesText = HELP.pluralize(businessesMax, 'business', 'businesses'),
             checked = $form.find('[type="checkbox"]:checked');
 
