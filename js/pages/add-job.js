@@ -3,7 +3,7 @@ var ADD_JOB = (function($, window, document, undefined) {
 
 
     // Webhooks.
-    const listMembersCompanies = "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp";
+    const listMembersBusinesses = "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp";
 
 
     // On DOM ready.
@@ -11,13 +11,13 @@ var ADD_JOB = (function($, window, document, undefined) {
         const $triggerAddBusiness = $('#trigger-add-business');
 
 
-        // Build Company select list options from JSON.
+        // Build Business select list options from JSON.
         HELP.waitFor(USER, "current.id", 100, function() {
             MAIN.thinking(true, false);
 
             // Get list of Member's Businesses via AJAX.
             HELP.sendAJAX({
-                url: listMembersCompanies,
+                url: listMembersBusinesses,
                 method: "GET",
                 data: {
                     id: USER.current.id
@@ -27,22 +27,22 @@ var ADD_JOB = (function($, window, document, undefined) {
                     MAIN.thinking(false);
                     USER.updateCurrentUser(data);
 
-                    if (HELP.checkKeyExists(data, "companies")) {
-                        var companies = data.companies;
-                        USER.current.companies = companies;
+                    if (HELP.checkKeyExists(data, "businesses")) {
+                        var businesses = data.businesses;
+                        USER.current.businesses = businesses;
 
-                        // Check "active" companies against limit.
-                        var numBeyondLimit = BUSINESS.checkBusinessLimits(companies, true),
-                            companiesActive = HELP.filterArrayByObjectValue(companies, 'state', 'active');
+                        // Check "active" businesses against limit.
+                        var numBeyondLimit = BUSINESS.checkBusinessLimits(businesses, true),
+                            businessesActive = HELP.filterArrayByObjectValue(businesses, 'state', 'active');
 
-                        // If user IS exceeding the max "active" companies limit.
-                        // Or, they have less active companies than their limit and more companies than are currently active.
-                        if (numBeyondLimit > 0 || (numBeyondLimit < 0 && companiesActive.length < companies.length)) {
-                            // Update which companies are active to meet/not exceed plan limit.
-                            BUSINESS.updateActiveBusinesses(companies);
+                        // If user IS exceeding the max "active" businesses limit.
+                        // Or, they have less active businesses than their limit and more businesses than are currently active.
+                        if (numBeyondLimit > 0 || (numBeyondLimit < 0 && businessesActive.length < businesses.length)) {
+                            // Update which businesses are active to meet/not exceed plan limit.
+                            BUSINESS.updateActiveBusinesses(businesses);
                         }
                         else {
-                            buildCompanySelectField(USER.current);
+                            buildBusinessSelectField(USER.current);
                             MAIN.handleAjaxResponse(data, form);
                         }
                     }
@@ -54,29 +54,29 @@ var ADD_JOB = (function($, window, document, undefined) {
         });
 
 
-        function buildCompanySelectField(data, selectedCompany) {
+        function buildBusinessSelectField(data, selectedBusiness) {
             // WARNING. data comes from AJAX or, from a cookie so sanatize it and use carefully.
-            var list = data.companies || [];
+            var list = data.businesses || [];
 
             if (list.length < 1) {
-                // No companies exist.
+                // No businesses exist.
                 // The second parameter is a callback function for the "onComplete" LitBox options.
                 $triggerAddBusiness.trigger('click', function() {
                     alert("You need to add your business before you can post a job");
                 });
             }
             else {
-                var companySelect = $('#job-company'),
+                var businessSelect = $('#job-business'),
                     isSelected = list.length === 1;
 
                 // Show step 2 of Add Job form.
                 $('.form-job-step-2').addClass('active');
 
-                // Sort by "active" comapnies appearing first.
+                // Sort by "active" businesses appearing first.
                 list = HELP.sortArrayByObjectValue(list, 'state', 'active');
 
                 // Clear any previous options.
-                companySelect.html('').append( $('<option>', {
+                businessSelect.html('').append( $('<option>', {
                     value: '',
                     text: 'Select...'
                 }) );
@@ -85,11 +85,11 @@ var ADD_JOB = (function($, window, document, undefined) {
                     var name = HELP.stripHTML(item.tradingName),// Sanatize value.
                         registeredName = !!item.registeredName ? ` (${HELP.stripHTML(item.registeredName)})` : '';// Sanatize value.
                     
-                    if (selectedCompany) {
-                        isSelected = (selectedCompany == name);
+                    if (selectedBusiness) {
+                        isSelected = (selectedBusiness == name);
                     }
                     
-                    companySelect.append($('<option>', {
+                    businessSelect.append($('<option>', {
                         value: (item.state == 'disabled') ? '0' : item.itemId,
                         text: name + registeredName,// Sanatize values.
                         selected: isSelected,
@@ -101,52 +101,34 @@ var ADD_JOB = (function($, window, document, undefined) {
 
 
         // Callback that is set in Make.com Scenario's AJAX response.
-        pub.companyAddedCallback = function(data, form) {
+        pub.businessAddedCallback = function(data, form) {
             data = data || {};
 
-            if (HELP.checkKeyExists(data, "company")) {
-                USER.current.companies = USER.current.companies || [];
-                USER.current.companies.push(data.company);
-                HELP.setCookie("MSmember", JSON.stringify({"companies": USER.current.companies}) );
-                buildCompanySelectField(USER.current, data.company.tradingName);
+            if (HELP.checkKeyExists(data, "business")) {
+                USER.current.businesses = USER.current.businesses || [];
+                USER.current.businesses.push(data.business);
+                HELP.setCookie("MSmember", JSON.stringify({"businesses": USER.current.businesses}) );
+                buildBusinessSelectField(USER.current, data.business.tradingName);
             }
         };
 
           
-        // Add company form in Colorbox.
+        // Add business form in Colorbox.
         $triggerAddBusiness.on('click', function(e, onComplete) {
             e.preventDefault();
 
-            // Don't add new companies if limit is reached.
-            var companies = [];
-            if (HELP.checkKeyExists(USER, "current.companies")) {
-                companies = USER.current.companies;
+            // Don't add new businesses if limit is reached.
+            var businesses = [];
+            if (HELP.checkKeyExists(USER, "current.businesses")) {
+                businesses = USER.current.businesses;
             }
-            if (!!companies.length) {
-                // Check all companies against limit, not just active companies.
-                var numBeyondLimit = BUSINESS.checkBusinessLimits(companies, false);
+            if (!!businesses.length) {
+                // Check all businesses against limit, not just active businesses.
+                var numBeyondLimit = BUSINESS.checkBusinessLimits(businesses, false);
 
-                // Don't add new companies if the limit is already reached.
+                // Don't add new businesses if the limit is already reached.
                 if (numBeyondLimit >= 0) {
-                    // Remove form.
-                    $('#business-form-wrapper').remove();
-
-                    MAIN.dialog({
-                        message: "<p>You have reached the active businesses limit for your current member plan. <a href=\"/plans\">Upgrade your plan</a> to post jobs for more businesses.</p>",
-                        type: "success",
-                        mode: "dialog",
-                        options: {
-                            title: "Business limit reached",
-                            actions: [{
-                                type: "button",
-                                text: "OK",
-                                attributes: {
-                                    class: "button-primary trigger-lbox-close",
-                                    href: "#"
-                                }
-                            }]
-                        }
-                    });
+                    BUSINESS.maxBusinessesReached();
                     return false;
                 }
             }
