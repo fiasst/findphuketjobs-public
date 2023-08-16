@@ -490,6 +490,22 @@ var MAIN = (function($, window, document, undefined) {
                 }
             }
         });
+
+
+        // Split content into steps, managed my classes and HTML attributes.
+           // Used on the Add New Business Litbox.
+        $(document).on('click', '.js-next-step', function(e) {
+            e.preventDefault();
+            $(this).parents('.js-steps').find('[class*="js-step-"]').addClass('hide')
+                .filter('.js-step-'+ $(this).attr('data-step')).removeClass('hide');
+        });
+        // Reset steps back to step 1.
+            // Usage: $('#wrapper').resetSteps();
+        $.fn.resetSteps = function() {
+            $(this).find('[class*="js-step-"]').addClass('hide')
+                .filter('.js-step-1').removeClass('hide');
+        };
+
     });
 
     return pub;

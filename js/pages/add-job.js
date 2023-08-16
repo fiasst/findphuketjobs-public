@@ -139,7 +139,11 @@ var ADD_JOB = (function($, window, document, undefined) {
             MAIN.openLitbox({
                 title: 'Add a new business',
                 href: '#business-form-wrapper',
-                onComplete: onComplete || false
+                onComplete: onComplete || false,
+                onClosed: function() {
+                    // Reset to step 1.
+                    $('#business-form-wrapper .js-steps').resetSteps();
+                }
             });
         });
     });
