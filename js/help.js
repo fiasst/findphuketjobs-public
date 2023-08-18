@@ -267,7 +267,7 @@ HELP = (function($, window, document, undefined) {
     }
 
 
-    // Useful for filtering an Array of company Objects to only state.active ones.
+    // Useful for filtering an Array of businesses Objects to only state.active ones.
         // or, for filtering out member plans without a status of ACTIVE or TRIALING.
     pub.filterArrayByObjectValue = function(array, key, values) {
         // Check if the 'values' parameter is an array.
@@ -286,7 +286,7 @@ HELP = (function($, window, document, undefined) {
     };
 
 
-    // Useful for sorting an Array of company Objects by state.active appearing first.
+    // Useful for sorting an Array of businesses Objects by state.active appearing first.
     /*pub.sortArrayByObjectValue = function(array, key, value) {
         return array.sort((a, b) => (b[key] === value) - (a[key] === value));
     };*/

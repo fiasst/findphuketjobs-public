@@ -70,7 +70,7 @@ var BUSINESS = (function($, window, document, undefined) {
 
             // Add business using template.
             $('.js-business-name', $newItem).text(`${business.tradingName}${registeredName}`);
-            $('[type="checkbox"]', $newItem).attr('name', 'company[]').val(business.itemId);
+            $('[type="checkbox"]', $newItem).attr('name', 'businesses[]').val(business.itemId);
             $form.find('.checkbox-list').append($newItem)
         });
 
