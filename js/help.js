@@ -31,7 +31,9 @@ HELP = (function($, window, document, undefined) {
         if (!str) return;
 
         // Remove <script> tags and content.
-        return str.replace(/<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>/gi, '')
+        return str
+            .replace(/<.*?script.*?>/gi, '')
+            .replace(/<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>/gi, '')
             // Remove attributes that start with "on" (eg: "onclick")
             .replace(/(\s*<[^>]*)(\s+(on\w+)="[^"]*")/gi, '$1')
             // Remove instances of "javascript:".
