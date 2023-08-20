@@ -57,7 +57,7 @@ var MAIN = (function($, window, document, undefined) {
 
     // Check whether the member has credentials to edit a node.
     pub.memberCanEdit = function(member, $node) {
-        var authorID = $node.find('.node-author').attr('data-author');
+        var authorID = HELP.sanitizeHTML($node.find('.node-author').attr('data-author'));
         
         if (HELP.checkKeyExists(member, 'id')) {
             // Is author OR has Moderator permissions.
@@ -196,7 +196,7 @@ var MAIN = (function($, window, document, undefined) {
             var data = $(this).attr('data-ms-member-meta');
 
             if (HELP.checkKeyExists(metadata, data)) {
-                $(this).html(metadata[data]);
+                $(this).html(HELP.sanitizeHTML(metadata[data]));
             }
         });
     };
@@ -377,7 +377,7 @@ var MAIN = (function($, window, document, undefined) {
         // Using a and filter() to speed up the search.
         $('a').filter('[data-hash]').each(function() {
             var $el = $(this);
-            $el.attr('href', $el.attr('href') + '#' + $el.attr('data-hash'));
+            $el.attr('href', HELP.sanitizeHTML($el.attr('href') + '#' + $el.attr('data-hash')));
         });
 
 
@@ -415,7 +415,7 @@ var MAIN = (function($, window, document, undefined) {
 
         // Launch "Confirm" alert dialogs on element click.
         $('.alert-confirm').on('click.alertConfirm', function(e) {
-            var msg = $(this).attr('data-confirm');
+            var msg = HELP.sanitizeHTML($(this).attr('data-confirm'));
             if (msg) {
                 e.preventDefault();
               
@@ -425,7 +425,6 @@ var MAIN = (function($, window, document, undefined) {
                 else {
                     // Remove a class that's added in another listener.
                     $(this).removeClass('clicked');
-
                     return false;
                 }
             }
@@ -434,7 +433,7 @@ var MAIN = (function($, window, document, undefined) {
 
         // Toggle element visibility.
         $(document).on('click', '.toggle-vis', function(e) {
-            var target = $(this).attr('href')
+            var target = HELP.sanitizeHTML($(this).attr('href'));
 
             if (!!target.length) {
                 e.preventDefault();

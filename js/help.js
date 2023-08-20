@@ -27,32 +27,52 @@ HELP = (function($, window, document, undefined) {
 
     // Remove <script> tags and any attributes that start with 'on' (onclick, etc).
     // This helps to guards against XSS attack.
-    pub.sanitizeHTML = (str) => {
+    /*pub.sanitizeHTML = (str) => {
         if (!str) return;
 
         // Remove <script> tags and content.
-        return str
+        return str.toString()
             .replace(/<.*?script.*?>/gi, '')
             .replace(/<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>/gi, '')
             // Remove attributes that start with "on" (eg: "onclick")
             .replace(/(\s*<[^>]*)(\s+(on\w+)="[^"]*")/gi, '$1')
             // Remove instances of "javascript:".
-            .replace(/javascript:/gi, '');
-        
-        // Short version:
-        // /javascript:|<script\b[^>]*>(?:[^<]*<\/script>|[^>]*\/>)|<script\b[^>]*\/?>|\s*on\w+="[^"]*"/gi
+            .replace(/javascript:/gi, '')
+            // Remove instances of "javascript:" in decimal HTML Character.
+            .replace(/&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;/gi, '')
+            // Remove instances of "javascript:" in decimal HTML Character (without semicolons).
+            .replace(/&#0000106&#0000097&#0000118&#0000097&#0000115&#0000099&#0000114&#0000105&#0000112&#0000116&#0000058/gi, '');
+    };*/
+    pub.sanitizeHTML = (str) => {
+        if (!str) return;
+
+        const escapeChars = {
+            '&': '&amp;', '<': '&lt;', '>': '&gt;'
+        };
+        return str.toString()
+            // Remove <script> tags and content.
+            .replace(/<.*?script.*?>/gi, '')
+            // Remove substrings that start with "on" (event attributes. ex: "onclick").
+            .replace(/(\s*<[^>]*)on\w+/gi, '')
+            // Remove instances of "javascript:" or "script:" (for "ascript:").
+            .replace(/javascript:|script:|script.*?:/gi, '')
+            // Remove "script:" in decimal HTML Character (&#0000099 or &#99. semicolon optional).
+            .replace(/&#0*115;?&#0*99;?&#0*114;?&#0*105;?&#0*112;?&#0*116;?&#0*58;?/g, '')
+            // Remove "script:" in Hexadecimal HTML Character (&#x0000073 or &#x73. semicolon optional).
+            .replace(/&#x0*73;?&#x0*63;?&#x0*72;?&#x0*69;?&#x0*70;?&#x0*74;?&#x0*3A;?/gi, '')
+            // Remove ".constructor" to prevent ES6 Set.constructor() from eval() things.
+            .replace(/.constructor/gi, '')
+            // All combinations of the character "<" in HTML/JS (semicolon optional):
+            .replace(/(\x3c:?|\u003c:?)|(?:&#0*60;?|&#x0*3c;?):?/gi, '')
+            // Escape certain HTML characters.
+            .replace(/[&<>]/g, match => escapeChars[match])
     };
 
 
-    /*pub.stripHTML = (str = '') => {
-        str = pub.sanitizeHTML(str);
-        // Remove HTML and then remove any broken HTML tags.
-        return $("<div/>").html(str).text().replace(/<\s*\/?\s*([a-zA-Z0-9]+)\s*>/, '');
-    };*/
     pub.stripHTML = function(str) {
         if (!str) return;
 
-        return pub.sanitizeHTML(str)
+        return str
             // Try to strip any broken HTML.
             .replace(/<\s*\/?\s*([a-zA-Z0-9]+)\s*>/g, '')
             // Strip HTML.
@@ -67,8 +87,8 @@ HELP = (function($, window, document, undefined) {
         str = str.replace(/<br\s*\/?>/gi, '\n');
         // Replace block-level tags with newline characters.
         str = str.replace(/<(?:div|p|blockquote|h[1-6]|table|ul|ol)[^>]*>/gi, '\n');
-        // Remove remaining HTML tags and trim whitespace.
-        return $('<div>').html(str).text().trim();
+        // Sanitize a remove remaining HTML tags and trim whitespace.
+        return $('<div>').html(pub.sanitizeHTML(str)).text().trim();
     };
 
 
@@ -104,13 +124,15 @@ HELP = (function($, window, document, undefined) {
         // Set params it's an Object.
         if (typeof(params) === "object") {
             $.each(params, function(key, value) {
-                urlObj.searchParams.set(pub.stripHTML(key), pub.stripHTML(value));
+                urlObj.searchParams.set(
+                    pub.sanitizeHTML(key), pub.sanitizeHTML(value)
+                );
             });
             // Return path and querystring or just the string.
             return includePath ? urlObj.pathname + urlObj.search : urlObj.search;
         }
         // Get value.
-        return urlObj.searchParams.get( pub.stripHTML(params.toString()) );
+        return urlObj.searchParams.get( pub.sanitizeHTML(params.toString()) );
     };
 
 
@@ -375,7 +397,7 @@ HELP = (function($, window, document, undefined) {
         });
         // Merge rebuilt groupedArrays into formData.
         for (elementName in groupedArrays) {
-          formData.set(elementName, groupedArrays[elementName]);
+            formData.set(elementName, groupedArrays[elementName]);
         }
 
         // Add metadata to formData:

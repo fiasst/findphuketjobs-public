@@ -104,8 +104,7 @@ var FORMS = (function($, window, document, undefined) {
             if (!$el.val()) {
                 // Remove non-number characters from value so it can be set as a value.
                 if ($el.attr('type') == 'number') val = HELP.removeNonNumeric(val);
-
-                $el.val(val);
+                $el.val( HELP.sanitizeHTML(val) );
             }
         });
 
@@ -137,14 +136,14 @@ var FORMS = (function($, window, document, undefined) {
                 });
             }
             else if (!$input.val()) {
-                $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
+                $input.val( HELP.sanitizeHTMLWithLinebreaks($el.html()) );
             }
         });
 
 
         // Form fields: Add maxlength attribute to fields.
         $(':input[data-maxlength]').each(function() {
-            $(this).attr('maxlength', $(this).attr('data-maxlength') );
+            $(this).attr('maxlength', HELP.sanitizeHTML( $(this).attr('data-maxlength') ));
         });
 
 
@@ -216,7 +215,7 @@ $.fn.buildSelectOptions = function(options) {
         var wrapper = $(this).parent('.select-list-wrapper'),
             select = $('select', wrapper),
             $default = $('.input-default-value', wrapper),
-            defaultValue = HELP.stripHTML(!!$default.text() ? $default.text() : $default.attr('data-value')) || '',
+            defaultValue = HELP.sanitizeHTML(!!$default.text() ? $default.text() : $default.attr('data-value')) || '',
             values = [];
 
         $(this).find('.w-dyn-item').each(function() {
@@ -256,7 +255,7 @@ $.fn.createSelect2 = function(options) {
             // If the select doesn't have a "multiple" attribute.
             if (!$(el).attr('multiple')) {
                 // For the placeholder to appear, you need a blank <option> as the first option.
-                $(el).prepend('<option value="">'+ HELP.stripHTML(ops.placeholder) +'</option>');
+                $(el).prepend('<option value="">'+ HELP.sanitizeHTML(ops.placeholder) +'</option>');
             }
             
             $(el).select2(ops)
@@ -274,7 +273,7 @@ $.fn.createSelect2 = function(options) {
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
         // Sanitize (XSS safe) attribute value to remove any HTML.
-        var maxLength = HELP.stripHTML($(this).attr('maxlength'));
+        var maxLength = HELP.sanitizeHTML($(this).attr('maxlength'));
         
         $(this)
           .after(`<div class="char-count"><span>0</span> / ${maxLength}</div>`)

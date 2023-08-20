@@ -55,7 +55,7 @@ var ADD_JOB = (function($, window, document, undefined) {
 
 
         function buildBusinessSelectField(data, selectedBusiness) {
-            // WARNING. data comes from AJAX or, from a cookie so sanatize it and use carefully.
+            // WARNING. sanitize data and use it carefully.
             var list = data.businesses || [];
 
             if (list.length < 1) {
@@ -82,8 +82,8 @@ var ADD_JOB = (function($, window, document, undefined) {
                 }) );
 
                 $.each(list, function(i, item) {
-                    var name = HELP.stripHTML(item.tradingName),// Sanatize value.
-                        registeredName = !!item.registeredName ? ` (${HELP.stripHTML(item.registeredName)})` : '';// Sanatize value.
+                    var name = HELP.sanitizeHTML(item.tradingName),
+                        registeredName = !!item.registeredName ? ` (${HELP.sanitizeHTML(item.registeredName)})` : '';
                     
                     if (selectedBusiness) {
                         isSelected = (selectedBusiness == name);
