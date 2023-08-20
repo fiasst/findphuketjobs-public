@@ -136,7 +136,7 @@ var FORMS = (function($, window, document, undefined) {
                 });
             }
             else if (!$input.val()) {
-                $input.val( HELP.sanitizeHTMLWithLinebreaks($el.html()) );
+                $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
             }
         });
 
