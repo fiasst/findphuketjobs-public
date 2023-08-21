@@ -299,9 +299,11 @@
         }
         
         #lboxClose {
-            width: 22px;
-            height: 22px;
-            right: 20px;
+            width: 42px;
+            height: 42px;
+            right: 10px;
+            top: 10px;
+            border-radius: 12px;
         }
         #lboxClose::after,
         #lboxClose::before {
