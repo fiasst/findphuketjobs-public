@@ -51,21 +51,21 @@ HELP = (function($, window, document, undefined) {
         };
         return str.toString()
             // Remove <script> tags and content.
-            .replace(/<.*?script.*?>/gi, '')
+            // Remove ".constructor" to prevent ES6 Set.constructor() from eval() things.
+            .replace(/<.*?script.*?>|.constructor/gi, '')
             // Remove substrings that start with "on" (event attributes. ex: "onclick").
             .replace(/(\s*<[^>]*)on\w+/gi, '')
             // Remove instances of "javascript:" or "script:" (for "ascript:").
-            .replace(/javascript:|script:|script.*?:/gi, '')
-            // Remove "script:" in decimal HTML Character (&#0000099 or &#99. semicolon optional).
-            .replace(/&#0*115;?&#0*99;?&#0*114;?&#0*105;?&#0*112;?&#0*116;?&#0*58;?/g, '')
-            // Remove "script:" in Hexadecimal HTML Character (&#x0000073 or &#x73. semicolon optional).
-            .replace(/&#x0*73;?&#x0*63;?&#x0*72;?&#x0*69;?&#x0*70;?&#x0*74;?&#x0*3A;?/gi, '')
-            // Remove ".constructor" to prevent ES6 Set.constructor() from eval() things.
-            .replace(/.constructor/gi, '')
+            .replace(/javascript.*?:|script.*?:/gi, '')
+            // Remove "script:" decimal HTML Characters (&#0000099 or &#99. semicolon optional).
+            .replace(/&#0*115;?|&#0*99;?|&#0*114;?|&#0*105;?|&#0*112;?|&#0*116;?|&#0*58;?/g, '')
+            // Remove "script:" Hexadecimal HTML Characters (&#x0000073 or &#x73. semicolon optional).
+            .replace(/&#x0*73;?|&#x0*63;?|&#x0*72;?|&#x0*69;?|&#x0*70;?|&#x0*74;?|&#x0*3A;?/gi, '')
             // Escape certain HTML characters.
-            .replace(/[&<>]/g, match => escapeChars[match])
+            // (Match & if not followed by (apos|quot|gt/lt|amp);)
+            .replace(/[<>]|&(?!(?:apos|quot|[gl]t|amp);)/gi, match => escapeChars[match])
             // All combinations of the character "<" in HTML/JS (semicolon optional):
-            .replace(/(\x3c:?|\u003c:?)|(?:&#0*60;?|&#x0*3c;?):?/gi, '')
+            .replace(/(\x3c:?|\u003c:?)|(?:&(amp;)?#0*60;?|&(amp;)?#x0*3c;?):?/gi, '')
     };
 
 
