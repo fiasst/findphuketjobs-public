@@ -2,7 +2,9 @@ var FORMS = (function($, window, document, undefined) {
     var pub = {};
 
 
+    //
     // Show/hide existing file details and replace with file upload field.
+    //
     pub.uploadFields = function() {
         $('.upload-wrapper').each(function() {
             var filename = !!$(this).find('.file-existing .file-upload-text').text();
@@ -18,9 +20,13 @@ var FORMS = (function($, window, document, undefined) {
     };
 
 
+    //
     // On DOM ready.
+    //
     $(function() {
+        //
         // Get current Member.
+        //
         USER.getCurrentMember(function(member) {
             if (HELP.checkKeyExists(member, 'id')) {
                 // Add member ID to form field.
@@ -34,20 +40,24 @@ var FORMS = (function($, window, document, undefined) {
         });
 
 
+        //
         // Redirect user after form submit.
+        //
         const queryDest = HELP.getSetQuerystring('dest');
         if (queryDest) {
             $('form').find('.fp_redirect').attr('data-redirect', '/'+queryDest);// Relative URIs only.
         }
         $('form').on('submit', function() {
             var redir = $(this).find('.fp_redirect').attr('data-redirect');
-            if (redir) {
+            if (!!(redir)) {
                 localStorage.setItem('fp_redirect', redir);
             }
         });
 
 
+        //
         //  General AJAX form submit handler.
+        //
         $('.ajax-submit')
             .on('click', '.form-submit', function(e) {
                 $(e.target).addClass('clicked');
@@ -96,7 +106,9 @@ var FORMS = (function($, window, document, undefined) {
             });
 
 
+        //
         // Form fields: Populate field's default values with inline attribute's value.
+        //
         $(':input[data-default-value]').each(function() {
             var $el = $(this),
                 val = $el.attr('data-default-value');
@@ -109,7 +121,9 @@ var FORMS = (function($, window, document, undefined) {
         });
 
 
+        //
         // Form fields: Populate field's default values with sibling DIV's content.
+        //
         $('.input-default-value').each(function() {
             var $el = $(this),
                 text = $el.text(),
@@ -141,24 +155,32 @@ var FORMS = (function($, window, document, undefined) {
         });
 
 
+        //
         // Form fields: Add maxlength attribute to fields.
+        //
         $(':input[data-maxlength]').each(function() {
             $(this).attr('maxlength', HELP.sanitizeHTML( $(this).attr('data-maxlength') ));
         });
 
 
+        //
         // Update form "op" (operation) value on button click.
-        // Because Webflow doesn't pass submit button values through to Make...
+            // Because Webflow doesn't pass submit button values through to Make...
+        //
         $('.form-submit[name="op"]').on('click', function() {
             $(this).parents('form').find('.form-action-op').val( $(this).val() );
         });
 
 
+        //
         // Must appear before the createSelect2() call.
+        //
         $('.select-list-options').buildSelectOptions();
 
 
+        //
         // Translate select lists and rebuild any jQuery Select2 widgets.
+        //
         HELP.waitFor(window, "Weglot", 400, function() {
             Weglot.on("languageChanged", function() {
                 $('.select-list-options').each(function() {
@@ -177,14 +199,18 @@ var FORMS = (function($, window, document, undefined) {
         });
 
 
+        //
         // Select2 dropdowns.
+        //
         $('.select2-field').filter(function() {
             // Remove select fields with a certain parent. These get initialized in $.fn.buildSelectOptions().
             return !$(this).parents('.select-list-wrapper').length;
         }).createSelect2();
 
 
+        //
         // LitBox support.
+        //
         $(document)
             .on('lbox_open', function() {
                 // Create any new Select2 fields.
@@ -193,7 +219,9 @@ var FORMS = (function($, window, document, undefined) {
             });
 
 
+        //
         // Init:
+        //
         pub.uploadFields();
         // Textarea char count.
         $('.char-count[maxlength]').charCountTextareas();
@@ -204,10 +232,12 @@ var FORMS = (function($, window, document, undefined) {
 
 
 
-/*
-* Extend jQuery.
-*/
-// Form fields: Populate select with option elements built from Collection List data.
+//
+// Extend jQuery.
+//
+//
+// Form fields: Populate select with option elements built from WF Collection List data.
+//
 $.fn.buildSelectOptions = function(options) {
     options = options || {};
 
@@ -237,8 +267,10 @@ $.fn.buildSelectOptions = function(options) {
 };
 
 
+//
 // Create jQuery Select2 widget.
   // Use this instead of .select2() when first initializing a widget.
+//
 $.fn.createSelect2 = function(options) {
     options = options || {};
     var items = this;
@@ -269,7 +301,9 @@ $.fn.createSelect2 = function(options) {
 };
 
 
+//
 // Add a character count widget to textareas that have a class and maxlength attr.
+//
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
         // Sanitize (XSS safe) attribute value to remove any HTML.
@@ -285,7 +319,9 @@ $.fn.charCountTextareas = function() {
 };
 
 
+//
 // Form element has value/is selected or is checked, selector ":selectedInput".
+//
 jQuery.expr[':'].selectedInput = (el, i, m) => {
     var exclude = ['submit', 'button', 'reset', 'hidden'];
 

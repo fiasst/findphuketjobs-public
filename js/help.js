@@ -9,14 +9,8 @@ var USER = {},
 HELP = (function($, window, document, undefined) {
     var pub = {};
 
+    
     pub.timezone = "Asia/Bangkok";
-
-    pub.breakpoints = {
-        //mobileLandscapeBP: 478,
-        tabletBP: 767,
-        tabletLandscapeBP: 991,
-        desktopBP: 1247
-    };
 
 
     pub.cleanLowerString = (string = '') => $.trim(string.toLowerCase());
@@ -150,7 +144,7 @@ HELP = (function($, window, document, undefined) {
     pub.getSetQuerystring = (params = '', includePath) => {
         const urlObj = new URL(window.location.href);
 
-        // Set params it's an Object.
+        // Set params.
         if (typeof(params) === "object") {
             $.each(params, function(key, value) {
                 urlObj.searchParams.set(
@@ -161,7 +155,7 @@ HELP = (function($, window, document, undefined) {
             return includePath ? urlObj.pathname + urlObj.search : urlObj.search;
         }
         // Get value.
-        return urlObj.searchParams.get( pub.sanitizeHTML(params.toString()) );
+        return pub.sanitizeHTML( urlObj.searchParams.get( params.toString() ));
     };
 
 
@@ -414,8 +408,9 @@ HELP = (function($, window, document, undefined) {
             if ($element.is('select[multiple]')) {
                 formData.set(key, $element.val());
             }
-            // Re-build checkbox values for grouped elements.
-            else if ($element.is(':checkbox:checked') && key.endsWith('[]')) {// Check if checkbox name ends with [].
+            // Check if checkbox name ends with [].
+            else if ($element.is(':checkbox:checked') && key.endsWith('[]')) {
+                // Re-build checkbox values for grouped elements.
                 var elementName = key.slice(0, -2);// Remove [].
                 if (!groupedArrays[elementName]) {
                     groupedArrays[elementName] = [];// Create array if not present.
@@ -432,7 +427,7 @@ HELP = (function($, window, document, undefined) {
         // Add metadata to formData:
         pub.ajaxMetaValues(formData, 'formData');
 
-console.log('formData', formData);
+        console.log('formData', formData);
 
         if (type == 'formData') {
             return formData;
