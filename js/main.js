@@ -2,11 +2,15 @@ var MAIN = (function($, window, document, undefined) {
     var pub = {};
 
 
+    //
     // Webhooks.
+    //
     const publishExistingJob = "https://hook.us1.make.com/dv56t4535h1sfag5g0693924h3sg5582";
 
 
+    //
     // Memberstack plan names.
+    //
     pub.planNames = {
         "pln_credit-package-1-p63bl01ya": "1 Credit",
         "pln_credit-package-2-pg3bd0zgw": "3 Credits",
@@ -17,7 +21,9 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    //
     // Show or remove content based on conditions.
+    //
     pub.controlHTML = function($elements, display) {
         if (display) {
             $elements.each(function() {
@@ -37,7 +43,9 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    //
     // Check the status of a node against the intended action (edit/review...).
+    //
     pub.itemState = function(state, status) {
         switch (state) {
             case 'edit':
@@ -50,12 +58,17 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.memberCanModerate = function(member) {
         return HELP.hasPermissions('can:moderate', member);
     };
 
 
-    // Check whether the member has credentials to edit a node.
+    //
+    // Check whether the member has credentials to edit a node (page).
+    //
     pub.memberCanEdit = function(member, $node) {
         var authorID = HELP.sanitizeHTML($node.find('.node-author').attr('data-author'));
         
@@ -68,6 +81,9 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.handleAjaxResponse = function(data, form) {
         pub.dialog(data);
         
@@ -81,7 +97,9 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    //
     // Display information and optional action buttons in various dialog UI options.
+    //
     pub.dialog = function(data) {
         if (HELP.checkKeyExists(data, "mode")) {
             switch (data.mode) {
@@ -101,6 +119,9 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.openDialog = (params) => {
         var actions;
         if (HELP.checkKeyExists(params, "options.actions")) {
@@ -160,12 +181,18 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.thinking = (show, overlay = false) => {
         let classes = show ? (overlay ? 'thinking-overlay' : 'thinking') : 'thinking-overlay thinking';
         $('body').toggleClass(classes, show);
     };
 
 
+    //
+    //
+    //
     pub.buttonThinking = function(btn, revert) {
         if (btn.length < 1) return false;
 
@@ -191,7 +218,9 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    //
     // Alternative for displaying Metadata values via HTML data-attributes.
+    //
     pub.replaceTextWithMetadata = function(metadata) {
         $('[data-ms-member-meta]').each(function() {
             var data = $(this).attr('data-ms-member-meta');
@@ -203,19 +232,25 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    //
     // Stop body from being scrollable.
+    //
     pub.bodyPreventScroll = function(scroll, bodyClass) {
         $('body').toggleClass(bodyClass || 'no-scroll', scroll);
     };
 
     
+    //
     // Calculate "X minutes/hours/days ago" text.
+    //
     pub.timePast = function($el) {
         $el.text( HELP.timePast( $el.text() ) +' ago').addClass('parsed');
     };
 
 
+    //
     // This get called whenever a Job teaser Item gets loaded on a page, including with AJAX.
+    //
     pub.jobItem = function() {
         $('.card.job').each(function() {
             var $card = $(this);
@@ -232,7 +267,9 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    //
     // This get called whenever a Collection Item gets loaded on a page, including with AJAX.
+    //
     pub.collectionItem = function() {
         $('.w-dyn-item').each(function() {
             var $item = $(this);
@@ -243,6 +280,9 @@ var MAIN = (function($, window, document, undefined) {
     }
 
 
+    //
+    //
+    //
     pub.openLitbox = (params) => {
         var defaults = {
                 title: false,
@@ -272,14 +312,20 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    //
     // On DOM ready.
+    //
     $(function() {
+        //
         // Init.
+        //
         pub.jobItem();
         pub.collectionItem();
 
 
+        //
         // FS cmsFilters loaded/rendered new items.
+        //
         window.fsAttributes = window.fsAttributes || [];
         window.fsAttributes.push([
             'cmsfilter',
@@ -299,7 +345,9 @@ var MAIN = (function($, window, document, undefined) {
         ]);
 
 
+        //
         // Get current Member.
+        //
         USER.getCurrentMember(function(member) {
             //if (!member) {
                 //member is logged out
@@ -310,12 +358,17 @@ var MAIN = (function($, window, document, undefined) {
             //}
             console.log(member);
 
+            //
+            //
+            //
             if (HELP.checkKeyExists(member, 'metaData')) {
                 pub.replaceTextWithMetadata(member.metaData);
             }
 
 
+            //
             // Show content author controls (edit, republish, archive links...).
+            //
             if (!!$('.node-author').length) {
                 $('.node-author').each(function() {
                     var $node = $(this).parents('.node'),
@@ -342,15 +395,19 @@ var MAIN = (function($, window, document, undefined) {
             }
 
 
+            //
             // Show content if User has permissions.
+            //
             $('[data-ms-perm]').each(function() {
                 pub.controlHTML($(this), HELP.hasPermissions($(this).attr('data-ms-perm'), member));
             });
             
 
+            //
             // Check if URL hash exists as an element's ID on page load.
                 // IMPORTANT! Do this last so all HTML show/hide attribute logic can decide whether to remove
                 // the target element first. Eg: [data-ms-perm="can:moderate"] or [data-ms-content="business"].
+            //
             var hashAutoTrigger = function() {
                 var hash = window.location.hash;
                 // If there's a location hash longer than simply "#" in the URL
@@ -365,7 +422,9 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
+        //
         // Add querystring to a links href based on two attributes set on the link.
+        //
         $('a').filter('[data-query-value]').each(function() {
             var $el = $(this);
             $el.attr('href', $el.attr('href') + HELP.getSetQuerystring({
@@ -374,15 +433,19 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
+        //
         // Add a hash to a link's href based on an attribute.
-        // Using a and filter() to speed up the search.
+            // Using 'a' and filter() to speed up the search.
+        //
         $('a').filter('[data-hash]').each(function() {
             var $el = $(this);
             $el.attr('href', HELP.sanitizeHTML($el.attr('href') + '#' + $el.attr('data-hash')));
         });
 
 
+        //
         // General Litbox trigger handler.
+        //
         $('.trigger-lbox').on('click', function(e) {
             e.preventDefault();
 
@@ -394,19 +457,25 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
+        //
         // Accordions.
+        //
         $('.accordion').on('click', '.accordion-header', function() {
             $(this).parent().toggleClass('active').find('.accordion-content').toggleClass('active');
         });
 
 
+        //
         // Show a hidden block if it contains Collection list items (not empty).
+        //
         $('.job-block-visibility').each(function() {
             $(this).toggle( !!$(this).find('.w-dyn-item').length );
         });
 
 
+        //
         // Format DOB and other date fields on key press.
+        //
         $('.format-ddmmyyyy').on('keyup', function(e) {
             if (e && !(e.key == 'Backspace' || e.key == 'Delete')) {
                 $(this).val( HELP.formatDDMMYYYY($(this).val()) );
@@ -414,7 +483,9 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
+        //
         // Launch "Confirm" alert dialogs on element click.
+        //
         $('.alert-confirm').on('click.alertConfirm', function(e) {
             var msg = HELP.sanitizeHTML($(this).attr('data-confirm'));
             if (msg) {
@@ -432,7 +503,9 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
+        //
         // Toggle element visibility.
+        //
         $(document).on('click', '.toggle-vis', function(e) {
             var target = HELP.sanitizeHTML($(this).attr('href'));
 
@@ -444,7 +517,9 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
+        //
         // Pullout sidebar starts open, then collapses to show users how to find it.
+        //
         setTimeout(function() {
             var $pulloutSidebar = $('.sidebar.pullout.start-open.active');
             // If it exists, close it.
@@ -455,16 +530,21 @@ var MAIN = (function($, window, document, undefined) {
         }, 300);
 
 
+        //
         // Trigger for newly introduced Dashboard links on the page (LitBox) to
         // imitate Memberstack.js functionality.
+        //
         $(document).on('click', '.link-dashboard', function(e) {
             e.preventDefault();
             if (HELP.checkKeyExists(USER, "current.loginRedirect")) {
                 window.location.href = USER.current.loginRedirect;
             }
-        })
+        });
 
 
+        //
+        //
+        //
         $('.node-job-row').each(function() {
             var row = $(this),
                 actions = row.find('.table-links a'),
@@ -492,8 +572,10 @@ var MAIN = (function($, window, document, undefined) {
         });
 
 
+        //
         // Split content into steps, managed my classes and HTML attributes.
            // Used on the Add New Business Litbox.
+        //
         $(document).on('click', '.js-next-step', function(e) {
             e.preventDefault();
             $(this).parents('.js-steps').find('[class*="js-step-"]').addClass('hide')
@@ -514,16 +596,12 @@ var MAIN = (function($, window, document, undefined) {
 
 
 
-/*
-* Extend jQuery.
-*/
-// Not being used yet but is useful.
-/*$.fn.nextprev = function(dir) {
-    return (dir === 'prev') ? this.prev() : this.next();
-};*/
-
-
+//
+// Extend jQuery.
+//
+//
 // Case-insensitive selector ":icontains()".
+//
 jQuery.expr[':'].icontains = function(el, i, m, array) {
     return (el.textContent || el.innerText || "").toLowerCase().indexOf((m[3] || "").toLowerCase()) >= 0;
 };

@@ -2,10 +2,15 @@ USER = (function($, window, document, undefined) {
     var pub = {};
 
 
+    //
+    //
+    //
     pub.current = HELP.getCookie("MSmember") || {};
 
 
+    //
     // Useful for When a user deletes their account and clicks the final modal CTA.
+    //
     pub.logout = () => {
         MAIN.thinking(true);
         USER.current = null;
@@ -19,6 +24,9 @@ USER = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.updateCurrentUser = function(obj) {
         USER.current = USER.current || pub.current;
 
@@ -27,7 +35,9 @@ USER = (function($, window, document, undefined) {
     };
 
 
+    //
     // get the current Member then fire callback function.
+    //
     pub.getCurrentMember = function(callback) {
         USER.current = USER.current || pub.current;
 
@@ -46,7 +56,9 @@ USER = (function($, window, document, undefined) {
     };
     
 
+    //
     // get Member's JSON then fire callback function.
+    //
     pub.getMemberJSON = function(callback) {
         HELP.waitFor(window, "$memberstackDom", 50, function() {
             window.$memberstackDom.getMemberJSON().then(({ data: memberJSON }) => {
@@ -59,7 +71,9 @@ USER = (function($, window, document, undefined) {
     };
 
 
+    //
     // update Member's JSON.
+    //
     pub.updateMemberJSON = function(json, callback) {
         HELP.waitFor(window, "$memberstackDom", 50, function() {
             window.$memberstackDom.updateMemberJSON({ json: json }).then(({ data: memberJSON }) => {
@@ -72,6 +86,9 @@ USER = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.getMemberPlans = function(planType, member, activeOnly) {
         member = member || pub.getCurrentMember();
 
@@ -94,58 +111,51 @@ USER = (function($, window, document, undefined) {
     };
 
 
+    //
     // init.
+    //
     pub.getCurrentMember();
 
 
+    //
     // On DOM ready.
-    $(function() {
+    //
+    /*$(function() {
         // Register form validation.
         HELP.waitFor(window.jQuery.fn, "validate", 400, function() {
             var emailRule = {
                 required: true,
                 email: true
             },
-            passwordRule = {
-                required: true,
-                minlength: 8
-            },
-                emailMsg = {
+            emailMsg = {
                 required: "Email is required",
                 email: "Must be a valid email address"
-            },
-                passwordMsg = {
-                required: "Password is required",
-                minlength: jQuery.validator.format("Password must be at least {0} characters")
             };
             // Business form.
             $('#wf-form-Register-Business').validate({
                 rules: {
-                    biz_email: emailRule,
-                    biz_password: passwordRule
+                    biz_email: emailRule
                 },
                 messages: {
-                    biz_email: emailMsg,
-                    biz_password: passwordMsg
+                    biz_email: emailMsg
                 }
             });
             // Jobseeker form.
             $('#wf-form-Register-User').validate({
                 rules: {
-                    user_email: emailRule,
-                    user_password: passwordRule
+                    user_email: emailRule
                 },
                 messages: {
-                    user_email: emailMsg,
-                    user_password: passwordMsg
+                    user_email: emailMsg
                 }
             });
         });
-    });
+    });*/
 
 
-
+    //
     // Deleted user account callback.
+    //
     pub.ghostLogout = function() {
         // CTA button is in the dialog confirming your account was deleted.
         $(document).on('click', '#trigger-ghost-logout', pub.logout);

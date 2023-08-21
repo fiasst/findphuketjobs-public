@@ -2,7 +2,9 @@ var BILLING = (function($, window, document, undefined) {
     var pub = {};
 
 
+    //
     // User-friendly versions of Stripe invoice terminology.
+    //
     pub.invoiceReasons = {
         subscription_create: "Subscription created",
         subscription_cycle: "Subscription renewal",
@@ -14,14 +16,20 @@ var BILLING = (function($, window, document, undefined) {
     };
 
 
+    //
     // Webhooks.
+    //
     const listMembersInvoices = "https://hook.us1.make.com/xq3ycqbici93ertr6ixfoea3hg9sqsew";
     const cancelMembersSubscription = (planId, priceId, customerID, amount) => `https://hook.us1.make.com/bg7py9xulyk6m3wyhmg5okn2ctcfkjiw?plan_id=${planId}&price_id=${priceId}&customer_id=${customerID}&amount=${amount}`;
 
 
+    //
     // On DOM ready.
+    //
     $(function() {
+        //
         // Build Member's subscription plan list from JSON.
+        //
         HELP.waitFor(USER, "current.id", 100, function() {
             var plans = USER.current.planConnections || [],
                 wrapper = $('#plans-wrapper');
@@ -111,7 +119,9 @@ var BILLING = (function($, window, document, undefined) {
                 });
             }
 
+            //
             // Get list of Member's invoices.
+            //
             HELP.sendAJAX({
                 url: listMembersInvoices,
                 data: {

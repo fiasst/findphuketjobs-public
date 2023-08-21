@@ -2,10 +2,13 @@ var PROFILE = (function($, window, document, undefined) {
     var pub = {};
 
 
+    //
     // On DOM ready.
+    //
     $(function() {
-        
+        //
         // AJAX form.
+        //
         $('#wf-form-Profile-Form')
         .on('click', '.form-submit', function(e) {
             $(e.target).addClass('clicked');
@@ -34,7 +37,9 @@ var PROFILE = (function($, window, document, undefined) {
         });
 
 
+        //
         // Update profile form in Colorbox.
+        //
         $('.trigger-profile').on('click', function(e, onComplete) {
             e.preventDefault();
 

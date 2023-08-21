@@ -2,16 +2,25 @@ var ADD_JOB = (function($, window, document, undefined) {
     var pub = {};
 
 
+    //
     // Webhooks.
+    //
     const listMembersBusinesses = "https://hook.us1.make.com/t828p6ci1t9qp2bef0d7or4ydj8ypljp";
 
 
+    //
     // On DOM ready.
+    //
     $(function() {
+        //
+        //
+        //
         const $triggerAddBusiness = $('#trigger-add-business');
 
 
+        //
         // Build Business select list options from JSON.
+        //
         HELP.waitFor(USER, "current.id", 100, function() {
             MAIN.thinking(true, false);
 
@@ -54,6 +63,9 @@ var ADD_JOB = (function($, window, document, undefined) {
         });
 
 
+        //
+        //
+        //
         function buildBusinessSelectField(data, selectedBusiness) {
             // WARNING. sanitize data and use it carefully.
             var list = data.businesses || [];
@@ -100,7 +112,9 @@ var ADD_JOB = (function($, window, document, undefined) {
         }
 
 
+        //
         // Callback that is set in Make.com Scenario's AJAX response.
+        //
         pub.businessAddedCallback = function(data, form) {
             data = data || {};
 
@@ -112,8 +126,10 @@ var ADD_JOB = (function($, window, document, undefined) {
             }
         };
 
-          
+        
+        //
         // Add business form in Colorbox.
+        //
         $triggerAddBusiness.on('click', function(e, onComplete) {
             e.preventDefault();
 

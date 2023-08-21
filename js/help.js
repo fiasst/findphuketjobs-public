@@ -10,17 +10,28 @@ HELP = (function($, window, document, undefined) {
     var pub = {};
 
     
+    //
+    //
+    //
     pub.timezone = "Asia/Bangkok";
 
 
+    //
+    //
+    //
     pub.cleanLowerString = (string = '') => $.trim(string.toLowerCase());
 
 
+    //
+    //
+    //
     pub.removeNonNumeric = (str = '') => str.toString().replace(/\D/g, '');
 
 
+    //
     // Remove <script> tags and any attributes that start with 'on' (onclick, etc).
-    // This helps to guards against XSS attack.
+        // This helps to guards against XSS attack.
+    //
     /*pub.sanitizeHTML = (str) => {
         if (!str) return;
 
@@ -63,7 +74,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
     // Remove unnecessary/unsafe HTML attributes from Object of key|value pairs.
+    //
     pub.sanitizeAttrs = (attrs = {}) => {
         const allowedAttrs = ['id', 'class', 'href', 'data-ms-action'];
 
@@ -74,7 +87,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
     // Convert basic token tags such as [p class="foo"]bar[/p] to HTML.
+    //
     pub.tokenHTML = (str) => {
         if (!str) return;
         str = pub.sanitizeHTML(str);
@@ -92,6 +107,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.stripHTML = function(str) {
         if (!str) return;
 
@@ -103,8 +121,10 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
     // Strip HTML but include line-breaks for block-level elements and <BR> tags.
-    // This is useful for textarea formatting.
+        // This is useful for textarea formatting.
+    //
     pub.stripHTMLWithLinebreaks = function(str) {
         // Replace <br> tags with newline characters.
         str = str.replace(/<br\s*\/?>/gi, '\n');
@@ -115,32 +135,47 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.getEnvType = function() {
         return location.hostname.indexOf('webflow') > -1 ? 'dev' : 'live';
     };
 
 
+    //
+    //
+    //
     pub.getCurrentDomain = function() {
         return window.location.origin;
     };
 
 
+    //
+    //
+    //
     pub.getCurrentLang = function() {
         return pub.checkKeyExists(window, "Weglot") ? Weglot.getCurrentLang() : 'en';
     };
 
 
+    //
     // Format money.
+    //
     pub.formatCurrency = function(amount) {
         return parseFloat(amount, 10).toFixed(2).toString();
     };
 
 
+    //
     // Get $£€ etc symbols.
+    //
     pub.getCurrencySymbol = (locale, currency) => (0).toLocaleString(locale, { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\d/g, '').trim();
 
 
+    //
     // Get/set querystring.
+    //
     pub.getSetQuerystring = (params = '', includePath) => {
         const urlObj = new URL(window.location.href);
 
@@ -159,7 +194,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
     // Return human-friendly date.
+    //
     pub.formatTimestamp = function(timestamp, showTime, localTimezone) {
         if (!timestamp) return;
 
@@ -193,6 +230,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.getTimestamp = function(dateString, localTimezone) {
         if (dateString) {
             return new Date(dateString).getTime();
@@ -209,17 +249,24 @@ HELP = (function($, window, document, undefined) {
     };
     
 
+    //
+    //
+    //
     pub.getISOdate = function(dateString, localTimezone) {
         var date = pub.getTimestamp(dateString, localTimezone);
         return new Date(date).toISOString();
     };
 
 
+    //
     // Pluralize words based on provided Integer value (eg. "minute/minutes", "day/days").
+    //
     pub.pluralize = (count, single, plural) => `${count} ${count !== 1 ? plural || single+'s' : single}`;
 
 
+    //
     // Output a String describing how much time has past (eg. "minute/minutes ago", "day/days ago").
+    //
     pub.timePast = (date) => {
         const msMin = 60 * 1000, msHr = msMin * 60, msDay = msHr * 24, msWeek = msDay * 7, msMonth = msDay * 30, msYr = msDay * 365;
         var curr = pub.getTimestamp(false, true),// Converted to local timezone.
@@ -256,7 +303,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
     // Check whether Object key exists
+    //
     pub.checkKeyExists = function(obj, keys) {
         // If obj is falsy.
         if (!(!!obj)) return false;
@@ -266,7 +315,9 @@ HELP = (function($, window, document, undefined) {
     };
 
     
+    //
     // Get a value from a flat or deep (nested) Object.
+    //
     pub.getProperty = function(obj, key) {
         let keys = key.split('.'),
             value = obj;
@@ -280,6 +331,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.callNestedFunction = function(string, ...args) {
         var path = string.split("."),
             functionName = path.pop(),// Extracting the function name from the string.
@@ -295,6 +349,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.waitFor = function(key, value, timer, callback) {
         var nTimer = setInterval(function() {
             // wait for something to load...
@@ -306,16 +363,10 @@ HELP = (function($, window, document, undefined) {
     };
 
 
-    // Sort 2 values by order ASC/DESC and handle null values.
-    function sort(a, b, order) {
-        if (a === null) return order === 'desc' ? 1 : -1;
-        if (b === null) return order === 'desc' ? -1 : 1;
-        return order === 'desc' ? b - a : a - b;
-    }
-
-
+    //
     // Useful for filtering an Array of businesses Objects to only state.active ones.
         // or, for filtering out member plans without a status of ACTIVE or TRIALING.
+    //
     pub.filterArrayByObjectValue = function(array, key, values) {
         // Check if the 'values' parameter is an array.
         if (Array.isArray(values)) {
@@ -333,10 +384,19 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
+    // Sort 2 values by order ASC/DESC and handle null values.
+    //
+    function sort(a, b, order) {
+        if (a === null) return order === 'desc' ? 1 : -1;
+        if (b === null) return order === 'desc' ? -1 : 1;
+        return order === 'desc' ? b - a : a - b;
+    }
+
+
+    //
     // Useful for sorting an Array of businesses Objects by state.active appearing first.
-    /*pub.sortArrayByObjectValue = function(array, key, value) {
-        return array.sort((a, b) => (b[key] === value) - (a[key] === value));
-    };*/
+    //
     pub.sortArrayByObjectValue = function(array, key, val, order = 'desc') {
         return array.sort((a, b) => {
             // For deep (nested) values.
@@ -355,7 +415,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
     // Check if member has permissions.
+    //
     pub.hasPermissions = function(permission, member) {
         var negative = permission.indexOf("!") === 0,
             perm = permission.replace("!", ""),// Remove the ! so we can check array for permission String.
@@ -366,7 +428,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
     // Add useful metadata to an AJAX request.
+    //
     pub.ajaxMetaValues = function(data, type) {
         var obj = {};
 
@@ -393,7 +457,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
     // get form values as a key-value Object
+    //
     pub.getFormValues = function($form, type) {
         var formData = new FormData($form[0]),
             groupedArrays = {};
@@ -441,6 +507,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.sendAJAX = function(options, form) {
         params = $.extend({
             //url: "",// Required and must be provided.
@@ -488,6 +557,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.parseIfStringJSON = function(str) {
         if (typeof str === 'string') {
             str = str.trim();
@@ -499,6 +571,9 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.formatDDMMYYYY = (value, divider = ' / ') => {
         var val = value.replace(/[^\d]/g, ''),// Remove non-digit characters
             format = '',
@@ -519,7 +594,9 @@ HELP = (function($, window, document, undefined) {
     }
 
 
+    //
     // Manage cookies.
+    //
     pub.setCookie = function(name, value, days) {
         var expires = "";
         
@@ -547,7 +624,9 @@ HELP = (function($, window, document, undefined) {
     };
     
 
+    //
     // On DOM ready.
+    //
     // $(function() {});
 
     

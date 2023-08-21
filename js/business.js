@@ -1,11 +1,26 @@
 var BUSINESS = (function($, window, document, undefined) {
     var pub = {},
-        businessesMax = 6,// Maximum businesses a Member can have
-        membersBizLimit,// Limit based on Member's active Add-on subscriptions.
+        //
+        // Maximum businesses a Member can have.
+        //
+        businessesMax = 6,
+
+
+        //
+        // Limit based on Member's active Add-on subscriptions.
+        //
+        membersBizLimit,
+
+
+        //
+        // Selector for the Update active businesses form.
+        //
         formActivebusinessesID = '#wf-form-Update-Active-Businesses-Form';
 
 
+    //
     // Memberstack user business limits by planId.
+    //
     /*pub.membersBusinessLimit = {
         "pln_credit-package-1-p63bl01ya": 1,
         "pln_credit-package-2-pg3bd0zgw": 1,
@@ -14,13 +29,17 @@ var BUSINESS = (function($, window, document, undefined) {
         "pln_subscription-package-2-il3bk0zto": 3,
         "pln_subscription-package-3-9x3bl0z6j": 5
     };*/
+    //
     // This is where the logic will live to count "Business Add-ons" for a Member:
         // Right now we're just restricting Business to 10 max to prevent abuse.
+    //
     pub.membersBusinessLimit = businessesMax;
 
 
+    //
     // Check if the user is exceeding the number of active businesses allowed for the current subscription.
     // If so, launch a UI to select which businesses they want to keep active within the limit.
+    //
     pub.checkBusinessLimits = function(businesses, activeOnly) {
         var plans = USER.getMemberPlans(false, false, true);// Active plans only.
             // planLimits = pub.membersBusinessLimit;
@@ -47,6 +66,9 @@ var BUSINESS = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     pub.updateActiveBusinesses = function(businesses) {
         var businessesText = HELP.pluralize(membersBizLimit, 'business', 'businesses'),
             $form = $(formActivebusinessesID),
@@ -87,7 +109,9 @@ var BUSINESS = (function($, window, document, undefined) {
     };
 
 
+    //
     // Member has added the max number of businesses allowed per account (prevents abuse).
+    //
     pub.maxBusinessesReached = function() {
         // Remove form.
         $('#business-form-wrapper').remove();
@@ -112,8 +136,10 @@ var BUSINESS = (function($, window, document, undefined) {
     };
 
 
+    //
     // Form validation for active businesses (limit) form.
         // This gets set on the form element as an attribute in Webflow. Shit, I know...
+    //
     pub.formValidateActiveBusinesses = function() {
         var $form = $(formActivebusinessesID),
             businessesText = HELP.pluralize(membersBizLimit, 'business', 'businesses'),

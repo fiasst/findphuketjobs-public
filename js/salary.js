@@ -1,13 +1,17 @@
-/*
-* Used by the Add Job and Edit Job forms to calculate salary and control form fields.
-*/
-
+//
+// Used by the Add Job and Edit Job forms to calculate salary and control form fields.
+//
 var SALARY = (function($, window, document, undefined) {
     var pub = {};
 
 
+    //
     // On DOM ready.
+    //
     $(function() {
+        //
+        //
+        //
         var salary = function() {
             // We use name attributes and not ID for these selectors because this
             // widget appears twice on the Job page (Edit and Review forms).
@@ -55,7 +59,6 @@ var SALARY = (function($, window, document, undefined) {
                     }
                     $(salaryMonthly, $form).val(val);
                 };
-
 
             // Salary type and salary amount.
             $(salaryType).on('change', function() {

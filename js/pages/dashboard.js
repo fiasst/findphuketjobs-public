@@ -2,6 +2,9 @@ var DASHBOARD = (function($, window, document, undefined) {
     var pub = {};
 
 
+    //
+    //
+    //
     var finalDeleteAccountConfirm = function() {
         // Final confirmation message.
         var $confirm = $('#field-confirm'),
@@ -32,7 +35,9 @@ var DASHBOARD = (function($, window, document, undefined) {
                 }
             };
 
+        //
         // Validate confirm field.
+        //
         if (!$confirm.val() || $confirm.val().toLowerCase() != "delete") {
             params.message = "[p]You must type [strong]\"DELETE\"[/strong] in the required field to confirm that you want to delete your account.[/p]";
             params.type = "info";
@@ -53,6 +58,9 @@ var DASHBOARD = (function($, window, document, undefined) {
     };
 
 
+    //
+    //
+    //
     var deleteAccountHandler = function($form) {
         MAIN.thinking(true, true);
                 
@@ -77,9 +85,13 @@ var DASHBOARD = (function($, window, document, undefined) {
     };
 
 
+    //
     // On DOM ready.
+    //
     $(function() {
+        //
         // Make tab active if there's only 1 tab pane (a Jobseeker's Applications).
+        //
         var $tabPanes = $('#my-content .w-tab-pane');
         if ($tabPanes.length === 1) {
             // Show the only remaining pane.
@@ -87,7 +99,9 @@ var DASHBOARD = (function($, window, document, undefined) {
         }
 
 
+        //
         // Delete account form handler.
+        //
         var $formDeleteAccount = $('#wf-form-Delete-Account-Form');
 
         $formDeleteAccount.on('submit', function(e) {

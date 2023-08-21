@@ -2,17 +2,23 @@ var ALL_JOBS = (function($, window, document, undefined) {
     var pub = {};
 
 
+    //
     // On DOM ready.
+    //
     $(function() {
+        //
+        //
+        //
         const $filterForm = $('#wf-form-Jobs-Filter-Form');
-
         $('#filter-sector-list', $filterForm).on('keyup', function() {
             $('#facet-sector-list .w-dyn-item', $filterForm)
                 .show().not(':icontains('+ $(this).val() +')').hide();
         });
 
 
+        //
         // Because more than one FS attribute doesn't work.
+        //
         var summaryCount = $('#js-results-count'),
             sidebarSummaryCount = $('#js-sidebar-results-count', $filterForm);
         
@@ -21,7 +27,9 @@ var ALL_JOBS = (function($, window, document, undefined) {
         }, 300);
 
 
+        //
         // Filter facet selection summary.
+        //
         $('.facet :input', $filterForm).on('change', function() {
             var facet = $(this).parents('.facet'),
                 title = $('.title', facet)
