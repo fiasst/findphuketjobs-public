@@ -83,18 +83,18 @@ HELP = (function($, window, document, undefined) {
     // Convert basic token tags such as [p class="foo"]bar[/p] to HTML.
     pub.tokenHTML = (str) => {
         if (!str) return;
-
         str = pub.sanitizeHTML(str);
 
         // Allowed tags: p, strong, em, a, div, h[1-6], span
-        var regex = /\[(\/?(?:p|strong|em|a|div|h[1-6]|span)(?:\s+[^[\]]+)?)]/gi,
-            outputText = inputText.replace(regex, (match, tag) => {
-            var tag = tag.toLowerCase(),
-                openTag = tag.startsWith('/') ? `</${tag.slice(1)}` : '<'+ tag;
-            return openTag.endsWith(']') ? openTag.slice(0, -1) +'>' : openTag +'>';
-        })
-        // Remove substrings that start with "on" (event attributes. ex: "onclick").
-        .replace(/(\s*<[^>]*)on\w+/gi, '');
+        return str
+            // replace [] tags with <>.
+            .replace(/\[(\/?(?:p|strong|em|a|div|h[1-6]|span)(?:\s+[^[\]]+)?)]/gi, (match, tag) => {
+                var tag = tag.toLowerCase(),
+                    openTag = tag.startsWith('/') ? `</${tag.slice(1)}` : '<'+ tag;
+                return openTag.endsWith(']') ? openTag.slice(0, -1) +'>' : openTag +'>';
+            })
+            // Remove substrings that start with "on" (event attributes. ex: "onclick").
+            .replace(/(\s*<[^>]*)on\w+/gi, '');
     };
 
 
