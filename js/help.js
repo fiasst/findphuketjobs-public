@@ -62,10 +62,10 @@ HELP = (function($, window, document, undefined) {
             .replace(/&#x0*73;?&#x0*63;?&#x0*72;?&#x0*69;?&#x0*70;?&#x0*74;?&#x0*3A;?/gi, '')
             // Remove ".constructor" to prevent ES6 Set.constructor() from eval() things.
             .replace(/.constructor/gi, '')
-            // All combinations of the character "<" in HTML/JS (semicolon optional):
-            .replace(/(\x3c:?|\u003c:?)|(?:&#0*60;?|&#x0*3c;?):?/gi, '')
             // Escape certain HTML characters.
             .replace(/[&<>]/g, match => escapeChars[match])
+            // All combinations of the character "<" in HTML/JS (semicolon optional):
+            .replace(/(\x3c:?|\u003c:?)|(?:&#0*60;?|&#x0*3c;?):?/gi, '')
     };
 
 
@@ -88,7 +88,7 @@ HELP = (function($, window, document, undefined) {
         // Replace block-level tags with newline characters.
         str = str.replace(/<(?:div|p|blockquote|h[1-6]|table|ul|ol)[^>]*>/gi, '\n');
         // Sanitize a remove remaining HTML tags and trim whitespace.
-        return $('<div>').html(pub.sanitizeHTML(str)).text().trim();
+        return $('<div>').html(str).text().trim();
     };
 
 
