@@ -86,11 +86,12 @@ var MAIN = (function($, window, document, undefined) {
         if (HELP.checkKeyExists(data, "mode")) {
             switch (data.mode) {
                 case 'alert':
-                    alert(data.message);
+                    // Need to sanitize this...
+                    // alert(HELP.sanitizeHTML(data.message));
                     break;
 
                 case 'banner':
-                    alert(data.message);//temp
+                    // Nothing to see yet.
                     break;
 
                 default:
@@ -113,14 +114,14 @@ var MAIN = (function($, window, document, undefined) {
                 actions.append(
                     $('<a>', {
                         text: item.text,
-                        attr: item.attributes
+                        attr: HELP.sanitizeAttrs(item.attributes)
                     })
                 );
             })
         }
         var defaults = {
             bodyClasses: 'lbox-dialog',
-            html: [HELP.sanitizeHTML(params.message), actions],
+            html: [HELP.tokenHTML(params.message), actions],
             css: {
                 xxs: {
                     offset: 20,

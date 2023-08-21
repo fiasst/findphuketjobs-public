@@ -70,7 +70,7 @@ var BILLING = (function($, window, document, undefined) {
 
                     subscriptionPlans.push(
                         $('<div class="plan">').append(
-                            $('<div>', {class: ["name"], html: '<h3>'+planName+'</h3>'}),
+                            $('<div>', {class: ["name"], html: '<h3>'+ HELP.sanitizeHTML(planName) +'</h3>'}),
                             $('<div>', {class: ["status"], html: '<strong>Status:</strong> '+item['status']}),
                             $('<div>', {
                                 class: ["amount"],
@@ -101,31 +101,7 @@ var BILLING = (function($, window, document, undefined) {
                         method: "GET",
                         callbackSuccess: function(data) {
                             MAIN.thinking(false);
-
-                            // TODO: move this logic inside Make Webhook response and use MAIN.handleAjaxResponse().
-                            var msg = "Your subscription has been cancelled. We hope you will join us again soon.",
-                                type = "success";
-
-                            if (data.status != "canceled") {
-                                msg = "Something may have gone wrong. If your subscription does not show as <strong>Cancelled</strong>, please contact our team.";
-                                type = "error";
-                            }
-                            MAIN.dialog({
-                                message: `<p>${msg}</p>`,
-                                type: type,
-                                mode: "dialog",
-                                options: {
-                                    title: "Your subscription",
-                                    actions: [{
-                                        type: "button",
-                                        text: "OK",
-                                        attributes: {
-                                            class: "button-primary trigger-lbox-close trigger-reload",
-                                            href: "#"
-                                        }
-                                    }]
-                                }
-                            });
+                            MAIN.handleAjaxResponse(data, $form);
                         },
                         callbackError: function(data) {
                             MAIN.thinking(false);

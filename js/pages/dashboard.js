@@ -6,7 +6,7 @@ var DASHBOARD = (function($, window, document, undefined) {
         // Final confirmation message.
         var $confirm = $('#field-confirm'),
             params = {
-                "message": "<p>Confirm one last time that you want to cancel any subscriptions, delete you account, and erase your personal data. <strong>This cannot be undone.</strong></p>",
+                "message": "[p]Confirm one last time that you want to cancel any subscriptions, delete you account, and erase your personal data. [strong]This cannot be undone.[/strong][/p]",
                 "type": "warning",
                 "options": {
                     "title": "One final check...",
@@ -34,7 +34,7 @@ var DASHBOARD = (function($, window, document, undefined) {
 
         // Validate confirm field.
         if (!$confirm.val() || $confirm.val().toLowerCase() != "delete") {
-            params.message = "<p>You must type <strong>\"DELETE\"</strong> in the required field to confirm that you want to delete your account.</p>";
+            params.message = "[p]You must type [strong]\"DELETE\"[/strong] in the required field to confirm that you want to delete your account.[/p]";
             params.type = "info";
             params.options.title = "Field required";
             params.options.actions = [

@@ -93,8 +93,8 @@ var BUSINESS = (function($, window, document, undefined) {
         $('#business-form-wrapper').remove();
 
         MAIN.dialog({
-            // message: "<p>You have reached the active businesses limit for your current member plan. <a href=\"/plans\">Upgrade your plan</a> to post jobs for more businesses.</p>",
-            message: "<p>You have reached the maximum number of businesses allowed per account. If you need to increase this limit, please contact us.</p>",
+            // message: "[p]You have reached the active businesses limit for your current member plan. <a href=\"/plans\">Upgrade your plan</a> to post jobs for more businesses.[/p]",
+            message: "[p]You have reached the maximum number of businesses allowed per account. If you need to increase this limit, please contact us.[/p]",
             type: "success",
             mode: "dialog",
             options: {

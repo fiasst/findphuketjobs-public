@@ -69,6 +69,35 @@ HELP = (function($, window, document, undefined) {
     };
 
 
+    // Remove unnecessary/unsafe HTML attributes from Object of key|value pairs.
+    pub.sanitizeAttrs = (attrs = {}) => {
+        const allowedAttrs = ['id', 'class', 'href', 'data-ms-action'];
+
+        for (var key in attrs) {
+            if (!allowedAttrs.includes(key)) delete attrs[key];
+        }
+        return attrs;
+    };
+
+
+    // Convert basic token tags such as [p class="foo"]bar[/p] to HTML.
+    pub.tokenHTML = (str) => {
+        if (!str) return;
+
+        str = pub.sanitizeHTML(str);
+
+        // Allowed tags: p, strong, em, a, div, h[1-6], span
+        var regex = /\[(\/?(?:p|strong|em|a|div|h[1-6]|span)(?:\s+[^[\]]+)?)]/gi,
+            outputText = inputText.replace(regex, (match, tag) => {
+            var tag = tag.toLowerCase(),
+                openTag = tag.startsWith('/') ? `</${tag.slice(1)}` : '<'+ tag;
+            return openTag.endsWith(']') ? openTag.slice(0, -1) +'>' : openTag +'>';
+        })
+        // Remove substrings that start with "on" (event attributes. ex: "onclick").
+        .replace(/(\s*<[^>]*)on\w+/gi, '');
+    };
+
+
     pub.stripHTML = function(str) {
         if (!str) return;
 
@@ -434,7 +463,7 @@ console.log('formData', formData);
                 // Generic error message.
                 var data = {
                     "mode": "dialog",
-                    "message": "Sorry, something went wrong, please try again. if the problem continues, contact our team for help.",
+                    "message": "[p]Sorry, something went wrong, please try again. if the problem continues, contact our team for help.[/p]",
                     "type": "error",
                     "enableForm": true,
                     "options": {

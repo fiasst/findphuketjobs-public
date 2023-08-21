@@ -147,7 +147,7 @@ USER = (function($, window, document, undefined) {
 
     // Deleted user account callback.
     pub.ghostLogout = function() {
-        // CTA button in the dialog explaining your acount was deleted.
+        // CTA button is in the dialog confirming your account was deleted.
         $(document).on('click', '#trigger-ghost-logout', pub.logout);
     };
     
