@@ -273,8 +273,8 @@ $.fn.buildSelectOptions = function(options) {
         });
         $select.trigger('change');
 
-        if (select.hasClass('select2-field')) {
-            select.createSelect2();
+        if ($select.hasClass('select2-field')) {
+            $select.createSelect2();
         }
     });
 };
