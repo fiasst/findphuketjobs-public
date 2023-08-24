@@ -177,7 +177,7 @@ HELP = (function($, window, document, undefined) {
     // Get/set querystring.
     //
     // "url": Provide the current URL or link href to update an existing querystring.
-    pub.getSetQuerystring = (params = '', includePath, url = window.location.href) => {
+    pub.getSetQuerystring = (params = '', type = 'relative', url = window.location.href) => {
         // "url" param must be absolute or it will error.
         url = url.indexOf('://') < 0 ? window.location.origin + url : url;
         let urlObj = new URL(url);
@@ -192,8 +192,15 @@ HELP = (function($, window, document, undefined) {
                 // Append the new key-value pair to the existing query parameters.
                 urlObj.searchParams.append(sanitizedKey, sanitizedValue);
             }
-            // Return path and query string or just the string.
-            return includePath ? urlObj.pathname + urlObj.search : urlObj.search;
+            // Return an absolute URL, relative URI + querystring or just qstring.
+            switch (type) {
+                case 'absolute':
+                    return urlObj.origin + urlObj.pathname + urlObj.search;
+                case 'relative':
+                    return urlObj.pathname + urlObj.search;
+                case 'query':
+                    return urlObj.search;
+            }
         }
         // Get value.
         return pub.sanitizeHTML(urlObj.searchParams.get(params.toString()));

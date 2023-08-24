@@ -432,7 +432,7 @@ var MAIN = (function($, window, document, undefined) {
             
             $el.attr('href', HELP.getSetQuerystring({
                 [name]: value
-            }, true, $el.attr('href')) );
+            }, $el.attr('link-type'), $el.attr('href')) );
         });
 
 
