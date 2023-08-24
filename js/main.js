@@ -426,10 +426,13 @@ var MAIN = (function($, window, document, undefined) {
         // Add querystring to a links href based on two attributes set on the link.
         //
         $('a').filter('[data-query-value]').each(function() {
-            var $el = $(this);
+            var $el = $(this),
+                name = $.trim($el.attr('data-query-name')),
+                value = $.trim($el.attr('data-query-value'));
+            
             $el.attr('href', HELP.getSetQuerystring({
-                [ $.trim($el.attr('data-query-name')) ]: $.trim($el.attr('data-query-value'))
-            }, true, window.location.href + $el.attr('href')));
+                [name]: value
+            }, true, $el.attr('href')) );
         });
 
 

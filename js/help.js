@@ -176,8 +176,10 @@ HELP = (function($, window, document, undefined) {
     //
     // Get/set querystring.
     //
-    // "url" param must be absolute or it will error.
+    // "url": Provide the current URL or link href to update an existing querystring.
     pub.getSetQuerystring = (params = '', includePath, url = window.location.href) => {
+        // "url" param must be absolute or it will error.
+        url = url.indexOf('://') < 0 ? window.location.origin + url : url;
         let urlObj = new URL(url);
 
         // Set params.
@@ -193,7 +195,6 @@ HELP = (function($, window, document, undefined) {
             // Return path and query string or just the string.
             return includePath ? urlObj.pathname + urlObj.search : urlObj.search;
         }
-
         // Get value.
         return pub.sanitizeHTML(urlObj.searchParams.get(params.toString()));
     };
