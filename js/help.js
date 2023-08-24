@@ -176,9 +176,8 @@ HELP = (function($, window, document, undefined) {
     //
     // Get/set querystring.
     //
+    // "url" param must be absolute or it will error.
     pub.getSetQuerystring = (params = '', includePath, url = window.location.href) => {
-        // If URL is provided but isn't absolute, it will error.
-        url = url.indexOf('://').length < 0 ? window.location.href + url : url;
         let urlObj = new URL(url);
 
         // Set params.

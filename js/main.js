@@ -429,7 +429,7 @@ var MAIN = (function($, window, document, undefined) {
             var $el = $(this);
             $el.attr('href', HELP.getSetQuerystring({
                 [ $.trim($el.attr('data-query-name')) ]: $.trim($el.attr('data-query-value'))
-            }, true, $el.attr('href')));
+            }, true, window.location.href + $el.attr('href')));
         });
 
 
