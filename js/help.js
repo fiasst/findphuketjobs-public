@@ -177,12 +177,14 @@ HELP = (function($, window, document, undefined) {
     // Get/set querystring.
     //
     pub.getSetQuerystring = (params = '', includePath, url = window.location.href) => {
-        const urlObj = new URL(url);
+        // If URL is provided but isn't absolute, it will error.
+        url = url.indexOf('://').length < 0 ? window.location.href + url : url;
+        let urlObj = new URL(url);
 
         // Set params.
         if (typeof params === "object") {
             // Iterate through new parameters and append them to the existing ones.
-            for (const [key, value] of Object.entries(params)) {
+            for (let [key, value] of Object.entries(params)) {
                 let sanitizedKey = pub.sanitizeHTML(key),
                     sanitizedValue = pub.sanitizeHTML(value);
                 
