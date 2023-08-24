@@ -176,21 +176,25 @@ HELP = (function($, window, document, undefined) {
     //
     // Get/set querystring.
     //
-    pub.getSetQuerystring = (params = '', includePath) => {
-        const urlObj = new URL(window.location.href);
+    pub.getSetQuerystring = (params = '', includePath, url = window.location.href) => {
+        const urlObj = new URL(url);
 
         // Set params.
-        if (typeof(params) === "object") {
-            $.each(params, function(key, value) {
-                urlObj.searchParams.set(
-                    pub.sanitizeHTML(key), pub.sanitizeHTML(value)
-                );
-            });
-            // Return path and querystring or just the string.
+        if (typeof params === "object") {
+            // Iterate through new parameters and append them to the existing ones.
+            for (const [key, value] of Object.entries(params)) {
+                let sanitizedKey = pub.sanitizeHTML(key),
+                    sanitizedValue = pub.sanitizeHTML(value);
+                
+                // Append the new key-value pair to the existing query parameters.
+                urlObj.searchParams.append(sanitizedKey, sanitizedValue);
+            }
+            // Return path and query string or just the string.
             return includePath ? urlObj.pathname + urlObj.search : urlObj.search;
         }
+
         // Get value.
-        return pub.sanitizeHTML( urlObj.searchParams.get( params.toString() ));
+        return pub.sanitizeHTML(urlObj.searchParams.get(params.toString()));
     };
 
 

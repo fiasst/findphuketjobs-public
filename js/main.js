@@ -428,7 +428,7 @@ var MAIN = (function($, window, document, undefined) {
         $('a').filter('[data-query-value]').each(function() {
             var $el = $(this);
             $el.attr('href', $el.attr('href') + HELP.getSetQuerystring({
-                [$el.attr('data-query-name')]: $el.attr('data-query-value')
+                [ $.trim($el.attr('data-query-name')) ]: $.trim($el.attr('data-query-value'))
             }));
         });
 
