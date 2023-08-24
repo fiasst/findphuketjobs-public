@@ -254,7 +254,7 @@ $.fn.buildSelectOptions = function(options) {
         }
 
         $(this).find('.w-dyn-item').each(function() {
-            var val = $(this).text(),
+            var val = $.trim($(this).text()),
                 selected = (val == defaultValue) ? 'selected' : false;
 
             if (isMultiSelect) {
@@ -267,7 +267,7 @@ $.fn.buildSelectOptions = function(options) {
             $(this).data('lang-en', val);// Store a non-translated string in .data().
 
             $('<option />', {
-                value: $.trim(val),
+                value: val,
                 selected: selected
             }).text(val).appendTo( $select );
         });
