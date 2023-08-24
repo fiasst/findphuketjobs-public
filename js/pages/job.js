@@ -8,7 +8,7 @@ var JOB = (function($, window, document, undefined) {
         $('.trigger-publish').on('click', function(e) {
             e.preventDefault();
             var $link = $(this),
-                msg = HELP.sanitizeHTML(link.attr('data-confirm'));
+                msg = HELP.sanitizeHTML($link.attr('data-confirm'));
 
             if (msg && !confirm(msg)) {
                 return false;
