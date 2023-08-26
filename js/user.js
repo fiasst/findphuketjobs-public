@@ -9,6 +9,17 @@ USER = (function($, window, document, undefined) {
 
 
     //
+    // Look for onboarding cookie.
+    //
+    var onboard = HELP.getCookie('fpj_onboarding');
+    if (!!onboard) {
+        // Load onboarding.js to display a welcome message on any page of site.
+        $LAB
+        .script("//cdn.jsdelivr.net/gh/fiasst/findphuketjobs-public@"+repoVersion+"/js/pages/onboard-min.js");
+    }
+
+
+    //
     // Useful for When a user deletes their account and clicks the final modal CTA.
     //
     pub.logout = () => {
