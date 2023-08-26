@@ -447,6 +447,30 @@ var MAIN = (function($, window, document, undefined) {
 
 
         //
+        // General AJAX Webhook listener.
+        //
+        $(document).on('click', '.ajax-webhook', function(e) {
+            e.preventDefault();
+            var $trigger = $(this);
+
+            MAIN.thinking(true, false);
+
+            HELP.sendAJAX({
+                url: $trigger.attr('href'),
+                //data: data,
+                callbackSuccess: function(data) {
+                    MAIN.thinking(false);
+                    MAIN.handleAjaxResponse(data);
+                },
+                callbackError: function(data) {
+                    MAIN.thinking(false);
+                    console.log('error');
+                }
+            });
+        });
+
+
+        //
         // General Litbox trigger handler.
         //
         $('.trigger-lbox').on('click', function(e) {
