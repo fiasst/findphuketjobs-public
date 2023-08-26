@@ -61,6 +61,7 @@ var ONBOARD = (function($, window, document, undefined) {
                         mode: "dialog",
                         options: {
                             title: "Welcome!",
+                            overlayClose: false,
                             actions: [{
                                 type: "button",
                                 text: "Close",
@@ -68,13 +69,12 @@ var ONBOARD = (function($, window, document, undefined) {
                                     class: "button-primary trigger-lbox-close",
                                     href: "#"
                                 }
-                            }]
+                            }],
+                            onclosed: function() {
+                                // Delete the cookie when Dialog is closed.
+                                HELP.deleteCookie(onboardCookieName);
+                            }
                         }
-                    });
-
-                    // Delete the cookie when Dialog button is clicked.
-                    $(document).one('click', '.trigger-lbox-close', function(e) {
-                        HELP.deleteCookie(onboardCookieName);
                     });
                 }
             });
