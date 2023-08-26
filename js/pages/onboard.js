@@ -38,7 +38,7 @@ var ONBOARD = (function($, window, document, undefined) {
             // Get current Member.
             //
             USER.getCurrentMember(function(member) {
-                if (!member) {
+                if (!HELP.checkKeyExists(member, 'id')) {
                     // User is logged out.
                     var $form = $('form.form-register');
 

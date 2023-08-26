@@ -349,7 +349,7 @@ var MAIN = (function($, window, document, undefined) {
         // Get current Member.
         //
         USER.getCurrentMember(function(member) {
-            //if (!member) {
+            // if (!HELP.checkKeyExists(member, 'id')) {
                 // User is logged out.
             //}
 
