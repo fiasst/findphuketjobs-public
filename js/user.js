@@ -42,6 +42,12 @@ USER = (function($, window, document, undefined) {
         USER.current = USER.current || pub.current;
 
         if (HELP.checkKeyExists(USER, 'current.id')) {
+            // Fire callback.
+            if (!!callback){
+                callback(USER.current);
+                return;
+            }
+            // Return member object.
             return USER.current;
         }
         HELP.waitFor(window, "$memberstackDom", 50, function() {

@@ -350,7 +350,7 @@ var MAIN = (function($, window, document, undefined) {
         //
         USER.getCurrentMember(function(member) {
             //if (!member) {
-                //member is logged out
+                // User is logged out.
             //}
 
             //if (!!member.verified) {
