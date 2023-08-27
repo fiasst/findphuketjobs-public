@@ -66,7 +66,8 @@ var FORMS = (function($, window, document, undefined) {
                 e.preventDefault();
                 var $form = $(this),
                     $button = $form.find('.form-submit.clicked'),
-                    validation = $form.attr('data-validation');
+                    validation = $form.attr('data-validation'),
+                    dataType = $form.attr('data-form-values-type');
 
                 // Custom form validation.
                 if (validation && !HELP.callNestedFunction(validation)) {
@@ -77,7 +78,7 @@ var FORMS = (function($, window, document, undefined) {
                     return false;
                 }
 
-                var data = HELP.getFormValues($form),
+                var data = HELP.getFormValues($form, dataType),
                     formIncrement = HELP.getCookie('form-valid'),
                     i = 2;
 

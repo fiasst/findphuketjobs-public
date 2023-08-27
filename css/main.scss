@@ -11,9 +11,12 @@
 * Jobs.
 *
 */
-.card.job {
-  .brand-bg {
-    background: var(--brand-color);
+// Jobs Teaser.
+.card {
+  &.job {
+    .brand-bg {
+      background: var(--brand-color);
+    }
   }
 }
 
