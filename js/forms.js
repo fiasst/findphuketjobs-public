@@ -67,7 +67,21 @@ var FORMS = (function($, window, document, undefined) {
                 var $form = $(this),
                     $button = $form.find('.form-submit.clicked'),
                     validation = $form.attr('data-validation'),
-                    dataType = $form.attr('data-form-values-type');
+                    dataType = $form.attr('data-form-values-type'),
+                    ajaxParams = {
+                        url: $form.attr('action'),
+                        method: $form.attr('method'),
+                        data: data,
+                        timeout: 120000,
+                        callbackSuccess: function(data) {
+                            MAIN.thinking(false);
+                            MAIN.handleAjaxResponse(data, $form);
+                        },
+                        callbackError: function(data) {
+                            MAIN.thinking(false);
+                            console.log('error');
+                        }
+                    };
 
                 // Custom form validation.
                 if (validation && !HELP.callNestedFunction(validation)) {
@@ -76,6 +90,13 @@ var FORMS = (function($, window, document, undefined) {
                     MAIN.buttonThinking($button, true);
                     // Don't proceed.
                     return false;
+                }
+
+                // File upload fields break the JS without these settings.
+                if (dataType == 'formData') {
+                    ajaxParams.processData = false;
+                    ajaxParams.contentType = false;
+                    ajaxParams.cache = false;
                 }
 
                 var data = HELP.getFormValues($form, dataType),
@@ -90,20 +111,7 @@ var FORMS = (function($, window, document, undefined) {
                 MAIN.thinking(true, false);
                 console.log(data);
 
-                HELP.sendAJAX({
-                    url: $form.attr('action'),
-                    method: $form.attr('method'),
-                    data: data,
-                    timeout: 120000,
-                    callbackSuccess: function(data) {
-                        MAIN.thinking(false);
-                        MAIN.handleAjaxResponse(data, $form);
-                    },
-                    callbackError: function(data) {
-                        MAIN.thinking(false);
-                        console.log('error');
-                    }
-                }, $form);
+                HELP.sendAJAX(ajaxParams, $form);
             });
 
 
