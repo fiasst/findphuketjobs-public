@@ -99,17 +99,17 @@ var FORMS = (function($, window, document, undefined) {
                     ajaxParams.cache = false;
                 }
 
-                var data = HELP.getFormValues($form, dataType),
-                    formIncrement = HELP.getCookie('form-valid'),
+                ajaxParams.data = HELP.getFormValues($form, dataType);
+                var formIncrement = HELP.getCookie('form-valid'),
                     i = 2;
 
                 formIncrement = !!formIncrement ? Number(formIncrement) : 0;
-                data.increment = ++formIncrement;
-                HELP.setCookie('form-valid', data.increment);
+                ajaxParams.data.increment = ++formIncrement;
+                HELP.setCookie('form-valid', ajaxParams.data.increment);
 
                 MAIN.buttonThinking($button);
                 MAIN.thinking(true, false);
-                console.log(data);
+                console.log(ajaxParams.data);
 
                 HELP.sendAJAX(ajaxParams, $form);
             });
