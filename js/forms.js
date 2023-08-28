@@ -109,7 +109,7 @@ var FORMS = (function($, window, document, undefined) {
 
                 MAIN.buttonThinking($button);
                 MAIN.thinking(true, false);
-                console.log(data);
+                console.log('data: ', ajaxParams.data);
 
                 HELP.sendAJAX(ajaxParams, $form);
             });
