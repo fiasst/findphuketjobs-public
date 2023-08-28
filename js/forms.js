@@ -83,8 +83,15 @@ var FORMS = (function($, window, document, undefined) {
                     i = 2;
 
                 formIncrement = !!formIncrement ? Number(formIncrement) : 0;
-                data.increment = ++formIncrement;
-                HELP.setCookie('form-valid', data.increment);
+                formIncrement = ++formIncrement;
+                // ++formIncrement;
+                if (dataType == 'formData') {
+                    data.set('formIncrement', formIncrement);
+                }
+                else {
+                    data.formIncrement = formIncrement;
+                }
+                HELP.setCookie('form-valid', formIncrement);
 
                 var ajaxParams = {
                     url: $form.attr('action'),
