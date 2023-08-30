@@ -152,7 +152,7 @@ USER = (function($, window, document, undefined) {
         //
         // Launch Stripe Customer Portal with custom trigger.
         //
-        $('document').on('click', '.trigger-customer-portal', function(e) {
+        $(document).on('click', '.trigger-customer-portal', function(e) {
             e.preventDefault();
             pub.launchStripeCustomerPortal()
         });
