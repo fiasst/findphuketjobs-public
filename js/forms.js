@@ -86,7 +86,7 @@ var FORMS = (function($, window, document, undefined) {
                 formIncrement = ++formIncrement;
                 // ++formIncrement;
                 if (dataType == 'formData') {
-                    data.set('formIncrement', formIncrement);
+                    data.set('increment', formIncrement);
                 }
                 else {
                     data.formIncrement = formIncrement;
