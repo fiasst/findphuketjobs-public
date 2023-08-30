@@ -40,6 +40,7 @@ USER = (function($, window, document, undefined) {
     // Useful when a link loads via AJAX and doesn't trigger the MS [data-ms-action="customer-portal"] event.
     //
     pub.launchStripeCustomerPortal = () => {
+        MAIN.thinking(true, false);
         HELP.waitFor(window, "$memberstackDom", 50, function() {
             $memberstackDom.launchStripeCustomerPortal();
         });
@@ -146,6 +147,15 @@ USER = (function($, window, document, undefined) {
 
 
     //
+    // Deleted user account callback.
+    //
+    pub.ghostLogout = function() {
+        // CTA button is in the dialog confirming your account was deleted.
+        $(document).on('click', '#trigger-ghost-logout', pub.logout);
+    };
+
+
+    //
     // On DOM ready.
     //
     $(function() {
@@ -156,17 +166,7 @@ USER = (function($, window, document, undefined) {
             e.preventDefault();
             pub.launchStripeCustomerPortal()
         });
-
     });
-
-
-    //
-    // Deleted user account callback.
-    //
-    pub.ghostLogout = function() {
-        // CTA button is in the dialog confirming your account was deleted.
-        $(document).on('click', '#trigger-ghost-logout', pub.logout);
-    };
     
 
 
