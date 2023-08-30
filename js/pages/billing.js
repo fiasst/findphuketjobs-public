@@ -34,11 +34,8 @@ var BILLING = (function($, window, document, undefined) {
             var plans = USER.current.planConnections || [],
                 wrapper = $('#plans-wrapper');
 
-            if (plans.length < 1) {
-                // No plans exist.
-                wrapper.append("<p>You haven't purchased a plan yet. <a href=\"/pricing\">Select a plan</a> to post jobs and start finding candidates.</p>");    
-            }
-            else {
+            if (plans.length > 0) {
+                // User has a plan.
                 var subscriptionPlans = [],
                     customerID = USER.current.stripeCustomerId,
                     hasActiveSubscription = false;
@@ -72,7 +69,8 @@ var BILLING = (function($, window, document, undefined) {
                         cancelLink = $('<a>', {
                             'href': cancelMembersSubscription(item.planId, payment.priceId, customerID, payment.amount),
                             'text': 'Cancel subscription',
-                            'class': 'link-cancel'
+                            'class': 'link-cancel',
+                            'data-confirm': 'Are you sure you want to cancel your subscription?'
                         });
                     }
 
@@ -96,20 +94,26 @@ var BILLING = (function($, window, document, undefined) {
 
                 if (subscriptionPlans.length > 0) {
                     $('#subscriptions').append(subscriptionPlans);
-                    $('#banner-sub-join').toggleClass('hide', hasActiveSubscription);
+                    // $('#banner-sub-join').toggleClass('hide', hasActiveSubscription);
                 }
               
                 $('.link-cancel').on('click', function(e) {
                     e.preventDefault();
+                    var $link = $(this),
+                        msg = HELP.sanitizeHTML($link.attr('data-confirm'));
+
+                    if (msg && !confirm(msg)) {
+                        return false;
+                    }
                     MAIN.thinking(true, false);
                     
                     HELP.sendAJAX({
-                        url: $(this).attr('href'),
+                        url: $link.attr('href'),
                         data: HELP.ajaxMetaValues(),
                         method: "GET",
                         callbackSuccess: function(data) {
                             MAIN.thinking(false);
-                            MAIN.handleAjaxResponse(data, $form);
+                            MAIN.handleAjaxResponse(data);
                         },
                         callbackError: function(data) {
                             MAIN.thinking(false);
