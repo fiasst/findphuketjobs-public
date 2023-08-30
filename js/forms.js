@@ -89,7 +89,7 @@ var FORMS = (function($, window, document, undefined) {
                     data.set('increment', formIncrement);
                 }
                 else {
-                    data.formIncrement = formIncrement;
+                    data.increment = formIncrement;
                 }
                 HELP.setCookie('form-valid', formIncrement);
 
