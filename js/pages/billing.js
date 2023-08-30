@@ -70,7 +70,7 @@ var BILLING = (function($, window, document, undefined) {
                             'href': cancelMembersSubscription(item.planId, payment.priceId, customerID, payment.amount),
                             'text': 'Cancel subscription',
                             'class': 'link-cancel',
-                            'data-confirm': 'Are you sure you want to cancel your subscription?'
+                            'data-ms-action': 'customer-portal'
                         });
                     }
 
@@ -97,7 +97,7 @@ var BILLING = (function($, window, document, undefined) {
                     // $('#banner-sub-join').toggleClass('hide', hasActiveSubscription);
                 }
               
-                $('.link-cancel').on('click', function(e) {
+                /*$('.link-cancel').on('click', function(e) {
                     e.preventDefault();
                     var $link = $(this),
                         msg = HELP.sanitizeHTML($link.attr('data-confirm'));
@@ -120,7 +120,7 @@ var BILLING = (function($, window, document, undefined) {
                             console.log('error');
                         }
                     });
-                });
+                });*/
             }
 
             //
