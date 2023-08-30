@@ -72,8 +72,7 @@ var BILLING = (function($, window, document, undefined) {
                         cancelLink = $('<a>', {
                             'href': '#',
                             'text': 'Manage subscription',
-                            'class': 'link-sub-manage link-grey',
-                            'data-ms-action': 'customer-portal'
+                            'class': 'trigger-customer-portal link-grey'
                         });
                     }
 

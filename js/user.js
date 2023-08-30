@@ -36,6 +36,17 @@ USER = (function($, window, document, undefined) {
 
 
     //
+    // Launch the Stripe portal for managing payments and subscriptions.
+    // Useful when a link loads via AJAX and doesn't trigger the MS [data-ms-action="customer-portal"] event.
+    //
+    pub.launchStripeCustomerPortal = () => {
+        HELP.waitFor(window, "$memberstackDom", 50, function() {
+            $memberstackDom.launchStripeCustomerPortal();
+        });
+    }
+
+
+    //
     //
     //
     pub.updateCurrentUser = function(obj) {
@@ -137,37 +148,16 @@ USER = (function($, window, document, undefined) {
     //
     // On DOM ready.
     //
-    /*$(function() {
-        // Register form validation.
-        HELP.waitFor(window.jQuery.fn, "validate", 400, function() {
-            var emailRule = {
-                required: true,
-                email: true
-            },
-            emailMsg = {
-                required: "Email is required",
-                email: "Must be a valid email address"
-            };
-            // Business form.
-            $('#wf-form-Register-Business').validate({
-                rules: {
-                    biz_email: emailRule
-                },
-                messages: {
-                    biz_email: emailMsg
-                }
-            });
-            // Jobseeker form.
-            $('#wf-form-Register-User').validate({
-                rules: {
-                    user_email: emailRule
-                },
-                messages: {
-                    user_email: emailMsg
-                }
-            });
+    $(function() {
+        //
+        // Launch Stripe Customer Portal with custom trigger.
+        //
+        $('document').on('click', '.trigger-customer-portal', function(e) {
+            e.preventDefault();
+            pub.launchStripeCustomerPortal()
         });
-    });*/
+
+    });
 
 
     //
