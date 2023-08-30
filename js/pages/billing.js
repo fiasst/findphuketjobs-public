@@ -56,11 +56,15 @@ var BILLING = (function($, window, document, undefined) {
                         currencySymbol = "";
                     }
 
-                    if (payment.nextBillingDate) {
-                        nextBillDate = $('<div>', {class: ["bill-next"], html: '<strong>Your plan renews on</strong> '+ HELP.formatTimestamp(payment.nextBillingDate) });  
+                    // If plan has been cancelled but is still active until expiry date.
+                    if (payment.cancelAtDate) {
+                        nextBillDate = $('<div>', {class: ["bill-next"], html: '<strong>Your plan will cancel on:</strong> '+ HELP.formatTimestamp(payment.cancelAtDate) });
+                    }
+                    else if (payment.nextBillingDate) {
+                        nextBillDate = $('<div>', {class: ["bill-next"], html: '<strong>Renews on:</strong> '+ HELP.formatTimestamp(payment.nextBillingDate) });
                     }
                     if (payment.lastBillingDate) {
-                        lastBillDate = $('<div>', {class: ["bill-last"], html: '<strong>Last billing date:</strong> '+ HELP.formatTimestamp(payment.lastBillingDate) });   
+                        lastBillDate = $('<div>', {class: ["bill-last"], html: '<strong>Last billed:</strong> '+ HELP.formatTimestamp(payment.lastBillingDate) });
                     }
                     if (item['status'] == "ACTIVE" || item['status'] == "TRIALING") {
                         hasActiveSubscription = true;
