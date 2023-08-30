@@ -20,7 +20,6 @@ var BILLING = (function($, window, document, undefined) {
     // Webhooks.
     //
     const listMembersInvoices = "https://hook.us1.make.com/xq3ycqbici93ertr6ixfoea3hg9sqsew";
-    const cancelMembersSubscription = (planId, priceId, customerID, amount) => `https://hook.us1.make.com/bg7py9xulyk6m3wyhmg5okn2ctcfkjiw?plan_id=${planId}&price_id=${priceId}&customer_id=${customerID}&amount=${amount}`;
 
 
     //
@@ -67,9 +66,9 @@ var BILLING = (function($, window, document, undefined) {
                         hasActiveSubscription = true;
 
                         cancelLink = $('<a>', {
-                            'href': cancelMembersSubscription(item.planId, payment.priceId, customerID, payment.amount),
-                            'text': 'Cancel subscription',
-                            'class': 'link-cancel',
+                            'href': '#',
+                            'text': 'Manage subscription',
+                            'class': 'link-sub-manage link-grey',
                             'data-ms-action': 'customer-portal'
                         });
                     }
