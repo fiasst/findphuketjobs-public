@@ -70,9 +70,12 @@ var ADD_JOB = (function($, window, document, undefined) {
             // WARNING. sanitize data and use it carefully.
             var list = data.businesses || [];
 
+            console.log('data:', data);
+            console.log('list:', list);
+
             if (list.length < 1) {
                 // No businesses exist.
-                // The second parameter is a callback function for the "onComplete" LitBox options.
+                // The second parameter (function) is a callback for the "onComplete" LitBox options.
                 $triggerAddBusiness.trigger('click', function() {
                     alert("You need to add your business before you can post a job");
                 });
@@ -87,6 +90,8 @@ var ADD_JOB = (function($, window, document, undefined) {
                 // Sort by "active" businesses appearing first.
                 list = HELP.sortArrayByObjectValue(list, 'state', 'active');
 
+                console.log('list sorted:', list);
+
                 // Clear any previous options.
                 businessSelect.html('').append( $('<option>', {
                     value: '',
@@ -100,6 +105,8 @@ var ADD_JOB = (function($, window, document, undefined) {
                     if (selectedBusiness) {
                         isSelected = (selectedBusiness == name);
                     }
+
+                    console.log('item:', item);
                     
                     businessSelect.append($('<option>', {
                         value: (item.state == 'disabled') ? '0' : item.itemId,
@@ -108,6 +115,7 @@ var ADD_JOB = (function($, window, document, undefined) {
                         disabled: (item.state == 'disabled')
                     }));
                 });
+                console.log('businessSelect:', businessSelect);
             }
         }
 
@@ -122,13 +130,14 @@ var ADD_JOB = (function($, window, document, undefined) {
                 USER.current.businesses = USER.current.businesses || [];
                 USER.current.businesses.push(data.business);
                 HELP.setCookie("MSmember", JSON.stringify({"businesses": USER.current.businesses}) );
+                console.log('USER.current:', USER.current);
                 buildBusinessSelectField(USER.current, data.business.tradingName);
             }
         };
 
         
         //
-        // Add business form in Colorbox.
+        // Add business form in Litbox.
         //
         $triggerAddBusiness.on('click', function(e, onComplete) {
             e.preventDefault();
