@@ -1,3 +1,6 @@
+//
+// Load this file on all pages that include a register form.
+//
 var ONBOARD = (function($, window, document, undefined) {
     var pub = {},
         onboardCookieName = 'fpj_onboarding';
