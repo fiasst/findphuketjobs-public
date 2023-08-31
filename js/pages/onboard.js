@@ -3,7 +3,7 @@
 //
 var ONBOARD = (function($, window, document, undefined) {
     var pub = {},
-        onboardCookieName = 'fpj_onboarding';
+        onboardCookieName = 'fpj_onboarding'
 
 
     //
@@ -23,8 +23,6 @@ var ONBOARD = (function($, window, document, undefined) {
         if (!!obj) {
             // Set campaign cookie.
             HELP.setCookie(onboardCookieName, JSON.stringify(obj) );
-            // Save the campaign name as a Custom Field.
-            USER.updateCurrentMember({'campaign': stype});
         }
     }();
 
@@ -36,10 +34,17 @@ var ONBOARD = (function($, window, document, undefined) {
         //
         // Add onboarding values to register forms.
         //
-        var onboard = HELP.getCookie(onboardCookieName);
+        var campaign = HELP.getCookie(onboardCookieName);
+
 
         // Check cookie exists.
-        if (!!onboard) {
+        if (!!campaign) {
+            //
+            // Save the campaign name as a Custom Field.
+            //
+            USER.updateCurrentMember({'campaign': campaign.type});
+
+
             //
             // Get current Member.
             //
@@ -48,11 +53,11 @@ var ONBOARD = (function($, window, document, undefined) {
                     // User is logged out.
                     var $form = $('form.form-register');
 
-                    if (HELP.checkKeyExists(onboard, 'type')) {
-                        $('input[name="campaign"]', $form).val(onboard.type);
+                    if (HELP.checkKeyExists(campaign, 'type')) {
+                        $('input[name="campaign"]', $form).val(campaign.type);
                     }
-                    if (HELP.checkKeyExists(onboard, 'business')) {
-                        $('input[name="signup_biz"]', $form).val(onboard.business);
+                    if (HELP.checkKeyExists(campaign, 'business')) {
+                        $('input[name="signup_biz"]', $form).val(campaign.business);
                     }
                 }
                 else {

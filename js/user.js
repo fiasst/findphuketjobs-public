@@ -90,7 +90,7 @@ USER = (function($, window, document, undefined) {
     //
     pub.updateCurrentMember = function(obj, callback) {
         HELP.waitFor(window, "$memberstackDom", 50, function() {
-            $memberstackDom.updateMember({'customFields': obj}).then(({ data: member }) => {
+            window.$memberstackDom.updateMember({'customFields': obj}).then(({ data: member }) => {
                 member = member || {};
                 pub.updateCurrentUser(member);
 
