@@ -36,7 +36,7 @@ var ONBOARD = (function($, window, document, undefined) {
         //
         var campaign = HELP.getCookie(onboardCookieName);
         // Check cookie exists.
-        if (!!onboard) {
+        if (!!campaign) {
             //
             // Save the campaign name as a Custom Field.
             //
