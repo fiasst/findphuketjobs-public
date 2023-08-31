@@ -34,15 +34,13 @@ var ONBOARD = (function($, window, document, undefined) {
         //
         // Add onboarding values to register forms.
         //
-        var campaign = HELP.getCookie(onboardCookieName);
-
-
+        var onboard = HELP.getCookie(onboardCookieName);
         // Check cookie exists.
-        if (!!campaign) {
+        if (!!onboard) {
             //
             // Save the campaign name as a Custom Field.
             //
-            USER.updateCurrentMember({'campaign': campaign.type});
+            USER.updateCurrentMember({'campaign': onboard.type});
 
 
             //
@@ -53,21 +51,20 @@ var ONBOARD = (function($, window, document, undefined) {
                     // User is logged out.
                     var $form = $('form.form-register');
 
-                    if (HELP.checkKeyExists(campaign, 'type')) {
-                        $('input[name="campaign"]', $form).val(campaign.type);
+                    if (HELP.checkKeyExists(onboard, 'type')) {
+                        $('input[name="campaign"]', $form).val(onboard.type);
                     }
-                    if (HELP.checkKeyExists(campaign, 'business')) {
-                        $('input[name="signup_biz"]', $form).val(campaign.business);
+                    if (HELP.checkKeyExists(onboard, 'business')) {
+                        $('input[name="signup_biz"]', $form).val(onboard.business);
                     }
                 }
                 else {
                     // User is logged in with the cookie set.
                     MAIN.dialog({
-                        message: `
-                            [p][strong]Thank you for creating an account and joining our Soft-launch![/strong] We're so glad you decided to give our service a try.[/p]
-                            [p]We'll send you an email once your current job vacancies have been posted. There’s no need to add your Business to your account, we’ll do that for you.[/p]
-                            [p]Since our website is new, there's bound to be some technical faults and lots of features not yet included. We appreciate your patience while we make big improvements in the months to come.[/p]
-                            [p]Thanks again and welcome - team Find Phuket Jobs[/p]`,
+                        message: `[p][strong]Thank you for creating an account and joining our Soft-launch![/strong] We're so glad you decided to give our service a try.[/p]
+[p]We'll send you an email once your current job vacancies have been posted. There’s no need to add your Business to your account, we’ll do that for you.[/p]
+[p]Since our website is new, there's bound to be some technical faults and lots of features not yet included. We appreciate your patience while we make big improvements in the months to come.[/p]
+[p]Thanks again and welcome - team Find Phuket Jobs[/p]`,
                         type: "success",
                         mode: "dialog",
                         options: {
