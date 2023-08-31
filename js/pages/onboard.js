@@ -32,23 +32,17 @@ var ONBOARD = (function($, window, document, undefined) {
     //
     $(function() {
         //
-        // Add onboarding values to register forms.
+        // Add onboarding values to register forms or member.
         //
         var campaign = HELP.getCookie(onboardCookieName);
         // Check cookie exists.
         if (!!campaign) {
-            //
-            // Save the campaign name as a Custom Field.
-            //
-            USER.updateCurrentMember({'campaign': campaign.type});
-
-
-            //
             // Get current Member.
-            //
             USER.getCurrentMember(function(member) {
                 if (!HELP.checkKeyExists(member, 'id')) {
-                    // User is logged out.
+                    // User is NOT logged in.
+
+                    // Add values to register form fields.
                     var $form = $('form.form-register');
 
                     if (HELP.checkKeyExists(campaign, 'type')) {
@@ -60,6 +54,11 @@ var ONBOARD = (function($, window, document, undefined) {
                 }
                 else {
                     // User is logged in with the cookie set.
+
+                    // Save the campaign name as a Custom Field.
+                    USER.updateCurrentMember({'campaign': campaign.type});
+
+                    // Show welcome message.
                     MAIN.dialog({
                         message: `[p][strong]Thank you for creating an account and joining our Soft-launch![/strong] We're so glad you decided to give our service a try.[/p]
 [p]We'll send you an email once your current job vacancies have been posted. There’s no need to add your Business to your account, we’ll do that for you.[/p]
