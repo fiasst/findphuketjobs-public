@@ -108,12 +108,15 @@ var ADD_JOB = (function($, window, document, undefined) {
 
                     console.log('item:', item);
                     
-                    businessSelect.append($('<option>', {
-                        value: (item.state == 'disabled') ? '0' : item.itemId,
-                        text: name + registeredName,// Sanatize values.
-                        selected: isSelected,
-                        disabled: (item.state == 'disabled')
-                    }));
+                    // Don't create <option> if, for some reason, the itemId is missing.
+                    if (HELP.checkKeyExists(item, 'itemId')) {
+                        businessSelect.append($('<option>', {
+                            value: (item.state == 'disabled') ? '0' : item.itemId,
+                            text: name + registeredName,// Sanatize values.
+                            selected: isSelected,
+                            disabled: (item.state == 'disabled')
+                        }));
+                    }
                 });
                 console.log('businessSelect:', businessSelect);
             }
