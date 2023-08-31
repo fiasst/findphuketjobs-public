@@ -74,7 +74,7 @@ USER = (function($, window, document, undefined) {
             return USER.current;
         }
         HELP.waitFor(window, "$memberstackDom", 50, function() {
-            window.$memberstackDom.getCurrentMember().then(({ data: member }) => {
+            $memberstackDom.getCurrentMember().then(({ data: member }) => {
                 member = member || {};
                 pub.updateCurrentUser(member);
 
@@ -90,7 +90,7 @@ USER = (function($, window, document, undefined) {
     //
     pub.updateCurrentMember = function(obj, callback) {
         HELP.waitFor(window, "$memberstackDom", 50, function() {
-            window.$memberstackDom.updateMember({'customFields': obj}).then(({ data: member }) => {
+            $memberstackDom.updateMember({'customFields': obj}).then(({ data: member }) => {
                 member = member || {};
                 pub.updateCurrentUser(member);
 
@@ -106,7 +106,7 @@ USER = (function($, window, document, undefined) {
     //
     pub.getMemberJSON = function(callback) {
         HELP.waitFor(window, "$memberstackDom", 50, function() {
-            window.$memberstackDom.getMemberJSON().then(({ data: memberJSON }) => {
+            $memberstackDom.getMemberJSON().then(({ data: memberJSON }) => {
                 memberJSON = memberJSON || {};
 
                 if (!!callback) callback(memberJSON);
@@ -121,7 +121,7 @@ USER = (function($, window, document, undefined) {
     //
     pub.updateMemberJSON = function(json, callback) {
         HELP.waitFor(window, "$memberstackDom", 50, function() {
-            window.$memberstackDom.updateMemberJSON({ json: json }).then(({ data: memberJSON }) => {
+            $memberstackDom.updateMemberJSON({ json: json }).then(({ data: memberJSON }) => {
                 memberJSON = memberJSON || {};
 
                 if (!!callback) callback(memberJSON);

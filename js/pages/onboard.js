@@ -34,13 +34,13 @@ var ONBOARD = (function($, window, document, undefined) {
         //
         // Add onboarding values to register forms.
         //
-        var onboard = HELP.getCookie(onboardCookieName);
+        var campaign = HELP.getCookie(onboardCookieName);
         // Check cookie exists.
         if (!!onboard) {
             //
             // Save the campaign name as a Custom Field.
             //
-            USER.updateCurrentMember({'campaign': onboard.type});
+            USER.updateCurrentMember({'campaign': campaign.type});
 
 
             //
@@ -51,11 +51,11 @@ var ONBOARD = (function($, window, document, undefined) {
                     // User is logged out.
                     var $form = $('form.form-register');
 
-                    if (HELP.checkKeyExists(onboard, 'type')) {
-                        $('input[name="campaign"]', $form).val(onboard.type);
+                    if (HELP.checkKeyExists(campaign, 'type')) {
+                        $('input[name="campaign"]', $form).val(campaign.type);
                     }
-                    if (HELP.checkKeyExists(onboard, 'business')) {
-                        $('input[name="signup_biz"]', $form).val(onboard.business);
+                    if (HELP.checkKeyExists(campaign, 'business')) {
+                        $('input[name="signup_biz"]', $form).val(campaign.business);
                     }
                 }
                 else {
