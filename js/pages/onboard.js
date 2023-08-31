@@ -10,7 +10,7 @@ var ONBOARD = (function($, window, document, undefined) {
     // Update onboarding cookie if querystring values exist.
     //
     var onboardingCookie = function() {
-        var stype = HELP.getSetQuerystring('signup_type'),
+        var stype = HELP.getSetQuerystring('signup'),
             sbusiness = HELP.getSetQuerystring('signup_biz'),
             obj;
 
@@ -21,7 +21,10 @@ var ONBOARD = (function($, window, document, undefined) {
             };
         }
         if (!!obj) {
+            // Set campaign cookie.
             HELP.setCookie(onboardCookieName, JSON.stringify(obj) );
+            // Save the campaign name as a Custom Field.
+            USER.updateCurrentMember({'campaign': stype});
         }
     }();
 
@@ -46,7 +49,7 @@ var ONBOARD = (function($, window, document, undefined) {
                     var $form = $('form.form-register');
 
                     if (HELP.checkKeyExists(onboard, 'type')) {
-                        $('input[name="signup_type"]', $form).val(onboard.type);
+                        $('input[name="campaign"]', $form).val(onboard.type);
                     }
                     if (HELP.checkKeyExists(onboard, 'business')) {
                         $('input[name="signup_biz"]', $form).val(onboard.business);

@@ -59,7 +59,7 @@ USER = (function($, window, document, undefined) {
 
 
     //
-    // get the current Member then fire callback function.
+    // Get the current Member then fire callback function.
     //
     pub.getCurrentMember = function(callback) {
         USER.current = USER.current || pub.current;
@@ -83,10 +83,26 @@ USER = (function($, window, document, undefined) {
             });
         });
     };
+
+
+    //
+    // Update the current Member (only Custom Fields atm) then fire callback function.
+    //
+    pub.updateCurrentMember = function(obj, callback) {
+        HELP.waitFor(window, "$memberstackDom", 50, function() {
+            $memberstackDom.updateMember({'customFields': obj}).then(({ data: member }) => {
+                member = member || {};
+                pub.updateCurrentUser(member);
+
+                if (!!callback) callback(USER.current);
+                return USER.current;
+            });
+        });
+    };
     
 
     //
-    // get Member's JSON then fire callback function.
+    // Get Member's JSON then fire callback function.
     //
     pub.getMemberJSON = function(callback) {
         HELP.waitFor(window, "$memberstackDom", 50, function() {
@@ -101,7 +117,7 @@ USER = (function($, window, document, undefined) {
 
 
     //
-    // update Member's JSON.
+    // Update Member's JSON.
     //
     pub.updateMemberJSON = function(json, callback) {
         HELP.waitFor(window, "$memberstackDom", 50, function() {
