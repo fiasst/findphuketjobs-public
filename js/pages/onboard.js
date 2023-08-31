@@ -3,7 +3,7 @@
 //
 var ONBOARD = (function($, window, document, undefined) {
     var pub = {},
-        onboardCookieName = 'fpj_onboarding'
+        onboardCookieName = 'fpj_onboarding';
 
 
     //
