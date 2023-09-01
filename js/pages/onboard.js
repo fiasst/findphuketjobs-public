@@ -17,7 +17,7 @@ var ONBOARD = (function($, window, document, undefined) {
         if (stype || sbusiness) {
             obj = {
                 'type': stype || null,
-                'business': !!sbusiness ? decodeURIComponent(window.atob(sbusiness)) : null
+                'business': !!sbusiness ? decodeURIComponent(sbusiness) : null
             };
         }
         if (!!obj) {
