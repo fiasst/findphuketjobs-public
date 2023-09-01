@@ -34,9 +34,9 @@ var ONBOARD = (function($, window, document, undefined) {
         //
         // Add onboarding values to register forms or member.
         //
-        var campaign = HELP.getCookie(onboardCookieName);
+        var signup = HELP.getCookie(onboardCookieName);
         // Check cookie exists.
-        if (!!campaign) {
+        if (!!signup) {
             // Get current Member.
             USER.getCurrentMember(function(member) {
                 if (!HELP.checkKeyExists(member, 'id')) {
@@ -45,19 +45,15 @@ var ONBOARD = (function($, window, document, undefined) {
                     // Add values to register form fields.
                     var $form = $('form.form-register');
 
-                    if (HELP.checkKeyExists(campaign, 'type')) {
-                        $('input[name="campaign"]', $form).val(campaign.type);
+                    if (HELP.checkKeyExists(signup, 'type')) {
+                        $('input[name="campaign"]', $form).val(signup.type);
                     }
-                    if (HELP.checkKeyExists(campaign, 'business')) {
-                        $('input[name="signup_biz"]', $form).val(campaign.business);
+                    if (HELP.checkKeyExists(signup, 'business')) {
+                        $('input[name="signup_biz"]', $form).val(signup.business);
                     }
                 }
                 else {
                     // User is logged in with the cookie set.
-
-                    // Save the campaign name as a Custom Field.
-                    USER.updateCurrentMember({'campaign': campaign.type});
-
                     // Show welcome message.
                     MAIN.dialog({
                         message: `[p][strong]Thank you for creating an account and joining our Soft-launch![/strong] We're so glad you decided to give our service a try.[/p]
