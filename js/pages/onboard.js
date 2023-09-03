@@ -56,7 +56,7 @@ var ONBOARD = (function($, window, document, undefined) {
                     // User is logged in with the cookie set.
                     // Show welcome message.
                     MAIN.dialog({
-                        message: `[h1]Welcome! 🤩[/h1][p][strong]Thank you for creating an account and joining our Soft-launch![/strong] We're so glad you decided to give our service a try.[/p]
+                        message: `[h1 class="title size-h2 text-center"]Welcome! 🤩[/h1][p][strong]Thank you for creating an account and joining our Soft-launch![/strong] We're so glad you decided to give our service a try.[/p]
 [p]We'll send you an email once your current job vacancies have been posted. There’s no need to add your Business to your account, we’ll do that for you.[/p]
 [p]And again, there's absolutely no fee for trying our service during our Soft-launch. However, you can see plan details on this page, should you wish to add more jobs.[/p]
 [p]Since our website is new, there's bound to be lots of features not yet included. We appreciate your patience while we make big improvements in the months to come.[/p]
