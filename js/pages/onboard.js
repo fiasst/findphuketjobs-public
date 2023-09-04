@@ -12,12 +12,14 @@ var ONBOARD = (function($, window, document, undefined) {
     var onboardingCookie = function() {
         var stype = HELP.getSetQuerystring('signup'),
             sbusiness = HELP.getSetQuerystring('signup_biz'),
+            language = HELP.getSetQuerystring('language'),
             obj;
 
         if (stype || sbusiness) {
             obj = {
                 'type': stype || null,
-                'business': !!sbusiness ? decodeURIComponent(sbusiness) : null
+                'business': !!sbusiness ? decodeURIComponent(sbusiness) : null,
+                'language': language || null
             };
         }
         if (!!obj) {
@@ -50,6 +52,9 @@ var ONBOARD = (function($, window, document, undefined) {
                     }
                     if (HELP.checkKeyExists(signup, 'business')) {
                         $('input[name="signup_biz"]', $form).val(signup.business);
+                    }
+                    if (HELP.checkKeyExists(signup, 'language')) {
+                        $('input[name="language"]', $form).val(signup.language);
                     }
                 }
                 else {
