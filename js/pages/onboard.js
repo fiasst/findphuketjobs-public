@@ -12,7 +12,7 @@ var ONBOARD = (function($, window, document, undefined) {
     var onboardingCookie = function() {
         var stype = HELP.getSetQuerystring('signup'),
             sbusiness = HELP.getSetQuerystring('signup_biz'),
-            language = HELP.getSetQuerystring('language'),
+            language = HELP.getSetQuerystring('lang'),
             obj;
 
         if (stype || sbusiness) {
