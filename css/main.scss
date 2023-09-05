@@ -3,6 +3,12 @@
 * Custom CSS.
 *
 */
+//
+// Variables.
+//
+:root {
+  --business-brand-color: #CCC;
+}
 
 
 
@@ -15,7 +21,7 @@
 .card {
   &.job {
     .brand-bg {
-      background: var(--brand-color);
+      background: var(--business-brand-color);
     }
   }
 }

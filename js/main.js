@@ -264,7 +264,7 @@ var MAIN = (function($, window, document, undefined) {
                 $card.find('.js-salary-hidden').show();
             }
             // Business Branding CSS Var.
-            $card.css('--brand-color', $card.attr('data-brand-color'));
+            $card.css('--business-brand-color', $card.attr('data-brand-color'));
         });
     };
 
