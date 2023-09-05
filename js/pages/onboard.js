@@ -10,14 +10,14 @@ var ONBOARD = (function($, window, document, undefined) {
     // Update onboarding localStorage if querystring values exist.
     //
     var onboardingData = function() {
-        var type = HELP.getSetQuerystring('signup'),
+        var signup = HELP.getSetQuerystring('signup'),
             business = HELP.getSetQuerystring('signup_biz'),
             language = HELP.getSetQuerystring('lang'),
             obj;
 
-        if (type || business) {
+        if (signup || business) {
             obj = {
-                'type': type || null,
+                'signup': signup || null,
                 'business': !!business ? decodeURIComponent(business) : null,
                 'language': language || null
             };
@@ -47,8 +47,8 @@ var ONBOARD = (function($, window, document, undefined) {
                     // Add values to register form fields.
                     var $form = $('form.form-register');
 
-                    if (HELP.checkKeyExists(signup, 'type')) {
-                        $('input[name="campaign"]', $form).val(HELP.sanitizeHTML(signup.type));
+                    if (HELP.checkKeyExists(signup, 'signup')) {
+                        $('input[name="campaign"]', $form).val(HELP.sanitizeHTML(signup.signup));
                     }
                     if (HELP.checkKeyExists(signup, 'business')) {
                         $('input[name="signup_biz"]', $form).val(HELP.sanitizeHTML(signup.business));
