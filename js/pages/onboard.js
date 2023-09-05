@@ -48,7 +48,7 @@ var ONBOARD = (function($, window, document, undefined) {
                     var $form = $('form.form-register');
 
                     if (HELP.checkKeyExists(signup, 'signup')) {
-                        $('input[name="campaign"]', $form).val(HELP.sanitizeHTML(signup.signup));
+                        $('input[name="signup"]', $form).val(HELP.sanitizeHTML(signup.signup));
                     }
                     if (HELP.checkKeyExists(signup, 'business')) {
                         $('input[name="signup_biz"]', $form).val(HELP.sanitizeHTML(signup.business));
