@@ -569,6 +569,8 @@ var MAIN = (function($, window, document, undefined) {
                 window.location.href = USER.current.loginRedirect;
             }
             else if (HELP.checkKeyExists(USER, "current.id")) {
+                // If loginRedirect isn't set, the user has probably just joined and
+                // Make hasn't finished updating the MS object before the page loaded.
                 // User the ID portion of the Member ID, since we use that for a Slug.
                 var id = USER.current.id.split('_').slice(-1);
                 if (!!id) {
