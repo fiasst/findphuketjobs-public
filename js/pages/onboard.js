@@ -3,28 +3,28 @@
 //
 var ONBOARD = (function($, window, document, undefined) {
     var pub = {},
-        onboardCookieName = 'fpj_onboarding';
+        onboardStorage = 'fpj_onboarding';
 
 
     //
-    // Update onboarding cookie if querystring values exist.
+    // Update onboarding localStorage if querystring values exist.
     //
-    var onboardingCookie = function() {
-        var stype = HELP.getSetQuerystring('signup'),
-            sbusiness = HELP.getSetQuerystring('signup_biz'),
+    var onboardingData = function() {
+        var type = HELP.getSetQuerystring('signup'),
+            business = HELP.getSetQuerystring('signup_biz'),
             language = HELP.getSetQuerystring('lang'),
             obj;
 
-        if (stype || sbusiness) {
+        if (type || business) {
             obj = {
-                'type': stype || null,
-                'business': !!sbusiness ? decodeURIComponent(sbusiness) : null,
+                'type': type || null,
+                'business': !!business ? decodeURIComponent(business) : null,
                 'language': language || null
             };
         }
         if (!!obj) {
-            // Set campaign cookie.
-            HELP.setCookie(onboardCookieName, JSON.stringify(obj) );
+            // Set campaign localStorage.
+            HELP.setLocalStorage(onboardStorage, obj);
         }
     }();
 
@@ -36,8 +36,8 @@ var ONBOARD = (function($, window, document, undefined) {
         //
         // Add onboarding values to register forms or member.
         //
-        var signup = HELP.getCookie(onboardCookieName);
-        // Check cookie exists.
+        var signup = HELP.getLocalStorage(onboardStorage);
+        // Check localStorage exists.
         if (!!signup) {
             // Get current Member.
             USER.getCurrentMember(function(member) {
@@ -48,17 +48,17 @@ var ONBOARD = (function($, window, document, undefined) {
                     var $form = $('form.form-register');
 
                     if (HELP.checkKeyExists(signup, 'type')) {
-                        $('input[name="campaign"]', $form).val(signup.type);
+                        $('input[name="campaign"]', $form).val(HELP.sanitizeHTML(signup.type));
                     }
                     if (HELP.checkKeyExists(signup, 'business')) {
-                        $('input[name="signup_biz"]', $form).val(signup.business);
+                        $('input[name="signup_biz"]', $form).val(HELP.sanitizeHTML(signup.business));
                     }
                     if (HELP.checkKeyExists(signup, 'language')) {
-                        $('input[name="language"]', $form).val(signup.language);
+                        $('input[name="language"]', $form).val(HELP.sanitizeHTML(signup.language));
                     }
                 }
                 else {
-                    // User is logged in with the cookie set.
+                    // User is logged in with the localStorage set.
                     // Show welcome message.
                     MAIN.dialog({
                         message: `[h1 class="title size-h2 text-center"]Welcome! 🤩[/h1][p][strong]Thank you for creating an account and joining our Soft-launch![/strong] We're so glad you decided to give our service a try.[/p]
@@ -83,9 +83,9 @@ var ONBOARD = (function($, window, document, undefined) {
                         }
                     });
 
-                    // Delete the cookie when Dialog button is clicked.
+                    // Delete the localStorage when Dialog button is clicked.
                     $(document).one('click', '.trigger-lbox-close', function(e) {
-                        HELP.deleteCookie(onboardCookieName);
+                        HELP.deleteLocalStorage(onboardStorage);
                     });
                 }
             });

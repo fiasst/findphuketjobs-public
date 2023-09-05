@@ -57,7 +57,8 @@ HELP = (function($, window, document, undefined) {
         return str.toString()
             // Remove <script> tags and content.
             // Remove ".constructor" to prevent ES6 Set.constructor() from eval() things.
-            .replace(/<.*?script.*?>|.constructor/gi, '')
+            // Remove "document.cookie" to prevent session hijacking.
+            .replace(/<.*?script.*?>|.constructor|document.cookie|document.domain/gi, '')
             // Remove substrings that start with "on" (event attributes. ex: "onclick").
             .replace(/(\s*<[^>]*)on\w+/gi, '')
             // Remove instances of "javascript:" or "script:" (for "ascript:").
@@ -665,6 +666,23 @@ HELP = (function($, window, document, undefined) {
     pub.deleteCookie = function(name) {
         document.cookie = name+'=; expires=Thu, 01-Jan-70 00:00:01 GMT; path=/';
     };
+
+
+    //
+    // Manage localStorage.
+    //
+    function setLocalStorage(key, value) {
+        if (typeof value !== 'string') {
+            value = JSON.stringify(value);
+        }
+        localStorage.setItem(key, value);
+    }
+    function getLocalStorage(key) {
+        return pub.parseIfStringJSON(localStorage.getItem(key));
+    }
+    function deleteLocalStorage(key) {
+        localStorage.removeItem(key);
+    }
     
 
     //
