@@ -518,7 +518,7 @@ HELP = (function($, window, document, undefined) {
             
             // Re-build multi-select values.
             if ($element.is('select[multiple]')) {
-                formData.set(key, $element.val());
+                formData.set(key, value);
             }
             // Check if checkbox name ends with [].
             else if ($element.is(':checkbox:checked') && key.endsWith('[]')) {
@@ -538,6 +538,9 @@ HELP = (function($, window, document, undefined) {
 
         // Add metadata to formData:
         pub.ajaxMetaValues(formData, 'formData');
+
+        // Debug:
+        console.log(Object.fromEntries(formData));
 
         if (type == 'formData') {
             return formData;

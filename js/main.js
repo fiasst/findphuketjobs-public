@@ -568,6 +568,13 @@ var MAIN = (function($, window, document, undefined) {
             if (HELP.checkKeyExists(USER, "current.loginRedirect")) {
                 window.location.href = USER.current.loginRedirect;
             }
+            else if (HELP.checkKeyExists(USER, "current.id")) {
+                // User the ID portion of the Member ID, since we use that for a Slug.
+                var id = USER.current.id.split('_').slice(-1);
+                if (!!id) {
+                    window.location.href = '/dashboard/'+ id;
+                }
+            }
         });
 
 
