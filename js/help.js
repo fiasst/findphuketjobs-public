@@ -671,16 +671,16 @@ HELP = (function($, window, document, undefined) {
     //
     // Manage localStorage.
     //
-    function setLocalStorage(key, value) {
+    pub.setLocalStorage = function(key, value) {
         if (typeof value !== 'string') {
             value = JSON.stringify(value);
         }
         localStorage.setItem(key, value);
     }
-    function getLocalStorage(key) {
+    pub.getLocalStorage = function(key) {
         return pub.parseIfStringJSON(localStorage.getItem(key));
     }
-    function deleteLocalStorage(key) {
+    pub.deleteLocalStorage = function(key) {
         localStorage.removeItem(key);
     }
     
