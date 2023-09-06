@@ -214,12 +214,6 @@ var FORMS = (function($, window, document, undefined) {
 
 
         //
-        // Must appear before the createSelect2() call.
-        //
-        $('.select-list-options').buildSelectOptions();
-
-
-        //
         // Translate select lists and rebuild any jQuery Select2 widgets.
         //
         HELP.waitFor(window, "Weglot", 400, function() {
@@ -241,12 +235,24 @@ var FORMS = (function($, window, document, undefined) {
 
 
         //
-        // Select2 dropdowns.
+        // Select dropdowns and Select2 widgets.
         //
-        $('.select2-field').filter(function() {
-            // Remove select fields with a certain parent. These get initialized in $.fn.buildSelectOptions().
-            return !$(this).parents('.select-list-wrapper').length;
-        }).createSelect2();
+        HELP.waitFor(USER, "current.id", 50, function() {
+            //
+            // Populate select fields with Collection List item values.
+                // Must be called before the createSelect2() call (below).
+            //
+            $('.select-list-options').buildSelectOptions();
+
+
+            //
+            // Select2 dropdowns.
+            //
+            $('.select2-field').filter(function() {
+                // Remove select fields with a certain parent. These get initialized in $.fn.buildSelectOptions().
+                return !$(this).parents('.select-list-wrapper').length;
+            }).createSelect2();
+        });
 
 
         //
@@ -286,9 +292,11 @@ $.fn.buildSelectOptions = function(options) {
         var wrapper = $(this).parent('.select-list-wrapper'),
             $select = $('select', wrapper),
             $default = $('.input-default-value', wrapper),
-            defaultValue = HELP.sanitizeHTML(!!$default.text() ? $default.text() : $default.attr('data-value')) || '',
+            defaultValue = !!$default.text() ? $default.text() : $default.attr('data-value'),
             values = [],
             isMultiSelect = $select.is('select[multiple]');
+
+        defaultValue = $.trim(HELP.sanitizeHTML(defaultValue)) || '';
 
         if (isMultiSelect) {
             defaultValue = defaultValue.split('|');
