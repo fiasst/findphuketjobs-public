@@ -20,6 +20,17 @@ var FORMS = (function($, window, document, undefined) {
     };
 
 
+    // Check or uncheck the custom Input and the actual (hidden) radio/checkbox input.
+        // "checked" is a Boolean (to check or uncheck the fields).
+    pub.toggleCustomInputField = function($customInput, $input, checked) {
+        if ($customInput && ($customInput.hasClass('w--redirected-checked') !== checked)) {
+            $customInput.trigger('click');
+        }
+        // Make sure the checkbox/radio reflects the same state as the custom input field...
+        $input.prop('checked', checked);
+    };
+
+
     //
     // On DOM ready.
     //
@@ -138,6 +149,23 @@ var FORMS = (function($, window, document, undefined) {
 
 
         //
+        // Set custom Radio/Checkbox states on page load.
+            // Check custom Radio/Checkbox field's hidden <input> if the custom field is set the "checked".
+            // Do this before $('.input-default-value').each() (below) in case there's no default value set.
+        //
+        $('.w-form-formradioinput--inputType-custom').each(function() {
+            var $customInput = $(this),
+                $input = $customInput.siblings(':input'),
+                checked = $customInput.hasClass('w--redirected-checked');
+
+            // Update radio/checkbox state.
+            if (checked) {
+                pub.toggleCustomInputField($customInput, $input, checked);
+            }
+        });
+
+
+        //
         // Form fields: Populate field's default values with sibling DIV's content.
         //
         $('.input-default-value').each(function() {
@@ -157,12 +185,8 @@ var FORMS = (function($, window, document, undefined) {
                         //or "true/false" (String), for Switch WF fields.
                         bool = !!text && text !== "false";
                     }
-
-                    if ($customInput && ($customInput.hasClass('w--redirected-checked') !== bool)) {
-                        $customInput.trigger('click');
-                    }
-                    // Make sure the checkbox/radio reflects the same state as the custom input field...
-                    $(this).prop('checked', bool);
+                    // Update radio/checkbox state.
+                    pub.toggleCustomInputField($customInput, $(this), bool);
                 });
             }
             else if (!$input.val()) {

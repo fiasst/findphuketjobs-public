@@ -99,9 +99,10 @@ var JOB = (function($, window, document, undefined) {
         var $forms = $('#compare-existing form');
         // Check that the Revision form exists.
         if ($forms.length > 0) {
-            var $formLast = $forms.last();
+            var $formLast = $forms.last(),
+                data = HELP.getFormValues($formLast);
             
-            $.each(HELP.getFormValues($formLast), function(key, value) {
+            $.each(data, function(key, value) {
                 var selector = `[name="${key}"]`,
                     $fieldReview = $(selector, '#compare-review');// Review field.
 
