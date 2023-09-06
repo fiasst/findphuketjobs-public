@@ -149,23 +149,6 @@ var FORMS = (function($, window, document, undefined) {
 
 
         //
-        // Set custom Radio/Checkbox states on page load.
-            // Check custom Radio/Checkbox field's hidden <input> if the custom field is set the "checked".
-            // Do this before $('.input-default-value').each() (below) in case there's no default value set.
-        //
-        $('.w-form-formradioinput--inputType-custom').each(function() {
-            var $customInput = $(this),
-                $input = $customInput.siblings(':input'),
-                checked = $customInput.hasClass('w--redirected-checked');
-
-            // Update radio/checkbox state.
-            if (checked) {
-                pub.toggleCustomInputField($customInput, $input, checked);
-            }
-        });
-
-
-        //
         // Form fields: Populate field's default values with sibling DIV's content.
         //
         $('.input-default-value').each(function() {
@@ -191,6 +174,24 @@ var FORMS = (function($, window, document, undefined) {
             }
             else if (!$input.val()) {
                 $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
+            }
+        });
+
+
+        //
+        // Set custom Radio/Checkbox states on page load.
+        // Check custom Radio/Checkbox field's hidden <input> if the custom field is set the "checked".
+            // IMPORTANT! Do this after the $('.input-default-value').each() (above) to check a value
+            // if there's no .input-default-value set.
+        //
+        $('.w-form-formradioinput--inputType-custom').each(function() {
+            var $customInput = $(this),
+                $input = $customInput.siblings(':input'),
+                checked = $customInput.hasClass('w--redirected-checked');
+
+            // Update radio/checkbox state.
+            if (checked) {
+                pub.toggleCustomInputField($customInput, $input, checked);
             }
         });
 
