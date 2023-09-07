@@ -475,7 +475,7 @@ var MAIN = (function($, window, document, undefined) {
         //
         // General Litbox trigger handler.
         //
-        $('.trigger-lbox').on('click', function(e) {
+        $(document).on('click', '.trigger-lbox', function(e) {
             e.preventDefault();
 
             // Open Litbox.
@@ -489,7 +489,7 @@ var MAIN = (function($, window, document, undefined) {
         //
         // Accordions.
         //
-        $('.accordion').on('click', '.accordion-header', function() {
+        $(document).on('click', '.accordion-header', function() {
             $(this).parent().toggleClass('active').find('.accordion-content').toggleClass('active');
         });
 
