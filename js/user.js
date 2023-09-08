@@ -11,7 +11,7 @@ USER = (function($, window, document, undefined) {
     //
     // Look for onboarding cookie.
     //
-    var onboard = HELP.getCookie('fpj_onboarding');
+    var onboard = HELP.getLocalStorage('fpj_onboarding');
     if (!!onboard) {
         // Load onboarding.js to display a welcome message on any page of site.
         $LAB

@@ -36,9 +36,9 @@ var ONBOARD = (function($, window, document, undefined) {
         //
         // Add onboarding values to register forms or member.
         //
-        var signup = HELP.getLocalStorage(onboardStorage);
+        var onboard = HELP.getLocalStorage(onboardStorage);
         // Check localStorage exists.
-        if (!!signup) {
+        if (!!onboard) {
             // Get current Member.
             USER.getCurrentMember(function(member) {
                 if (!HELP.checkKeyExists(member, 'id')) {
@@ -47,14 +47,14 @@ var ONBOARD = (function($, window, document, undefined) {
                     // Add values to register form fields.
                     var $form = $('form.form-register');
 
-                    if (HELP.checkKeyExists(signup, 'signup')) {
-                        $('input[name="signup"]', $form).val(HELP.sanitizeHTML(signup.signup));
+                    if (HELP.checkKeyExists(onboard, 'signup')) {
+                        $('input[name="signup"]', $form).val(HELP.sanitizeHTML(onboard.signup));
                     }
-                    if (HELP.checkKeyExists(signup, 'business')) {
-                        $('input[name="signup_biz"]', $form).val(HELP.sanitizeHTML(signup.business));
+                    if (HELP.checkKeyExists(onboard, 'business')) {
+                        $('input[name="signup_biz"]', $form).val(HELP.sanitizeHTML(onboard.business));
                     }
-                    if (HELP.checkKeyExists(signup, 'language')) {
-                        $('input[name="language"]', $form).val(HELP.sanitizeHTML(signup.language));
+                    if (HELP.checkKeyExists(onboard, 'language')) {
+                        $('input[name="language"]', $form).val(HELP.sanitizeHTML(onboard.language));
                     }
                 }
                 else {
