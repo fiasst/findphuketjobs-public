@@ -248,10 +248,11 @@ HELP = (function($, window, document, undefined) {
     // Convert a date-time String into a Timestamp.
     //
     // Expected dateString parts order to be: "DD-MM-YYYY HH:MM:SS".
-    // Date can be separated by /, - or spaces.
+        // Unless "usaFormat" is TRUE, then it's: "MM-DD-YYYY HH:MM:SS".
+    // Date can be separated by / - or spaces.
     // Ex: dateString = "23/08/2023, 04:53:34";
     //
-    pub.getTimestamp = (dateString, localTimezone) => {
+    pub.getTimestamp = (dateString, localTimezone, usaFormat) => {
         let date,
             lang = pub.getCurrentLang(),
             options = {};
@@ -265,12 +266,13 @@ HELP = (function($, window, document, undefined) {
                 dateStr = dateString.substring(0, lastSpaceIndex),
                 timeStr = dateString.substring(lastSpaceIndex + 1),
                 dateParts = dateStr.replace(/[-\/\s]/g, "||").split('||');
-                date = new Date();
+                date = new Date(),
+                monthIndex = usaFormat ? 0 : 1;
 
             // Convert month. Ex: from 08 to "Aug" (short names).
-            date.setMonth(dateParts[1] -1);
+            date.setMonth(dateParts[monthIndex] - 1);
             options.month = 'short';
-            dateParts[1] = date.toLocaleString(lang, options);
+            dateParts[monthIndex] = date.toLocaleString(lang, options);
 
             // Rebuild as: 23 Aug 2023 04:53:34.
             // May still contain a comma but thats ok.
@@ -316,7 +318,7 @@ HELP = (function($, window, document, undefined) {
     pub.timePast = (date) => {
         const msMin = 60 * 1000, msHr = msMin * 60, msDay = msHr * 24, msWeek = msDay * 7, msMonth = msDay * 30, msYr = msDay * 365;
         var curr = pub.getTimestamp(false, true),// Converted to local timezone.
-            date = pub.getTimestamp(date),
+            date = pub.getTimestamp(date, false, true),// Supplied HTML dateString (in US format so Finsweet date sorting works correctly).
             elapsed = curr - date;
 
         if (elapsed < msMin) {
