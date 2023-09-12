@@ -90,6 +90,36 @@ var DASHBOARD = (function($, window, document, undefined) {
     //
     $(function() {
         //
+        // Show/hide job action menu links depending on Job's status.
+        //
+        $('.js-job-actions').each(function() {
+            var $widget = $(this),
+                $actions = $('.dropdown-nav-link', $widget),
+                status = $('.job-status', $widget).text().toLowerCase();
+
+            if (!!status) {
+                $widget.addClass(status);
+              
+                switch (status) {
+                    case 'draft':
+                        // Show all links.
+                        $actions.removeClass('hide');
+                        break;
+                    case 'expired':
+                    case 'archived':
+                        // Show all links.
+                        $actions.removeClass('hide').filter('[data-link="publish"]').text('Republish');
+                        break;
+                    case 'pending':
+                    case 'published':
+                        // Show Edit link only.
+                        $actions.filter('[data-link="edit"]').removeClass('hide');
+                }
+            }
+        });
+        
+
+        //
         // Make tab active if there's only 1 tab pane (a Jobseeker's Applications).
         //
         var $tabPanes = $('#my-content .w-tab-pane');

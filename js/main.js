@@ -585,36 +585,6 @@ var MAIN = (function($, window, document, undefined) {
 
 
         //
-        //
-        //
-        $('.node-job-row').each(function() {
-            var row = $(this),
-                actions = row.find('.table-links a'),
-                status = row.find('.col-status').text().toLowerCase();
-
-            if (!!status) {
-                row.addClass(status);
-              
-                switch (status) {
-                    case 'draft':
-                        // Show all links.
-                        actions.removeClass('hide');
-                        break;
-                    case 'expired':
-                    case 'archived':
-                        // Show all links.
-                        actions.removeClass('hide').filter('[data-link="publish"]').text('Republish');
-                        break;
-                    case 'pending':
-                    case 'published':
-                        // Show Edit link only.
-                        actions.filter('[data-link="edit"]').removeClass('hide');
-                }
-            }
-        });
-
-
-        //
         // Split content into steps, managed my classes and HTML attributes.
            // Used on the Add New Business Litbox.
         //

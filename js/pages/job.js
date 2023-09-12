@@ -2,9 +2,13 @@ var JOB = (function($, window, document, undefined) {
     var pub = {};
 
 
+    //
     // On DOM ready.
+    //
     $(function() {
+        //
         // Publish Draft/Republish existing Job.
+        //
         $('.trigger-publish').on('click', function(e) {
             e.preventDefault();
             var $link = $(this),
@@ -34,6 +38,52 @@ var JOB = (function($, window, document, undefined) {
 
             HELP.sendAJAX({
                 url: "https://hook.us1.make.com/dv56t4535h1sfag5g0693924h3sg5582",
+                data: data,
+                timeout: 120000,
+                callbackSuccess: function(data) {
+                    MAIN.handleAjaxResponse(data);
+                    MAIN.thinking(false);
+                },
+                callbackError: function(data) {
+                    console.log('error');
+                    MAIN.thinking(false);
+                }
+            });
+        });
+
+
+        //
+        // Archive a Job.
+        //
+        $('.trigger-archive').on('click', function(e) {
+            e.preventDefault();
+            var $link = $(this),
+                msg = HELP.sanitizeHTML($link.attr('data-confirm'));
+
+            if (msg && !confirm(msg)) {
+                return false;
+            }
+
+            if ($link.hasClass('disabled')) {
+                return false;
+            }
+            $link.addClass('disabled');
+
+            var data = $.extend(true, {}, HELP.ajaxMetaValues(), {
+                    item_id: $(this).attr('data-item-id'),
+                    op: 'archive'
+                }),
+                formIncrement = HELP.getCookie('form-valid'),
+                i = 2;
+
+            formIncrement = !!formIncrement ? Number(formIncrement) : 0;
+            data.increment = ++formIncrement;
+            HELP.setCookie('form-valid', data.increment);
+
+            MAIN.thinking(true, false);
+
+            HELP.sendAJAX({
+                url: "https://hook.us1.make.com/8zhpderjto2q633au9udif2ko63ru9uc",
                 data: data,
                 timeout: 120000,
                 callbackSuccess: function(data) {

@@ -61,11 +61,11 @@ var ONBOARD = (function($, window, document, undefined) {
                     // User is logged in with the localStorage set.
                     // Show welcome message.
                     MAIN.dialog({
-                        message: `[h1 class="title size-h2 text-center"]Welcome! 🤩[/h1][p][strong]Thank you for joining our launch![/strong] We're so glad you decided to give our service a try.[/p]
-[p]We'll send you an email once your current job vacancies have been posted. There’s no need to add your Business to your account, we’ll do that for you.[/p]
-[p]And again, there's absolutely no fee for trying our service during our launch. However, you can see plan details on this page, should you wish to add additional businesses and jobs.[/p]
+                        message: `[h1 class="title size-h2 text-center"]Welcome 🤩[/h1][p class="context text-center"]We're so glad you've joined our launch![/p]
+[p]We'll email you once your current jobs have been added to the website. There’s no need to add your Business to your account, we’ll do that for you.[/p]
+[p]There's absolutely no fee for trying our service during our launch. However, you can see plan details on this page, should you wish to add additional businesses or jobs.[/p]
 [p]Since our website is new, there's bound to be lots of features not yet included. We appreciate your patience while we make big improvements in the months to come.[/p]
-[p]Thanks again and we wish you every success in staff hiring for many years to come - team Find Phuket Jobs[/p]`,
+[p]Thank you - [strong]team Find Phuket Jobs[/strong][/p]`,
                         type: "success",
                         mode: "dialog",
                         options: {
