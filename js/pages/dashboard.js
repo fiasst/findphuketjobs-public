@@ -109,7 +109,7 @@ var DASHBOARD = (function($, window, document, undefined) {
                     case 'expired':
                     case 'archived':
                         // Show all links.
-                        $actions.removeClass('hide').filter('[data-link="publish"]').text('Republish');
+                        $actions.removeClass('hide').filter('[data-link="publish"]').find('a').text('Republish');
                         break;
                     case 'pending':
                         // Show Edit link only.
