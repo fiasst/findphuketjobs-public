@@ -94,11 +94,12 @@ var DASHBOARD = (function($, window, document, undefined) {
         //
         $('.js-job-actions').each(function() {
             var $widget = $(this),
-                $actions = $('.dropdown-nav-link', $widget),
+                $actions = $('.dropdown-nav-item', $widget),
                 status = $('.job-status', $widget).text().toLowerCase();
 
             if (!!status) {
                 $widget.addClass(status);
+                $actions.addClass('hide');
               
                 switch (status) {
                     case 'draft':
@@ -111,13 +112,16 @@ var DASHBOARD = (function($, window, document, undefined) {
                         $actions.removeClass('hide').filter('[data-link="publish"]').text('Republish');
                         break;
                     case 'pending':
-                    case 'published':
                         // Show Edit link only.
                         $actions.filter('[data-link="edit"]').removeClass('hide');
+                        break;
+                    case 'published':
+                        // Show Edit and Archive links.
+                        $actions.filter('[data-link="edit"], [data-link="archive"]').removeClass('hide');
                 }
             }
         });
-        
+
 
         //
         // Make tab active if there's only 1 tab pane (a Jobseeker's Applications).
