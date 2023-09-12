@@ -292,7 +292,7 @@ HELP = (function($, window, document, undefined) {
             minute: "numeric",
             second: "numeric"
         });
-        date = new Date(Date.parse(dateString + " GMT")).toLocaleString(lang, options);
+        date = new Date(Date.parse(dateString)).toLocaleString(lang, options);
         return Date.parse(date);
     };
     
