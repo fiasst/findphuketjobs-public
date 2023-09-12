@@ -322,7 +322,8 @@ HELP = (function($, window, document, undefined) {
             elapsed = curr - date;
 
         if (elapsed < msMin) {
-            return pub.pluralize(Math.round(elapsed/1000), 'second');
+            // return pub.pluralize(Math.round(elapsed/1000), 'second');
+            return '0 minutes';
         }
         else if (elapsed < msHr) {
             elapsed = Math.round(elapsed/msMin);
