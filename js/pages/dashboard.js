@@ -103,8 +103,8 @@ var DASHBOARD = (function($, window, document, undefined) {
               
                 switch (status) {
                     case 'draft':
-                        // Show all links.
-                        $actions.removeClass('hide');
+                        // Show Edit and Publish links.
+                        $actions.filter('[data-link="edit"], [data-link="publish"]').removeClass('hide');
                         break;
                     case 'expired':
                     case 'archived':
