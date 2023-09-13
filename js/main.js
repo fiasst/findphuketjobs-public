@@ -245,7 +245,7 @@ var MAIN = (function($, window, document, undefined) {
     //
     pub.timePast = function($el) {
         if (!!$el.text()) {
-            $el.text( HELP.timePast( $el.text() ) +' ago').addClass('parsed');
+            $el.text( HELP.timePast($el.text())).addClass('parsed');
         }
     };
 
