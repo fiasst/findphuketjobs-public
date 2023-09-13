@@ -317,40 +317,39 @@ HELP = (function($, window, document, undefined) {
     //
     // Output a String describing how much time has past (eg. "minute/minutes ago", "day/days ago").
     //
-    pub.timePast = (date) => {
+    pub.timePast = (date, suffix = 'ago') => {
         const msMin = 60 * 1000, msHr = msMin * 60, msDay = msHr * 24, msWeek = msDay * 7, msMonth = msDay * 30, msYr = msDay * 365;
         var curr = pub.getTimestamp(false, true),// Converted to local timezone.
             date = pub.getTimestamp(date, false, true),// Supplied HTML dateString (in US format so Finsweet date sorting works correctly).
-            elapsed = curr - date;
+            elapsed = curr - date,
+            output;
 
         if (elapsed < msMin) {
-            // return pub.pluralize(Math.round(elapsed/1000), 'second');
-            return '0 minutes';
+            // output = pub.pluralize(Math.round(elapsed/1000), 'second');
+            output = '0 minutes';
         }
         else if (elapsed < msHr) {
-            elapsed = Math.round(elapsed/msMin);
-            return pub.pluralize(elapsed, 'minute');
+            output = pub.pluralize(Math.round(elapsed/msMin), 'minute');
         }
         else if (elapsed < msDay) {
-            elapsed = Math.round(elapsed/msHr);
-            return pub.pluralize(elapsed, 'hour');
+            output = pub.pluralize(Math.round(elapsed/msHr), 'hour');
         }
         else if (elapsed < msMonth) {
-            elapsed = Math.round(elapsed/msDay);
-            return pub.pluralize(elapsed, 'day');
+            output = pub.pluralize(Math.round(elapsed/msDay), 'day');
         }
         else if (elapsed < msWeek) {
-            elapsed = Math.round(elapsed/msWeek);
-            return pub.pluralize(elapsed, 'week');
+            output = pub.pluralize(Math.round(elapsed/msWeek), 'week');
         }
         else if (elapsed < msYr) {
-            elapsed = Math.round(elapsed/msMonth);
-            return pub.pluralize(elapsed, 'month');
+            output = pub.pluralize(Math.round(elapsed/msMonth), 'month');
         }
         else {
-            elapsed = Math.round(elapsed/msYr);
-            return pub.pluralize(elapsed, 'year');
+            output = pub.pluralize(Math.round(elapsed/msYr), 'year');
         }
+        if (output) {
+            return `${output} ${suffix}`;
+        }
+        return '';
     };
 
 
