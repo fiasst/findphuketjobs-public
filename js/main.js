@@ -244,7 +244,9 @@ var MAIN = (function($, window, document, undefined) {
     // Calculate "X minutes/hours/days ago" text.
     //
     pub.timePast = function($el) {
-        $el.text( HELP.timePast( $el.text() ) +' ago').addClass('parsed');
+        if (!!$el.text()) {
+            $el.text( HELP.timePast( $el.text() ) +' ago').addClass('parsed');
+        }
     };
 
 
@@ -277,7 +279,7 @@ var MAIN = (function($, window, document, undefined) {
             var $item = $(this);
 
             // Calculate the created "X ago" text.
-            pub.timePast( $item.find('.time-past:not(.parsed)') );
+            pub.timePast( $('.time-past:not(.parsed)', $item) );
         });
     }
 
