@@ -326,28 +326,35 @@ HELP = (function($, window, document, undefined) {
 
         if (elapsed < msMin) {
             // output = pub.pluralize(Math.round(elapsed/1000), 'second');
-            output = '0 minutes';
+            output = {elapsed: 0, string: 'minutes'};
         }
         else if (elapsed < msHr) {
-            output = pub.pluralize(Math.round(elapsed/msMin), 'minute');
+            // output = pub.pluralize(Math.round(elapsed/msMin), 'minute');
+            output = {elapsed: Math.round(elapsed/msMin), string: 'minute'};
         }
         else if (elapsed < msDay) {
-            output = pub.pluralize(Math.round(elapsed/msHr), 'hour');
+            // output = pub.pluralize(Math.round(elapsed/msHr), 'hour');
+            output = {elapsed: Math.round(elapsed/msHr), string: 'hour'};
         }
         else if (elapsed < msMonth) {
-            output = pub.pluralize(Math.round(elapsed/msDay), 'day');
+            // output = pub.pluralize(Math.round(elapsed/msDay), 'day');
+            output = {elapsed: Math.round(elapsed/msDay), string: 'day'};
         }
         else if (elapsed < msWeek) {
-            output = pub.pluralize(Math.round(elapsed/msWeek), 'week');
+            // output = pub.pluralize(Math.round(elapsed/msWeek), 'week');
+            output = {elapsed: Math.round(elapsed/msWeek), string: 'week'};
         }
         else if (elapsed < msYr) {
-            output = pub.pluralize(Math.round(elapsed/msMonth), 'month');
+            // output = pub.pluralize(Math.round(elapsed/msMonth), 'month');
+            output = {elapsed: Math.round(elapsed/msMonth), string: 'month'};
         }
         else {
-            output = pub.pluralize(Math.round(elapsed/msYr), 'year');
+            // output = pub.pluralize(Math.round(elapsed/msYr), 'year');
+            output = {elapsed: Math.round(elapsed/msYr), string: 'year'};
         }
-        if (output) {
-            return `${output} ${suffix}`;
+        if (output.elapsed) {
+            let period = pub.pluralize(output.elapsed, output.string);
+            return `${period} ${suffix}`;
         }
         return '';
     };
