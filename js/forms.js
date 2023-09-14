@@ -217,20 +217,25 @@ var FORMS = (function($, window, document, undefined) {
         //
         // Format Phone and other fields on keydown to remove non-numeric characters.
         //
-        $('.format-numeric').on('keydown', function(e) {
-            let key = ("key" in e) ? e.key : e.keyCode;
+        $('.format-numeric')
+            .on('keydown', function(e) {
+                let key = ('key' in e) ? e.key : e.keyCode;
 
-            // Allow Backspace and Delete keys.
-            if (key == 'Backspace' || key == 'Delete' || key.startsWith('Arrow')) {
-                return;
-            }
-            // Allow numeric digits (0-9).
-            if (key >= 0 && key <= 9) {
-                return;
-            }
-            // Prevent all other keys from being entered.
-            e.preventDefault();
-        });
+                // Allow Backspace and Delete keys.
+                if (key == 'Backspace' || key == 'Delete' || (key && key.indexOf('Arrow') === 0)) {
+                    return;
+                }
+                // Allow numeric digits (0-9).
+                if (key >= 0 && key <= 9) {
+                    return;
+                }
+                // Prevent all other keys from being entered.
+                e.preventDefault();
+            })
+            .on('change', function() {
+                // Cleanup autocompete values.
+                $(this).val( HELP.removeNonNumeric( $(this).val() ));
+            });
 
 
         //
