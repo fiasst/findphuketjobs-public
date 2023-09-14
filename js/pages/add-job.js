@@ -70,9 +70,6 @@ var ADD_JOB = (function($, window, document, undefined) {
             // WARNING. sanitize data and use it carefully.
             var list = data.businesses || [];
 
-            console.log('data:', data);
-            console.log('list:', list);
-
             if (list.length < 1) {
                 // No businesses exist.
                 // The second parameter (function) is a callback for the "onComplete" LitBox options.
@@ -90,8 +87,6 @@ var ADD_JOB = (function($, window, document, undefined) {
                 // Sort by "active" businesses appearing first.
                 list = HELP.sortArrayByObjectValue(list, 'state', 'active');
 
-                console.log('list sorted:', list);
-
                 // Clear any previous options.
                 businessSelect.html('').append( $('<option>', {
                     value: '',
@@ -105,8 +100,6 @@ var ADD_JOB = (function($, window, document, undefined) {
                     if (selectedBusiness) {
                         isSelected = (selectedBusiness == name);
                     }
-
-                    console.log('item:', item);
                     
                     // Don't create <option> if, for some reason, the itemId is missing.
                     if (HELP.checkKeyExists(item, 'itemId')) {
@@ -118,7 +111,6 @@ var ADD_JOB = (function($, window, document, undefined) {
                         }));
                     }
                 });
-                console.log('businessSelect:', businessSelect);
             }
         }
 
@@ -133,7 +125,6 @@ var ADD_JOB = (function($, window, document, undefined) {
                 USER.current.businesses = USER.current.businesses || [];
                 USER.current.businesses.push(data.business);
                 HELP.setCookie("MSmember", JSON.stringify({"businesses": USER.current.businesses}) );
-                console.log('USER.current:', USER.current);
                 buildBusinessSelectField(USER.current, data.business.tradingName);
             }
         };
