@@ -505,16 +505,6 @@ var MAIN = (function($, window, document, undefined) {
 
 
         //
-        // Format DOB and other date fields on key press.
-        //
-        $('.format-ddmmyyyy').on('keyup', function(e) {
-            if (e && !(e.key == 'Backspace' || e.key == 'Delete')) {
-                $(this).val( HELP.formatDDMMYYYY($(this).val()) );
-            }
-        });
-
-
-        //
         // Launch "Confirm" alert dialogs on element click.
         //
         $('.alert-confirm').on('click.alertConfirm', function(e) {

@@ -205,6 +205,35 @@ var FORMS = (function($, window, document, undefined) {
 
 
         //
+        // Format DOB and other date fields on key press.
+        //
+        $('.format-ddmmyyyy').on('keyup', function(e) {
+            if (e && !(e.key == 'Backspace' || e.key == 'Delete')) {
+                $(this).val( HELP.formatDDMMYYYY($(this).val()) );
+            }
+        });
+
+
+        //
+        // Format Phone and other fields on keydown to remove non-numeric characters.
+        //
+        $('.format-numeric').on('keydown', function(e) {
+            let key = ("key" in e) ? e.key : e.keyCode;
+
+            // Allow Backspace and Delete keys.
+            if (key == 'Backspace' || key == 'Delete' || key.startsWith('Arrow')) {
+                return;
+            }
+            // Allow numeric digits (0-9).
+            if (key >= 0 && key <= 9) {
+                return;
+            }
+            // Prevent all other keys from being entered.
+            e.preventDefault();
+        });
+
+
+        //
         // Update form "op" (operation) value on button click.
             // Because Webflow doesn't pass submit button values through to Make...
         //
