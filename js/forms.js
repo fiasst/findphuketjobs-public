@@ -238,6 +238,72 @@ var FORMS = (function($, window, document, undefined) {
             });
 
 
+        // Format Email on keydown/change to:
+            // Lowercase String.
+            // Remove whitespace.
+            // Remove certain special characters.
+            // set "stripChars" to false to format but not remove characters.
+        //
+        $('.format-email')
+            // "change" is to cleanup autocompete values.
+            .on('keydown change', function(e, stripChars) {
+                var val = $(this).val() || '',
+                    key = ('key' in e) ? e.key : e.keyCode;
+
+                val = val.toString().toLowerCase()
+                    .replace(/\s+/g, ''); // Remove whitespace
+
+                if (key == ' ') {
+                    // Prevent adding whitespace.
+                    e.preventDefault();
+                    return;
+                }
+
+                if (stripChars !== false) {
+                    // Remove illegal characters
+                    val = val.replace(/[^a-z0-9+\-_.@]/gi, '');
+                }
+                else if (/[^a-z0-9+\-_.@!()]/gi.test(val)) {
+                    // Unset val if it has illegal characters on page load.
+                    val = '';
+                }
+                $(this).val(val.trim());
+            })
+            .each(function(i, field) {
+                $(field).trigger('change', false);
+            });
+
+
+        //
+        // Format URLs on keydown/change to:
+            // Lowercase String.
+            // Remove whitespace.
+            // Add basic protocol if missing.
+        // This stops Webflow from producing an field "type" error.
+        //
+        $('.format-url')
+            // "change" is to cleanup autocompete values.
+            .on('keydown change', function(e) {
+                var val = $(this).val() || '',
+                    key = ('key' in e) ? e.key : e.keyCode;
+
+                val = val.toString().toLowerCase()
+                    .replace(/\s+/g, '');// Remove whitespace.
+
+                val = HELP.addHttpProtocol(val);
+
+                // Prevent adding whitespace.
+                if (key == ' ') {
+                    e.preventDefault();
+                    return;
+                }
+                $(this).val(val);
+            })
+            .each(function(i, field) {
+                $(field).trigger('change');
+            });
+
+
         //
         // Update form "op" (operation) value on button click.
             // Because Webflow doesn't pass submit button values through to Make...

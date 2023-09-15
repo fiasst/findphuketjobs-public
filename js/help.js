@@ -29,6 +29,15 @@ HELP = (function($, window, document, undefined) {
 
 
     //
+    // Add a HTTP protocol to a URL String, if it's missing.
+    //
+    pub.addHttpProtocol = (url = '', protocol = 'http://') => {
+        // If the URL doesn't start with a protocol, add one.
+        return (!/^https?:\/\//i.test(url)) ? protocol + url.replace(/^.*?\/\/|^.+?\//, '') : url;
+    };
+
+
+    //
     // Remove <script> tags and any attributes that start with 'on' (onclick, etc).
         // This helps to guards against XSS attack.
     //
