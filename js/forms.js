@@ -258,7 +258,6 @@ var FORMS = (function($, window, document, undefined) {
                     e.preventDefault();
                     return;
                 }
-
                 if (stripChars !== false) {
                     // Remove illegal characters
                     val = val.replace(/[^a-z0-9+\-_.@]/gi, '');
@@ -282,16 +281,30 @@ var FORMS = (function($, window, document, undefined) {
         // This stops Webflow from producing an field "type" error.
         //
         $('.format-url')
+            // Add and remove protocol from empty field.
+            // This is so we don't submit the protocol on its own.
+            .on('focus blur', function(e) {
+                var val = $(this).val();
+
+                if (e.type == 'focus' && !val) {
+                    $(this).val( HELP.addHttpProtocol(val) );
+                }
+                if (e.type == 'blur' && val.length < 9) {
+                    $(this).val('');
+                }
+            })
             // "change" is to cleanup autocompete values.
             .on('keydown change', function(e) {
                 var val = $(this).val() || '',
                     key = ('key' in e) ? e.key : e.keyCode;
 
                 val = val.toString().toLowerCase()
-                    .replace(/\s+/g, '');// Remove whitespace.
+                    .replace(/\s+/g, ''); // Remove whitespace
 
-                val = HELP.addHttpProtocol(val);
-
+                if (val) {
+                    // Add protocol if a value is set.
+                    val = HELP.addHttpProtocol(val);
+                }
                 // Prevent adding whitespace.
                 if (key == ' ') {
                     e.preventDefault();
