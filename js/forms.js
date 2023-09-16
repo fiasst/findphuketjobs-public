@@ -221,8 +221,8 @@ var FORMS = (function($, window, document, undefined) {
             .on('keydown', function(e) {
                 let key = ('key' in e) ? e.key : e.keyCode;
 
-                // Allow Backspace and Delete keys.
-                if (key == 'Backspace' || key == 'Delete' || (key && key.indexOf('Arrow') === 0)) {
+                // Allow Backspace, Delete keys, etc.
+                if (HELP.allowCommonKeyPress(e, key)) {
                     return;
                 }
                 // Allow numeric digits (0-9).

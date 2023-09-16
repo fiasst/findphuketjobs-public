@@ -29,6 +29,21 @@ HELP = (function($, window, document, undefined) {
 
 
     //
+    // Check keyboard key events for common acceptable inputs.
+      // Useful when you're preventing all characters except numerics
+      // in a form field, for example.
+    //
+    pub.allowCommonKeyPress = (e, key) => {
+        // Allow formatting/navigation keys.
+        if (key == 'Backspace' || key == 'Delete' || (key.indexOf('Arrow') === 0)) {
+            return true;
+        }
+        // Allow Copy+Paste/Select All combos.
+        return (e.metaKey || e.ctrlKey) && (key == 'c' || key == 'v' || key == 'a' || key == 'x');
+    };
+
+
+    //
     // Add a HTTP protocol to a URL String, if it's missing.
     //
     pub.addHttpProtocol = (url = '', protocol = 'http://') => {
