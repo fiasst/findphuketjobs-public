@@ -35,7 +35,7 @@ HELP = (function($, window, document, undefined) {
     //
     pub.allowCommonKeyPress = (e, key) => {
         // Allow formatting/navigation keys.
-        if (key == 'Backspace' || key == 'Delete' || (key.indexOf('Arrow') === 0)) {
+        if (key == 'Backspace' || key == 'Delete' || (key && key.indexOf('Arrow') === 0)) {
             return true;
         }
         // Allow Copy+Paste/Select All combos.
