@@ -485,7 +485,7 @@ $.fn.charCountTextareas = function() {
         var maxLength = HELP.sanitizeHTML($(this).attr('maxlength'));
         
         $(this)
-          .after(`<div class="char-count"><span>0</span> / ${maxLength}</div>`)
+          .after('<div class="char-count"><span>0</span> / '+ maxLength +'</div>')
           .parent().addClass('char-count-wrapper')
     });
     $(document).on('keyup', this, function(e) {
