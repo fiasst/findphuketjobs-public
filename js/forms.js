@@ -39,7 +39,14 @@ var FORMS = (function($, window, document, undefined) {
             tinymce.init({
                 // content_css: 'css/content.css',
                 selector: 'textarea.editor',
-                toolbar: 'undo redo | bold italic | bullist numlist'
+                toolbar: 'undo redo | bold italic | bullist numlist',
+                plugins: 'lists wordcount',
+                icons: 'small',
+                min_height: 100,
+                max_height: 400,
+                menubar: false,
+                branding: false,
+                statusbar: false,
             });
         });
     };
@@ -401,8 +408,8 @@ var FORMS = (function($, window, document, undefined) {
             pub.inittextareaEditor();
         }
         pub.uploadFields();
-        // Textarea char count.
-        $('.char-count[maxlength]').charCountTextareas();
+        // Textarea char count (not used with WYSIWYG editor).
+        $('.char-count[maxlength]:not(.editor)').charCountTextareas();
     });
 
     return pub;
