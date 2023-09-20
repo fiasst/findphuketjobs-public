@@ -45,6 +45,7 @@ var FORMS = (function($, window, document, undefined) {
                 icons: 'small',
                 min_height: 100,
                 max_height: 400,
+                resize: true,
                 menubar: false,
                 branding: false,
                 statusbar: false,
