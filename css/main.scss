@@ -75,9 +75,19 @@ div.char-count {
 }
 
 // MCE Editor (WYSIWYG).
+.tox-tinymce {
+  border: 1px solid #d5eff1 !important;
+}
 .tox {
+  // Toolbar buttons.
+  .tox-tbtn {
+    width: 28px !important;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  // Editor textarea (iframe).
   .tox-edit-area__iframe {
-    background: #f5feff;
+    background: #f5feff !important;
   }
 }
 

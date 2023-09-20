@@ -39,8 +39,9 @@ var FORMS = (function($, window, document, undefined) {
             tinymce.init({
                 // content_css: 'css/content.css',
                 selector: 'textarea.editor',
-                toolbar: 'undo redo | bold italic | bullist numlist',
+                toolbar: 'undo redo | bold | bullist numlist',
                 plugins: 'lists wordcount',
+                icons_url: 'https://www.example.com/icons/small/icons.js',
                 icons: 'small',
                 min_height: 100,
                 max_height: 400,
