@@ -35,7 +35,8 @@ var FORMS = (function($, window, document, undefined) {
     // WYSIWYG Editor.
     // 
     pub.inittextareaEditor = function() {
-        $LAB.script("https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js").wait(function() {
+        var url = "https://cdn.tiny.cloud/1/pxssr84xhkkrv98f96sukcuph48qknaw74tr513ccdtfxqm7/tinymce/6/tinymce.min.js";
+        $LAB.script(url).wait(function() {
             tinymce.init({
                 // content_css: 'css/content.css',
                 selector: 'textarea.editor',
