@@ -42,14 +42,10 @@ var FORMS = (function($, window, document, undefined) {
                 selector: 'textarea.editor',
                 toolbar: 'undo redo | bold | bullist numlist',
                 plugins: 'lists wordcount',
-                icons_url: 'https://www.example.com/icons/small/icons.js',
-                icons: 'small',
                 min_height: 100,
                 max_height: 400,
-                resize: true,
                 menubar: false,
-                branding: false,
-                statusbar: false,
+                branding: false
             });
         });
     };
