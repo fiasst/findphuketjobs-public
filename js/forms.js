@@ -32,6 +32,20 @@ var FORMS = (function($, window, document, undefined) {
 
 
     //
+    // WYSIWYG Editor.
+    // 
+    pub.inittextareaEditor = function() {
+        $LAB.script("https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js").wait(function() {
+            tinymce.init({
+                // content_css: 'css/content.css',
+                selector: 'textarea.editor',
+                toolbar: 'undo redo | bold italic | bullist numlist'
+            });
+        });
+    };
+
+
+    //
     // On DOM ready.
     //
     $(function() {
@@ -382,6 +396,10 @@ var FORMS = (function($, window, document, undefined) {
         //
         // Init:
         //
+        // WYSIWYG Editor.
+        if (!!$('textarea.editor').length) {
+            pub.inittextareaEditor();
+        }
         pub.uploadFields();
         // Textarea char count.
         $('.char-count[maxlength]').charCountTextareas();

@@ -361,7 +361,6 @@ var MAIN = (function($, window, document, undefined) {
             //if (!!member.verified) {
                 //member has verified email.
             //}
-            console.log(member);
 
             //
             //
