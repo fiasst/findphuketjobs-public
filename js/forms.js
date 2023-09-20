@@ -42,7 +42,7 @@ var FORMS = (function($, window, document, undefined) {
                 selector: 'textarea.editor',
                 toolbar: 'undo redo | bold | bullist numlist',
                 plugins: 'lists wordcount',
-                min_height: 100,
+                min_height: 200,
                 max_height: 400,
                 menubar: false,
                 branding: false
@@ -95,6 +95,12 @@ var FORMS = (function($, window, document, undefined) {
         })
         .on('submit', function(e) {
             e.preventDefault();
+
+            // Prepare TinyMCE values.
+            if (HELP.checkKeyExists(window, 'tinymce')) {
+                tinymce.triggerSave();
+            }
+
             var $form = $(this),
                 $button = $form.find('.form-submit.clicked'),
                 validation = $form.attr('data-validation'),
