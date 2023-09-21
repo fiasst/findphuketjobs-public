@@ -46,47 +46,50 @@ var FORMS = (function($, window, document, undefined) {
 
 
     //
-    // TinyMCE custom character count plugin.
-    //
-    tinymce.PluginManager.add('pluginId', (editor, url) => {
-        // add plugin code here
-        var self = this,
-            update = function() {
-                // editor.theme.panel.find('#charactercount').text(['Characters: {0}', pub.editorCharacterCount(editor)]);
-                $(editor).parent().find('.char-count span').text( pub.editorCharacterCount(editor) );
-            };
-
-        editor.on('init', function () {
-            if (editor.settings.char_count && editor.settings.maxlength) {
-                editor
-                    .after('<div class="char-count"><span>0</span> / '+ editor.settings.maxlength +'</div>')
-                    .parent().addClass('char-count-wrapper')
-
-                    .on('setcontent beforeaddundo', update)
-                    .on('keyup', function (e) {
-                        update();
-                    });
-            }
-        });
-        return {
-            getMetadata: () => ({
-                name: 'charcount'
-            })
-        }
-    });
-
-
-    //
     // WYSIWYG Editor.
     // 
     pub.initEditor = function() {
         var url = "https://cdn.tiny.cloud/1/pxssr84xhkkrv98f96sukcuph48qknaw74tr513ccdtfxqm7/tinymce/6/tinymce.min.js";
         $LAB.script(url).wait(function() {
             $('textarea.editor').each(function() {
-                $(this).addClass('editor-processed');
-
                 var max = $(this).attr('maxlength');
 
+                $(this).addClass('editor-processed');
+
+                //
+                // TinyMCE custom character count plugin.
+                //
+                tinymce.PluginManager.add('pluginId', (editor, url) => {
+                    // add plugin code here
+                    var self = this,
+                        update = function() {
+                            // editor.theme.panel.find('#charactercount').text(['Characters: {0}', pub.editorCharacterCount(editor)]);
+                            $(editor).parent().find('.char-count span').text( pub.editorCharacterCount(editor) );
+                        };
+
+                    editor.on('init', function () {
+                        if (editor.settings.char_count && editor.settings.maxlength) {
+                            editor
+                                .after('<div class="char-count"><span>0</span> / '+ editor.settings.maxlength +'</div>')
+                                .parent().addClass('char-count-wrapper')
+
+                                .on('setcontent beforeaddundo', update)
+                                .on('keyup', function (e) {
+                                    update();
+                                });
+                        }
+                    });
+                    return {
+                        getMetadata: () => ({
+                            name: 'charcount'
+                        })
+                    }
+                });
+                
+
+                //
+                // Init.
+                //
                 tinymce.init({
                     // content_css: 'css/content.css',
                     // selector: 'textarea.editor',
