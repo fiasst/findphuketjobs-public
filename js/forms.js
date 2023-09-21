@@ -52,11 +52,7 @@ var FORMS = (function($, window, document, undefined) {
     pub.initEditor = function() {
         // var url = "https://cdn.tiny.cloud/1/pxssr84xhkkrv98f96sukcuph48qknaw74tr513ccdtfxqm7/tinymce/6/tinymce.min.js";
         // $LAB.script(url).wait(function() {
-            $('textarea.editor').each(function() {
-                var max = HELP.sanitizeHTML( $(this).attr('maxlength') );
-
-                $(this).addClass('editor-processed');
-
+            // $('textarea.editor').each(function() {
                 //
                 // TinyMCE custom character count plugin.
                 //
@@ -91,8 +87,8 @@ var FORMS = (function($, window, document, undefined) {
                 // Init.
                 //
                 tinymce.init({
-                    // selector: 'textarea.editor',
-                    target: this,
+                    selector: 'textarea.editor',
+                    // target: this,
                     toolbar: 'undo redo | bold | bullist numlist',
                     plugins: 'lists wordcount',// + ($(this).hasClass('char-count') ? ' charcount' : ''),
                     min_height: 200,
@@ -103,9 +99,12 @@ var FORMS = (function($, window, document, undefined) {
                     readonly: !!$(this).attr('disabled'),
                     custom_undo_redo_levels: 8,
                     // char_count: $(this).hasClass('char-count'),
-                    // maxlength: max,
                     setup: function (editor) {
-                        let update = (editor, count) => $(editor.getContainer()).parent().find('.char-count span').text(count);
+                        let $textarea = $(editor.targetElm),
+                            max = HELP.sanitizeHTML($textarea.attr('maxlength')),
+                            update = (editor, count) => $(editor.getContainer()).parent().find('.char-count span').text(count);
+
+                        $textarea.addClass('editor-processed');
 
                         editor
                             .on('keydown', function(e) {
@@ -120,7 +119,7 @@ var FORMS = (function($, window, document, undefined) {
                                 }
                             })
                             .on('keyup change', function(e) {
-                                // console.log(editor.getContent({format: 'text'}));
+                                console.log('length: ', editor.getContent({format: 'text'}).length);
                                 let count = editor.plugins.wordcount.body.getCharacterCount(),
                                     container = editor.getContainer();
                                 
@@ -142,8 +141,11 @@ var FORMS = (function($, window, document, undefined) {
                             });
                     },
                     init_instance_callback: function(editor) {
-                        let container = editor.getContainer();
-                        $('button.tox-statusbar__wordcount', $(container)).trigger('click');// TEMP
+                        let $textarea = $(editor.targetElm),
+                            max = HELP.sanitizeHTML($textarea.attr('maxlength')),
+                            container = editor.getContainer();
+
+                        // $('button.tox-statusbar__wordcount', $(container)).trigger('click');
                         
                         if (max) {
                             $(container)
@@ -152,7 +154,7 @@ var FORMS = (function($, window, document, undefined) {
                         }
                     }
                 });
-            });
+            // });
         // });
     };
 
