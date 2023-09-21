@@ -108,6 +108,10 @@ var FORMS = (function($, window, document, undefined) {
                             editor
                                 .on('keydown', function(e) {
                                     if (pub.editorCharacterCount(editor) > max) {
+                                        // Allow Backspace, Delete keys, etc.
+                                        if (HELP.allowCommonKeyPress(e, key)) {
+                                            return;
+                                        }
                                         e.preventDefault();
                                     }
                                 })
