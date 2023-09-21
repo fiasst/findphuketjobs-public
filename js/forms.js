@@ -90,37 +90,40 @@ var FORMS = (function($, window, document, undefined) {
                     selector: 'textarea.editor',
                     // target: this,
                     toolbar: 'undo redo | bold | bullist numlist',
-                    plugins: 'lists wordcount',// + ($(this).hasClass('char-count') ? ' charcount' : ''),
+                    plugins: 'lists',//wordcount + ($(this).hasClass('char-count') ? ' charcount' : ''),
                     min_height: 200,
                     max_height: 400,
                     menubar: false,
                     branding: false,
-                    // statusbar: false,
+                    statusbar: false,
                     readonly: !!$(this).attr('disabled'),
                     custom_undo_redo_levels: 8,
                     // char_count: $(this).hasClass('char-count'),
                     setup: function (editor) {
                         let $textarea = $(editor.targetElm),
                             max = HELP.sanitizeHTML($textarea.attr('maxlength')),
-                            update = (editor, count) => $(editor.getContainer()).parent().find('.char-count span').text(count);
+                            update = (editor, count) => {
+                                $(editor.getContainer()).parent().find('.char-count span').text(count)
+                                    .toggleClass('danger', count >= Number(max));
+                            };
 
                         $textarea.addClass('editor-processed');
 
                         editor
                             .on('keydown', function(e) {
-                                if (editor.plugins.wordcount.body.getCharacterCount() >= max) {
+                                let count = editor.getContent({format: 'text'}).length;//editor.plugins.wordcount.body.getCharacterCount()
+                                
+                                if (count >= max) {
                                     let key = ('key' in e) ? e.key : e.keyCode;
 
                                     // Allow Backspace, Delete keys, etc.
-                                    if (HELP.allowCommonKeyPress(e, key)) {
-                                        return;
-                                    }
+                                    if (HELP.allowCommonKeyPress(e, key)) return;
                                     e.preventDefault();
                                 }
                             })
                             .on('keyup change', function(e) {
-                                console.log('length: ', editor.getContent({format: 'text'}).length);
-                                let count = editor.plugins.wordcount.body.getCharacterCount(),
+                                // console.log('length: ', editor.getContent({format: 'text'}).length);
+                                let count = editor.getContent({format: 'text'}).length,//editor.plugins.wordcount.body.getCharacterCount(),
                                     container = editor.getContainer();
                                 
                                 update(editor, count);
@@ -356,9 +359,8 @@ var FORMS = (function($, window, document, undefined) {
                 let key = ('key' in e) ? e.key : e.keyCode;
 
                 // Allow Backspace, Delete keys, etc.
-                if (HELP.allowCommonKeyPress(e, key)) {
-                    return;
-                }
+                if (HELP.allowCommonKeyPress(e, key)) return;
+
                 // Allow numeric digits (0-9).
                 if (key >= 0 && key <= 9) {
                     return;
@@ -619,11 +621,14 @@ $.fn.charCountTextareas = function() {
         var max = HELP.sanitizeHTML($(this).attr('maxlength'));
         
         $(this)
-          .after(`<div class="char-count"><span>0</span> / ${max}</div>`)
-          .parent().addClass('char-count-wrapper')
+            .after(`<div class="char-count"><span>0</span> / ${max}</div>`)
+            .parent().addClass('char-count-wrapper')
     });
     $(document).on('keyup', this, function(e) {
-        $(e.target).parent().find('.char-count span').text( $(e.target).val().length );
+        let count = $(e.target).val().length;
+
+        $(e.target).parent().find('.char-count span').text(count)
+            .toggleClass('danger', count >= Number($(e.target).attr('maxlength')));
     });
 };
 
