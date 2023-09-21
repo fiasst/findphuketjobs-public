@@ -90,7 +90,7 @@ var FORMS = (function($, window, document, undefined) {
                     selector: 'textarea.editor',
                     // target: this,
                     toolbar: 'undo redo | bold | bullist numlist',
-                    plugins: 'lists',//wordcount + ($(this).hasClass('char-count') ? ' charcount' : ''),
+                    plugins: 'lists',
                     min_height: 200,
                     max_height: 400,
                     menubar: false,
@@ -98,7 +98,6 @@ var FORMS = (function($, window, document, undefined) {
                     statusbar: false,
                     readonly: !!$(this).attr('disabled'),
                     custom_undo_redo_levels: 8,
-                    // char_count: $(this).hasClass('char-count'),
                     setup: function (editor) {
                         let $textarea = $(editor.targetElm),
                             max = Number(HELP.sanitizeHTML($textarea.attr('maxlength'))),
@@ -111,7 +110,8 @@ var FORMS = (function($, window, document, undefined) {
 
                         editor
                             .on('keydown', function(e) {
-                                let count = editor.getContent({format: 'text'}).length;//editor.plugins.wordcount.body.getCharacterCount()
+                                let editor = this,
+                                    count = editor.getContent({format: 'text'}).length;
                                 
                                 if (count >= max) {
                                     let key = ('key' in e) ? e.key : e.keyCode;
@@ -122,21 +122,23 @@ var FORMS = (function($, window, document, undefined) {
                                 }
                             })
                             .on('keyup change', function(e) {
-                                // console.log('length: ', editor.getContent({format: 'text'}).length);
-                                let count = editor.getContent({format: 'text'}).length,//editor.plugins.wordcount.body.getCharacterCount(),
-                                    container = editor.getContainer();
+                                let editor = this,
+                                    count = editor.getContent({format: 'text'}).length,
+                                    $container = $(editor.getContainer());
                                 
                                 update(editor, count);
                                 
                                 // Remove previous error message.
-                                $(container).parent().find('.editor-valid').remove();
+                                $container.parent().find('.editor-valid').remove();
                                 
                                 if (count > max) {
-                                    $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($(container));
+                                    $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($container);
                                 }
                             })
                             .on('submit', function(e) {
-                                if (editor.plugins.wordcount.body.getCharacterCount() > max) {
+                                let editor = this;
+                                
+                                if (editor.getContent({format: 'text'}).length > max) {
                                     // alert("Maximum " + max + " characters allowed.");
                                     e.preventDefault();
                                     return false;
@@ -146,12 +148,10 @@ var FORMS = (function($, window, document, undefined) {
                     init_instance_callback: function(editor) {
                         let $textarea = $(editor.targetElm),
                             max = HELP.sanitizeHTML($textarea.attr('maxlength')),
-                            container = editor.getContainer();
-
-                        // $('button.tox-statusbar__wordcount', $(container)).trigger('click');
+                            $container = $(editor.getContainer());
                         
                         if (max) {
-                            $(container)
+                            $container
                                 .after(`<div class="char-count"><span>0</span> / ${max}</div>`)
                                 .parent().addClass('char-count-wrapper')
                         }
