@@ -34,16 +34,16 @@ var FORMS = (function($, window, document, undefined) {
     //
     // Strip HTML and count remaining characters in WYSIWYG Editor.
     //
-    pub.editorCharacterCount = function(editor) {
-        /*var decodeHtml = function(html) {
+    /*pub.editorCharacterCount = function(editor) {
+        var decodeHtml = function(html) {
                 return $('<textarea>').html(html).val();
             },
-            decoded = decodeHtml( editor.getContent({format: 'raw'}) );
+            decoded = decodeHtml( editor.getContent({format: 'text'}) );// {format: 'raw'}
 
         // here we strip all HTML tags
-        return decoded.replace(/(<([^>]+)>)/ig, "").trim().length;*/
-        return tinymce.activeEditor.plugins.wordcount.body.getCharacterCount();
-    };
+        // return decoded.replace(/(<([^>]+)>)/ig, "").trim().length;
+        return decoded;
+    };*/
 
 
     //
@@ -53,7 +53,7 @@ var FORMS = (function($, window, document, undefined) {
         // var url = "https://cdn.tiny.cloud/1/pxssr84xhkkrv98f96sukcuph48qknaw74tr513ccdtfxqm7/tinymce/6/tinymce.min.js";
         // $LAB.script(url).wait(function() {
             $('textarea.editor').each(function() {
-                var max = $(this).attr('maxlength');
+                var max = HELP.sanitizeHTML( $(this).attr('maxlength') );
 
                 $(this).addClass('editor-processed');
 
@@ -110,7 +110,7 @@ var FORMS = (function($, window, document, undefined) {
                         if (max) {
                             editor
                                 .on('keydown', function(e) {
-                                    if (pub.editorCharacterCount(editor) > max) {
+                                    if (editor.plugins.wordcount.body.getCharacterCount() >= max) {
                                         let key = ('key' in e) ? e.key : e.keyCode;
 
                                         // Allow Backspace, Delete keys, etc.
@@ -120,8 +120,21 @@ var FORMS = (function($, window, document, undefined) {
                                         e.preventDefault();
                                     }
                                 })
+                                .on('change', function(e) {
+                                    // var content = tinymce.get('tinymceEditor').getContent({format: 'text'});
+
+                                    console.log(editor.getContent({format: 'text'}));
+                                    
+                                    var $container = editor.getContainer();
+                                    if (editor.plugins.wordcount.body.getCharacterCount() >= max) {
+                                        $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($container);
+                                    }
+                                    else {
+                                        $('.editor-valid error', $container.parent()).remove();
+                                    }
+                                })
                                 .on('submit', function(e) {
-                                    if (pub.editorCharacterCount(editor) > max) {
+                                    if (editor.plugins.wordcount.body.getCharacterCount() > max) {
                                         alert("Maximum " + max + " characters allowed.");
                                         e.preventDefault();
                                         return false;
