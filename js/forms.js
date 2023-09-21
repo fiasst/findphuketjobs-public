@@ -37,15 +37,22 @@ var FORMS = (function($, window, document, undefined) {
     pub.inittextareaEditor = function() {
         var url = "https://cdn.tiny.cloud/1/pxssr84xhkkrv98f96sukcuph48qknaw74tr513ccdtfxqm7/tinymce/6/tinymce.min.js";
         $LAB.script(url).wait(function() {
-            tinymce.init({
-                // content_css: 'css/content.css',
-                selector: 'textarea.editor',
-                toolbar: 'undo redo | bold | bullist numlist',
-                plugins: 'lists wordcount',
-                min_height: 200,
-                max_height: 400,
-                menubar: false,
-                branding: false
+            $('textarea.editor').each(function() {
+                $(this).addClass('editor-processed');
+
+                tinymce.init({
+                    // content_css: 'css/content.css',
+                    // selector: 'textarea.editor',
+                    target: $(this),
+                    toolbar: 'undo redo | bold | bullist numlist',
+                    plugins: 'lists wordcount',
+                    min_height: 200,
+                    max_height: 400,
+                    menubar: false,
+                    branding: false,
+                    readonly: !!$(this).attr('disabled'),
+                    custom_undo_redo_levels: 8
+                });
             });
         });
     };
@@ -92,14 +99,14 @@ var FORMS = (function($, window, document, undefined) {
         $('.ajax-submit')
         .on('click', '.form-submit', function(e) {
             $(e.target).addClass('clicked');
-        })
-        .on('submit', function(e) {
-            e.preventDefault();
 
             // Prepare TinyMCE values.
             if (HELP.checkKeyExists(window, 'tinymce')) {
                 tinymce.triggerSave();
             }
+        })
+        .on('submit', function(e) {
+            e.preventDefault();
 
             var $form = $(this),
                 $button = $form.find('.form-submit.clicked'),

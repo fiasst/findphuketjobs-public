@@ -83,8 +83,6 @@ HELP = (function($, window, document, undefined) {
             .replace(/<.*?script.*?>|.constructor|document.cookie|document.domain/gi, '')
             // Remove substrings that start with "on" (event attributes. ex: "onclick").
             .replace(/<[^>]*\s+[^>]*on\w+[^>]*>/gi, '')
-            // Remove "\\\on" (event attributes that start with a backslash).
-            .replace(/<[^>]*(?:\\{2})*on\w+/gi, '')
             // Remove instances of "javascript:", "script:" (for "ascript:") or &{ (for "& JS includes").
             .replace(/javascript.*?:|script.*?:|&{/gi, '')
             // Remove "script:" decimal HTML Characters (&#0000099 or &#99. semicolon optional).

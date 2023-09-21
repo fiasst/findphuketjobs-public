@@ -90,6 +90,19 @@ div.char-count {
     background: #f5feff !important;
   }
 }
+// Set the textarea as invisible but not hidden so browsers don't
+// compain about the "required" attribute...
+textarea.editor-processed {
+  display: block !important;
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  min-width: unset !important;
+  min-height: unset !important;
+  padding: 0 !important;
+  opacity: 0 !important;
+}
 
 
 
