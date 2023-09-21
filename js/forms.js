@@ -103,13 +103,16 @@ var FORMS = (function($, window, document, undefined) {
                     custom_undo_redo_levels: 8,
                     // char_count: $(this).hasClass('char-count'),
                     // maxlength: max,
+                    init_instance_callback: function (editor) {
+                        $('button.tox-statusbar__wordcount', editor.getContainer()).trigger('click');
+                    },
                     setup: function(editor) {
                         if (max) {
                             editor
                                 .on('keydown', function(e) {
                                     if (pub.editorCharacterCount(editor) > max) {
                                         let key = ('key' in e) ? e.key : e.keyCode;
-                                        
+
                                         // Allow Backspace, Delete keys, etc.
                                         if (HELP.allowCommonKeyPress(e, key)) {
                                             return;
