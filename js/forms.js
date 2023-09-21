@@ -108,6 +108,8 @@ var FORMS = (function($, window, document, undefined) {
                             editor
                                 .on('keydown', function(e) {
                                     if (pub.editorCharacterCount(editor) > max) {
+                                        let key = ('key' in e) ? e.key : e.keyCode;
+                                        
                                         // Allow Backspace, Delete keys, etc.
                                         if (HELP.allowCommonKeyPress(e, key)) {
                                             return;
