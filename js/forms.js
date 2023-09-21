@@ -103,14 +103,26 @@ var FORMS = (function($, window, document, undefined) {
                     custom_undo_redo_levels: 8,
                     // char_count: $(this).hasClass('char-count'),
                     // maxlength: max,
-                    init_instance_callback: function (editor) {
-                        $('button.tox-statusbar__wordcount', editor.getContainer()).trigger('click');
-                    },
+                    // init_instance_callback: function (editor) {
+                        
+                    // },
                     setup: function(editor) {
+                        var container = editor.getContainer();
+                        $('button.tox-statusbar__wordcount', $(container)).trigger('click');// TEMP
+                        
                         if (max) {
+                            $(container)
+                                .after(`<div class="char-count"><span>0</span> / ${max}</div>`)
+                                .parent().addClass('char-count-wrapper')
+
+                            let update = (editor, count) => $(editor.getContainer()).parent().find('.char-count span').text(count);
+                            
                             editor
                                 .on('keydown', function(e) {
-                                    if (editor.plugins.wordcount.body.getCharacterCount() >= max) {
+                                    let count = editor.plugins.wordcount.body.getCharacterCount();
+                                    update(editor, count);
+                                    
+                                    if (count >= max) {
                                         let key = ('key' in e) ? e.key : e.keyCode;
 
                                         // Allow Backspace, Delete keys, etc.
@@ -121,16 +133,17 @@ var FORMS = (function($, window, document, undefined) {
                                     }
                                 })
                                 .on('change', function(e) {
-                                    // var content = tinymce.get('tinymceEditor').getContent({format: 'text'});
-
-                                    console.log(editor.getContent({format: 'text'}));
+                                    // console.log(editor.getContent({format: 'text'}));
+                                    let count = editor.plugins.wordcount.body.getCharacterCount();
+                                    update(editor, count);
                                     
-                                    var $container = editor.getContainer();
-                                    if (editor.plugins.wordcount.body.getCharacterCount() >= max) {
-                                        $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($container);
-                                    }
-                                    else {
-                                        $('.editor-valid error', $container.parent()).remove();
+                                    container = editor.getContainer();
+                                    
+                                    // Remove previous error message.
+                                    $(container).parent().find('.editor-valid').remove();
+                                    
+                                    if (count > max) {
+                                        $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($(container));
                                     }
                                 })
                                 .on('submit', function(e) {
@@ -605,10 +618,10 @@ $.fn.createSelect2 = function(options) {
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
         // Sanitize (XSS safe) attribute value to remove any HTML.
-        var maxLength = HELP.sanitizeHTML($(this).attr('maxlength'));
+        var max = HELP.sanitizeHTML($(this).attr('maxlength'));
         
         $(this)
-          .after('<div class="char-count"><span>0</span> / '+ maxLength +'</div>')
+          .after(`<div class="char-count"><span>0</span> / ${max}</div>`)
           .parent().addClass('char-count-wrapper')
     });
     $(document).on('keyup', this, function(e) {
