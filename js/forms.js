@@ -99,14 +99,15 @@ var FORMS = (function($, window, document, undefined) {
                     max_height: 400,
                     menubar: false,
                     branding: false,
+                    statusbar: false,
                     readonly: !!$(this).attr('disabled'),
                     custom_undo_redo_levels: 8,
                     // char_count: $(this).hasClass('char-count'),
                     // maxlength: max,
-                    // init_instance_callback: function (editor) {
+                    // setup: function (editor) {
                         
                     // },
-                    setup: function(editor) {
+                    init_instance_callback: function(editor) {
                         var container = editor.getContainer();
                         $('button.tox-statusbar__wordcount', $(container)).trigger('click');// TEMP
                         
@@ -119,8 +120,8 @@ var FORMS = (function($, window, document, undefined) {
                             
                             editor
                                 .on('keydown', function(e) {
-                                    let count = editor.plugins.wordcount.body.getCharacterCount();
-                                    update(editor, count);
+                                    // let count = editor.plugins.wordcount.body.getCharacterCount();
+                                    // update(editor, count);
                                     
                                     if (count >= max) {
                                         let key = ('key' in e) ? e.key : e.keyCode;
@@ -132,7 +133,7 @@ var FORMS = (function($, window, document, undefined) {
                                         e.preventDefault();
                                     }
                                 })
-                                .on('change', function(e) {
+                                .on('keyup change', function(e) {
                                     // console.log(editor.getContent({format: 'text'}));
                                     let count = editor.plugins.wordcount.body.getCharacterCount();
                                     update(editor, count);
@@ -148,7 +149,7 @@ var FORMS = (function($, window, document, undefined) {
                                 })
                                 .on('submit', function(e) {
                                     if (editor.plugins.wordcount.body.getCharacterCount() > max) {
-                                        alert("Maximum " + max + " characters allowed.");
+                                        // alert("Maximum " + max + " characters allowed.");
                                         e.preventDefault();
                                         return false;
                                     }
