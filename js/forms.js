@@ -35,13 +35,14 @@ var FORMS = (function($, window, document, undefined) {
     // Strip HTML and count remaining characters in WYSIWYG Editor.
     //
     pub.editorCharacterCount = function(editor) {
-        var decodeHtml = function(html) {
+        /*var decodeHtml = function(html) {
                 return $('<textarea>').html(html).val();
             },
             decoded = decodeHtml( editor.getContent({format: 'raw'}) );
 
         // here we strip all HTML tags
-        return decoded.replace(/(<([^>]+)>)/ig, "").trim().length;
+        return decoded.replace(/(<([^>]+)>)/ig, "").trim().length;*/
+        return tinymce.activeEditor.plugins.wordcount.body.getCharacterCount();
     };
 
 
@@ -49,8 +50,8 @@ var FORMS = (function($, window, document, undefined) {
     // WYSIWYG Editor.
     // 
     pub.initEditor = function() {
-        var url = "https://cdn.tiny.cloud/1/pxssr84xhkkrv98f96sukcuph48qknaw74tr513ccdtfxqm7/tinymce/6/tinymce.min.js";
-        $LAB.script(url).wait(function() {
+        // var url = "https://cdn.tiny.cloud/1/pxssr84xhkkrv98f96sukcuph48qknaw74tr513ccdtfxqm7/tinymce/6/tinymce.min.js";
+        // $LAB.script(url).wait(function() {
             $('textarea.editor').each(function() {
                 var max = $(this).attr('maxlength');
 
@@ -59,11 +60,10 @@ var FORMS = (function($, window, document, undefined) {
                 //
                 // TinyMCE custom character count plugin.
                 //
-                tinymce.PluginManager.add('pluginId', (editor, url) => {
+                /*tinymce.PluginManager.add('pluginId', (editor, url) => {
                     // add plugin code here
                     var self = this,
                         update = function() {
-                            // editor.theme.panel.find('#charactercount').text(['Characters: {0}', pub.editorCharacterCount(editor)]);
                             $(editor).parent().find('.char-count span').text( pub.editorCharacterCount(editor) );
                         };
 
@@ -84,40 +84,45 @@ var FORMS = (function($, window, document, undefined) {
                             name: 'charcount'
                         })
                     }
-                });
-                
+                });*/
+
 
                 //
                 // Init.
                 //
                 tinymce.init({
-                    // content_css: 'css/content.css',
                     // selector: 'textarea.editor',
                     target: this,
                     toolbar: 'undo redo | bold | bullist numlist',
-                    plugins: 'lists' + ($(this).hasClass('char-count') ? ' charcount' : ''),
+                    plugins: 'lists wordcount',// + ($(this).hasClass('char-count') ? ' charcount' : ''),
                     min_height: 200,
                     max_height: 400,
                     menubar: false,
                     branding: false,
                     readonly: !!$(this).attr('disabled'),
                     custom_undo_redo_levels: 8,
-                    char_count: $(this).hasClass('char-count'),
-                    maxlength: max,
+                    // char_count: $(this).hasClass('char-count'),
+                    // maxlength: max,
                     setup: function(editor) {
                         if (max) {
-                            editor.on('submit', function(event) {
-                                if (pub.editorCharacterCount(editor) > max) {
-                                    alert("Maximum " + max + " characters allowed.");
-                                    event.preventDefault();
-                                    return false;
-                                }
-                            });
+                            editor
+                                .on('keydown', function(e) {
+                                    if (pub.editorCharacterCount(editor) > max) {
+                                        e.preventDefault();
+                                    }
+                                })
+                                .on('submit', function(e) {
+                                    if (pub.editorCharacterCount(editor) > max) {
+                                        alert("Maximum " + max + " characters allowed.");
+                                        e.preventDefault();
+                                        return false;
+                                    }
+                                });
                         }
                     }
                 });
             });
-        });
+        // });
     };
 
 
@@ -478,10 +483,6 @@ var FORMS = (function($, window, document, undefined) {
         //
         // Init:
         //
-        // WYSIWYG Editor.
-        if (!!$('textarea.editor').length) {
-            pub.initEditor();
-        }
         pub.uploadFields();
         // Textarea char count (not used with WYSIWYG editor).
         $('.char-count[maxlength]:not(.editor)').charCountTextareas();
