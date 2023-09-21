@@ -32,26 +32,86 @@ var FORMS = (function($, window, document, undefined) {
 
 
     //
+    // Strip HTML and count remaining characters in WYSIWYG Editor.
+    //
+    pub.editorCharacterCount = function(editor) {
+        var decodeHtml = function(html) {
+                return $('<textarea>').html(html).val();
+            },
+            decoded = decodeHtml( editor.getContent({format: 'raw'}) );
+
+        // here we strip all HTML tags
+        return decoded.replace(/(<([^>]+)>)/ig, "").trim().length;
+    };
+
+
+    //
+    // TinyMCE custom character count plugin.
+    //
+    tinymce.PluginManager.add('pluginId', (editor, url) => {
+        // add plugin code here
+        var self = this,
+            update = function() {
+                // editor.theme.panel.find('#charactercount').text(['Characters: {0}', pub.editorCharacterCount(editor)]);
+                $(editor).parent().find('.char-count span').text( pub.editorCharacterCount(editor) );
+            };
+
+        editor.on('init', function () {
+            if (editor.settings.char_count && editor.settings.maxlength) {
+                editor
+                    .after('<div class="char-count"><span>0</span> / '+ editor.settings.maxlength +'</div>')
+                    .parent().addClass('char-count-wrapper')
+
+                    .on('setcontent beforeaddundo', update)
+                    .on('keyup', function (e) {
+                        update();
+                    });
+            }
+        });
+        return {
+            getMetadata: () => ({
+                name: 'charcount'
+            })
+        }
+    });
+
+
+    //
     // WYSIWYG Editor.
     // 
-    pub.inittextareaEditor = function() {
+    pub.initEditor = function() {
         var url = "https://cdn.tiny.cloud/1/pxssr84xhkkrv98f96sukcuph48qknaw74tr513ccdtfxqm7/tinymce/6/tinymce.min.js";
         $LAB.script(url).wait(function() {
             $('textarea.editor').each(function() {
                 $(this).addClass('editor-processed');
 
+                var max = $(this).attr('maxlength');
+
                 tinymce.init({
                     // content_css: 'css/content.css',
                     // selector: 'textarea.editor',
-                    target: $(this),
+                    target: this,
                     toolbar: 'undo redo | bold | bullist numlist',
-                    plugins: 'lists wordcount',
+                    plugins: 'lists' + ($(this).hasClass('char-count') ? ' charcount' : ''),
                     min_height: 200,
                     max_height: 400,
                     menubar: false,
                     branding: false,
                     readonly: !!$(this).attr('disabled'),
-                    custom_undo_redo_levels: 8
+                    custom_undo_redo_levels: 8,
+                    char_count: $(this).hasClass('char-count'),
+                    maxlength: max,
+                    setup: function(editor) {
+                        if (max) {
+                            editor.on('submit', function(event) {
+                                if (pub.editorCharacterCount(editor) > max) {
+                                    alert("Maximum " + max + " characters allowed.");
+                                    event.preventDefault();
+                                    return false;
+                                }
+                            });
+                        }
+                    }
                 });
             });
         });
@@ -417,7 +477,7 @@ var FORMS = (function($, window, document, undefined) {
         //
         // WYSIWYG Editor.
         if (!!$('textarea.editor').length) {
-            pub.inittextareaEditor();
+            pub.initEditor();
         }
         pub.uploadFields();
         // Textarea char count (not used with WYSIWYG editor).
