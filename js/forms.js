@@ -101,10 +101,10 @@ var FORMS = (function($, window, document, undefined) {
                     // char_count: $(this).hasClass('char-count'),
                     setup: function (editor) {
                         let $textarea = $(editor.targetElm),
-                            max = HELP.sanitizeHTML($textarea.attr('maxlength')),
+                            max = Number(HELP.sanitizeHTML($textarea.attr('maxlength'))),
                             update = (editor, count) => {
-                                $(editor.getContainer()).parent().find('.char-count span').text(count)
-                                    .toggleClass('danger', count >= Number(max));
+                                $(editor.getContainer()).parent().find('.char-count span')
+                                    .toggleClass('danger', count >= max).text(count);
                             };
 
                         $textarea.addClass('editor-processed');
@@ -627,8 +627,8 @@ $.fn.charCountTextareas = function() {
     $(document).on('keyup', this, function(e) {
         let count = $(e.target).val().length;
 
-        $(e.target).parent().find('.char-count span').text(count)
-            .toggleClass('danger', count >= Number($(e.target).attr('maxlength')));
+        $(e.target).parent().find('.char-count span')
+            .toggleClass('danger', count >= Number($(e.target).attr('maxlength'))).text(count);
     });
 };
 
