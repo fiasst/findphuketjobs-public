@@ -99,61 +99,56 @@ var FORMS = (function($, window, document, undefined) {
                     max_height: 400,
                     menubar: false,
                     branding: false,
-                    statusbar: false,
+                    // statusbar: false,
                     readonly: !!$(this).attr('disabled'),
                     custom_undo_redo_levels: 8,
                     // char_count: $(this).hasClass('char-count'),
                     // maxlength: max,
-                    // setup: function (editor) {
-                        
-                    // },
+                    setup: function (editor) {
+                        let update = (editor, count) => $(editor.getContainer()).parent().find('.char-count span').text(count);
+
+                        editor
+                            .on('keydown', function(e) {
+                                if (editor.plugins.wordcount.body.getCharacterCount() >= max) {
+                                    let key = ('key' in e) ? e.key : e.keyCode;
+
+                                    // Allow Backspace, Delete keys, etc.
+                                    if (HELP.allowCommonKeyPress(e, key)) {
+                                        return;
+                                    }
+                                    e.preventDefault();
+                                }
+                            })
+                            .on('keyup change', function(e) {
+                                // console.log(editor.getContent({format: 'text'}));
+                                let count = editor.plugins.wordcount.body.getCharacterCount(),
+                                    container = editor.getContainer();
+                                
+                                update(editor, count);
+                                
+                                // Remove previous error message.
+                                $(container).parent().find('.editor-valid').remove();
+                                
+                                if (count > max) {
+                                    $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($(container));
+                                }
+                            })
+                            .on('submit', function(e) {
+                                if (editor.plugins.wordcount.body.getCharacterCount() > max) {
+                                    // alert("Maximum " + max + " characters allowed.");
+                                    e.preventDefault();
+                                    return false;
+                                }
+                            });
+                    },
                     init_instance_callback: function(editor) {
-                        var container = editor.getContainer();
+                        let container = editor.getContainer();
                         $('button.tox-statusbar__wordcount', $(container)).trigger('click');// TEMP
                         
                         if (max) {
                             $(container)
                                 .after(`<div class="char-count"><span>0</span> / ${max}</div>`)
                                 .parent().addClass('char-count-wrapper')
-
-                            let update = (editor, count) => $(editor.getContainer()).parent().find('.char-count span').text(count);
-                            
-                            editor
-                                .on('keydown', function(e) {
-                                    // let count = editor.plugins.wordcount.body.getCharacterCount();
-                                    // update(editor, count);
-                                    
-                                    if (count >= max) {
-                                        let key = ('key' in e) ? e.key : e.keyCode;
-
-                                        // Allow Backspace, Delete keys, etc.
-                                        if (HELP.allowCommonKeyPress(e, key)) {
-                                            return;
-                                        }
-                                        e.preventDefault();
-                                    }
-                                })
-                                .on('keyup change', function(e) {
-                                    // console.log(editor.getContent({format: 'text'}));
-                                    let count = editor.plugins.wordcount.body.getCharacterCount();
-                                    update(editor, count);
-                                    
-                                    container = editor.getContainer();
-                                    
-                                    // Remove previous error message.
-                                    $(container).parent().find('.editor-valid').remove();
-                                    
-                                    if (count > max) {
-                                        $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($(container));
-                                    }
-                                })
-                                .on('submit', function(e) {
-                                    if (editor.plugins.wordcount.body.getCharacterCount() > max) {
-                                        // alert("Maximum " + max + " characters allowed.");
-                                        e.preventDefault();
-                                        return false;
-                                    }
-                                });
                         }
                     }
                 });
