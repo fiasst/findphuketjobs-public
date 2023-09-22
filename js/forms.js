@@ -119,11 +119,17 @@ var FORMS = (function($, window, document, undefined) {
                                         let key = ('key' in e) ? e.key : e.keyCode;
 
                                         // Allow Backspace, Delete keys, etc.
-                                        if (HELP.allowCommonKeyPress(e, key)) return;
-                                        e.preventDefault();
+                                        if (!HELP.allowCommonKeyPress(e, key)) {
+                                            e.preventDefault();
+                                        }
                                     }
                                 }
                                 else {
+                                    console.log(1, editor)
+                                    console.log(2, count)
+                                    console.log(3, max)
+                                    console.log(4, $container)
+
                                     update(editor, count);
                                     
                                     // Remove previous error message.
