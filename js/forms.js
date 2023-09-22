@@ -99,20 +99,19 @@ var FORMS = (function($, window, document, undefined) {
                     // readonly: !!$(this).attr('disabled'),
                     custom_undo_redo_levels: 8,
                     setup: function (editor) {
-                        const $textarea = $(editor.targetElm),
-                            max = Number(HELP.sanitizeHTML($textarea.attr('maxlength'))),
+                        let $textarea = $(editor.targetElm),
                             update = (editor, count) => {
                                 $(editor.getContainer()).parent().find('.char-count span')
                                     .toggleClass('danger', count >= max).text(count);
                             };
-
+                        
                         $textarea.addClass('editor-processed');
-
                         editor
                             .on('keydown keyup change', function(e) {
                                 let editor = this,
                                     count = editor.getContent({format: 'text'}).length,
-                                    $container = $(editor.getContainer());
+                                    $container = $(editor.getContainer()),
+                                    max = Number($(editor).data('data-maxlength'));
                                 
                                 if (e.type == 'keydown') {
                                     if (count >= max) {
@@ -141,7 +140,8 @@ var FORMS = (function($, window, document, undefined) {
                                 }
                             })
                             .on('submit', function(e) {
-                                let editor = this;
+                                let editor = this,
+                                    max = Number($(editor).data('data-maxlength'));
 
                                 if (editor.getContent({format: 'text'}).length > max) {
                                     // alert("Maximum " + max + " characters allowed.");
@@ -152,8 +152,11 @@ var FORMS = (function($, window, document, undefined) {
                     },
                     init_instance_callback: function(editor) {
                         let $textarea = $(editor.targetElm),
-                            max = HELP.sanitizeHTML($textarea.attr('maxlength')),
+                            max = Number(HELP.sanitizeHTML($textarea.attr('maxlength'))),
                             $container = $(editor.getContainer());
+
+                        // Set easy access var on Container.
+                        $(editor).data('data-maxlength', max);
                         
                         if (max) {
                             $container
