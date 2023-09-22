@@ -54,36 +54,6 @@ var FORMS = (function($, window, document, undefined) {
         // $LAB.script(url).wait(function() {
             // $('textarea.editor').each(function() {
                 //
-                // TinyMCE custom character count plugin.
-                //
-                /*tinymce.PluginManager.add('pluginId', (editor, url) => {
-                    // add plugin code here
-                    var self = this,
-                        update = function() {
-                            $(editor).parent().find('.char-count span').text( pub.editorCharacterCount(editor) );
-                        };
-
-                    editor.on('init', function () {
-                        if (editor.settings.char_count && editor.settings.maxlength) {
-                            editor
-                                .after('<div class="char-count"><span>0</span> / '+ editor.settings.maxlength +'</div>')
-                                .parent().addClass('char-count-wrapper')
-
-                                .on('setcontent beforeaddundo', update)
-                                .on('keyup', function (e) {
-                                    update();
-                                });
-                        }
-                    });
-                    return {
-                        getMetadata: () => ({
-                            name: 'charcount'
-                        })
-                    }
-                });*/
-
-
-                //
                 // Init.
                 //
                 tinymce.init({
@@ -96,14 +66,9 @@ var FORMS = (function($, window, document, undefined) {
                     menubar: false,
                     branding: false,
                     statusbar: false,
-                    // readonly: !!$(this).attr('disabled'),
                     custom_undo_redo_levels: 8,
                     setup: function (editor) {
-                        let $textarea = $(editor.targetElm),
-                            update = (editor, count) => {
-                                $(editor.getContainer()).parent().find('.char-count span')
-                                    .toggleClass('danger', count >= max).text(count);
-                            };
+                        let $textarea = $(editor.targetElm);
                         
                         $textarea.addClass('editor-processed');
                         editor
@@ -128,8 +93,7 @@ var FORMS = (function($, window, document, undefined) {
                                     console.log(2, count)
                                     console.log(3, max)
                                     console.log(4, $container)
-
-                                    update(editor, count);
+                                    pub.updateCharCount($container, count, max);
                                     
                                     // Remove previous error message.
                                     $container.parent().find('.editor-valid').remove();
@@ -139,34 +103,50 @@ var FORMS = (function($, window, document, undefined) {
                                     }
                                 }
                             })
-                            .on('submit', function(e) {
-                                let editor = this,
-                                    max = Number($(editor).data('data-maxlength'));
+                            // .on('submit', function(e) {
+                            //     let editor = this,
+                            //         max = Number($(editor).data('data-maxlength'));
 
-                                if (editor.getContent({format: 'text'}).length > max) {
-                                    // alert("Maximum " + max + " characters allowed.");
-                                    e.preventDefault();
-                                    return false;
-                                }
-                            });
+                            //     if (editor.getContent({format: 'text'}).length > max) {
+                            //         // alert("Maximum " + max + " characters allowed.");
+                            //         e.preventDefault();
+                            //         return false;
+                            //     }
+                            // });
                     },
                     init_instance_callback: function(editor) {
                         let $textarea = $(editor.targetElm),
-                            max = Number(HELP.sanitizeHTML($textarea.attr('maxlength'))),
+                            max = Number($textarea.attr('maxlength')),
                             $container = $(editor.getContainer());
 
                         // Set easy access var on Container.
                         $(editor).data('data-maxlength', max);
                         
                         if (max) {
-                            $container
-                                .after(`<div class="char-count"><span>0</span> / ${max}</div>`)
-                                .parent().addClass('char-count-wrapper')
+                            pub.setupCharCount($container, max);
                         }
                     }
                 });
             // });
         // });
+    };
+
+
+    //
+    // Setup the character count widget on textareas and WYSIWYG Editors.
+    //
+    pub.setupCharCount = ($container, max) => {
+        $container
+            .after(`<div class="char-count"><span>0</span> / ${ Number(max) }</div>`)
+            .parent().addClass('char-count-wrapper');
+    };
+
+
+    //
+    // Update the "<count> / <max>" widget on textareas and WYSIWYG Editors.
+    //
+    pub.updateCharCount = ($container, count, max) => {
+        $container.parent().find('.char-count span').toggleClass('color-danger', count >= Number(max)).text(count);
     };
 
 
@@ -345,7 +325,7 @@ var FORMS = (function($, window, document, undefined) {
         // Form fields: Add maxlength attribute to fields.
         //
         $(':input[data-maxlength]').each(function() {
-            $(this).attr('maxlength', HELP.sanitizeHTML( $(this).attr('data-maxlength') ));
+            $(this).attr('maxlength', Number($(this).attr('data-maxlength')));
         });
 
 
@@ -625,18 +605,11 @@ $.fn.createSelect2 = function(options) {
 //
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
-        // Sanitize (XSS safe) attribute value to remove any HTML.
-        var max = HELP.sanitizeHTML($(this).attr('maxlength'));
-        
-        $(this)
-            .after(`<div class="char-count"><span>0</span> / ${max}</div>`)
-            .parent().addClass('char-count-wrapper')
+        pub.setupCharCount($(this), $(this).attr('maxlength'));
+
     });
     $(document).on('keyup', this, function(e) {
-        let count = $(e.target).val().length;
-
-        $(e.target).parent().find('.char-count span')
-            .toggleClass('danger', count >= Number($(e.target).attr('maxlength'))).text(count);
+        pub.updateCharCount($(e.target), $(e.target).val().length, $(e.target).attr('maxlength'))
     });
 };
 
