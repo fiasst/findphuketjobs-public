@@ -87,10 +87,6 @@ var FORMS = (function($, window, document, undefined) {
                                     }
                                 }
                                 else {
-                                    console.log(1, editor)
-                                    console.log(2, count)
-                                    console.log(3, max)
-                                    console.log(4, $container)
                                     pub.updateCharCount($container, count, max);
                                     
                                     // Remove previous error message.
@@ -103,7 +99,15 @@ var FORMS = (function($, window, document, undefined) {
                             })
                             .on('submit', function(e) {
                                 let editor = this,
-                                    max = Number($(editor).data('data-maxlength'));
+                                    max = Number($(editor).data('data-maxlength')),
+                                    content = editor.getContent();
+
+                                // Cleanup.
+                                content
+                                    .replace(/\t/g, '')// Remove tabs.
+                                    .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with optional whitespace.
+                                    .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
+                                editor.setContent(content);
 
                                 if (editor.getContent({format: 'text'}).length > max) {
                                     alert("Maximum " + max + " characters allowed.");
