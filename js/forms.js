@@ -68,9 +68,7 @@ var FORMS = (function($, window, document, undefined) {
                     statusbar: false,
                     custom_undo_redo_levels: 8,
                     setup: function (editor) {
-                        let $textarea = $(editor.targetElm);
                         
-                        $textarea.addClass('editor-processed');
                         editor
                             .on('keydown keyup change', function(e) {
                                 let editor = this,
@@ -103,21 +101,23 @@ var FORMS = (function($, window, document, undefined) {
                                     }
                                 }
                             })
-                            // .on('submit', function(e) {
-                            //     let editor = this,
-                            //         max = Number($(editor).data('data-maxlength'));
+                            .on('submit', function(e) {
+                                let editor = this,
+                                    max = Number($(editor).data('data-maxlength'));
 
-                            //     if (editor.getContent({format: 'text'}).length > max) {
-                            //         // alert("Maximum " + max + " characters allowed.");
-                            //         e.preventDefault();
-                            //         return false;
-                            //     }
-                            // });
+                                if (editor.getContent({format: 'text'}).length > max) {
+                                    alert("Maximum " + max + " characters allowed.");
+                                    e.preventDefault();
+                                    return false;
+                                }
+                            });
                     },
                     init_instance_callback: function(editor) {
                         let $textarea = $(editor.targetElm),
                             max = Number($textarea.attr('maxlength')),
                             $container = $(editor.getContainer());
+                        
+                        $textarea.addClass('editor-processed');
 
                         // Set easy access var on Container.
                         $(editor).data('data-maxlength', max);
@@ -605,11 +605,11 @@ $.fn.createSelect2 = function(options) {
 //
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
-        pub.setupCharCount($(this), $(this).attr('maxlength'));
+        FORMS.setupCharCount($(this), $(this).attr('maxlength'));
 
     });
     $(document).on('keyup', this, function(e) {
-        pub.updateCharCount($(e.target), $(e.target).val().length, $(e.target).attr('maxlength'))
+        FORMS.updateCharCount($(e.target), $(e.target).val().length, $(e.target).attr('maxlength'))
     });
 };
 
