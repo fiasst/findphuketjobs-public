@@ -32,21 +32,6 @@ var FORMS = (function($, window, document, undefined) {
 
 
     //
-    // Strip HTML and count remaining characters in WYSIWYG Editor.
-    //
-    /*pub.editorCharacterCount = function(editor) {
-        var decodeHtml = function(html) {
-                return $('<textarea>').html(html).val();
-            },
-            decoded = decodeHtml( editor.getContent({format: 'text'}) );// {format: 'raw'}
-
-        // here we strip all HTML tags
-        // return decoded.replace(/(<([^>]+)>)/ig, "").trim().length;
-        return decoded;
-    };*/
-
-
-    //
     // WYSIWYG Editor.
     // 
     pub.initEditor = function() {
@@ -68,7 +53,9 @@ var FORMS = (function($, window, document, undefined) {
                     statusbar: false,
                     custom_undo_redo_levels: 8,
                     setup: function (editor) {
-                        
+                        // var url = "//cdn.jsdelivr.net/gh/fiasst/findphuketjobs-public@"+repoVersion+"/js/forms/form-add-job-min.js";
+                        // $LAB.script(url);//.wait(function() {});
+
                         editor
                             .on('keydown keyup change', function(e) {
                                 let editor = this,
@@ -78,7 +65,6 @@ var FORMS = (function($, window, document, undefined) {
                                 
                                 switch (e.type) {
                                     case 'keydown':
-                                    // if (e.type == 'keydown') {
                                         if (count >= max) {
                                             let key = ('key' in e) ? e.key : e.keyCode;
 
@@ -87,8 +73,22 @@ var FORMS = (function($, window, document, undefined) {
                                                 e.preventDefault();
                                             }
                                         }
-                                    // }
-                                    // else {
+                                    case 'change':
+                                        // If maxlength is exceeded.
+                                        if (max && count > max) {
+                                            // Make form submit fail if value > maxlength.
+                                            $(editor.targetElm).val('');
+                                        }
+                                        else {
+                                            let content = editor.getContent();
+
+                                            // Cleanup.
+                                            content
+                                                .replace(/\t/g, '')// Remove tabs.
+                                                .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with optional whitespace.
+                                                .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
+                                            editor.setContent(content);
+                                        }
                                     case 'keyup':
                                     case 'change':
                                         pub.updateCharCount($container, count, max);
@@ -99,33 +99,49 @@ var FORMS = (function($, window, document, undefined) {
                                         if (count > max) {
                                             $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($container);
                                         }
-                                    // }
-                                    case 'change':
-                                        if (count > max) {
-                                            // Make form submit fail if value > maxlength.
-                                            $(editor.targetElm).val('');
-                                        }
                                 }
                             })
-                            .on('submit', function(e) {
-                                let editor = this,
-                                    max = Number($(editor).data('data-maxlength')),
-                                    content = editor.getContent();
+                            // .on('submit', function(e) {
+                            //     let editor = this,
+                            //         max = Number($(editor).data('data-maxlength'));
 
-                                // Cleanup.
-                                content
-                                    .replace(/\t/g, '')// Remove tabs.
-                                    .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with optional whitespace.
-                                    .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
-                                editor.setContent(content);
+                            //     if (editor.getContent({format: 'text'}).length > max) {
+                            //         e.preventDefault();
+                            //         $(editor).trigger('focus');
+                            //         return false;
+                            //     }
+                            // });
 
-                                if (editor.getContent({format: 'text'}).length > max) {
-                                    e.preventDefault();
-                                    // alert("Maximum " + max + " characters allowed.");
-                                    // $(editor.targetElm).val('');
-                                    $(editor).trigger('focus');
-                                    return false;
-                                }
+                             $('.form-submit').on('click', function(e) {
+                                var $button = $(this),
+                                    $form = $button.parents('form');
+
+                                $(tinymce.get()).each(function(i, editor) {
+                                    // Skip Editor if it's not within our form.
+                                    if (!$('#'+editor.id, $form).length) return;
+
+                                    let $textarea = $(editor.targetElm),
+                                        content = editor.getContent({format: 'text'}),
+                                        count = content.length,
+                                        max = Number($(editor).data('data-maxlength'));
+
+                                    // Skip if field is required.
+                                    console.log(1, `${$textarea.required} && !${$textarea.val()}`)
+                                    if ($textarea.required && !$textarea.val()) {
+                                        $textarea.val('');
+                                        return false;
+                                    }
+
+                                    // Skip if maxlength is exeeded.
+                                    console.log(2, `${count} > ${max}`)
+                                    if (count > max) {
+                                        $textarea.val('');
+                                        return false;
+                                    }
+
+                                    // Set raw HTML value.
+                                    $textarea.val(editor.getContent());//{format: 'raw'}
+                                });
                             });
                     },
                     init_instance_callback: function(editor) {
@@ -209,9 +225,9 @@ var FORMS = (function($, window, document, undefined) {
             $(e.target).addClass('clicked');
 
             // Prepare TinyMCE values.
-            if (HELP.checkKeyExists(window, 'tinymce')) {
-                tinymce.triggerSave();
-            }
+            // if (HELP.checkKeyExists(window, 'tinymce')) {
+                // tinymce.triggerSave();
+            // }
         })
         .on('submit', function(e) {
             e.preventDefault();
