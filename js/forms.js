@@ -96,10 +96,10 @@ var FORMS = (function($, window, document, undefined) {
                     menubar: false,
                     branding: false,
                     statusbar: false,
-                    readonly: !!$(this).attr('disabled'),
+                    // readonly: !!$(this).attr('disabled'),
                     custom_undo_redo_levels: 8,
                     setup: function (editor) {
-                        let $textarea = $(editor.targetElm),
+                        const $textarea = $(editor.targetElm),
                             max = Number(HELP.sanitizeHTML($textarea.attr('maxlength'))),
                             update = (editor, count) => {
                                 $(editor.getContainer()).parent().find('.char-count span')
@@ -109,35 +109,34 @@ var FORMS = (function($, window, document, undefined) {
                         $textarea.addClass('editor-processed');
 
                         editor
-                            .on('keydown', function(e) {
-                                let editor = this,
-                                    count = editor.getContent({format: 'text'}).length;
-                                
-                                if (count >= max) {
-                                    let key = ('key' in e) ? e.key : e.keyCode;
-
-                                    // Allow Backspace, Delete keys, etc.
-                                    if (HELP.allowCommonKeyPress(e, key)) return;
-                                    e.preventDefault();
-                                }
-                            })
-                            .on('keyup change', function(e) {
+                            .on('keydown keyup change', function(e) {
                                 let editor = this,
                                     count = editor.getContent({format: 'text'}).length,
                                     $container = $(editor.getContainer());
                                 
-                                update(editor, count);
-                                
-                                // Remove previous error message.
-                                $container.parent().find('.editor-valid').remove();
-                                
-                                if (count > max) {
-                                    $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($container);
+                                if (e.type == 'keydown') {
+                                    if (count >= max) {
+                                        let key = ('key' in e) ? e.key : e.keyCode;
+
+                                        // Allow Backspace, Delete keys, etc.
+                                        if (HELP.allowCommonKeyPress(e, key)) return;
+                                        e.preventDefault();
+                                    }
+                                }
+                                else {
+                                    update(editor, count);
+                                    
+                                    // Remove previous error message.
+                                    $container.parent().find('.editor-valid').remove();
+                                    
+                                    if (count > max) {
+                                        $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($container);
+                                    }
                                 }
                             })
                             .on('submit', function(e) {
                                 let editor = this;
-                                
+
                                 if (editor.getContent({format: 'text'}).length > max) {
                                     // alert("Maximum " + max + " characters allowed.");
                                     e.preventDefault();
