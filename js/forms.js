@@ -76,25 +76,35 @@ var FORMS = (function($, window, document, undefined) {
                                     $container = $(editor.getContainer()),
                                     max = Number($(editor).data('data-maxlength'));
                                 
-                                if (e.type == 'keydown') {
-                                    if (count >= max) {
-                                        let key = ('key' in e) ? e.key : e.keyCode;
+                                switch (e.type) {
+                                    case 'keydown':
+                                    // if (e.type == 'keydown') {
+                                        if (count >= max) {
+                                            let key = ('key' in e) ? e.key : e.keyCode;
 
-                                        // Allow Backspace, Delete keys, etc.
-                                        if (!HELP.allowCommonKeyPress(e, key)) {
-                                            e.preventDefault();
+                                            // Allow Backspace, Delete keys, etc.
+                                            if (!HELP.allowCommonKeyPress(e, key)) {
+                                                e.preventDefault();
+                                            }
                                         }
-                                    }
-                                }
-                                else {
-                                    pub.updateCharCount($container, count, max);
-                                    
-                                    // Remove previous error message.
-                                    $container.parent().find('.editor-valid').remove();
-                                    
-                                    if (count > max) {
-                                        $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($container);
-                                    }
+                                    // }
+                                    // else {
+                                    case 'keyup':
+                                    case 'change':
+                                        pub.updateCharCount($container, count, max);
+                                        
+                                        // Remove previous error message.
+                                        $container.parent().find('.editor-valid').remove();
+                                        
+                                        if (count > max) {
+                                            $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($container);
+                                        }
+                                    // }
+                                    case 'change':
+                                        if (count > max) {
+                                            // Make form submit fail if value > maxlength.
+                                            $(editor.targetElm).val('');
+                                        }
                                 }
                             })
                             .on('submit', function(e) {
@@ -112,7 +122,7 @@ var FORMS = (function($, window, document, undefined) {
                                 if (editor.getContent({format: 'text'}).length > max) {
                                     e.preventDefault();
                                     // alert("Maximum " + max + " characters allowed.");
-                                    $(editor.targetElm).val('');
+                                    // $(editor.targetElm).val('');
                                     $(editor).trigger('focus');
                                     return false;
                                 }
