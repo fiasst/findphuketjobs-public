@@ -110,8 +110,10 @@ var FORMS = (function($, window, document, undefined) {
                                 editor.setContent(content);
 
                                 if (editor.getContent({format: 'text'}).length > max) {
-                                    alert("Maximum " + max + " characters allowed.");
                                     e.preventDefault();
+                                    // alert("Maximum " + max + " characters allowed.");
+                                    $(editor.targetElm).val('');
+                                    $(editor).trigger('focus');
                                     return false;
                                 }
                             });
