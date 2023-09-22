@@ -53,9 +53,6 @@ var FORMS = (function($, window, document, undefined) {
                     statusbar: false,
                     custom_undo_redo_levels: 8,
                     setup: function (editor) {
-                        // var url = "//cdn.jsdelivr.net/gh/fiasst/findphuketjobs-public@"+repoVersion+"/js/forms/form-add-job-min.js";
-                        // $LAB.script(url);//.wait(function() {});
-
                         editor
                             .on('keydown keyup change', function(e) {
                                 let editor = this,

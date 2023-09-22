@@ -1,1 +1,1 @@
-var FORM_ADD_JOB=function($,n,t,u){return $((function(){})),{}}(jQuery,0,this.document);
+var FORM_ADD_JOB=function($,e,r,i){return $((function(){$("#wf-form-Add-Job-Form").validate({rules:{job_description:{required:!0},job_requirements:{},job_responsibilities:{}}})})),{}}(jQuery,0,this.document);
