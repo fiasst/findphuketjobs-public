@@ -109,7 +109,7 @@ var FORMS = (function($, window, document, undefined) {
                             //     }
                             // });
 
-                             $('.form-submit').on('click', function(e) {
+                            /*$('.form-submit').on('click', function(e) {
                                 var $button = $(this),
                                     $form = $button.parents('form');
 
@@ -139,7 +139,7 @@ var FORMS = (function($, window, document, undefined) {
                                     // Set raw HTML value.
                                     $textarea.val(editor.getContent());//{format: 'raw'}
                                 });
-                            });
+                            });*/
                     },
                     init_instance_callback: function(editor) {
                         let $textarea = $(editor.targetElm),
@@ -175,7 +175,9 @@ var FORMS = (function($, window, document, undefined) {
     // Update the "<count> / <max>" widget on textareas and WYSIWYG Editors.
     //
     pub.updateCharCount = ($container, count, max) => {
-        $container.parent().find('.char-count span').toggleClass('color-danger', count >= Number(max)).text(count);
+        $container.parent().find('.char-count span')
+            // Add the danger indicator at 80% of characters limit.
+            .toggleClass('color-danger', count >= (Number(max) * .8)).text(count);
     };
 
 
@@ -226,64 +228,76 @@ var FORMS = (function($, window, document, undefined) {
                 // tinymce.triggerSave();
             // }
         })
-        .on('submit', function(e) {
-            e.preventDefault();
+        .validate({
+            classRules: {
+                required: { required: true },
+                email: { email: true }
+            },
+            messages: {
+                required: "This field is required",
+                email: "Please enter a valid email address"
+            },
+            submitHandler: function ($form) {
+        // .on('submit', function(e) {
+                // e.preventDefault();
 
-            var $form = $(this),
-                $button = $form.find('.form-submit.clicked'),
-                validation = $form.attr('data-validation'),
-                dataType = $form.attr('data-form-values-type');
+                // var $form = $(this),
+                    $button = $form.find('.form-submit.clicked'),
+                    validation = $form.attr('data-validation'),
+                    dataType = $form.attr('data-form-values-type');
 
-            // Custom form validation.
-            if (validation && !HELP.callNestedFunction(validation)) {
-                // Validation function retured false.
-                console.log('Validation failed');
-                MAIN.buttonThinking($button, true);
-                // Don't proceed.
-                return false;
-            }
-
-            var data = HELP.getFormValues($form, dataType),
-                formIncrement = HELP.getCookie('form-valid'),
-                i = 2;
-
-            formIncrement = !!formIncrement ? Number(formIncrement) : 0;
-            formIncrement = ++formIncrement;
-            
-            if (dataType == 'formData') {
-                data.set('increment', formIncrement);
-            }
-            else {
-                data.increment = formIncrement;
-            }
-            HELP.setCookie('form-valid', formIncrement);
-
-            var ajaxParams = {
-                url: $form.attr('action'),
-                method: $form.attr('method'),
-                data: data,
-                timeout: 120000,
-                callbackSuccess: function(data) {
-                    MAIN.thinking(false);
-                    MAIN.handleAjaxResponse(data, $form);
-                },
-                callbackError: function(data) {
-                    MAIN.thinking(false);
-                    console.log('error');
+                // Custom form validation.
+                if (validation && !HELP.callNestedFunction(validation)) {
+                    // Validation function retured false.
+                    console.log('Validation failed');
+                    MAIN.buttonThinking($button, true);
+                    // Don't proceed.
+                    return false;
                 }
-            };
-            // File upload fields break the JS without these settings.
-            if (dataType == 'formData') {
-                ajaxParams.processData = false;
-                ajaxParams.contentType = false;
-                ajaxParams.cache = false;
+
+                var data = HELP.getFormValues($form, dataType),
+                    formIncrement = HELP.getCookie('form-valid'),
+                    i = 2;
+
+                formIncrement = !!formIncrement ? Number(formIncrement) : 0;
+                formIncrement = ++formIncrement;
+                
+                if (dataType == 'formData') {
+                    data.set('increment', formIncrement);
+                }
+                else {
+                    data.increment = formIncrement;
+                }
+                HELP.setCookie('form-valid', formIncrement);
+
+                var ajaxParams = {
+                    url: $form.attr('action'),
+                    method: $form.attr('method'),
+                    data: data,
+                    timeout: 120000,
+                    callbackSuccess: function(data) {
+                        MAIN.thinking(false);
+                        MAIN.handleAjaxResponse(data, $form);
+                    },
+                    callbackError: function(data) {
+                        MAIN.thinking(false);
+                        console.log('error');
+                    }
+                };
+                // File upload fields break the JS without these settings.
+                if (dataType == 'formData') {
+                    ajaxParams.processData = false;
+                    ajaxParams.contentType = false;
+                    ajaxParams.cache = false;
+                }
+
+                MAIN.buttonThinking($button);
+                MAIN.thinking(true, false);
+                console.log('data: ', ajaxParams.data);
+
+                HELP.sendAJAX(ajaxParams, $form);
+            // });
             }
-
-            MAIN.buttonThinking($button);
-            MAIN.thinking(true, false);
-            console.log('data: ', ajaxParams.data);
-
-            HELP.sendAJAX(ajaxParams, $form);
         });
 
 

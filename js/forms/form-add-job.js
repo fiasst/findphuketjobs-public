@@ -17,6 +17,10 @@ var FORM_ADD_JOB = (function($, window, document, undefined) {
                 job_responsibilities: {
                     // maxlength: $('input[name="job_responsibilities]').attr('maxlength')
                 }
+            },
+            submitHandler: function(form) {
+                // I believe this will be set after the .ajax-submit listener and so won't prevent the form submitting.
+                form.submit();
             }
         });
     });
