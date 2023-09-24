@@ -88,6 +88,10 @@ div.char-count {
 // MCE Editor (WYSIWYG).
 .tox-tinymce {
   border: 1px solid #d5eff1 !important;
+
+  & .input-wrapper.error {
+    border-color: #e37d7d !important;
+  }
 }
 .tox {
   // Toolbar buttons.
