@@ -104,6 +104,22 @@ div.char-count {
   .tox-edit-area__iframe {
     background: #f5feff !important;
   }
+  // Style the iframe html and body to be height: 100%.
+  html {
+    height: 100%;
+  }
+  .mce-content-body {
+    height: 100%;
+    margin: 0;
+    padding: 1rem;
+    box-sizing: border-box;
+
+    p {
+      &:first-child {
+        margin-top: .5rem;
+      }
+    }
+  }
 }
 // Set the textarea as invisible but not hidden so browsers don't
 // compain about the "required" attribute...
