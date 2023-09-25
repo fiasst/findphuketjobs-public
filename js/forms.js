@@ -89,7 +89,8 @@ var FORMS = (function($, window, document, undefined) {
                                 }
                             })
                             .on('blur', function(e) {
-                                let content = editor.getContent();
+                                let content = editor.getContent()
+                                    $textarea = $(editor.targetElm);
 
                                 // Cleanup.
                                 content
@@ -97,6 +98,10 @@ var FORMS = (function($, window, document, undefined) {
                                     .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
                                     .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
                                 editor.setContent(content);
+
+                                // Set raw HTML value.
+                                $textarea.val(content);
+                                
                             //     let editor = this,
                             //         max = Number($(editor).data('data-maxlength'));
 
@@ -214,13 +219,6 @@ var FORMS = (function($, window, document, undefined) {
         });
 
 
-
-        // custom messages in multiple fields.
-        // $.validator.addMethod("cRequired", $.validator.methods.required, "Customer name required");
-        // $.validator.addMethod("cMinlength", $.validator.methods.minlength, $.validator.format("Customer name must have at least {0} characters"));
-        // $.validator.addClassRules("customer", { cRequired: true, cMinlength: 2 });
-
-
         //
         //  General AJAX form submit handler.
         //
@@ -233,79 +231,64 @@ var FORMS = (function($, window, document, undefined) {
                 // tinymce.triggerSave();
             // }
         })
-        // Handle multiple forms on the same page.
-        .each(function() {
-            $(this).validate({
-                classRules: {
-                    required: { required: true },
-                    email: { email: true }
+        .on('submit', function(e) {
+            e.preventDefault();
+
+            var $form = $(this),
+                $button = $form.find('.form-submit.clicked'),
+                validation = $form.attr('data-validation'),
+                dataType = $form.attr('data-form-values-type');
+
+            // Custom form validation.
+            if (validation && !HELP.callNestedFunction(validation)) {
+                // Validation function retured false.
+                console.log('Validation failed');
+                MAIN.buttonThinking($button, true);
+                // Don't proceed.
+                return false;
+            }
+
+            var data = HELP.getFormValues($form, dataType),
+                formIncrement = HELP.getCookie('form-valid'),
+                i = 2;
+
+            formIncrement = !!formIncrement ? Number(formIncrement) : 0;
+            formIncrement = ++formIncrement;
+            
+            if (dataType == 'formData') {
+                data.set('increment', formIncrement);
+            }
+            else {
+                data.increment = formIncrement;
+            }
+            HELP.setCookie('form-valid', formIncrement);
+
+            var ajaxParams = {
+                url: $form.attr('action'),
+                method: $form.attr('method'),
+                data: data,
+                timeout: 120000,
+                callbackSuccess: function(data) {
+                    MAIN.thinking(false);
+                    MAIN.handleAjaxResponse(data, $form);
                 },
-                messages: {
-                    required: "This field is required",
-                    email: "Please enter a valid email address"
-                },
-                submitHandler: function ($form) {
-            // .on('submit', function(e) {
-                    // e.preventDefault();
-
-                    // var $form = $(this),
-                        $button = $form.find('.form-submit.clicked'),
-                        validation = $form.attr('data-validation'),
-                        dataType = $form.attr('data-form-values-type');
-
-                    // Custom form validation.
-                    if (validation && !HELP.callNestedFunction(validation)) {
-                        // Validation function retured false.
-                        console.log('Validation failed');
-                        MAIN.buttonThinking($button, true);
-                        // Don't proceed.
-                        return false;
-                    }
-
-                    var data = HELP.getFormValues($form, dataType),
-                        formIncrement = HELP.getCookie('form-valid'),
-                        i = 2;
-
-                    formIncrement = !!formIncrement ? Number(formIncrement) : 0;
-                    formIncrement = ++formIncrement;
-                    
-                    if (dataType == 'formData') {
-                        data.set('increment', formIncrement);
-                    }
-                    else {
-                        data.increment = formIncrement;
-                    }
-                    HELP.setCookie('form-valid', formIncrement);
-
-                    var ajaxParams = {
-                        url: $form.attr('action'),
-                        method: $form.attr('method'),
-                        data: data,
-                        timeout: 120000,
-                        callbackSuccess: function(data) {
-                            MAIN.thinking(false);
-                            MAIN.handleAjaxResponse(data, $form);
-                        },
-                        callbackError: function(data) {
-                            MAIN.thinking(false);
-                            console.log('error');
-                        }
-                    };
-                    // File upload fields break the JS without these settings.
-                    if (dataType == 'formData') {
-                        ajaxParams.processData = false;
-                        ajaxParams.contentType = false;
-                        ajaxParams.cache = false;
-                    }
-
-                    MAIN.buttonThinking($button);
-                    MAIN.thinking(true, false);
-                    console.log('data: ', ajaxParams.data);
-
-                    HELP.sendAJAX(ajaxParams, $form);
-                // });
+                callbackError: function(data) {
+                    MAIN.thinking(false);
+                    console.log('error');
                 }
-            });
+            };
+            // File upload fields break the JS without these settings.
+            if (dataType == 'formData') {
+                ajaxParams.processData = false;
+                ajaxParams.contentType = false;
+                ajaxParams.cache = false;
+            }
+
+            MAIN.buttonThinking($button);
+            MAIN.thinking(true, false);
+            console.log('data: ', ajaxParams.data);
+
+            HELP.sendAJAX(ajaxParams, $form);
         });
 
 
