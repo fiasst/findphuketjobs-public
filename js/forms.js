@@ -88,7 +88,7 @@ var FORMS = (function($, window, document, undefined) {
                                         // }
                                 }
                             })
-                            .on('blur', function(e) {
+                            .on('change', function(e) {
                                 let content = editor.getContent()
                                     $textarea = $(editor.targetElm);
 
@@ -101,7 +101,9 @@ var FORMS = (function($, window, document, undefined) {
 
                                 // Set raw HTML value.
                                 $textarea.val(content);
-                                
+
+                                console.log(content);
+
                             //     let editor = this,
                             //         max = Number($(editor).data('data-maxlength'));
 
