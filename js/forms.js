@@ -79,13 +79,6 @@ var FORMS = (function($, window, document, undefined) {
                                     case 'keyup':
                                     case 'change':
                                         pub.updateCharCount($container, count, max);
-                                        
-                                        // Remove previous error message.
-                                        // $container.parent().find('.editor-valid').remove();
-                                        
-                                        // if (count > max) {
-                                            // $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($container);
-                                        // }
                                 }
                             })
                             .on('change', function(e) {
@@ -101,55 +94,7 @@ var FORMS = (function($, window, document, undefined) {
 
                                 // Set raw HTML value.
                                 $textarea.val(content);
-
-                                console.log(content);
-
-                                // if (HELP.checkKeyExists(window, 'Bouncer')) {
-                                    // Validate field.
-                                    $textarea.trigger('blur');
-                                // }
-
-                            //     let editor = this,
-                            //         max = Number($(editor).data('data-maxlength'));
-
-                            //     if (editor.getContent({format: 'text'}).length > max) {
-                            //         e.preventDefault();
-                            //         $(editor).trigger('focus');
-                            //         return false;
-                            //     }
                             });
-
-                            /*$('.form-submit').on('click', function(e) {
-                                var $button = $(this),
-                                    $form = $button.parents('form');
-
-                                $(tinymce.get()).each(function(i, editor) {
-                                    // Skip Editor if it's not within our form.
-                                    if (!$('#'+editor.id, $form).length) return;
-
-                                    let $textarea = $(editor.targetElm),
-                                        content = editor.getContent({format: 'text'}),
-                                        count = content.length,
-                                        max = Number($(editor).data('data-maxlength'));
-
-                                    // Skip if field is required.
-                                    console.log(1, `${$textarea.required} && !${$textarea.val()}`)
-                                    if ($textarea.required && !$textarea.val()) {
-                                        $textarea.val('');
-                                        return false;
-                                    }
-
-                                    // Skip if maxlength is exeeded.
-                                    console.log(2, `${count} > ${max}`)
-                                    if (count > max) {
-                                        $textarea.val('');
-                                        return false;
-                                    }
-
-                                    // Set raw HTML value.
-                                    $textarea.val(editor.getContent());//{format: 'raw'}
-                                });
-                            });*/
                     },
                     init_instance_callback: function(editor) {
                         let $textarea = $(editor.targetElm),
