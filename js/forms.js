@@ -100,7 +100,7 @@ var FORMS = (function($, window, document, undefined) {
                     },
                     init_instance_callback: function(editor) {
                         let $textarea = $(editor.targetElm),
-                            max = Number($textarea.attr('maxlength')),
+                            max = Number($textarea.attr('data-valid-maxlength')),
                             $container = $(editor.getContainer());
                         
                         $textarea.addClass('editor-processed');
@@ -593,11 +593,11 @@ $.fn.createSelect2 = function(options) {
 //
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
-        FORMS.setupCharCount($(this), $(this).attr('data-maxlength'));
+        FORMS.setupCharCount($(this), $(this).attr('data-valid-maxlength'));
 
     });
     $(document).on('keyup', this, function(e) {
-        FORMS.updateCharCount($(e.target), $(e.target).val().length, $(e.target).attr('data-maxlength'))
+        FORMS.updateCharCount($(e.target), $(e.target).val().length, $(e.target).attr('data-valid-maxlength'))
     });
 };
 
