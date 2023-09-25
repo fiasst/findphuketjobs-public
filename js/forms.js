@@ -88,7 +88,7 @@ var FORMS = (function($, window, document, undefined) {
                                         // }
                                 }
                             })
-                            .on('submit', function(e) {
+                            .on('blur', function(e) {
                                 let content = editor.getContent();
 
                                 // Cleanup.
