@@ -104,6 +104,11 @@ var FORMS = (function($, window, document, undefined) {
 
                                 console.log(content);
 
+                                // if (HELP.checkKeyExists(window, 'Bouncer')) {
+                                    // Validate field.
+                                    $textarea.trigger('blur');
+                                // }
+
                             //     let editor = this,
                             //         max = Number($(editor).data('data-maxlength'));
 
@@ -641,11 +646,11 @@ $.fn.createSelect2 = function(options) {
 //
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
-        FORMS.setupCharCount($(this), $(this).attr('maxlength'));
+        FORMS.setupCharCount($(this), $(this).attr('data-maxlength'));
 
     });
     $(document).on('keyup', this, function(e) {
-        FORMS.updateCharCount($(e.target), $(e.target).val().length, $(e.target).attr('maxlength'))
+        FORMS.updateCharCount($(e.target), $(e.target).val().length, $(e.target).attr('data-maxlength'))
     });
 };
 
