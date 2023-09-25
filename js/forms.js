@@ -76,29 +76,27 @@ var FORMS = (function($, window, document, undefined) {
                                             // Make form submit fail if value > maxlength.
                                             $(editor.targetElm).val('');
                                         }
-                                        else {
-                                            let content = editor.getContent();
-
-                                            // Cleanup.
-                                            content
-                                                .replace(/\t/g, '')// Remove tabs.
-                                                .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with optional whitespace.
-                                                .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
-                                            editor.setContent(content);
-                                        }
                                     case 'keyup':
                                     case 'change':
                                         pub.updateCharCount($container, count, max);
                                         
                                         // Remove previous error message.
-                                        $container.parent().find('.editor-valid').remove();
+                                        // $container.parent().find('.editor-valid').remove();
                                         
-                                        if (count > max) {
-                                            $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($container);
-                                        }
+                                        // if (count > max) {
+                                            // $(`<div class="editor-valid error">Enter a maximum of ${max} characters.</div>`).insertAfter($container);
+                                        // }
                                 }
                             })
-                            // .on('submit', function(e) {
+                            .on('submit', function(e) {
+                                let content = editor.getContent();
+
+                                // Cleanup.
+                                content
+                                    .replace(/\t/g, '')// Remove tabs.
+                                    .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
+                                    .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
+                                editor.setContent(content);
                             //     let editor = this,
                             //         max = Number($(editor).data('data-maxlength'));
 
@@ -107,7 +105,7 @@ var FORMS = (function($, window, document, undefined) {
                             //         $(editor).trigger('focus');
                             //         return false;
                             //     }
-                            // });
+                            });
 
                             /*$('.form-submit').on('click', function(e) {
                                 var $button = $(this),
@@ -214,6 +212,13 @@ var FORMS = (function($, window, document, undefined) {
                 localStorage.setItem('fp_redirect', redir);
             }
         });
+
+
+
+        // custom messages in multiple fields.
+        // $.validator.addMethod("cRequired", $.validator.methods.required, "Customer name required");
+        // $.validator.addMethod("cMinlength", $.validator.methods.minlength, $.validator.format("Customer name must have at least {0} characters"));
+        // $.validator.addClassRules("customer", { cRequired: true, cMinlength: 2 });
 
 
         //
