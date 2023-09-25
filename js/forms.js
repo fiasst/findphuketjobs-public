@@ -94,6 +94,8 @@ var FORMS = (function($, window, document, undefined) {
 
                                 // Set raw HTML value.
                                 $textarea.val(content);
+                                // Trigger field validation.
+                                $textarea.trigger('blur');
                             });
                     },
                     init_instance_callback: function(editor) {
