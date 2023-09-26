@@ -144,7 +144,7 @@ var FORMS = (function($, window, document, undefined) {
     pub.updateCharCount = ($container, count, max) => {
         $container.parent().find('.char-count span')
             // Add the danger indicator at 80% of characters limit.
-            .toggleClass('color-danger', count >= (Number(max) * .8)).text(count);
+            .toggleClass('color-danger', count >= (Number(max) - 20)).text(count);
     };
 
 

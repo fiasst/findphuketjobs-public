@@ -282,7 +282,7 @@ var MAIN = (function($, window, document, undefined) {
             // Calculate the created "X ago" text.
             pub.timePast( $('.time-past:not(.parsed)', $item) );
         });
-    }
+    };
 
 
     //
