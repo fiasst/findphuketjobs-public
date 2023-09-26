@@ -179,9 +179,189 @@ var FORMS = (function($, window, document, undefined) {
 
 
         //
-        //  General AJAX form submit handler.
+        // Bouncer FE form validation.
+        //
+        // Add Bouncer form validation error placeholder for fields.
+        //
+        var bouncerFieldIndex = 0;
+        $('.bouncer .input-wrapper').each(function(i, el) {
+            var id = 'error-wrapper-'+ bouncerFieldIndex++;
+            
+            $(el).append( $('<div id="'+ id +'" />') )
+                .find(':input').attr('data-bouncer-target', '#'+ id)
+        });
+
+
+        //
+        // Bouncer site-wide form validation.
+            // Works for all forms with a ".bouncer" class.
+        //
+        var bouncer = new Bouncer('form.bouncer', {
+            fieldClass: 'error',// Applied to fields with errors
+            errorClass: 'error-text',// Applied to the error message for invalid fields
+            fieldPrefix: 'bouncer-field_',
+            errorPrefix: 'bouncer-error_',
+            disableSubmit: true,
+            customValidations: {
+                editorMaxlength: function(field) {
+                    // If the field isn't an .editor textarea, ignore it.
+                    if (!$(field).hasClass('editor')) return false;
+                    // Get the Editor iframe body.
+                    var editor = $(field).parents('.input-wrapper').find('iframe').contents().find('body');
+                    if (!editor) return false;
+                    // Validate the iframe text() value is less than the maxlength attr.
+                    return editor.text().length > Number($(field).attr('data-valid-maxlength'));
+                }
+            },
+            messages: {
+                missingValue: {
+                    checkbox: 'This field is required',
+                    radio: 'Please select an option',
+                    select: 'Please select an option',
+                    'select-multiple': 'Please select one or more options',
+                    default: 'This field is required'
+                },
+                patternMismatch: {
+                    email: 'Please enter a valid email address',
+                    url: 'Please enter a valid URL (Example: http://example.com)',
+                    number: 'Please enter a number',
+                    color: 'Please match the following format: #rrggbb',
+                    date: 'Please use the YYYY-MM-DD format',
+                    time: 'Please use the 24-hour time format (Example: 23:00)',
+                    month: 'Please use the YYYY-MM format (Example: 2065-08)',
+                    default: 'Please enter a value in the required format'
+                },
+                outOfRange: {
+                    over: 'Value must not exceed {max} characters',
+                    under: 'Value must not be lower than {min} characters'
+                },
+                // This uses the "maxlength" attr.
+                wrongLength: {
+                    over: 'Value must not exceed {maxLength} characters',
+                    under: 'Value must not be lower than {minLength} characters'
+                },
+                editorMaxlength: function(field) {
+                    var max = Number($(field).attr('data-valid-maxlength'));
+                    return 'Value must not exceed '+ max +' characters'
+                },
+                fallback: 'There was an error with this field'
+            }
+        });
+
+
+        //
+        // 1) Validate the .editor textarea.
+            // This took hours to find a working solution...
+            // This code relies on $textarea.trigger('blur');
+            // in the tinymce.init() "setup" function.
+        // 2) Validate the Select2 <select> field.
+            // This codes relies on a .trigger('blur');
+            // in the $.fn.createSelect2() function.
+        //
+        $('textarea.editor, .select2-field').on('blur', function(e) {
+            bouncer.validate(this);
+        });
+
+
+        $(document)
+        // Event listener for when a field is invalid/valid.
+        .on('bouncerShowError bouncerRemoveError', function(e) {
+            // Add and remove an error class on the field wrapper.
+            $(e.target).parents('.input-wrapper').toggleClass('error',
+            (e.type == 'bouncerShowError'));
+        })
+        // Form is valid event listener.
+        .on('bouncerFormValid', function(e) {
+            // Form is valid so submit it.
+            ajaxSubmitHandler(e);
+        });
+
+
+        //
+        // AJAX Form submit listener.
+            // If you want to AJAX submit a form without Bouncer.js
+            // add this class to a form.
+        // Otherwise, add ".bouncer" class and ajaxSubmitHandler()
+            // gets called when the form validates.
         //
         $('.ajax-submit')
+        .on('click', '.form-submit', function(e) {
+            $(e.target).addClass('clicked');
+        })
+        .on('submit', function(e) {
+            e.preventDefault();
+            // Submit form via AJAX.
+            ajaxSubmitHandler(e);
+        });
+
+
+        //
+        // AJAX form submit logic.
+            // Used by ".form-submit" and ".bouncer" forms.
+        //
+        const ajaxSubmitHandler = (event) => {
+            var $form = $(event.target),
+                $button = $form.find('.form-submit.clicked'),
+                validation = $form.attr('data-validation'),
+                dataType = $form.attr('data-form-values-type');
+
+            // Custom form validation.
+            if (validation && !HELP.callNestedFunction(validation)) {
+                // Validation function retured false.
+                console.log('Validation failed');
+                MAIN.buttonThinking($button, true);
+                // Don't proceed.
+                return false;
+            }
+
+            var data = HELP.getFormValues($form, dataType),
+                formIncrement = HELP.getCookie('form-valid'),
+                i = 2;
+
+            formIncrement = !!formIncrement ? Number(formIncrement) : 0;
+            formIncrement = ++formIncrement;
+
+            if (dataType == 'formData') {
+                data.set('increment', formIncrement);
+            }
+            else {
+                data.increment = formIncrement;
+            }
+            HELP.setCookie('form-valid', formIncrement);
+
+            var ajaxParams = {
+                url: $form.attr('action'),
+                method: $form.attr('method'),
+                data: data,
+                timeout: 120000,
+                callbackSuccess: function(data) {
+                    MAIN.thinking(false);
+                    MAIN.handleAjaxResponse(data, $form);
+                },
+                callbackError: function(data) {
+                    MAIN.thinking(false);
+                    console.log('error');
+                }
+            };
+            // File upload fields break the JS without these settings.
+            if (dataType == 'formData') {
+                ajaxParams.processData = false;
+                ajaxParams.contentType = false;
+                ajaxParams.cache = false;
+            }
+
+            MAIN.buttonThinking($button);
+            MAIN.thinking(true, false);
+            console.log('data: ', ajaxParams.data);
+
+            HELP.sendAJAX(ajaxParams, $form);
+        };
+
+
+        //
+        //  General AJAX form submit handler.
+        //
+        /*$('.ajax-submit')
         .on('click', '.form-submit', function(e) {
             $(e.target).addClass('clicked');
         })
@@ -243,7 +423,7 @@ var FORMS = (function($, window, document, undefined) {
             console.log('data: ', ajaxParams.data);
 
             HELP.sendAJAX(ajaxParams, $form);
-        });
+        });*/
 
 
         //
