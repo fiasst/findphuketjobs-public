@@ -118,9 +118,7 @@ var FORMS = (function($, window, document, undefined) {
                         $(editor).data('data-maxlength', max);
                         
                         if (max) {
-                            pub.setupCharCount($container, max);
-                            // Trigger to set initial pub.updateCharCount() default value.
-                            $(editor).trigger('change');
+                            pub.setupCharCount($container, $textarea.val().length, max);
                         }
                     }
                 });
@@ -132,9 +130,9 @@ var FORMS = (function($, window, document, undefined) {
     //
     // Setup the character count widget on textareas and WYSIWYG Editors.
     //
-    pub.setupCharCount = ($container, max) => {
+    pub.setupCharCount = ($container, count, max) => {
         $container
-            .after(`<div class="char-count"><span>0</span> / ${ Number(max) }</div>`)
+            .after(`<div class="char-count"><span>${ Number(count) }}</span> / ${ Number(max) }</div>`)
             .parent().addClass('char-count-wrapper');
     };
 
@@ -603,7 +601,7 @@ $.fn.createSelect2 = function(options) {
 //
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
-        FORMS.setupCharCount($(this), $(this).attr('data-valid-maxlength'));
+        FORMS.setupCharCount($(this), $(this).val().length, $(this).attr('data-valid-maxlength'));
     });
     $(document).on('keyup', this, function(e) {
         FORMS.updateCharCount($(e.target), $(e.target).val().length, $(e.target).attr('data-valid-maxlength'))
