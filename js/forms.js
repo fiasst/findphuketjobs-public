@@ -3,6 +3,12 @@ var FORMS = (function($, window, document, undefined) {
 
 
     //
+    // Get keyboard key from event Object.
+    //
+    pub.getKey = (e) => ('key' in e) ? e.key : e.keyCode;
+
+
+    //
     // Show/hide existing file details and replace with file upload field.
     //
     pub.uploadFields = function() {
@@ -63,7 +69,7 @@ var FORMS = (function($, window, document, undefined) {
                                 switch (e.type) {
                                     case 'keydown':
                                         if (count >= max) {
-                                            let key = ('key' in e) ? e.key : e.keyCode;
+                                            let key = pub.getKey(e);
 
                                             // Allow Backspace, Delete keys, etc.
                                             if (!HELP.allowCommonKeyPress(e, key)) {
@@ -96,7 +102,9 @@ var FORMS = (function($, window, document, undefined) {
                                 $textarea.val(content);
                                 // Trigger Bouncer field validation.
                                 $textarea.trigger('blur');
-                            });
+                            })
+                            // Trigger to set initial pub.updateCharCount() default value.
+                            .trigger('change');
                     },
                     init_instance_callback: function(editor) {
                         let $textarea = $(editor.targetElm),
@@ -327,7 +335,7 @@ var FORMS = (function($, window, document, undefined) {
         //
         $('.format-numeric')
             .on('keydown', function(e) {
-                let key = ('key' in e) ? e.key : e.keyCode;
+                let key = pub.getKey(e);
 
                 // Allow Backspace, Delete keys, etc.
                 if (HELP.allowCommonKeyPress(e, key)) return;
@@ -355,7 +363,7 @@ var FORMS = (function($, window, document, undefined) {
             // "change" is to cleanup autocompete values.
             .on('keydown change', function(e, stripChars) {
                 var val = $(this).val() || '',
-                    key = ('key' in e) ? e.key : e.keyCode;
+                    key = pub.getKey(e);
 
                 val = val.toString().toLowerCase()
                     .replace(/\s+/g, ''); // Remove whitespace
@@ -403,7 +411,7 @@ var FORMS = (function($, window, document, undefined) {
             // "change" is to cleanup autocompete values.
             .on('keydown change', function(e) {
                 var val = $(this).val() || '',
-                    key = ('key' in e) ? e.key : e.keyCode;
+                    key = pub.getKey(e);
 
                 val = val.toString().toLowerCase()
                     .replace(/\s+/g, ''); // Remove whitespace
@@ -593,7 +601,6 @@ $.fn.createSelect2 = function(options) {
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
         FORMS.setupCharCount($(this), $(this).attr('data-valid-maxlength'));
-
     });
     $(document).on('keyup', this, function(e) {
         FORMS.updateCharCount($(e.target), $(e.target).val().length, $(e.target).attr('data-valid-maxlength'))
