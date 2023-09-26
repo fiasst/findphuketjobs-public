@@ -75,11 +75,18 @@ div.char-count {
   }
 }
 
-.w-checkbox-input--inputType-custom.w--redirected-checked,
-.w-checkbox-input--inputType-custom.w--redirected-focus {
-  box-shadow: none;
+// Custom checkboxes.
+.w-checkbox-input--inputType-custom {
+  &.w--redirected-checked,
+  &.w--redirected-focus {
+    box-shadow: none;
+  }
+  .input-wrapper.error & {
+    border-color: #e37d7d !important;
+  }
 }
 
+// Custom radiobuttons.
 .w-form-formradioinput--inputType-custom {
   .input-wrapper.error & {
     border-color: #e37d7d !important;
