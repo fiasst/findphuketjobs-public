@@ -43,7 +43,7 @@ var FORMS = (function($, window, document, undefined) {
     pub.initEditor = function() {
         let selector = 'textarea.editor';
 
-        if (!!$(selector).length) return;
+        if ($(selector).length < 1) return;
 
         // var url = "https://cdn.tiny.cloud/1/pxssr84xhkkrv98f96sukcuph48qknaw74tr513ccdtfxqm7/tinymce/6/tinymce.min.js";
         // $LAB.script(url).wait(function() {
