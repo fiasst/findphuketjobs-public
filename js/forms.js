@@ -106,8 +106,6 @@ var FORMS = (function($, window, document, undefined) {
                             // Trigger Bouncer field validation.
                             $textarea.trigger('blur');
                         });
-                        // Trigger to set initial pub.updateCharCount() default value.
-                        editor.trigger('change');
                     },
                     init_instance_callback: function(editor) {
                         let $textarea = $(editor.targetElm),
@@ -121,6 +119,8 @@ var FORMS = (function($, window, document, undefined) {
                         
                         if (max) {
                             pub.setupCharCount($container, max);
+                            // Trigger to set initial pub.updateCharCount() default value.
+                            editor.trigger('change');
                         }
                     }
                 });
