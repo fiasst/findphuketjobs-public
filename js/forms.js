@@ -109,6 +109,7 @@ var FORMS = (function($, window, document, undefined) {
                     },
                     init_instance_callback: function(editor) {
                         let $textarea = $(editor.targetElm),
+                            count = editor.getContent({format: 'text'}).length,
                             max = Number($textarea.attr('data-valid-maxlength')),
                             $container = $(editor.getContainer());
                         
@@ -118,7 +119,7 @@ var FORMS = (function($, window, document, undefined) {
                         $(editor).data('data-maxlength', max);
                         
                         if (max) {
-                            pub.setupCharCount($container, $textarea.val().length, max);
+                            pub.setupCharCount($container, count, max);
                         }
                     }
                 });
@@ -132,7 +133,7 @@ var FORMS = (function($, window, document, undefined) {
     //
     pub.setupCharCount = ($container, count, max) => {
         $container
-            .after(`<div class="char-count"><span>${ Number(count) }}</span> / ${ Number(max) }</div>`)
+            .after(`<div class="char-count"><span>${ Number(count) }</span> / ${ Number(max) }</div>`)
             .parent().addClass('char-count-wrapper');
     };
 
