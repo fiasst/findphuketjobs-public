@@ -120,7 +120,7 @@ var FORMS = (function($, window, document, undefined) {
                         if (max) {
                             pub.setupCharCount($container, max);
                             // Trigger to set initial pub.updateCharCount() default value.
-                            editor.trigger('change');
+                            $(editor).trigger('change');
                         }
                     }
                 });
