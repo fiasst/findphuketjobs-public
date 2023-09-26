@@ -90,7 +90,7 @@ var FORMS = (function($, window, document, undefined) {
                                     .replace(/\t/g, '')// Remove tabs.
                                     .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
                                     .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
-                                editor.setContent(content);
+                                // editor.setContent(content);
 
                                 // Set raw HTML value.
                                 $textarea.val(content);
