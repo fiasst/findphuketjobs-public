@@ -116,17 +116,6 @@
       "sC" : 3,
       "tS" : 0
     },
-    "\/js\/forms\/form-add-job.js" : {
-      "bF" : 0,
-      "ft" : 64,
-      "ma" : 0,
-      "mi" : 1,
-      "oA" : 0,
-      "oAP" : "\/js\/forms\/form-add-job-min.js",
-      "oF" : 0,
-      "sC" : 3,
-      "tS" : 0
-    },
     "\/js\/help-min.js" : {
       "bF" : 0,
       "ft" : 64,

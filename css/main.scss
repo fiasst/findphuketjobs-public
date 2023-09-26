@@ -89,7 +89,7 @@ div.char-count {
 .tox-tinymce {
   border: 1px solid #d5eff1 !important;
 
-  & .input-wrapper.error {
+  .input-wrapper.error & {
     border-color: #e37d7d !important;
   }
 }
