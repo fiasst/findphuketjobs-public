@@ -9,18 +9,6 @@
   ],
   "creatorBuild" : "34214",
   "files" : {
-    "\/css\/jquery.litbox-min.css" : {
-      "aP" : 1,
-      "bl" : 0,
-      "ci" : 0,
-      "co" : 0,
-      "ft" : 16,
-      "ma" : 0,
-      "oA" : 0,
-      "oAP" : "\/css\/jquery.litbox-min-min.css",
-      "oF" : 0,
-      "pg" : 0
-    },
     "\/css\/main.css" : {
       "aP" : 1,
       "bl" : 0,
@@ -48,7 +36,7 @@
       "pg" : 0,
       "sct" : 0
     },
-    "\/css\/select2-min.css" : {
+    "\/css\/vendors\/jquery.litbox-min.css" : {
       "aP" : 1,
       "bl" : 0,
       "ci" : 0,
@@ -56,11 +44,11 @@
       "ft" : 16,
       "ma" : 0,
       "oA" : 0,
-      "oAP" : "\/css\/select2-min-min.css",
+      "oAP" : "\/css\/vendors\/jquery.litbox-min-min.css",
       "oF" : 0,
       "pg" : 0
     },
-    "\/css\/select2.css" : {
+    "\/css\/vendors\/select2-min.css" : {
       "aP" : 1,
       "bl" : 0,
       "ci" : 0,
@@ -68,7 +56,19 @@
       "ft" : 16,
       "ma" : 0,
       "oA" : 0,
-      "oAP" : "\/css\/select2-min.css",
+      "oAP" : "\/css\/vendors\/select2-min-min.css",
+      "oF" : 0,
+      "pg" : 0
+    },
+    "\/css\/vendors\/select2.css" : {
+      "aP" : 1,
+      "bl" : 0,
+      "ci" : 0,
+      "co" : 0,
+      "ft" : 16,
+      "ma" : 0,
+      "oA" : 0,
+      "oAP" : "\/css\/vendors\/select2-min.css",
       "oF" : 0,
       "pg" : 0
     },
@@ -134,39 +134,6 @@
       "mi" : 1,
       "oA" : 0,
       "oAP" : "\/js\/help-min.js",
-      "oF" : 0,
-      "sC" : 3,
-      "tS" : 0
-    },
-    "\/js\/jquery.litbox-min.js" : {
-      "bF" : 0,
-      "ft" : 64,
-      "ma" : 0,
-      "mi" : 1,
-      "oA" : 0,
-      "oAP" : "\/js\/jquery.litbox-min-min.js",
-      "oF" : 0,
-      "sC" : 3,
-      "tS" : 0
-    },
-    "\/js\/jquery.litbox.js" : {
-      "bF" : 0,
-      "ft" : 64,
-      "ma" : 0,
-      "mi" : 1,
-      "oA" : 0,
-      "oAP" : "\/js\/jquery.litbox-min.js",
-      "oF" : 0,
-      "sC" : 3,
-      "tS" : 0
-    },
-    "\/js\/jquery.validate.min.js" : {
-      "bF" : 0,
-      "ft" : 64,
-      "ma" : 0,
-      "mi" : 1,
-      "oA" : 0,
-      "oAP" : "\/js\/jquery.validate.min-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
@@ -446,6 +413,28 @@
       "sC" : 3,
       "tS" : 0
     },
+    "\/js\/vendors\/jquery.litbox-min.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/js\/vendors\/jquery.litbox-min-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
+    "\/js\/vendors\/jquery.litbox.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/js\/vendors\/jquery.litbox-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
     "\/js\/vendors\/jquery.select2.min.js" : {
       "bF" : 0,
       "ft" : 64,
@@ -453,6 +442,17 @@
       "mi" : 1,
       "oA" : 0,
       "oAP" : "\/js\/vendors\/jquery.select2.min-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
+    "\/js\/vendors\/jquery.validate.min.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/js\/vendors\/jquery.validate.min-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
