@@ -45,86 +45,81 @@ var FORMS = (function($, window, document, undefined) {
 
         if ($(selector).length < 1) return;
 
-        // var url = "https://cdn.tiny.cloud/1/pxssr84xhkkrv98f96sukcuph48qknaw74tr513ccdtfxqm7/tinymce/6/tinymce.min.js";
-        // $LAB.script(url).wait(function() {
-            // $('textarea.editor').each(function() {
-                //
-                // Init.
-                //
-                tinymce.init({
-                    selector: selector,
-                    // target: this,
-                    toolbar: 'undo redo | bold | bullist numlist',
-                    plugins: 'lists',
-                    min_height: 200,
-                    max_height: 400,
-                    menubar: false,
-                    branding: false,
-                    statusbar: false,
-                    custom_undo_redo_levels: 8,
-                    setup: function (editor) {
-                        editor
-                        .on('keydown keyup change', function(e) {
-                            let editor = this,
-                                count = editor.getContent({format: 'text'}).length,
-                                $container = $(editor.getContainer()),
-                                max = Number($(editor).data('data-maxlength'));
-                            
-                            switch (e.type) {
-                                case 'keydown':
-                                    if (count >= max) {
-                                        let key = pub.getKey(e);
+        //
+        // Init.
+        //
+        tinymce.init({
+            selector: selector,
+            // target: this,
+            toolbar: 'undo redo | bold | bullist numlist',
+            plugins: 'lists',
+            min_height: 200,
+            max_height: 400,
+            menubar: false,
+            branding: false,
+            statusbar: false,
+            custom_undo_redo_levels: 8,
+            setup: function (editor) {
+                editor
+                .on('keydown keyup change', function(e) {
+                    let editor = this,
+                        count = editor.getContent({format: 'text'}).length,
+                        $container = $(editor.getContainer()),
+                        max = Number($(editor).data('data-maxlength'));
+                    
+                    switch (e.type) {
+                        case 'keydown':
+                            if (count >= max) {
+                                let key = pub.getKey(e);
 
-                                        // Allow Backspace, Delete keys, etc.
-                                        if (!HELP.allowCommonKeyPress(e, key)) {
-                                            e.preventDefault();
-                                        }
-                                    }
-                                case 'change':
-                                    // If maxlength is exceeded.
-                                    if (max && count > max) {
-                                        // Make form submit fail if value > maxlength.
-                                        $(editor.targetElm).val('');
-                                    }
-                                case 'keyup':
-                                case 'change':
-                                    pub.updateCharCount($container, count, max);
+                                // Allow Backspace, Delete keys, etc.
+                                if (!HELP.allowCommonKeyPress(e, key)) {
+                                    e.preventDefault();
+                                }
                             }
-                        })
-                        .on('change', function(e) {
-                            let content = editor.getContent()
-                                $textarea = $(editor.targetElm);
-
-                            // Cleanup.
-                            content
-                                .replace(/\t/g, '')// Remove tabs.
-                                .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
-                                .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
-
-                            // Set raw HTML value.
-                            $textarea.val(content);
-                            // Trigger Bouncer field validation.
-                            $textarea.trigger('blur');
-                        });
-                    },
-                    init_instance_callback: function(editor) {
-                        let $textarea = $(editor.targetElm),
-                            count = editor.getContent({format: 'text'}).length,
-                            max = Number($textarea.attr('data-valid-maxlength')),
-                            $container = $(editor.getContainer());
-                        
-                        $textarea.addClass('editor-processed');
-
-                        // Set easy access var on Container.
-                        $(editor).data('data-maxlength', max);
-                        
-                        if (max) {
-                            pub.setupCharCount($container, count, max);
-                        }
+                        case 'change':
+                            // If maxlength is exceeded.
+                            if (max && count > max) {
+                                // Make form submit fail if value > maxlength.
+                                $(editor.targetElm).val('');
+                            }
+                        case 'keyup':
+                        case 'change':
+                            pub.updateCharCount($container, count, max);
                     }
+                })
+                .on('change', function(e) {
+                    let content = editor.getContent()
+                        $textarea = $(editor.targetElm);
+
+                    // Cleanup.
+                    content
+                        .replace(/\t/g, '')// Remove tabs.
+                        .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
+                        .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
+
+                    // Set raw HTML value.
+                    $textarea.val(content);
+                    // Trigger Bouncer field validation.
+                    $textarea.trigger('blur');
                 });
-            // });
-        // });
+            },
+            init_instance_callback: function(editor) {
+                let $textarea = $(editor.targetElm),
+                    count = editor.getContent({format: 'text'}).length,
+                    max = Number($textarea.attr('data-valid-maxlength')),
+                    $container = $(editor.getContainer());
+                
+                $textarea.addClass('editor-processed');
+
+                // Set easy access var on Container.
+                $(editor).data('data-maxlength', max);
+                
+                if (max) {
+                    pub.setupCharCount($container, count, max);
+                }
+            }
+        });
     };
 
 
