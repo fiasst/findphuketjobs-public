@@ -80,6 +80,12 @@ div.char-count {
   box-shadow: none;
 }
 
+.w-form-formradioinput--inputType-custom {
+  .input-wrapper.error & {
+    border-color: #e37d7d !important;
+  }
+}
+
 .button-primary[disabled]:hover {
   background-color: #00ebeb;
   color: #202d2f;

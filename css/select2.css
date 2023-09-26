@@ -558,6 +558,9 @@
   font-size: 16px;
   line-height: 1.6em;
 }
+.input-wrapper.error .select2-container .select2-selection {
+  border-color: #e37d7d !important;
+}
 .select2-container .select2-selection.large {
   min-height: 50px;
   padding: 10px 16px;
@@ -649,7 +652,6 @@
   margin: 0;
   vertical-align: initial;
 }
-
 
 
 
