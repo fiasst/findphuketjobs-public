@@ -41,6 +41,10 @@ var FORMS = (function($, window, document, undefined) {
     // WYSIWYG Editor.
     // 
     pub.initEditor = function() {
+        let selector = 'textarea.editor';
+
+        if (!!$(selector).length) return;
+
         // var url = "https://cdn.tiny.cloud/1/pxssr84xhkkrv98f96sukcuph48qknaw74tr513ccdtfxqm7/tinymce/6/tinymce.min.js";
         // $LAB.script(url).wait(function() {
             // $('textarea.editor').each(function() {
@@ -48,7 +52,7 @@ var FORMS = (function($, window, document, undefined) {
                 // Init.
                 //
                 tinymce.init({
-                    selector: 'textarea.editor',
+                    selector: selector,
                     // target: this,
                     toolbar: 'undo redo | bold | bullist numlist',
                     plugins: 'lists',
@@ -96,7 +100,6 @@ var FORMS = (function($, window, document, undefined) {
                                     .replace(/\t/g, '')// Remove tabs.
                                     .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
                                     .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
-                                // editor.setContent(content);
 
                                 // Set raw HTML value.
                                 $textarea.val(content);
