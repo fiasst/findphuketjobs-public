@@ -64,50 +64,50 @@ var FORMS = (function($, window, document, undefined) {
                     custom_undo_redo_levels: 8,
                     setup: function (editor) {
                         editor
-                            .on('keydown keyup change', function(e) {
-                                let editor = this,
-                                    count = editor.getContent({format: 'text'}).length,
-                                    $container = $(editor.getContainer()),
-                                    max = Number($(editor).data('data-maxlength'));
-                                
-                                switch (e.type) {
-                                    case 'keydown':
-                                        if (count >= max) {
-                                            let key = pub.getKey(e);
+                        .on('keydown keyup change', function(e) {
+                            let editor = this,
+                                count = editor.getContent({format: 'text'}).length,
+                                $container = $(editor.getContainer()),
+                                max = Number($(editor).data('data-maxlength'));
+                            
+                            switch (e.type) {
+                                case 'keydown':
+                                    if (count >= max) {
+                                        let key = pub.getKey(e);
 
-                                            // Allow Backspace, Delete keys, etc.
-                                            if (!HELP.allowCommonKeyPress(e, key)) {
-                                                e.preventDefault();
-                                            }
+                                        // Allow Backspace, Delete keys, etc.
+                                        if (!HELP.allowCommonKeyPress(e, key)) {
+                                            e.preventDefault();
                                         }
-                                    case 'change':
-                                        // If maxlength is exceeded.
-                                        if (max && count > max) {
-                                            // Make form submit fail if value > maxlength.
-                                            $(editor.targetElm).val('');
-                                        }
-                                    case 'keyup':
-                                    case 'change':
-                                        pub.updateCharCount($container, count, max);
-                                }
-                            })
-                            .on('change', function(e) {
-                                let content = editor.getContent()
-                                    $textarea = $(editor.targetElm);
+                                    }
+                                case 'change':
+                                    // If maxlength is exceeded.
+                                    if (max && count > max) {
+                                        // Make form submit fail if value > maxlength.
+                                        $(editor.targetElm).val('');
+                                    }
+                                case 'keyup':
+                                case 'change':
+                                    pub.updateCharCount($container, count, max);
+                            }
+                        })
+                        .on('change', function(e) {
+                            let content = editor.getContent()
+                                $textarea = $(editor.targetElm);
 
-                                // Cleanup.
-                                content
-                                    .replace(/\t/g, '')// Remove tabs.
-                                    .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
-                                    .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
+                            // Cleanup.
+                            content
+                                .replace(/\t/g, '')// Remove tabs.
+                                .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
+                                .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
 
-                                // Set raw HTML value.
-                                $textarea.val(content);
-                                // Trigger Bouncer field validation.
-                                $textarea.trigger('blur');
-                            })
-                            // Trigger to set initial pub.updateCharCount() default value.
-                            .trigger('change');
+                            // Set raw HTML value.
+                            $textarea.val(content);
+                            // Trigger Bouncer field validation.
+                            $textarea.trigger('blur');
+                        });
+                        // Trigger to set initial pub.updateCharCount() default value.
+                        editor.trigger('change');
                     },
                     init_instance_callback: function(editor) {
                         let $textarea = $(editor.targetElm),
