@@ -107,6 +107,11 @@ var FORMS = (function($, window, document, undefined) {
                     // Trigger Bouncer field validation.
                     $textarea.trigger('blur');
                 });
+
+
+                // let $textarea = $(editor.targetElm);
+                // Add trimmed value.
+                // $textarea.val( HELP.zeroTrim(editor.getContent()) );
             },
             init_instance_callback: function(editor) {
                 let $textarea = $(editor.targetElm),
@@ -116,7 +121,9 @@ var FORMS = (function($, window, document, undefined) {
                     $container = $(editor.getContainer());
                 
                 // Add trimmed value and add class.
-                $textarea.val(contentHTML).addClass('editor-processed');
+                // $textarea.val(contentHTML).addClass('editor-processed');
+                $textarea.addClass('editor-processed');
+                editor.setContent(contentHTML);
 
                 // Set easy access var on Container.
                 $(editor).data('data-maxlength', max);
