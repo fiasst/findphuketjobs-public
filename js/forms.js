@@ -106,7 +106,7 @@ var FORMS = (function($, window, document, undefined) {
             },
             init_instance_callback: function(editor) {
                 let $textarea = $(editor.targetElm),
-                    count = HELP.zeroTrim( editor.getContent({format: 'text'}) ).length,
+                    count = editor.getContent({format: 'text'}).length,
                     max = Number($textarea.attr('data-valid-maxlength')),
                     $container = $(editor.getContainer());
                 
@@ -138,7 +138,7 @@ var FORMS = (function($, window, document, undefined) {
     //
     pub.updateCharCount = ($container, count, max) => {
         $container.parent().find('.char-count span')
-            // Add the danger indicator at 80% of characters limit.
+            // Add the danger indicator at 20 characters until limit reached.
             .toggleClass('color-danger', count >= (Number(max) - 20)).text(count);
     };
 
@@ -175,6 +175,16 @@ var FORMS = (function($, window, document, undefined) {
             if (!!(redir)) {
                 localStorage.setItem('fp_redirect', redir);
             }
+        });
+
+
+        //
+        // Cleanup textareas.
+            // This prevents character count widgets from showing 1 instead of zero because of &zwj;
+            // characters which prevents FE validation from marking empty textareas as required.
+        //
+        $('textarea').each(function() {
+            $(this).val( HELP.zeroTrim($(this).val()) );
         });
 
 
@@ -713,7 +723,7 @@ $.fn.createSelect2 = function(options) {
 //
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
-        FORMS.setupCharCount($(this), HELP.zeroTrim( $(this).val() ).length, $(this).attr('data-valid-maxlength'));
+        FORMS.setupCharCount($(this), $(this).val().length, $(this).attr('data-valid-maxlength'));
     });
     $(document).on('keyup', this, function(e) {
         FORMS.updateCharCount($(e.target), $(e.target).val().length, $(e.target).attr('data-valid-maxlength'))
