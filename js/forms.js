@@ -89,7 +89,7 @@ var FORMS = (function($, window, document, undefined) {
                     }
                 })
                 .on('change', function(e) {
-                    let content = HELP.zeroTrim(editor.getContent()),
+                    let content = editor.getContent(),
                         $textarea = $(editor.targetElm);
 
                     // Cleanup.
@@ -106,11 +106,13 @@ var FORMS = (function($, window, document, undefined) {
             },
             init_instance_callback: function(editor) {
                 let $textarea = $(editor.targetElm),
-                    count = editor.getContent({format: 'text'}).length,
+                    content = HELP.zeroTrim(editor.getContent({format: 'text'})),
+                    count = content.length,
                     max = Number($textarea.attr('data-valid-maxlength')),
                     $container = $(editor.getContainer());
                 
-                $textarea.addClass('editor-processed');
+                // Add trimmed value and add class.
+                $textarea.val(content).addClass('editor-processed');
 
                 // Set easy access var on Container.
                 $(editor).data('data-maxlength', max);
@@ -183,9 +185,9 @@ var FORMS = (function($, window, document, undefined) {
             // This prevents character count widgets from showing 1 instead of zero because of &zwj;
             // characters which prevents FE validation from marking empty textareas as required.
         //
-        $('textarea').each(function() {
-            $(this).val( HELP.zeroTrim($(this).val()) );
-        });
+        // $('textarea').each(function() {
+        //     $(this).val( HELP.zeroTrim($(this).val()) );
+        // });
 
 
         //
@@ -412,7 +414,8 @@ var FORMS = (function($, window, document, undefined) {
                 });
             }
             else if (!$input.val()) {
-                $input.val( HELP.zeroTrim(HELP.stripHTMLWithLinebreaks($el.html())) );
+                // $input.val( HELP.zeroTrim(HELP.stripHTMLWithLinebreaks($el.html())) );
+                $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
             }
         });
 
