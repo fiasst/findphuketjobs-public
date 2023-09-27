@@ -65,7 +65,7 @@ var FORMS = (function($, window, document, undefined) {
             custom_undo_redo_levels: 8,
             setup: function (editor) {
                 editor
-                .on('init', function(e) {
+                /*.on('init', function(e) {
                     console.log('raw 0:', editor.getContent({format: 'raw'}))
                     console.log('text 0:', editor.getContent({format: 'text'}))
 
@@ -74,7 +74,7 @@ var FORMS = (function($, window, document, undefined) {
                     // }
                     console.log('raw 1:', editor.getContent({format: 'raw'}))
                     console.log('text 1:', editor.getContent({format: 'text'}))
-                })
+                })*/
                 .on('keydown keyup change', function(e) {
                     let editor = this,
                         count = editor.getContent({format: 'text'}).length,
@@ -117,7 +117,6 @@ var FORMS = (function($, window, document, undefined) {
                     // Trigger Bouncer field validation.
                     $textarea.trigger('blur');
                 });
-
 
                 // let $textarea = $(editor.targetElm);
                 // Add trimmed value.
@@ -436,8 +435,12 @@ var FORMS = (function($, window, document, undefined) {
                 });
             }
             else if (!$input.val()) {
-                // $input.val( HELP.zeroTrim(HELP.stripHTMLWithLinebreaks($el.html())) );
-                $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
+                if ($input.hasClass('editor')) {
+                    $input.val($el.html());
+                }
+                else {
+                    $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
+                }
             }
         });
 
