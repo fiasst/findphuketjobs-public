@@ -112,6 +112,7 @@ var FORMS = (function($, window, document, undefined) {
                 // let $textarea = $(editor.targetElm);
                 // Add trimmed value.
                 // $textarea.val( HELP.zeroTrim(editor.getContent()) );
+                editor.setContent( HELP.zeroTrim(editor.getContent()) );
             },
             init_instance_callback: function(editor) {
                 let $textarea = $(editor.targetElm),
