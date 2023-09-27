@@ -19,7 +19,14 @@ HELP = (function($, window, document, undefined) {
     //
     //
     //
-    pub.cleanLowerString = (string = '') => $.trim(string.toLowerCase());
+    pub.cleanLowerString = (str = '') => $.trim(str.toLowerCase());
+
+
+    //
+    // Remove zero-width characters and then trim.
+        // Useful for textarea values that can add &zwj; to their value.
+    //
+    pub.zeroTrim = (str = '') => str.replace(/&zwj;/gi, '').trim();
 
 
     //
