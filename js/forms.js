@@ -106,7 +106,7 @@ var FORMS = (function($, window, document, undefined) {
             },
             init_instance_callback: function(editor) {
                 let $textarea = $(editor.targetElm),
-                    count = editor.getContent({format: 'text'}).length,
+                    count = editor.getContent({format: 'text'}).trim().length,
                     max = Number($textarea.attr('data-valid-maxlength')),
                     $container = $(editor.getContainer());
                 
@@ -713,7 +713,7 @@ $.fn.createSelect2 = function(options) {
 //
 $.fn.charCountTextareas = function() {
     $(this).each(function() {
-        FORMS.setupCharCount($(this), $(this).val().length, $(this).attr('data-valid-maxlength'));
+        FORMS.setupCharCount($(this), $(this).val().trim().length, $(this).attr('data-valid-maxlength'));
     });
     $(document).on('keyup', this, function(e) {
         FORMS.updateCharCount($(e.target), $(e.target).val().length, $(e.target).attr('data-valid-maxlength'))
