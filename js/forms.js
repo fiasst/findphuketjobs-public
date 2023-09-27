@@ -187,7 +187,7 @@ var FORMS = (function($, window, document, undefined) {
         $('.bouncer .input-wrapper').each(function(i, el) {
             var id = 'error-wrapper-'+ bouncerFieldIndex++;
             
-            $(el).append( $('<div id="'+ id +'" />') )
+            $(el).append( $('<div class="error-wrapper" id="'+ id +'" />') )
                 .find(':input').attr('data-bouncer-target', '#'+ id)
         });
 

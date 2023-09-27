@@ -148,6 +148,14 @@ textarea.editor-processed {
   opacity: 0 !important;
 }
 
+// Bouncer FE validation.
+.error-wrapper {
+  margin-top: 4px;
+}
+.helptext + .error-wrapper {
+  margin-top: 0;
+}
+
 
 
 /*
