@@ -210,6 +210,9 @@ var FORMS = (function($, window, document, undefined) {
                     var editor = $(field).parents('.input-wrapper').find('iframe').contents().find('body');
                     if (!editor) return false;
                     // Validate the iframe text() value is less than the maxlength attr.
+                        // We use "data-valid-maxlength" and not "data-maxlength || maxlength" because
+                        // the Editor adds HTML which increases the textarea character count so we
+                        // validate the field's char count instead of setting a hard limit on it.
                     return editor.text().length > Number($(field).attr('data-valid-maxlength'));
                 }
             },
@@ -240,6 +243,7 @@ var FORMS = (function($, window, document, undefined) {
                     over: 'Value must not exceed {maxLength} characters',
                     under: 'Value must not be lower than {minLength} characters'
                 },
+                // This uses the "data-valid-maxlength" attr.
                 editorMaxlength: function(field) {
                     var max = Number($(field).attr('data-valid-maxlength'));
                     return 'Value must not exceed '+ max +' characters'
@@ -356,74 +360,6 @@ var FORMS = (function($, window, document, undefined) {
 
             HELP.sendAJAX(ajaxParams, $form);
         };
-
-
-        //
-        //  General AJAX form submit handler.
-        //
-        /*$('.ajax-submit')
-        .on('click', '.form-submit', function(e) {
-            $(e.target).addClass('clicked');
-        })
-        .on('submit', function(e) {
-            e.preventDefault();
-
-            var $form = $(this),
-                $button = $form.find('.form-submit.clicked'),
-                validation = $form.attr('data-validation'),
-                dataType = $form.attr('data-form-values-type');
-
-            // Custom form validation.
-            if (validation && !HELP.callNestedFunction(validation)) {
-                // Validation function retured false.
-                console.log('Validation failed');
-                MAIN.buttonThinking($button, true);
-                // Don't proceed.
-                return false;
-            }
-
-            var data = HELP.getFormValues($form, dataType),
-                formIncrement = HELP.getCookie('form-valid'),
-                i = 2;
-
-            formIncrement = !!formIncrement ? Number(formIncrement) : 0;
-            formIncrement = ++formIncrement;
-            
-            if (dataType == 'formData') {
-                data.set('increment', formIncrement);
-            }
-            else {
-                data.increment = formIncrement;
-            }
-            HELP.setCookie('form-valid', formIncrement);
-
-            var ajaxParams = {
-                url: $form.attr('action'),
-                method: $form.attr('method'),
-                data: data,
-                timeout: 120000,
-                callbackSuccess: function(data) {
-                    MAIN.thinking(false);
-                    MAIN.handleAjaxResponse(data, $form);
-                },
-                callbackError: function(data) {
-                    MAIN.thinking(false);
-                    console.log('error');
-                }
-            };
-            // File upload fields break the JS without these settings.
-            if (dataType == 'formData') {
-                ajaxParams.processData = false;
-                ajaxParams.contentType = false;
-                ajaxParams.cache = false;
-            }
-
-            MAIN.buttonThinking($button);
-            MAIN.thinking(true, false);
-            console.log('data: ', ajaxParams.data);
-
-            HELP.sendAJAX(ajaxParams, $form);
-        });*/
 
 
         //
