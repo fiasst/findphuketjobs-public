@@ -106,13 +106,13 @@ var FORMS = (function($, window, document, undefined) {
             },
             init_instance_callback: function(editor) {
                 let $textarea = $(editor.targetElm),
-                    content = HELP.zeroTrim(editor.getContent({format: 'text'})),
-                    count = content.length,
+                    contentHTML = HELP.zeroTrim(editor.getContent()),
+                    count = editor.getContent({format: 'text'}).length,
                     max = Number($textarea.attr('data-valid-maxlength')),
                     $container = $(editor.getContainer());
                 
                 // Add trimmed value and add class.
-                $textarea.val(content).addClass('editor-processed');
+                $textarea.val(contentHTML).addClass('editor-processed');
 
                 // Set easy access var on Container.
                 $(editor).data('data-maxlength', max);
