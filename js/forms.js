@@ -44,9 +44,7 @@ var FORMS = (function($, window, document, undefined) {
         let selector = 'textarea.editor';
 
         if ($(selector).length < 1) return;
-
-        console.log('initEditor()');
-
+        
         //
         // Init.
         //
@@ -437,14 +435,12 @@ var FORMS = (function($, window, document, undefined) {
                 });
             }
             else if (!$input.val()) {
-                console.log('.input-default-value:', $input);
-
                 if ($input.hasClass('editor')) {
-                    console.log(1, $el.html());
+                    // Add raw HTML to input (textarea.editor).
                     $input.val($el.html());
                 }
                 else {
-                    console.log(2, HELP.stripHTMLWithLinebreaks($el.html()));
+                    // Add basic text with newlines.
                     $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
                 }
             }
