@@ -51,7 +51,7 @@ var FORMS = (function($, window, document, undefined) {
         tinymce.init({
             selector: selector,
             // target: this,
-            toolbar: 'undo redo | bold | bullist numlist',
+            toolbar: 'undo redo | bullist numlist',
             plugins: 'lists',
             min_height: 200,
             max_height: 400,
