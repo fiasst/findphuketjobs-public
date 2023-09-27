@@ -65,6 +65,11 @@ var FORMS = (function($, window, document, undefined) {
             custom_undo_redo_levels: 8,
             setup: function (editor) {
                 editor
+                .on('init', function(e) {
+                    if (editor.getContent({format: 'text'}).length > 1) {
+                        editor.setContent('');
+                    }
+                })
                 .on('keydown keyup change', function(e) {
                     let editor = this,
                         count = editor.getContent({format: 'text'}).length,
@@ -111,8 +116,8 @@ var FORMS = (function($, window, document, undefined) {
 
                 // let $textarea = $(editor.targetElm);
                 // Add trimmed value.
-                $textarea.val( HELP.zeroTrim(editor.getContent({format: 'raw'})) );
-                editor.setContent( HELP.zeroTrim(editor.getContent()) );
+                // $textarea.val( HELP.zeroTrim(editor.getContent({format: 'raw'})) );
+                // editor.setContent( HELP.zeroTrim(editor.getContent()) );
             },
             init_instance_callback: function(editor) {
                 let $textarea = $(editor.targetElm),
@@ -124,7 +129,7 @@ var FORMS = (function($, window, document, undefined) {
                 // Add trimmed value and add class.
                 // $textarea.val(contentHTML).addClass('editor-processed');
                 $textarea.addClass('editor-processed');
-                editor.setContent(contentHTML);
+                // editor.setContent(contentHTML);
 
                 // Set easy access var on Container.
                 $(editor).data('data-maxlength', max);
