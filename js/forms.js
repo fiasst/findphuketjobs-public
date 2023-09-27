@@ -45,6 +45,8 @@ var FORMS = (function($, window, document, undefined) {
 
         if ($(selector).length < 1) return;
 
+        console.log('initEditor()');
+
         //
         // Init.
         //
@@ -416,7 +418,7 @@ var FORMS = (function($, window, document, undefined) {
         $('.input-default-value').each(function() {
             var $el = $(this),
                 text = $el.text(),
-                $input = $el.parent().find(':input'),
+                $input = $el.parents('.input-wrapper').find(':input'),
                 type = $input.eq(0).attr('type');
 
             if (type == 'checkbox' || type == 'radio') {
@@ -435,10 +437,14 @@ var FORMS = (function($, window, document, undefined) {
                 });
             }
             else if (!$input.val()) {
+                console.log('.input-default-value:', $input);
+
                 if ($input.hasClass('editor')) {
+                    console.log(1, $el.html());
                     $input.val($el.html());
                 }
                 else {
+                    console.log(2, HELP.stripHTMLWithLinebreaks($el.html()));
                     $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
                 }
             }
