@@ -89,7 +89,7 @@ var FORMS = (function($, window, document, undefined) {
                     }
                 })
                 .on('change', function(e) {
-                    let content = editor.getContent()
+                    let content = HELP.zeroTrim(editor.getContent()),
                         $textarea = $(editor.targetElm);
 
                     // Cleanup.
