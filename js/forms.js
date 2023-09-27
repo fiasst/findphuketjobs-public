@@ -53,6 +53,10 @@ var FORMS = (function($, window, document, undefined) {
             // target: this,
             toolbar: 'undo redo | bullist numlist',
             plugins: 'lists',
+            valid_elements: 'p,ul,ol,li,br',
+            valid_styles: {
+                '*': ''
+            },
             min_height: 200,
             max_height: 400,
             menubar: false,
