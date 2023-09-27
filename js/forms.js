@@ -66,9 +66,14 @@ var FORMS = (function($, window, document, undefined) {
             setup: function (editor) {
                 editor
                 .on('init', function(e) {
-                    if (editor.getContent({format: 'text'}).length > 1) {
-                        editor.setContent('');
-                    }
+                    console.log('raw 0:', editor.getContent({format: 'raw'}))
+                    console.log('text 0:', editor.getContent({format: 'text'}))
+
+                    // if (editor.getContent({format: 'text'}).length === 1) {
+                        editor.setContent( HELP.zeroTrim(editor.getContent({format: 'raw'})) );
+                    // }
+                    console.log('raw 1:', editor.getContent({format: 'raw'}))
+                    console.log('text 1:', editor.getContent({format: 'text'}))
                 })
                 .on('keydown keyup change', function(e) {
                     let editor = this,
