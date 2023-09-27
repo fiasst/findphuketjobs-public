@@ -111,12 +111,12 @@ var FORMS = (function($, window, document, undefined) {
 
                 // let $textarea = $(editor.targetElm);
                 // Add trimmed value.
-                // $textarea.val( HELP.zeroTrim(editor.getContent()) );
+                $textarea.val( HELP.zeroTrim(editor.getContent({format: 'raw'})) );
                 editor.setContent( HELP.zeroTrim(editor.getContent()) );
             },
             init_instance_callback: function(editor) {
                 let $textarea = $(editor.targetElm),
-                    contentHTML = HELP.zeroTrim(editor.getContent()),
+                    contentHTML = HELP.zeroTrim(editor.getContent({format: 'raw'})),
                     count = editor.getContent({format: 'text'}).length,
                     max = Number($textarea.attr('data-valid-maxlength')),
                     $container = $(editor.getContainer());

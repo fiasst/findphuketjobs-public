@@ -26,7 +26,7 @@ HELP = (function($, window, document, undefined) {
     // Remove zero-width characters and then trim.
         // Useful for textarea values that can add &zwj; to their value.
     //
-    pub.zeroTrim = (str = '') => str.replace(/&zwj;/gi, '').trim();
+    pub.zeroTrim = (str = '') => str.replace(/&zwj;/gi, '').replace('<p><br></p>', '').trim();
 
 
     //
