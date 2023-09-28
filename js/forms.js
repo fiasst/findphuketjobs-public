@@ -41,13 +41,12 @@ var FORMS = (function($, window, document, undefined) {
     // WYSIWYG Editor.
     // 
     pub.initEditor = function() {
-        let selector = 'textarea.editor';
-
-        if ($(selector).length < 1) return;
-
-        //
+        // The textarea element to use.
+            // (excluding .editor-processed which has already been initialised).
+        let selector = 'textarea.editor:not(.editor-processed)';
         // Init.
-        //
+        if ($(selector).length < 1) return;
+        
         tinymce.init({
             selector: selector,
             // target: this,
