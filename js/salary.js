@@ -40,10 +40,6 @@ var SALARY = (function($, window, document, undefined) {
                         val = '';
                     
                     if (numericType && !!salary) {
-                        if (salary < 1) {
-                            alert("Salary amount must be a positive number");
-                            $salaryAmount.val('').focus();
-                        }
                         switch (typeVal($form)) {
                             case 'per year':
                                 val = salary / 12;
