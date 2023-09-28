@@ -15,9 +15,9 @@ var SALARY = (function($, window, document, undefined) {
         var salary = function() {
             // We use name attributes and not ID for these selectors because this
             // widget appears twice on the Job page (Edit and Review forms).
-            var salaryAmount = 'input[name="job_salary"]',
-                salaryType = 'select[name="job_salary_type"]',
-                salaryMonthly = 'input[name="job_salary_monthly"]',
+            var salaryAmount = '[name="job_salary"]',
+                salaryType = '[name="job_salary_type"]',
+                salaryMonthly = '[name="job_salary_monthly"]',
 
                 // Get the value of "salaryType" field.
                 typeVal = function(context) {
@@ -83,6 +83,11 @@ var SALARY = (function($, window, document, undefined) {
 
             $(salaryAmount).on('focusout', function(){
                 calculateSalary(this);
+            });
+
+            // init.
+            $(salaryType).each(function() {
+                $(this).trigger('change');
             });
         }();
     });
