@@ -275,6 +275,9 @@ var MAIN = (function($, window, document, undefined) {
                     // Add a "-" between the range values.
                     $('<span>-</span>').insertBefore($max);
                 }
+                else {
+                    $max.hide();
+                }
             }
             // Business Branding CSS Var.
             $card.css('--business-brand-color', $card.attr('data-brand-color'));
