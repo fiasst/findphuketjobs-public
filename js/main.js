@@ -259,17 +259,17 @@ var MAIN = (function($, window, document, undefined) {
             var $card = $(this);
 
             // If salary is set to NOT display.
-            if ($card.find('.salary').length < 1) {
+            if ($('.salary', $card).length < 1) {
                 // Show "-".
-                $card.find('.js-salary-hidden').show();
+                $('.js-salary-hidden', $card).show();
             }
             // If not a numeric salary "amount".
-            if (!(!!$card.find('.js-salary-amount').text())) {
+            if (!(!!$('.js-salary-amount', $card).text())) {
                 // Hide numeric wrapper.
-                $card.find('.salary').hide();
+                $('.salary', $card).hide();
             }
             else {
-                var $max = $card.find('.js-salary-amount-max');
+                var $max = $('.js-salary-amount-max', $card);
                 // If salary has a "max" range value.
                 if (!!$max.text()) {
                     // Add a "-" between the range values.

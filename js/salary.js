@@ -16,6 +16,7 @@ var SALARY = (function($, window, document, undefined) {
             // We use name attributes and not ID for these selectors because this
             // widget appears twice on the Job page (Edit and Review forms).
             var salaryAmount = '[name="job_salary"]',
+                salaryAmountMax = '[name="job_salary_max"]',
                 salaryType = '[name="job_salary_type"]',
                 salaryMonthly = '[name="job_salary_monthly"]',
 
@@ -77,6 +78,7 @@ var SALARY = (function($, window, document, undefined) {
 
                 if (!numericType) {
                     $salaryAmount.val('');
+                    $(salaryAmountMax, $form).val('');
                 }
                 calculateSalary(this);
             });
