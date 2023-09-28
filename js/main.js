@@ -258,13 +258,23 @@ var MAIN = (function($, window, document, undefined) {
         $('.card.job').each(function() {
             var $card = $(this);
 
+            // If salary is set to NOT display.
+            if ($card.find('.salary').length < 1) {
+                // Show "-".
+                $card.find('.js-salary-hidden').show();
+            }
             // If not a numeric salary "amount".
             if (!(!!$card.find('.js-salary-amount').text())) {
+                // Hide numeric wrapper.
                 $card.find('.salary').hide();
             }
-            // If salary is set to NOT display.
-            if (!(!!$card.find('.salary').length)) {
-                $card.find('.js-salary-hidden').show();
+            else {
+                var $max = $card.find('.js-salary-amount-max');
+                // If salary has a "max" range value.
+                if (!!$max.text()) {
+                    // Add a "-" between the range values.
+                    $('<span>-</span>').insertBefore($max);
+                }
             }
             // Business Branding CSS Var.
             $card.css('--business-brand-color', $card.attr('data-brand-color'));

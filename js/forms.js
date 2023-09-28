@@ -248,6 +248,21 @@ var FORMS = (function($, window, document, undefined) {
                         // the Editor adds HTML which increases the textarea character count so we
                         // validate the field's char count instead of setting a hard limit on it.
                     return editor.text().length > Number($(field).attr('data-valid-maxlength'));
+                },
+                minMaxRange: function (field) {
+                    // Look for a selector for a field to compare
+                    // If there isn't one, return false (no error)
+                    var fieldMin = fieldMin.getAttribute('data-bouncer-rangemin');
+                    if (!fieldMin) return false;
+
+                    // Get the field to compare
+                    var fieldMax = $(fieldMin).parents('.input-wrapper').find('[data-bouncer-rangemax]');
+                    if (!fieldMax) return false;
+
+                    // Compare the two field values
+                    // We use a negative comparison here because if they do match, the field validates
+                    // We want to return true for failures, which can be confusing
+                    return fieldMax.value !== fieldMin.value;
                 }
             },
             messages: {
@@ -281,6 +296,9 @@ var FORMS = (function($, window, document, undefined) {
                 editorMaxlength: function(field) {
                     var max = Number($(field).attr('data-valid-maxlength'));
                     return 'Value must not exceed '+ max +' characters'
+                },
+                minMaxRange: function(field) {
+                    return '';
                 },
                 fallback: 'There was an error with this field'
             }
