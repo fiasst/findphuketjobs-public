@@ -44,7 +44,7 @@ var FORMS = (function($, window, document, undefined) {
         let selector = 'textarea.editor';
 
         if ($(selector).length < 1) return;
-        
+
         //
         // Init.
         //
@@ -57,6 +57,7 @@ var FORMS = (function($, window, document, undefined) {
             valid_styles: {
                 '*': ''
             },
+            pad_empty_with_br: true,
             min_height: 200,
             max_height: 400,
             menubar: false,
