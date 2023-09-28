@@ -426,7 +426,7 @@ var MAIN = (function($, window, document, undefined) {
                 // the target element first. Eg: [data-ms-perm="can:moderate"] or [data-ms-content="business"].
             //
             var hashAutoTrigger = function() {
-                var hash = window.location.hash;
+                var hash = HELP.sanitizeHTML(window.location.hash);
                 // If there's a location hash longer than simply "#" in the URL
                 // AND the element exists on the page.
                 if (hash.length > 1 && !!$(hash).length) {
