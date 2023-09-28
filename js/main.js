@@ -426,14 +426,16 @@ var MAIN = (function($, window, document, undefined) {
                 // the target element first. Eg: [data-ms-perm="can:moderate"] or [data-ms-content="business"].
             //
             var hashAutoTrigger = function() {
-                var hash = HELP.sanitizeHTML(window.location.hash);
-                // If there's a location hash longer than simply "#" in the URL
-                // AND the element exists on the page.
-                if (hash.length > 1 && !!$(hash).length) {
-                    // Look for an inline Litbox trigger and click the first instance.
-                    $(`.trigger-lbox[href="${hash}"]:eq(0)`).trigger('click');
-                    // Tab trigger.
-                    $(`.w-tab-menu .w-tab-link[href="${hash}"]`).trigger('click');
+                if (!!window.location.hash) {
+                    var hash = HELP.sanitizeHTML(window.location.hash);
+                    // If there's a location hash longer than simply "#" in the URL
+                    // AND the element exists on the page.
+                    if (hash.length > 1 && !!$(hash).length) {
+                        // Look for an inline Litbox trigger and click the first instance.
+                        $(`.trigger-lbox[href="${hash}"]:eq(0)`).trigger('click');
+                        // Tab trigger.
+                        $(`.w-tab-menu .w-tab-link[href="${hash}"]`).trigger('click');
+                    }
                 }
             }();
         });
