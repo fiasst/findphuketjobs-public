@@ -46,7 +46,7 @@ var FORMS = (function($, window, document, undefined) {
         let selector = 'textarea.editor:not(.editor-processed)';
         // Init.
         if ($(selector).length < 1) return;
-        
+
         tinymce.init({
             selector: selector,
             // target: this,
@@ -404,7 +404,9 @@ var FORMS = (function($, window, document, undefined) {
 
             if (!$el.val()) {
                 // Remove non-number characters from value so it can be set as a value.
-                if ($el.attr('type') == 'number') val = HELP.removeNonNumeric(val);
+                if ($el.attr('type') == 'number'){
+                    val = HELP.removeNonNumeric(val);
+                }
                 $el.val(HELP.sanitizeHTML(val));
             }
         });
