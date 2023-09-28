@@ -152,7 +152,8 @@ textarea.editor-processed {
 .error-wrapper {
   margin-top: 4px;
 }
-.helptext + .error-wrapper {
+.helptext + .error-wrapper,
+.input-default-value + .error-wrapper {
   margin-top: 0;
 }
 
