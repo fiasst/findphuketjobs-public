@@ -19,15 +19,18 @@ var SALARY = (function($, window, document, undefined) {
                 salaryType = 'select[name="job_salary_type"]',
                 salaryMonthly = 'input[name="job_salary_monthly"]',
 
+                // Get the value of "salaryType" field.
                 typeVal = function(context) {
                     var val = $(salaryType, context).val();
                     return val ? val.toLowerCase() : false;
                 },
+                // Check if the "salaryType" value is a numeric option.
                 isNumericType = function(context) {
                     return ($.inArray(typeVal(context), [
                         'per hour', 'per day', 'per month', 'per year'
                     ]) > -1);
                 },
+                // Calc the monthly salary.
                 calculateSalary = function(element) {
                     var $form = $(element).parents('form'),
                         $salaryAmount = $(salaryAmount, $form),
@@ -35,13 +38,11 @@ var SALARY = (function($, window, document, undefined) {
                         salary = $salaryAmount.val(),
                         val = '';
                     
-
                     if (numericType && !!salary) {
                         if (salary < 1) {
                             alert("Salary amount must be a positive number");
                             $salaryAmount.val('').focus();
                         }
-
                         switch (typeVal($form)) {
                             case 'per year':
                                 val = salary / 12;
@@ -62,9 +63,8 @@ var SALARY = (function($, window, document, undefined) {
 
             // Salary type and salary amount.
             $(salaryType).on('change', function() {
-                var // Used as context when there's multiple forms with this widget on a page.
-                    $form = $(this).parents('form'),
-
+                // $form is used as context when there's multiple forms/widgets.
+                var $form = $(this).parents('form'),
                     numericType = isNumericType($form),
                     $salaryAmount = $(salaryAmount, $form);
 
@@ -73,9 +73,7 @@ var SALARY = (function($, window, document, undefined) {
                         $(this).find('option:selected').text()
                     );
 
-                $salaryAmount.attr('required', function(i, attr) {
-                    return numericType;
-                });
+                $salaryAmount.attr('required', numericType);
 
                 if (!numericType) {
                     $salaryAmount.val('');
