@@ -341,6 +341,13 @@ var MAIN = (function($, window, document, undefined) {
                     sm: {
                         offset: '5% 20px'
                     }
+                },
+                onComplete: function() {
+                    //
+                    tinymce.remove();
+                    setTimeout(function(){
+                        tinymce.init(FORMS.editorOptions);
+                    }, 50);
                 }
             };
 
