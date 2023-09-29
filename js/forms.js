@@ -86,7 +86,8 @@ var FORMS = (function($, window, document, undefined) {
     };
     //
     pub.editorOptions = {
-        selector: selector,
+        // selector: selector,
+        selector: 'textarea.editor:not(.editor-processed)',
         // target: this,
         toolbar: 'undo redo | bullist numlist',
         plugins: 'lists',
@@ -133,13 +134,16 @@ var FORMS = (function($, window, document, undefined) {
     };
     //
     pub.initEditor = (selector) => {
+        var editorOptions = pub.editorOptions;
         // The textarea element to target.
             // (excluding .editor-processed which has already been initialised).
-        selector = selector || 'textarea.editor:not(.editor-processed)';
+        if (selector) {
+            editorOptions.selector = selector;
+        }
         // Init.
-        if ($(selector).length < 1) return;
+        if ($(editorOptions.selector).length < 1) return;
 
-        tinymce.init(pub.editorOptions);
+        tinymce.init(editorOptions);
     };
 
 
