@@ -40,10 +40,10 @@ var FORMS = (function($, window, document, undefined) {
     //
     // WYSIWYG Editor.
     // 
-    pub.initEditor = function() {
-        // The textarea element to use.
+    pub.initEditor = function(selector) {
+        // The textarea element to target.
             // (excluding .editor-processed which has already been initialised).
-        let selector = 'textarea.editor:not(.editor-processed)';
+        selector = selector || 'textarea.editor:not(.editor-processed)';
         // Init.
         if ($(selector).length < 1) return;
 
@@ -62,8 +62,7 @@ var FORMS = (function($, window, document, undefined) {
             menubar: false,
             branding: false,
             statusbar: false,
-            custom_undo_redo_levels: 8
-            /*,
+            custom_undo_redo_levels: 8,
             setup: function (editor) {
                 editor
                 // .on('init', function(e) {
@@ -142,7 +141,7 @@ var FORMS = (function($, window, document, undefined) {
                 if (max) {
                     pub.setupCharCount($container, count, max);
                 }
-            }*/
+            }
         });
     };
 
