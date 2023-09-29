@@ -50,9 +50,11 @@ var MAIN = (function($, window, document, undefined) {
                             console.log(id, tinymce.get(id));
                             // Destroys the editor instance.
                             tinymce.get(id).destroy();
-                        })
-                        $el.remove();
-                    })
+                        });
+                        setTimeout(function() {
+                            $el.remove();
+                        }, 1000);
+                    });
                 }
                 else {
                     $el.remove();
