@@ -25,21 +25,37 @@ var MAIN = (function($, window, document, undefined) {
     // Show or remove content based on conditions.
     //
     pub.controlHTML = function($elements, display) {
-        if (display) {
-            $elements.each(function() {
-                var $el = $(this);
-
+        $elements.each(function() {
+            var $el = $(this);
+            
+            if (display) {
                 if ($el.hasClass('hide')) {
                     $el.removeClass('hide');
                 }
                 else {
                     $el.show();
                 }
-            });
-        }
-        else {
-            $elements.remove();
-        }
+            }
+            else {
+                var editors = $('textarea.editor', $el);
+                if (!!editors.length) {
+                    HELP.waitFor(window, 'tinymce', 50, function() {
+                        //
+                        $.each(editors, function(i, textarea) {
+                            // Get and destroy editor.
+                            var id = $(textarea).attr('id');
+                            if (!id) return;
+                            // Destroys the editor instance.
+                            tinymce.get('#'+ id).destroy();
+                        })
+                        $el.remove();
+                    })
+                }
+                else {
+                    $el.remove();
+                }
+            }
+        });
     };
 
 
