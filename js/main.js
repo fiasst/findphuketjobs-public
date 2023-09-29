@@ -28,6 +28,7 @@ var MAIN = (function($, window, document, undefined) {
         $elements.each(function() {
             var $el = $(this);
             
+            // Show.
             if (display) {
                 if ($el.hasClass('hide')) {
                     $el.removeClass('hide');
@@ -36,6 +37,7 @@ var MAIN = (function($, window, document, undefined) {
                     $el.show();
                 }
             }
+            // Remove.
             else {
                 var editors = $('textarea.editor', $el);
                 if (!!editors.length) {
@@ -45,6 +47,7 @@ var MAIN = (function($, window, document, undefined) {
                             // Get and destroy editor.
                             var id = $(textarea).attr('id');
                             if (!id) return;
+                            console.log(id, tinymce.get(id));
                             // Destroys the editor instance.
                             tinymce.get(id).destroy();
                         })
