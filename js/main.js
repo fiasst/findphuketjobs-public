@@ -344,7 +344,7 @@ var MAIN = (function($, window, document, undefined) {
                 },
                 onComplete: function() {
                     // If the Litbox contains Editor WYSIWYGs.
-                    if (!!$('.litbox textarea.editor').length) {
+                    if (!!$('#litbox textarea.editor').length) {
                         // Wait for the tinyMCE to load.
                         HELP.waitFor(window, 'tinymce', 50, function() {
                             // Remove existing Editors because they don't display properly.
