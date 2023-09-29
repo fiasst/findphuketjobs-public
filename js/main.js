@@ -41,7 +41,7 @@ var MAIN = (function($, window, document, undefined) {
             else {
                 var editors = $('textarea.editor', $el);
                 if (!!editors.length) {
-                    HELP.waitFor(window, 'tinymce', 50, function() {
+                    /*HELP.waitFor(window, 'tinymce', 50, function() {
                         //
                         $.each(editors, function(i, textarea) {
                             // Get and destroy editor.
@@ -54,7 +54,7 @@ var MAIN = (function($, window, document, undefined) {
                         setTimeout(function() {
                             $el.remove();
                         }, 3000);
-                    });
+                    });*/
                 }
                 else {
                     $el.remove();
@@ -452,12 +452,10 @@ var MAIN = (function($, window, document, undefined) {
                     // If there's a location hash longer than simply "#" in the URL
                     // AND the element exists on the page.
                     if (hash.length > 1 && !!$(hash).length) {
-                        setTimeout(function(){
                         // Look for an inline Litbox trigger and click the first instance.
                         $(`.trigger-lbox[href="${hash}"]:eq(0)`).trigger('click');
                         // Tab trigger.
                         $(`.w-tab-menu .w-tab-link[href="${hash}"]`).trigger('click');
-                    }, 4000);
                     }
                 }
             }();
