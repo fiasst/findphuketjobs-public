@@ -46,7 +46,7 @@ var MAIN = (function($, window, document, undefined) {
                             var id = $(textarea).attr('id');
                             if (!id) return;
                             // Destroys the editor instance.
-                            tinymce.get('#'+ id).destroy();
+                            tinymce.get(id).destroy();
                         })
                         $el.remove();
                     })
