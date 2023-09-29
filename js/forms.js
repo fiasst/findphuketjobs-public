@@ -39,110 +39,107 @@ var FORMS = (function($, window, document, undefined) {
 
     //
     // WYSIWYG Editor.
-    // 
-    pub.initEditor = function(selector) {
+    //
+    //
+    var editorKeyCallback = (e) => {
+        let editor = this,
+            count = editor.getContent({format: 'text'}).length,
+            $container = $(editor.getContainer()),
+            max = Number($(editor).data('data-maxlength'));
+        
+        switch (e.type) {
+            case 'keydown':
+                if (count >= max) {
+                    let key = pub.getKey(e);
+
+                    // Allow Backspace, Delete keys, etc.
+                    if (!HELP.allowCommonKeyPress(e, key)) {
+                        e.preventDefault();
+                    }
+                }
+            case 'change':
+                // If maxlength is exceeded.
+                if (max && count > max) {
+                    // Make form submit fail if value > maxlength.
+                    $(editor.targetElm).val('');
+                }
+            case 'keyup':
+            case 'change':
+                pub.updateCharCount($container, count, max);
+        }
+    };
+    //
+    var editorChangeCallback = (e) => {
+        let content = editor.getContent(),
+            $textarea = $(editor.targetElm);
+
+        // Cleanup.
+        content
+            .replace(/\t/g, '')// Remove tabs.
+            .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
+            .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
+
+        // Set raw HTML value.
+        $textarea.val(content);
+        // Trigger Bouncer field validation.
+        $textarea.trigger('blur');
+    };
+    //
+    pub.editorOptions = {
+        selector: selector,
+        // target: this,
+        toolbar: 'undo redo | bullist numlist',
+        plugins: 'lists',
+        valid_elements: 'p,ul,ol,li,br',
+        valid_styles: {
+            '*': ''
+        },
+        pad_empty_with_br: true,
+        min_height: 200,
+        max_height: 400,
+        menubar: false,
+        branding: false,
+        statusbar: false,
+        custom_undo_redo_levels: 8,
+        setup: function(editor) {
+            editor
+            .on('keydown keyup change', editorKeyCallback)
+            .on('change', editorChangeCallback);
+
+            // let $textarea = $(editor.targetElm);
+            // Add trimmed value.
+            // $textarea.val( HELP.zeroTrim(editor.getContent({format: 'raw'})) );
+            // editor.setContent( HELP.zeroTrim(editor.getContent()) );
+        },
+        init_instance_callback: function(editor) {
+            let $textarea = $(editor.targetElm),
+                contentHTML = HELP.zeroTrim(editor.getContent({format: 'raw'})),
+                count = editor.getContent({format: 'text'}).length,
+                max = Number($textarea.attr('data-valid-maxlength')),
+                $container = $(editor.getContainer());
+            
+            // Add trimmed value and add class.
+            // $textarea.val(contentHTML).addClass('editor-processed');
+            $textarea.addClass('editor-processed');
+            // editor.setContent(contentHTML);
+
+            // Set easy access var on Container.
+            $(editor).data('data-maxlength', max);
+            
+            if (max) {
+                pub.setupCharCount($container, count, max);
+            }
+        }
+    };
+    //
+    pub.initEditor = (selector) => {
         // The textarea element to target.
             // (excluding .editor-processed which has already been initialised).
         selector = selector || 'textarea.editor:not(.editor-processed)';
         // Init.
         if ($(selector).length < 1) return;
 
-        tinymce.init({
-            selector: selector,
-            // target: this,
-            toolbar: 'undo redo | bullist numlist',
-            plugins: 'lists',
-            valid_elements: 'p,ul,ol,li,br',
-            valid_styles: {
-                '*': ''
-            },
-            pad_empty_with_br: true,
-            min_height: 200,
-            max_height: 400,
-            menubar: false,
-            branding: false,
-            statusbar: false,
-            custom_undo_redo_levels: 8,
-            setup: function (editor) {
-                editor
-                // .on('init', function(e) {
-                //     console.log('raw 0:', editor.getContent({format: 'raw'}))
-                //     console.log('text 0:', editor.getContent({format: 'text'}))
-
-                //     // if (editor.getContent({format: 'text'}).length === 1) {
-                //         editor.setContent( HELP.zeroTrim(editor.getContent({format: 'raw'})) );
-                //     // }
-                //     console.log('raw 1:', editor.getContent({format: 'raw'}))
-                //     console.log('text 1:', editor.getContent({format: 'text'}))
-                // })
-                .on('keydown keyup change', function(e) {
-                    let editor = this,
-                        count = editor.getContent({format: 'text'}).length,
-                        $container = $(editor.getContainer()),
-                        max = Number($(editor).data('data-maxlength'));
-                    
-                    switch (e.type) {
-                        case 'keydown':
-                            if (count >= max) {
-                                let key = pub.getKey(e);
-
-                                // Allow Backspace, Delete keys, etc.
-                                if (!HELP.allowCommonKeyPress(e, key)) {
-                                    e.preventDefault();
-                                }
-                            }
-                        case 'change':
-                            // If maxlength is exceeded.
-                            if (max && count > max) {
-                                // Make form submit fail if value > maxlength.
-                                $(editor.targetElm).val('');
-                            }
-                        case 'keyup':
-                        case 'change':
-                            pub.updateCharCount($container, count, max);
-                    }
-                })
-                .on('change', function(e) {
-                    let content = editor.getContent(),
-                        $textarea = $(editor.targetElm);
-
-                    // Cleanup.
-                    content
-                        .replace(/\t/g, '')// Remove tabs.
-                        .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
-                        .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
-
-                    // Set raw HTML value.
-                    $textarea.val(content);
-                    // Trigger Bouncer field validation.
-                    $textarea.trigger('blur');
-                });
-
-                // let $textarea = $(editor.targetElm);
-                // Add trimmed value.
-                // $textarea.val( HELP.zeroTrim(editor.getContent({format: 'raw'})) );
-                // editor.setContent( HELP.zeroTrim(editor.getContent()) );
-            },
-            init_instance_callback: function(editor) {
-                let $textarea = $(editor.targetElm),
-                    contentHTML = HELP.zeroTrim(editor.getContent({format: 'raw'})),
-                    count = editor.getContent({format: 'text'}).length,
-                    max = Number($textarea.attr('data-valid-maxlength')),
-                    $container = $(editor.getContainer());
-                
-                // Add trimmed value and add class.
-                // $textarea.val(contentHTML).addClass('editor-processed');
-                $textarea.addClass('editor-processed');
-                // editor.setContent(contentHTML);
-
-                // Set easy access var on Container.
-                $(editor).data('data-maxlength', max);
-                
-                if (max) {
-                    pub.setupCharCount($container, count, max);
-                }
-            }
-        });
+        tinymce.init(pub.editorOptions);
     };
 
 
