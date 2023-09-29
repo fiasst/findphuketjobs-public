@@ -41,7 +41,7 @@ var MAIN = (function($, window, document, undefined) {
             else {
                 var editors = $('textarea.editor', $el);
                 if (!!editors.length) {
-                    /*HELP.waitFor(window, 'tinymce', 50, function() {
+                    HELP.waitFor(window, 'tinymce', 50, function() {
                         //
                         $.each(editors, function(i, textarea) {
                             // Get and destroy editor.
@@ -53,8 +53,8 @@ var MAIN = (function($, window, document, undefined) {
                         });
                         setTimeout(function() {
                             $el.remove();
-                        }, 1000);
-                    });*/
+                        }, 3000);
+                    });
                 }
                 else {
                     $el.remove();

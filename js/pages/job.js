@@ -140,6 +140,7 @@ var JOB = (function($, window, document, undefined) {
 
 
         // Remove the Revision flag from Job Title form field values.
+            // TODO: Don't think this is needed anymore???
         $('input[name="job_title"]').each(function() {
             $(this).val( $(this).val().replace('[Revision] ', '') );
         });

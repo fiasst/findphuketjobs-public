@@ -528,8 +528,8 @@ HELP = (function($, window, document, undefined) {
         obj.language = pub.getCurrentLang();
 
         // Add submitted date/time value.
-        obj.submitted = pub.getISOdate();
-        obj.submittedTimestamp = pub.getTimestamp();
+        // obj.submitted = pub.getISOdate();
+        // obj.submittedTimestamp = pub.getTimestamp();
 
         if (type != 'formData') return obj;
         
