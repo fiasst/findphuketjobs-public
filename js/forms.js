@@ -41,50 +41,9 @@ var FORMS = (function($, window, document, undefined) {
     // WYSIWYG Editor.
     //
     //
-    var editorKeyCallback = (e) => {
-        let editor = $(this),
-            count = editor.getContent({format: 'text'}).length,
-            $container = $(editor.getContainer()),
-            max = Number($(editor).data('data-maxlength'));
-        
-        switch (e.type) {
-            case 'keydown':
-                if (count >= max) {
-                    let key = pub.getKey(e);
-
-                    // Allow Backspace, Delete keys, etc.
-                    if (!HELP.allowCommonKeyPress(e, key)) {
-                        e.preventDefault();
-                    }
-                }
-            case 'change':
-                // If maxlength is exceeded.
-                if (max && count > max) {
-                    // Make form submit fail if value > maxlength.
-                    $(editor.targetElm).val('');
-                }
-            case 'keyup':
-            case 'change':
-                pub.updateCharCount($container, count, max);
-        }
-    };
+    // var editorKeyCallback = (e) => ;
     //
-    var editorChangeCallback = (e) => {
-        let editor = $(this),
-            content = editor.getContent(),
-            $textarea = $(editor.targetElm);
-
-        // Cleanup.
-        content
-            .replace(/\t/g, '')// Remove tabs.
-            .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
-            .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
-
-        // Set raw HTML value.
-        $textarea.val(content);
-        // Trigger Bouncer field validation.
-        $textarea.trigger('blur');
-    };
+    // var editorChangeCallback = (e) => ;
     //
     pub.editorOptions = {
         // selector: selector,
@@ -106,8 +65,48 @@ var FORMS = (function($, window, document, undefined) {
         custom_undo_redo_levels: 8,
         setup: function(editor) {
             editor
-            .on('keydown keyup change', editorKeyCallback)
-            .on('change', editorChangeCallback);
+            .on('keydown keyup change', function(e) {
+                let editor = this,
+                    count = editor.getContent({format: 'text'}).length,
+                    $container = $(editor.getContainer()),
+                    max = Number($(editor).data('data-maxlength'));
+                
+                switch (e.type) {
+                    case 'keydown':
+                        if (count >= max) {
+                            let key = pub.getKey(e);
+
+                            // Allow Backspace, Delete keys, etc.
+                            if (!HELP.allowCommonKeyPress(e, key)) {
+                                e.preventDefault();
+                            }
+                        }
+                    case 'change':
+                        // If maxlength is exceeded.
+                        if (max && count > max) {
+                            // Make form submit fail if value > maxlength.
+                            $(editor.targetElm).val('');
+                        }
+                    case 'keyup':
+                    case 'change':
+                        pub.updateCharCount($container, count, max);
+                }
+            })
+            .on('change', function(e) {
+                let content = editor.getContent(),
+                    $textarea = $(editor.targetElm);
+
+                // Cleanup.
+                content
+                    .replace(/\t/g, '')// Remove tabs.
+                    .replace(/( *&nbsp; *)+/g, ' ')// Replace multiple &nbsp; with (optional) whitespace.
+                    .replace(/ {2,}/g, ' ');// Replace multiple whitespace.
+
+                // Set raw HTML value.
+                $textarea.val(content);
+                // Trigger Bouncer field validation.
+                $textarea.trigger('blur');
+            });
 
             // let $textarea = $(editor.targetElm);
             // Add trimmed value.
