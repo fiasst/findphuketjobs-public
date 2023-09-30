@@ -88,8 +88,8 @@ var FORMS = (function($, window, document, undefined) {
     pub.editorOptions = {
         // selector: selector,
         // selector: 'textarea.editor:not(.editor-processed)',
-        selector: 'div:not(.hide-live) textarea.editor',//:not(.editor-processed)
-        // target: this,
+        // selector: 'div:not(.hide-live) textarea.editor',//:not(.editor-processed)
+        target: this,
         toolbar: 'undo redo | bullist numlist',
         plugins: 'lists',
         valid_elements: 'p,ul,ol,li,br',
@@ -134,7 +134,25 @@ var FORMS = (function($, window, document, undefined) {
         }
     };
     //
-    pub.initEditor = (selector) => {
+    //
+    //
+    $.fn.initEditor = function() {
+        var $textareas = $(this).filter(function() {
+            // Filter out any textareas that are within a .hide-live parent.
+                // These will get initialised in JS when needed. This fixes a
+                // Litbox bug where the Editors <body> was empty when loaded
+                // into a Litbox...
+            return !!$(this).parents('.hide-live').length;
+        });
+
+        // Init.
+        if ($textareas.length < 1) return;
+
+        $textareas.each(function() {
+            tinymce.init(pub.editorOptions);
+        });
+    };
+    /*pub.initEditor = (selector) => {
         var editorOptions = pub.editorOptions;
         // The textarea element to target.
             // (excluding .editor-processed which has already been initialised).
@@ -145,7 +163,7 @@ var FORMS = (function($, window, document, undefined) {
         if ($(editorOptions.selector).length < 1) return;
 
         tinymce.init(editorOptions);
-    };
+    };*/
 
 
     //
