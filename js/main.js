@@ -39,26 +39,7 @@ var MAIN = (function($, window, document, undefined) {
             }
             // Remove.
             else {
-                var editors = $('textarea.editor', $el);
-                if (!!editors.length) {
-                    /*HELP.waitFor(window, 'tinymce', 50, function() {
-                        //
-                        $.each(editors, function(i, textarea) {
-                            // Get and destroy editor.
-                            var id = $(textarea).attr('id');
-                            if (!id) return;
-                            console.log(id, tinymce.get(id));
-                            // Destroys the editor instance.
-                            tinymce.get(id).destroy();
-                        });
-                        setTimeout(function() {
-                            $el.remove();
-                        }, 3000);
-                    });*/
-                }
-                else {
-                    $el.remove();
-                }
+                $el.remove();
             }
         });
     };
@@ -344,13 +325,10 @@ var MAIN = (function($, window, document, undefined) {
                 },
                 onComplete: function() {
                     // If the Litbox contains Editor WYSIWYGs.
-                    console.log(1, $('#litbox textarea.editor').length);
                     if (!!$('#litbox textarea.editor').length) {
-                        console.log(2);
                         // Wait for the tinyMCE to load.
                         HELP.waitFor(window, 'tinymce', 50, function() {
                             // Rebuild Editors after a small delay.
-                            console.log(3);
                             $('#litbox textarea.editor').initEditor();
                         });
                     }
@@ -359,12 +337,9 @@ var MAIN = (function($, window, document, undefined) {
                 },
                 onCleanup: function() {
                     // If the Litbox contains Editor WYSIWYGs.
-                    console.log(4, $('#litbox textarea.editor').length);
                     if (!!$('#litbox textarea.editor').length) {
-                        console.log(5);
                         // Wait for the tinyMCE to load.
                         if (window.tinymce) {
-                            console.log(6);
                             // Remove existing Editors because they don't display properly.
                                 // This was a 2 day bug. Best solution was to rebuild them
                                 // when Litbox finished opening. The editor loaded but the

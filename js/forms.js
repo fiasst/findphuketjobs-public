@@ -609,7 +609,6 @@ var FORMS = (function($, window, document, undefined) {
                     var select = $(this).parent('.select-list-wrapper').find('select');
 
                     $(this).find('.w-dyn-item').each(function(i) {
-                        console.log(i, $(this).text());
                         select.find('option').eq(i).text( $(this).text() ).val( $(this).data('lang-en') );
                     });
                     if (select.hasClass('select2-hidden-accessible')) {
@@ -677,7 +676,6 @@ $.fn.initEditor = function() {
             // into a Litbox...
         return $(this).parents('.hide-live').length < 1;
     });
-    console.log('$textareas', $textareas);
 
     // Init.
     if ($textareas.length < 1) return;
@@ -687,8 +685,6 @@ $.fn.initEditor = function() {
         editorOptions.target = this;
         tinymce.init(editorOptions);
     });
-
-    console.log('editorOptions', editorOptions);
 };
 
 
