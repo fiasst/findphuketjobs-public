@@ -347,20 +347,28 @@ var MAIN = (function($, window, document, undefined) {
                     if (!!$('#litbox textarea.editor').length) {
                         // Wait for the tinyMCE to load.
                         HELP.waitFor(window, 'tinymce', 50, function() {
-                            // Remove existing Editors because they don't display properly.
-                                // This was a 2 day bug. Best solution was to rebuild them
-                                // when Litbox finished opening. The editor loaded but the
-                                // iframe <head> and <body> were both blank...
-                            // This removes all Editors but that's not an issue atm.
-                            tinymce.remove();
                             // Rebuild Editors after a small delay.
-                            setTimeout(function(){
-                                tinymce.init(FORMS.editorOptions);
-                            }, 50);
+                            tinymce.init(FORMS.editorOptions);
                         });
                     }
                     // Fire optional onComplete callback.
                     if (typeof params.onComplete === "function") params.onComplete();
+                },
+                onClosed: function() {
+                    // If the Litbox contains Editor WYSIWYGs.
+                    if (!!$('#litbox textarea.editor').length) {
+                        // Wait for the tinyMCE to load.
+                        HELP.waitFor(window, 'tinymce', 50, function() {
+                            // Remove existing Editors because they don't display properly.
+                                // This was a 2 day bug. Best solution was to rebuild them
+                                // when Litbox finished opening. The editor loaded but the
+                                // iframe <head> and <body> were both blank...
+                            // TODO: This removes all Editors which needs fixing next.
+                            tinymce.remove();
+                        });
+                    }
+                    // Fire optional onClosed callback.
+                    if (typeof params.onClosed === "function") params.onClosed();
                 }
             };
 

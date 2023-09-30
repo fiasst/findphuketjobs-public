@@ -87,7 +87,8 @@ var FORMS = (function($, window, document, undefined) {
     //
     pub.editorOptions = {
         // selector: selector,
-        selector: 'textarea.editor:not(.editor-processed)',
+        // selector: 'textarea.editor:not(.editor-processed)',
+        selector: 'div:not(.hide-live) textarea.editor',//:not(.editor-processed)
         // target: this,
         toolbar: 'undo redo | bullist numlist',
         plugins: 'lists',
