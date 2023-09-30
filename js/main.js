@@ -348,7 +348,7 @@ var MAIN = (function($, window, document, undefined) {
                         // Wait for the tinyMCE to load.
                         HELP.waitFor(window, 'tinymce', 50, function() {
                             // Rebuild Editors after a small delay.
-                            FORMS.initEditor('#litbox textarea.editor');
+                            $('#litbox textarea.editor').initEditor();
                         });
                     }
                     // Fire optional onComplete callback.
