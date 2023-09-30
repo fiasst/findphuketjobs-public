@@ -89,7 +89,7 @@ var FORMS = (function($, window, document, undefined) {
         // selector: selector,
         // selector: 'textarea.editor:not(.editor-processed)',
         // selector: 'div:not(.hide-live) textarea.editor',//:not(.editor-processed)
-        target: this,
+        // target: this,
         toolbar: 'undo redo | bullist numlist',
         plugins: 'lists',
         valid_elements: 'p,ul,ol,li,br',
@@ -136,22 +136,6 @@ var FORMS = (function($, window, document, undefined) {
     //
     //
     //
-    $.fn.initEditor = function() {
-        var $textareas = $(this).filter(function() {
-            // Filter out any textareas that are within a .hide-live parent.
-                // These will get initialised in JS when needed. This fixes a
-                // Litbox bug where the Editors <body> was empty when loaded
-                // into a Litbox...
-            return !!$(this).parents('.hide-live').length;
-        });
-
-        // Init.
-        if ($textareas.length < 1) return;
-
-        $textareas.each(function() {
-            tinymce.init(pub.editorOptions);
-        });
-    };
     /*pub.initEditor = (selector) => {
         var editorOptions = pub.editorOptions;
         // The textarea element to target.
@@ -685,6 +669,26 @@ var FORMS = (function($, window, document, undefined) {
 //
 // Extend jQuery.
 //
+$.fn.initEditor = function() {
+    var $textareas = $(this).filter(function() {
+        // Filter out any textareas that are within a .hide-live parent.
+            // These will get initialised in JS when needed. This fixes a
+            // Litbox bug where the Editors <body> was empty when loaded
+            // into a Litbox...
+        return !!$(this).parents('.hide-live').length;
+    });
+
+    // Init.
+    if ($textareas.length < 1) return;
+
+    $textareas.each(function() {
+        var editorOptions = pub.editorOptions;
+        editorOptions.target = this;
+        tinymce.init(editorOptions);
+    });
+};
+
+
 //
 // Form fields: Populate select with option elements built from WF Collection List data.
 //
