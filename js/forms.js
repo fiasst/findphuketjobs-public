@@ -682,7 +682,7 @@ $.fn.initEditor = function() {
     if ($textareas.length < 1) return;
 
     $textareas.each(function() {
-        var editorOptions = pub.editorOptions;
+        var editorOptions = FORMS.editorOptions;
         editorOptions.target = this;
         tinymce.init(editorOptions);
     });
