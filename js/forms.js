@@ -42,7 +42,7 @@ var FORMS = (function($, window, document, undefined) {
     //
     //
     var editorKeyCallback = (e) => {
-        let editor = this,
+        let editor = $(this),
             count = editor.getContent({format: 'text'}).length,
             $container = $(editor.getContainer()),
             max = Number($(editor).data('data-maxlength'));
@@ -70,7 +70,8 @@ var FORMS = (function($, window, document, undefined) {
     };
     //
     var editorChangeCallback = (e) => {
-        let content = editor.getContent(),
+        let editor = $(this),
+            content = editor.getContent(),
             $textarea = $(editor.targetElm);
 
         // Cleanup.
