@@ -354,7 +354,7 @@ var MAIN = (function($, window, document, undefined) {
                     // Fire optional onComplete callback.
                     if (typeof params.onComplete === "function") params.onComplete();
                 },
-                onClosed: function() {
+                onCleanup: function() {
                     // If the Litbox contains Editor WYSIWYGs.
                     if (!!$('#litbox textarea.editor').length) {
                         // Wait for the tinyMCE to load.
@@ -367,8 +367,8 @@ var MAIN = (function($, window, document, undefined) {
                             tinymce.remove();
                         }
                     }
-                    // Fire optional onClosed callback.
-                    if (typeof params.onClosed === "function") params.onClosed();
+                    // Fire optional onCleanup callback.
+                    if (typeof params.onCleanup === "function") params.onCleanup();
                 }
             };
 
