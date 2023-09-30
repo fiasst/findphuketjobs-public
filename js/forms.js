@@ -675,17 +675,20 @@ $.fn.initEditor = function() {
             // These will get initialised in JS when needed. This fixes a
             // Litbox bug where the Editors <body> was empty when loaded
             // into a Litbox...
-        return !!$(this).parents('.hide-live').length;
+        return $(this).parents('.hide-live').length < 1;
     });
+    console.log('$textareas', $textareas);
 
     // Init.
     if ($textareas.length < 1) return;
 
+    var editorOptions = FORMS.editorOptions;
     $textareas.each(function() {
-        var editorOptions = FORMS.editorOptions;
         editorOptions.target = this;
         tinymce.init(editorOptions);
     });
+
+    console.log('editorOptions', editorOptions);
 };
 
 
