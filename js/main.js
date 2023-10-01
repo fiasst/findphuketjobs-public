@@ -273,9 +273,9 @@ var MAIN = (function($, window, document, undefined) {
             else {
                 var $max = $('.js-salary-amount-max', $card);
                 // If salary has a "max" range value.
-                if (!!$max.text()) {
+                if (!!$max.text() && $('.salary-range-divider', $card).length < 1) {
                     // Add a "-" between the range values.
-                    $('<span>-</span>').insertBefore($max);
+                    $('<span class="salary-range-divider">-</span>').insertBefore($max);
                 }
                 else {
                     $max.hide();
