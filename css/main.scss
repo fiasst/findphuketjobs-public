@@ -23,6 +23,16 @@
     .brand-bg {
       background: var(--business-brand-color);
     }
+
+    // Salary.
+    .js-salary-amount-max {
+      // Add a hypen between the min and max salary amounts.
+      &::before {
+        content: "-";
+        display: inline-block;
+        margin-right: 3px;
+      }
+    }
   }
 }
 
