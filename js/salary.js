@@ -55,7 +55,7 @@ var SALARY = (function($, window, document, undefined) {
                                 break;
                         }
                     }
-                    $(salaryMonthly, $form).val(val);
+                    $(salaryMonthly, $form).val(HELP.removeNonNumeric(val));
                 };
 
             // Salary type and salary amount.
