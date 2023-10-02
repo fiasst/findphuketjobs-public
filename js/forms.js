@@ -408,7 +408,7 @@ var FORMS = (function($, window, document, undefined) {
 
             if (!$el.val()) {
                 // Remove non-number characters from value so it can be set as a value.
-                if ($el.attr('type') == 'number'){
+                if ($el.attr('type') == 'number') {
                     val = HELP.removeNonNumeric(val);
                 }
                 $el.val(HELP.sanitizeHTML(val)).trigger('change');
