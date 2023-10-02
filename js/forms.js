@@ -34,6 +34,10 @@ var FORMS = (function($, window, document, undefined) {
         }
         // Make sure the checkbox/radio reflects the same state as the custom input field...
         $input.prop('checked', checked);
+
+        if (checked) {
+            $input.trigger('change');
+        }
     };
 
 
@@ -411,7 +415,7 @@ var FORMS = (function($, window, document, undefined) {
                 if ($el.attr('type') == 'number'){
                     val = HELP.removeNonNumeric(val);
                 }
-                $el.val(HELP.sanitizeHTML(val));
+                $el.val(HELP.sanitizeHTML(val)).trigger('change');
             }
         });
 
@@ -423,7 +427,8 @@ var FORMS = (function($, window, document, undefined) {
             var $el = $(this),
                 text = $el.text(),
                 $input = $el.parents('.input-wrapper').find(':input'),
-                type = $input.eq(0).attr('type');
+                type = $input.eq(0).attr('type'),
+                changed;
 
             if (type == 'checkbox' || type == 'radio') {
                 $input.each(function() {
@@ -449,6 +454,7 @@ var FORMS = (function($, window, document, undefined) {
                     // Add basic text with newlines.
                     $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
                 }
+                $input.trigger('change');
             }
         });
 
