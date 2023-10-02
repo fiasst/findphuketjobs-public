@@ -33,11 +33,7 @@ var FORMS = (function($, window, document, undefined) {
             $customInput.trigger('click');
         }
         // Make sure the checkbox/radio reflects the same state as the custom input field...
-        $input.prop('checked', checked);
-
-        if (checked) {
-            $input.trigger('change');
-        }
+        $input.prop('checked', checked).trigger('change');
     };
 
 

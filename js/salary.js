@@ -79,7 +79,7 @@ var SALARY = (function($, window, document, undefined) {
                 calculateSalary(this);
             });
 
-            $(salaryAmount).on('focusout', function() {
+            $(salaryAmount).on('change', function() {
                 calculateSalary(this);
             });
 
