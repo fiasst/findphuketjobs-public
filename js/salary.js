@@ -36,7 +36,7 @@ var SALARY = (function($, window, document, undefined) {
                     var $form = $(element).parents('form'),
                         $salaryAmount = $(salaryAmount, $form),
                         numericType = isNumericType($form),
-                        salary = $salaryAmount.val(),
+                        salary = HELP.removeNonNumeric($salaryAmount.val()),
                         val = '';
                     
                     if (numericType && !!salary) {
@@ -55,7 +55,7 @@ var SALARY = (function($, window, document, undefined) {
                                 break;
                         }
                     }
-                    $(salaryMonthly, $form).val(HELP.removeNonNumeric(val));
+                    $(salaryMonthly, $form).val(val);
                 };
 
             // Salary type and salary amount.
