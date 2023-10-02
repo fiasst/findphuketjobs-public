@@ -492,8 +492,8 @@ var FORMS = (function($, window, document, undefined) {
         //
         // Format Phone and other fields on keydown to remove non-numeric characters.
         //
-        $('.format-numeric')
-            .on('keydown', function(e) {
+        $(document)
+            .on('keydown', '.format-numeric', function(e) {
                 let key = pub.getKey(e);
 
                 // Allow Backspace, Delete keys, etc.
@@ -506,7 +506,7 @@ var FORMS = (function($, window, document, undefined) {
                 // Prevent all other keys from being entered.
                 e.preventDefault();
             })
-            .on('change', function() {
+            .on('change', '.format-numeric', function() {
                 // Cleanup autocompete values.
                 $(this).val( HELP.removeNonNumeric( $(this).val() ));
             });
@@ -518,9 +518,9 @@ var FORMS = (function($, window, document, undefined) {
             // Remove certain special characters.
             // set "stripChars" to false to format but not remove characters.
         //
-        $('.format-email')
+        $(document)
             // "change" is to cleanup autocompete values.
-            .on('keydown change', function(e, stripChars) {
+            .on('keydown change', '.format-email', function(e, stripChars) {
                 var val = $(this).val() || '',
                     key = pub.getKey(e);
 
@@ -541,10 +541,10 @@ var FORMS = (function($, window, document, undefined) {
                     val = '';
                 }
                 $(this).val(val.trim());
-            })
-            .each(function(i, field) {
-                $(field).trigger('change', false);
             });
+        $('.format-email').each(function() {
+            $(this).trigger('change', false);
+        });
 
 
         //
@@ -554,10 +554,10 @@ var FORMS = (function($, window, document, undefined) {
             // Add basic protocol if missing.
         // This stops Webflow from producing an field "type" error.
         //
-        $('.format-url')
+        $(document)
             // Add and remove protocol from empty field.
             // This is so we don't submit the protocol on its own.
-            .on('focus blur', function(e) {
+            .on('focus blur', '.format-url', function(e) {
                 var val = $(this).val();
 
                 if (e.type == 'focus' && !val) {
@@ -568,7 +568,7 @@ var FORMS = (function($, window, document, undefined) {
                 }
             })
             // "change" is to cleanup autocompete values.
-            .on('keydown change', function(e) {
+            .on('keydown change', '.format-url', function(e) {
                 var val = $(this).val() || '',
                     key = pub.getKey(e);
 
@@ -585,10 +585,10 @@ var FORMS = (function($, window, document, undefined) {
                     return;
                 }
                 $(this).val(val);
-            })
-            .each(function(i, field) {
-                $(field).trigger('change');
             });
+        $('.format-url').each(function() {
+            $(this).trigger('change');
+        });
 
 
         //
