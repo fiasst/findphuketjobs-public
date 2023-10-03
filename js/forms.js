@@ -699,7 +699,7 @@ $.fn.inputDefaultValue = function() {
                     bool = !!text && text !== "false";
                 }
                 // Update radio/checkbox state.
-                pub.toggleCustomInputField($customInput, $(this), bool);
+                FORMS.toggleCustomInputField($customInput, $(this), bool);
             });
         }
         else if (!$input.val()) {
