@@ -712,6 +712,12 @@ $.fn.buildSelectOptions = function(options) {
         }
 
         $(this).find('.w-dyn-item').each(function() {
+            var $enItem = $(this).find('.no-translate'),
+                enVal = $enItem.text();
+
+            $(this).data('lang-en', enVal);// Store a non-translated string in .data().
+            $enItem.remove();// Remove the English text so it doesn't get added in the <option>.
+
             var val = $.trim($(this).text()),
                 selected = (val == defaultValue) ? 'selected' : false;
 
@@ -722,7 +728,7 @@ $.fn.buildSelectOptions = function(options) {
             if (!val || $.inArray(val, values) > -1) return;// Skip empty or duplicate values.
             values.push(val);
 
-            $(this).data('lang-en', val);// Store a non-translated string in .data().
+            // $(this).data('lang-en', val);// Store a non-translated string in .data().
 
             $('<option />', {
                 value: val,
