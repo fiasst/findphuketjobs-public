@@ -610,7 +610,8 @@ var FORMS = (function($, window, document, undefined) {
                 $('.select-list-options').each(function() {
                     var $select = $(this).parent('.select-list-wrapper').find('select');
 
-                    $('.w-dyn-item', this).each(function(i) {
+                    var i = 0;// Don't use the .each() index, you can't advance that with i++.
+                    $('.w-dyn-item', this).each(function() {
                         console.log(i, [$(this).text(), $(this).data('lang-en')]);
 
                         var $option = $('option', $select).eq(i);
@@ -619,12 +620,13 @@ var FORMS = (function($, window, document, undefined) {
                         if (i == 0 && !$option.val()) {
                             console.log(i, 'placeholder');
                             // Skip the first option (has no value).
-                            ++i;
+                            i++;
                             $option = $('option', $select).eq(i);
                         }
                         console.log('$option', $option);
                         console.log('this', $(this));
                         $option.text( $(this).text() ).val( $(this).data('lang-en') );
+                        i++;
                     });
                     if ($select.hasClass('select2-hidden-accessible')) {
                         $select.select2('destroy');
