@@ -405,44 +405,10 @@ var FORMS = (function($, window, document, undefined) {
         $(':input[data-default-value]').inputAttrDefaultValue();
         
 
-
         //
         // Form fields: Populate field's default values with sibling DIV's content.
         //
-        $('.input-default-value').each(function() {
-            var $el = $(this),
-                text = $el.text(),
-                $input = $el.parents('.input-wrapper').find(':input'),
-                type = $input.eq(0).attr('type'),
-                changed;
-
-            if (type == 'checkbox' || type == 'radio') {
-                $input.each(function() {
-                    var $customInput = $(this).siblings(`.w-${type}-input`),
-                        // If text of the .input-default-value matches the radio's value.
-                        bool = !!text && text == $(this).val();
-
-                    if (type == 'checkbox') {
-                        // bool value can either be empty, for non-Switch WF fields
-                        //or "true/false" (String), for Switch WF fields.
-                        bool = !!text && text !== "false";
-                    }
-                    // Update radio/checkbox state.
-                    pub.toggleCustomInputField($customInput, $(this), bool);
-                });
-            }
-            else if (!$input.val()) {
-                if ($input.hasClass('editor')) {
-                    // Add raw HTML to input (textarea.editor).
-                    $input.val($el.html());
-                }
-                else {
-                    // Add basic text with newlines.
-                    $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
-                }
-                $input.trigger('change');
-            }
-        });
+        $('.input-default-value').inputDefaultValue();
 
 
         //
@@ -692,7 +658,7 @@ $.fn.initEditor = function() {
 
 
 //
-// 
+// Form fields: Populate field's default values with inline attribute's value.
 //
 $.fn.inputAttrDefaultValue = function() {
     $(this).each(function() {
@@ -707,6 +673,47 @@ $.fn.inputAttrDefaultValue = function() {
             $el.val(HELP.sanitizeHTML(val)).trigger('change');
         }
     })
+};
+
+
+//
+// Form fields: Populate field's default values with sibling DIV's content.
+//
+$.fn.inputDefaultValue = function() {
+    $(this).each(function() {
+        var $el = $(this),
+            text = $el.text(),
+            $input = $el.parents('.input-wrapper').find(':input'),
+            type = $input.eq(0).attr('type'),
+            changed;
+
+        if (type == 'checkbox' || type == 'radio') {
+            $input.each(function() {
+                var $customInput = $(this).siblings(`.w-${type}-input`),
+                    // If text of the .input-default-value matches the radio's value.
+                    bool = !!text && text == $(this).val();
+
+                if (type == 'checkbox') {
+                    // bool value can either be empty, for non-Switch WF fields
+                    //or "true/false" (String), for Switch WF fields.
+                    bool = !!text && text !== "false";
+                }
+                // Update radio/checkbox state.
+                pub.toggleCustomInputField($customInput, $(this), bool);
+            });
+        }
+        else if (!$input.val()) {
+            if ($input.hasClass('editor')) {
+                // Add raw HTML to input (textarea.editor).
+                $input.val($el.html());
+            }
+            else {
+                // Add basic text with newlines.
+                $input.val( HELP.stripHTMLWithLinebreaks($el.html()) );
+            }
+            $input.trigger('change');
+        }
+    });
 };
 
 
