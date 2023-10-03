@@ -728,8 +728,6 @@ $.fn.buildSelectOptions = function(options) {
             if (!val || $.inArray(val, values) > -1) return;// Skip empty or duplicate values.
             values.push(val);
 
-            // $(this).data('lang-en', val);// Store a non-translated string in .data().
-
             $('<option />', {
                 value: enVal,
                 selected: selected
