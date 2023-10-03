@@ -611,6 +611,7 @@ var FORMS = (function($, window, document, undefined) {
                     var select = $(this).parent('.select-list-wrapper').find('select');
 
                     $(this).find('.w-dyn-item').each(function(i) {
+                        console.log('data-lang-en: ', $(this).data('lang-en'));
                         select.find('option').eq(i).text( $(this).text() ).val( $(this).data('lang-en') );
                     });
                     if (select.hasClass('select2-hidden-accessible')) {
