@@ -772,12 +772,11 @@ $.fn.createSelect2 = function(options) {
                 // This happens when the language is changed.
                 .data('select2-options', ops)
                 // Sets the default option:
-                .val(!!selected.length ? $(el).val() : '')
+                .val(!!selected.length ? $(el).val() : '').trigger('change')
                 .on('change', function() {
                     // Trigger Bouncer form validation.
                     $(this).trigger('blur');
-                })
-                .trigger('change');
+                });
         });
     });
 };
