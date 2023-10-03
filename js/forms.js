@@ -693,9 +693,9 @@ $.fn.initEditor = function() {
 
     var editorOptions = FORMS.editorOptions;
     $textareas.each(function() {
-        // add some element specific options.
+        // Add element specific options.
         editorOptions.target = this;
-        editorOptions.placeholder = $(this).attr('placeholder') || null;
+        // Create.
         tinymce.init(editorOptions);
     });
 };
