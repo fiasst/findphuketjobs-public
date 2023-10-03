@@ -731,7 +731,7 @@ $.fn.buildSelectOptions = function(options) {
             // $(this).data('lang-en', val);// Store a non-translated string in .data().
 
             $('<option />', {
-                value: val,
+                value: enVal,
                 selected: selected
             }).text(val).appendTo( $select );
         });
