@@ -160,11 +160,7 @@ textarea.editor-processed {
 
 // Bouncer FE validation.
 .error-wrapper {
-  margin-top: 4px;
-}
-.helptext + .error-wrapper,
-.input-default-value + .error-wrapper {
-  margin-top: 0;
+  margin-top: 2px;
 }
 
 
