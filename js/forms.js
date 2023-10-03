@@ -402,7 +402,7 @@ var FORMS = (function($, window, document, undefined) {
         //
         // Form fields: Populate field's default values with inline attribute's value.
         //
-        $(':input[data-default-value]').each(function() {
+        $(':input[data-default-value]:not(.processed)').each(function() {
             var $el = $(this),
                 val = $el.attr('data-default-value');
 
@@ -413,6 +413,7 @@ var FORMS = (function($, window, document, undefined) {
                 }
                 $el.val(HELP.sanitizeHTML(val)).trigger('change');
             }
+            $el.addClass('processed');
         });
 
 
