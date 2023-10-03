@@ -758,7 +758,6 @@ $.fn.createSelect2 = function(options) {
         var ops;
         $.each(items, function(i, el) {
             ops = options;
-            ops.language = "en";
             ops.placeholder = $(el).attr('placeholder') || "Select...";
             var selected = $(el).find('option[selected]');
             
@@ -773,11 +772,12 @@ $.fn.createSelect2 = function(options) {
                 // This happens when the language is changed.
                 .data('select2-options', ops)
                 // Sets the default option:
-                .val(!!selected.length ? $(el).val() : '').trigger('change')
+                .val(!!selected.length ? $(el).val() : '')
                 .on('change', function() {
                     // Trigger Bouncer form validation.
                     $(this).trigger('blur');
-                });
+                })
+                .trigger('change');
         });
     });
 };
