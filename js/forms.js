@@ -33,7 +33,7 @@ var FORMS = (function($, window, document, undefined) {
             $customInput.trigger('click');
         }
         // Make sure the checkbox/radio reflects the same state as the custom input field...
-        $input.prop('checked', checked).trigger('change');
+        $input.prop('checked', checked);
     };
 
 
@@ -684,8 +684,7 @@ $.fn.inputDefaultValue = function() {
         var $el = $(this),
             text = $el.text(),
             $input = $el.parents('.input-wrapper').find(':input'),
-            type = $input.eq(0).attr('type'),
-            changed;
+            type = $input.eq(0).attr('type');
 
         if (type == 'checkbox' || type == 'radio') {
             $input.each(function() {

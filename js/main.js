@@ -331,7 +331,7 @@ var MAIN = (function($, window, document, undefined) {
 
                     // Set any form field default values.
                     $('#litbox :input[data-default-value]').inputAttrDefaultValue();
-                    $('.input-default-value').inputDefaultValue();
+                    $('#litbox .input-default-value').inputDefaultValue();
 
                     // Fire optional onComplete callback.
                     if (typeof params.onComplete === "function") params.onComplete();
