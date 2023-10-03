@@ -328,6 +328,10 @@ var MAIN = (function($, window, document, undefined) {
                             $('#litbox textarea.editor').initEditor();
                         });
                     }
+
+                    // Set any form field default values.
+                    $('#litbox :input[data-default-value]').inputAttrDefaultValue();
+
                     // Fire optional onComplete callback.
                     if (typeof params.onComplete === "function") params.onComplete();
                 },
