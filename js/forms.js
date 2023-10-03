@@ -608,21 +608,26 @@ var FORMS = (function($, window, document, undefined) {
         HELP.waitFor(window, "Weglot", 400, function() {
             Weglot.on("languageChanged", function() {
                 $('.select-list-options').each(function() {
-                    var select = $(this).parent('.select-list-wrapper').find('select');
+                    var $select = $(this).parent('.select-list-wrapper').find('select');
 
-                    $(this).find('.w-dyn-item').each(function(i) {
-                        var $option = select.find('option').eq(i);
+                    $('.w-dyn-item', this).each(function(i) {
+                        console.log(i, [$(this).text(), $(this).data('lang-en')]);
+
+                        var $option = $('option', $select).eq(i);
                         // Check if the first item is a placeholder option.
+                        console.log('!$option.val()', !$option.val());
                         if (i == 0 && !$option.val()) {
+                            console.log(i, 'placeholder');
                             // Skip the first option (has no value).
                             i++;
-                            $option = select.find('option').eq(i);
+                            $option = $('option', $select).eq(i);
                         }
+                        console.log('$option', $option);
                         $option.text( $(this).text() ).val( $(this).data('lang-en') );
                     });
-                    if (select.hasClass('select2-hidden-accessible')) {
-                        select.select2('destroy');
-                        select.select2( select.data('select2-options') );
+                    if ($select.hasClass('select2-hidden-accessible')) {
+                        $select.select2('destroy');
+                        $select.select2( $select.data('select2-options') );
                     }
                 });
             });
