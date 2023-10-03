@@ -611,7 +611,14 @@ var FORMS = (function($, window, document, undefined) {
                     var select = $(this).parent('.select-list-wrapper').find('select');
 
                     $(this).find('.w-dyn-item').each(function(i) {
-                        select.find('option').eq(i).text( $(this).text() ).val( $(this).data('lang-en') );
+                        var $option = select.find('option').eq(i);
+                        // Check if the first item is a placeholder option.
+                        if (i == 0 && !$option.val()) {
+                            // Skip the first option (has no value).
+                            i++;
+                            $option = select.find('option').eq(i);
+                        }
+                        $option.text( $(this).text() ).val( $(this).data('lang-en') );
                     });
                     if (select.hasClass('select2-hidden-accessible')) {
                         select.select2('destroy');
