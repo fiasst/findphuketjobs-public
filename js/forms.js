@@ -758,6 +758,7 @@ $.fn.createSelect2 = function(options) {
         var ops;
         $.each(items, function(i, el) {
             ops = options;
+            ops.language = "en";
             ops.placeholder = $(el).attr('placeholder') || "Select...";
             var selected = $(el).find('option[selected]');
             
