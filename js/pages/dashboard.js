@@ -119,6 +119,8 @@ var DASHBOARD = (function($, window, document, undefined) {
                         // Show Edit and Archive links.
                         $actions.filter('[data-link="edit"], [data-link="archive"]').removeClass('hide');
                 }
+                // Remove any options that aren't visible.
+                $actions.filter('.hide').remove();
             }
         });
 
