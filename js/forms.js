@@ -619,10 +619,11 @@ var FORMS = (function($, window, document, undefined) {
                         if (i == 0 && !$option.val()) {
                             console.log(i, 'placeholder');
                             // Skip the first option (has no value).
-                            i++;
+                            ++i;
                             $option = $('option', $select).eq(i);
                         }
                         console.log('$option', $option);
+                        console.log('this', $(this));
                         $option.text( $(this).text() ).val( $(this).data('lang-en') );
                     });
                     if ($select.hasClass('select2-hidden-accessible')) {
