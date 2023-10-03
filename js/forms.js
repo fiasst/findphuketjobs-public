@@ -2,10 +2,7 @@ var FORMS = (function($, window, document, undefined) {
     var pub = {};
 
 
-    //
-    // Get keyboard key from event Object.
-    //
-    pub.getKey = (e) => ('key' in e) ? e.key : e.keyCode;
+    
 
 
     //
@@ -74,7 +71,7 @@ var FORMS = (function($, window, document, undefined) {
                 switch (e.type) {
                     case 'keydown':
                         if (count >= max) {
-                            let key = pub.getKey(e);
+                            let key = HELP.getKey(e);
 
                             // Allow Backspace, Delete keys, etc.
                             if (!HELP.allowCommonKeyPress(e, key)) {
@@ -452,7 +449,7 @@ var FORMS = (function($, window, document, undefined) {
         //
         $(document)
             .on('keydown', '.format-numeric', function(e) {
-                let key = pub.getKey(e);
+                let key = HELP.getKey(e);
 
                 // Allow Backspace, Delete keys, etc.
                 if (HELP.allowCommonKeyPress(e, key)) return;
@@ -480,7 +477,7 @@ var FORMS = (function($, window, document, undefined) {
             // "change" is to cleanup autocompete values.
             .on('keydown change', '.format-email', function(e, stripChars) {
                 var val = $(this).val() || '',
-                    key = pub.getKey(e);
+                    key = HELP.getKey(e);
 
                 val = val.toString().toLowerCase()
                     .replace(/\s+/g, ''); // Remove whitespace
@@ -528,7 +525,7 @@ var FORMS = (function($, window, document, undefined) {
             // "change" is to cleanup autocompete values.
             .on('keydown change', '.format-url', function(e) {
                 var val = $(this).val() || '',
-                    key = pub.getKey(e);
+                    key = HELP.getKey(e);
 
                 val = val.toString().toLowerCase()
                     .replace(/\s+/g, ''); // Remove whitespace

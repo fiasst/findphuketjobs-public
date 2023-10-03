@@ -36,17 +36,25 @@ HELP = (function($, window, document, undefined) {
 
 
     //
+    // Get keyboard key from event Object.
+    //
+    pub.getKey = (e) => ('key' in e) ? e.key : e.keyCode;
+
+
+    //
     // Check keyboard key events for common acceptable inputs.
       // Useful when you're preventing all characters except numerics
       // in a form field, for example.
     //
     pub.allowCommonKeyPress = (e, key) => {
+        if (!key) return false;
+        let allowedKeys = ['Backspace', 'Delete', 'Tab'];
         // Allow formatting/navigation keys.
-        if (key == 'Backspace' || key == 'Delete' || (key && key.indexOf('Arrow') === 0)) {
+        if (allowedKeys.indexOf(key) > -1 || key.indexOf('Arrow') === 0) {
             return true;
         }
         // Allow Copy+Paste/Select All combos.
-        return (e.metaKey || e.ctrlKey) && (key == 'c' || key == 'v' || key == 'a' || key == 'x');
+        return (e.metaKey || e.ctrlKey) && ['c', 'v', 'a', 'x'].indexOf(key) > -1;
     };
 
 
