@@ -45,16 +45,6 @@ HELP = (function($, window, document, undefined) {
 
 
     //
-    // Get keyboard keyCode from event Object.
-        // Useful when a foreign (Thai) keyboard is being used.
-        // e.keyCode is deprecated but useable until e.code is adopted.
-    //
-    pub.getKeyCode = (e) => {
-        return String.fromCharCode(e.which || e.keyCode);
-    }
-
-
-    //
     // Check keyboard key events for common acceptable inputs.
       // Useful when you're preventing all characters except numerics
       // in a form field, for example.

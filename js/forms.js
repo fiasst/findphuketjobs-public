@@ -447,29 +447,9 @@ var FORMS = (function($, window, document, undefined) {
         //
         // Format Phone and other fields on keydown to remove non-numeric characters.
         //
-        /*$(document)
-            .on('keydown', '.format-numeric', function(e) {
-                let key = HELP.getKey(e);
-
-                // Allow Backspace, Delete keys, etc.
-                if (HELP.allowCommonKeyPress(e, key)) return;
-
-                // Allow numeric digits (0-9).
-                if (key >= 0 && key <= 9) {
-                    return;
-                }
-                // Prevent all other keys from being entered.
-                e.preventDefault();
-            })
-            .on('change', '.format-numeric', function() {
-                // Cleanup autocompete values.
-                $(this).val( HELP.removeNonNumeric( $(this).val() ));
-            });*/
         $(document)
             .on('keydown', '.format-numeric', function(e) {
-                let key = HELP.getKey(e),
-                    keyCode = HELP.getKeyCode(e),
-                    $input = $(e.target);
+                let key = HELP.getKey(e);
 
                 // Allow Backspace, Delete, Tab, Arrow keys, etc.
                     // IMPORTANT: Keep this at the top of this function,
@@ -477,14 +457,6 @@ var FORMS = (function($, window, document, undefined) {
                     // to the next field.
                 if (HELP.allowCommonKeyPress(e, key)) return;
 
-                // If a Thai or foreign number key was pressed.
-                    // Ex: keyCode 4 is key ภ in Thai. So use 4 instead.
-                if (keyCode >= 0 && keyCode <= 9 && keyCode !== key) {
-                    e.preventDefault();
-                    // Convert to a Roman number and append to value.
-                    $input.val($input.val() + keyCode);
-                    return;
-                }
                 // Allow numeric digits (0-9).
                 if (key >= 0 && key <= 9) return;
 
