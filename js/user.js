@@ -44,7 +44,7 @@ USER = (function($, window, document, undefined) {
         HELP.waitFor(window, "$memberstackDom", 50, function() {
             $memberstackDom.launchStripeCustomerPortal();
         });
-    }
+    };
 
 
     //

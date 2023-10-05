@@ -225,7 +225,6 @@ var FORMS = (function($, window, document, undefined) {
                 .find(':input').attr('data-bouncer-target', '#'+ id)
         });
 
-
         //
         // Bouncer site-wide form validation.
             // Works for all forms with a ".bouncer" class.
@@ -286,7 +285,6 @@ var FORMS = (function($, window, document, undefined) {
             }
         });
 
-
         //
         // 1) Validate the .editor textarea.
             // This took hours to find a working solution...
@@ -300,7 +298,6 @@ var FORMS = (function($, window, document, undefined) {
             bouncer.validate(this);
         });
 
-
         $(document)
         // Event listener for when a field is invalid/valid.
         .on('bouncerShowError bouncerRemoveError', function(e) {
@@ -313,7 +310,6 @@ var FORMS = (function($, window, document, undefined) {
             // Form is valid so submit it.
             ajaxSubmitHandler(e);
         });
-
 
         //
         // AJAX Form submit listener.
@@ -430,7 +426,7 @@ var FORMS = (function($, window, document, undefined) {
         // Form fields: Add maxlength attribute to fields.
         //
         $(':input[data-maxlength]').each(function() {
-            $(this).attr('maxlength', Number($(this).attr('data-maxlength')));
+            $(this).attr('maxlength', HELP.sanitizeHTML( $(this).attr('data-maxlength') ));
         });
 
 
@@ -610,12 +606,12 @@ var FORMS = (function($, window, document, undefined) {
         //
         // LitBox support.
         //
-        $(document)
-            .on('lbox_open', function() {
+        // $(document)
+            // .on('lbox_open', function() {
                 // Create any new Select2 fields.
                 // Make sure it's not been initiated already (inline HTML from the same page) using :not().
                 // $('#litbox .select2-field:not(.select2-hidden-accessible)').createSelect2();
-            });
+            // });
 
 
         //

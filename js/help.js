@@ -208,7 +208,11 @@ HELP = (function($, window, document, undefined) {
     //
     // Get $£€ etc symbols.
     //
-    pub.getCurrencySymbol = (locale, currency) => (0).toLocaleString(locale, { style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0 }).replace(/\d/g, '').trim();
+    pub.getCurrencySymbol = (locale, currency) => {
+        return (0).toLocaleString(locale, {
+            style: 'currency', currency, minimumFractionDigits: 0, maximumFractionDigits: 0
+        }).replace(/\d/g, '').trim();
+    };
 
 
     //

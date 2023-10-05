@@ -68,7 +68,7 @@ var BILLING = (function($, window, document, undefined) {
                     if (payment.lastBillingDate) {
                         lastBillDate = $('<div>', {class: ["bill-last"], html: '<strong>Last billed:</strong> '+ HELP.formatTimestamp(payment.lastBillingDate) });
                     }
-                    if (item.status == "ACTIVE" || item.status == "TRIALING") {
+                    if (['ACTIVE', 'TRIALING', 'REQUIRES_PAYMENT'].includes(item['status'])) {
                         hasActiveSubscription = true;
 
                         cancelLink = $('<a>', {
@@ -98,33 +98,7 @@ var BILLING = (function($, window, document, undefined) {
 
                 if (subscriptionPlans.length > 0) {
                     $('#subscriptions').append(subscriptionPlans);
-                    // $('#banner-sub-join').toggleClass('hide', hasActiveSubscription);
                 }
-              
-                /*$('.link-cancel').on('click', function(e) {
-                    e.preventDefault();
-                    var $link = $(this),
-                        msg = HELP.sanitizeHTML($link.attr('data-confirm'));
-
-                    if (msg && !confirm(msg)) {
-                        return false;
-                    }
-                    MAIN.thinking(true, false);
-                    
-                    HELP.sendAJAX({
-                        url: $link.attr('href'),
-                        data: HELP.ajaxMetaValues(),
-                        method: "GET",
-                        callbackSuccess: function(data) {
-                            MAIN.thinking(false);
-                            MAIN.handleAjaxResponse(data);
-                        },
-                        callbackError: function(data) {
-                            MAIN.thinking(false);
-                            console.log('error');
-                        }
-                    });
-                });*/
             }
 
             //
