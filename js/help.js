@@ -38,7 +38,20 @@ HELP = (function($, window, document, undefined) {
     //
     // Get keyboard key from event Object.
     //
-    pub.getKey = (e) => ('key' in e) ? e.key : e.keyCode;
+    pub.getKey = (e) => {
+        if (e.key) return e.key;
+        return String.fromCharCode(e.which || e.keyCode);
+    }
+
+
+    //
+    // Get keyboard keyCode from event Object.
+        // Useful when a foreign (Thai) keyboard is being used.
+        // e.keyCode is deprecated but useable until e.code is adopted.
+    //
+    pub.getKeyCode = (e) => {
+        return String.fromCharCode(e.which || e.keyCode);
+    }
 
 
     //
