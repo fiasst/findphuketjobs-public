@@ -11,6 +11,20 @@
 }
 
 
+//
+// Core.
+//
+html {
+  // If language is Thai.
+  &[lang="th"] {
+    body {
+      // Add some letter-spacing to make it easier to read.
+      letter-spacing: .02em;
+    }
+  }
+}
+
+
 
 /*
 *
