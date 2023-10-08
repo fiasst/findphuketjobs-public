@@ -477,6 +477,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     font-size: 14px;
     color: var(--secondary-1);
     margin: 0;
+    display: none;
 }
 
 /*.sp-palette span:hover,
