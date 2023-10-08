@@ -352,6 +352,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     padding: 6px 12px;
     min-height: 40px;
     outline: 0;
+    width: 100%;
 }
 .sp-input:hover,
 .sp-input:focus {
