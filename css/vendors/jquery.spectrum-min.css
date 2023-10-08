@@ -272,6 +272,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     right: 50px;
     bottom: 0;
 }
+.sp-cf:before,
 .sp-cf:after {
     content: none;
 }
@@ -312,16 +313,14 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 
 /* Input */
 .sp-input-container {
-    float: right;
-    width: 100px;
-    margin-bottom: 4px;
-}
-.sp-initial-disabled .sp-input-container {
     margin: 0;
     padding: 8px;
     width: 42%;
     float: left;
     box-sizing: border-box;
+}
+.sp-initial-disabled .sp-input-container {
+    width: 42%;
 }
 .sp-input {
     background-color: var(--neutral-100);
@@ -350,6 +349,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     position: relative;
     width: 100%;
     padding: 1px;
+    margin: 0;
     border: 0;
     box-sizing: border-box;
 }
@@ -407,7 +407,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     width: 58%;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: flex-end;
     box-sizing: border-box;
     grid-column-gap: 20px;
 }
