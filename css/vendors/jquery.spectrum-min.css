@@ -120,29 +120,17 @@ License: MIT
 
 /* Don't allow text selection */
 .sp-container, .sp-replacer, .sp-preview, .sp-dragger, .sp-slider, .sp-alpha, .sp-clear, .sp-alpha-handle, .sp-container.sp-dragging .sp-input, .sp-container button  {
-    -webkit-user-select:none;
-    -moz-user-select: -moz-none;
-    -o-user-select:none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
 
-.sp-container.sp-input-disabled .sp-input-container {
-    display: none;
-}
-.sp-container.sp-buttons-disabled .sp-button-container {
-    display: none;
-}
-.sp-container.sp-palette-buttons-disabled .sp-palette-button-container {
-    display: none;
-}
-.sp-palette-only .sp-picker-container {
-    display: none;
-}
-.sp-palette-disabled .sp-palette-container {
-    display: none;
-}
-
+.sp-container.sp-input-disabled .sp-input-container,
+.sp-container.sp-buttons-disabled .sp-button-container,
+.sp-container.sp-palette-buttons-disabled .sp-palette-button-container,
+.sp-palette-only .sp-picker-container,
+.sp-palette-disabled .sp-palette-container,
 .sp-initial-disabled .sp-initial {
     display: none;
 }
@@ -245,8 +233,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     background: #fff;
     border-radius: 2px;
     border: solid 1px #CCC;
-/*    padding: 0;*/
-    box-shadow: 0 .7rem 2rem rgba(0,0,0, .14);
+    box-shadow: 0 1rem 1.5rem rgba(0,0,0, .15);
     width: 100%;
     max-width: 280px;
     overflow: visible;
@@ -257,7 +244,6 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 .sp-color,
 .sp-hue,
 .sp-clear {
-    -ms-box-sizing: border-box;
     box-sizing: border-box;
 }
 .sp-top {
