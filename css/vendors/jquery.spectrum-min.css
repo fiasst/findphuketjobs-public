@@ -345,17 +345,12 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 }
 .sp-picker-container,
 .sp-palette-container {
-/*    float: left;*/
     position: relative;
     width: 100%;
     padding: 1px;
     margin: 0;
     border: 0;
     box-sizing: border-box;
-}
-.sp-picker-container {
-    width: 172px;
-    border-left: solid 1px #fff;
 }
 
 /* Palettes */
@@ -448,7 +443,10 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     height: 25px;
     border-radius: 0;
     border: 1px solid #a6a6a6;
-    position: relative;
+}
+.sp-preview-inner {
+    width: 100%;
+    height: 100%;
 }
 .sp-dd {
     background: url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%23555'><polygon points='0,0 100,0 50,50'/></svg>) no-repeat;
