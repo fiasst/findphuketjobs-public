@@ -48,6 +48,11 @@ html {
       }
     }
   }
+  // Hidden temporarily while site takes off. Can remove this style
+  // when there's jobs posted daily.
+  .time-past {
+    display: none;
+  }
 }
 
 

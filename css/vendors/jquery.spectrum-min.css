@@ -477,3 +477,180 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     background-position: center;
     background-image: url(data:image/gif;base64,R0lGODlhFAAUAPcAAAAAAJmZmZ2dnZ6enqKioqOjo6SkpKWlpaampqenp6ioqKmpqaqqqqurq/Hx8fLy8vT09PX19ff39/j4+Pn5+fr6+vv7+wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAP8ALAAAAAAUABQAAAihAP9FoPCvoMGDBy08+EdhQAIJCCMybCDAAYUEARBAlFiQQoMABQhKUJBxY0SPICEYHBnggEmDKAuoPMjS5cGYMxHW3IiT478JJA8M/CjTZ0GgLRekNGpwAsYABHIypcAgQMsITDtWJYBR6NSqMico9cqR6tKfY7GeBCuVwlipDNmefAtTrkSzB1RaIAoXodsABiZAEFB06gIBWC1mLVgBa0AAOw==);
 }
+
+
+
+
+/*
+* Custom theme overrides.
+*/
+.sp-container {
+    border-radius: 2px;
+    background-color: #fff;
+    border: solid 1px #CCC;
+    padding: 0;
+    box-shadow: 0 .7rem 2rem rgba(0,0,0, .14);
+    width: 100%;
+    max-width: 280px;
+    overflow: visible;
+}
+.sp-palette-container {
+    bottom: 0;
+    float: none;
+    padding: 0;
+    margin: 0;
+}
+.sp-picker-container {
+    width: 100%;
+    padding: 1px;
+    border: 0;
+    box-sizing: border-box;
+}
+.sp-top {
+    display: block;
+}
+.sp-fill {
+    padding-top: 70%;
+}
+.sp-clear {
+    border: 0;
+}
+.sp-dragger {
+    border-radius: 50%;
+    height: 8px;
+    width: 8px;
+    border: 3px solid #fff;
+    background: none;
+    outline: 3px solid #000;
+}
+.sp-hue {
+    margin: 0 15px;
+    top: 15px;
+    bottom: 15px;
+    height: initial;
+    width: 20px;
+    left: initial;
+    border-radius: 2px;
+    box-shadow: inset 0 0 3px rgba(0,0,0, .3);
+}
+.sp-slider {
+    background: white;
+    border: 1px solid #777;
+    position: absolute;
+    top: 0;
+    left: -5px;
+    right: -5px;
+    cursor: pointer;
+    height: 6px;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px rgba(0,0,0, .2);
+}
+.sp-color {
+    right: 50px;
+    bottom: 0;
+}
+.sp-input-container {
+    margin: 0;
+    padding: 8px;
+    width: 40%;
+    float: left;
+    box-sizing: border-box;
+}
+.sp-input {
+    background: #f5feff;
+    font-size: 14px !important;
+    line-height: 1.6em;
+    text-transform: uppercase;
+    color: var(--neutral-800);
+    border: 1px solid #d5eff1;
+    border-radius: 4px;
+    margin: 0;
+    padding: 6px 12px;
+    min-height: 40px;
+}
+.sp-input:hover,
+.sp-input:focus {
+    border-color: var(--primary-1);
+    color: var(--neutral-800);
+}
+.sp-button-container {
+    padding: 8px;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    box-sizing: border-box;
+    grid-column-gap: 20px;
+}
+.sp-button-container::before {
+    content: none;
+    display: none;
+}
+.sp-cancel {
+    font-size: 14px;
+    color: var(--secondary-1);
+    margin: 0;
+}
+.sp-container .sp-choose {
+    background-color: var(--primary-1);
+    font-size: 14px;
+    color: var(--neutral-800);
+    text-align: center;
+    cursor: pointer;
+    border: 0 !important;
+    border-radius: 4px;
+    padding: 12px 16px;
+    font-weight: 600;
+    line-height: 1;
+    text-decoration: none;
+    text-shadow: none;
+    transition: color .3s, background-color .15s;
+}
+.sp-container button:hover {
+    background-color: var(--secondary-3);
+    color: var(--neutral-100);
+}
+.sp-container button:active {
+    box-shadow: none;
+}
+.sp-replacer {
+    background-color: var(--neutral-100);
+    border: 1px solid var(--neutral-300);
+    color: var(--neutral-800);
+    min-height: 40px;
+    -o-object-fit: fill;
+    object-fit: fill;
+    border-radius: 4px;
+    margin-bottom: 0;
+    padding: 6px;
+    font-size: 16px;
+    line-height: 1.6em;
+    display: flex;
+    align-items: center;
+    grid-column-gap: 8px;
+}
+.sp-replacer:hover {
+    border-color: var(--primary-1);
+}
+.sp-preview {
+    background-size: 34%;
+    width: 37px;
+    height: 25px;
+    border-radius: 0;
+    border: 1px solid #a6a6a6;
+}
+.sp-dd {
+    background: url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%23555'><polygon points='0,0 100,0 50,50'/></svg>) no-repeat;
+    background-size: 8px;
+    background-position: 50% 55%;
+    text-indent: -999999px;
+    width: 10px;
+    display: block;
+}
+
+
+
+
+
+
+
