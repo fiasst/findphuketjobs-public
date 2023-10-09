@@ -269,7 +269,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     width: 8px;
     border: 3px solid #fff;
     background: none;
-    outline: 3px solid #000;
+    box-shadow: 0 0 0 3px #000;
 }
 .sp-hue {
     margin: 0 15px;
