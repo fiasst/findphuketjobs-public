@@ -48,11 +48,35 @@
       "oF" : 0,
       "pg" : 0
     },
-    "\/css\/vendors\/jquery.spectrum.css" : {
+    "\/css\/vendors\/jquery.litbox.css" : {
+      "aP" : 1,
+      "bl" : 1,
+      "ci" : 0,
+      "co" : 1,
+      "ft" : 16,
+      "ma" : 0,
+      "oA" : 0,
+      "oAP" : "\/css\/vendors\/jquery.litbox-min.css",
+      "oF" : 0,
+      "pg" : 0
+    },
+    "\/css\/vendors\/jquery.spectrum-min.css" : {
       "aP" : 1,
       "bl" : 0,
       "ci" : 0,
       "co" : 0,
+      "ft" : 16,
+      "ma" : 0,
+      "oA" : 0,
+      "oAP" : "\/css\/vendors\/jquery.spectrum-min-min.css",
+      "oF" : 0,
+      "pg" : 0
+    },
+    "\/css\/vendors\/jquery.spectrum.css" : {
+      "aP" : 1,
+      "bl" : 1,
+      "ci" : 0,
+      "co" : 1,
       "ft" : 16,
       "ma" : 0,
       "oA" : 0,
@@ -74,9 +98,9 @@
     },
     "\/css\/vendors\/select2.css" : {
       "aP" : 1,
-      "bl" : 0,
+      "bl" : 1,
       "ci" : 0,
-      "co" : 0,
+      "co" : 1,
       "ft" : 16,
       "ma" : 0,
       "oA" : 0,
@@ -454,6 +478,17 @@
       "mi" : 1,
       "oA" : 0,
       "oAP" : "\/js\/vendors\/jquery.select2.min-min.js",
+      "oF" : 0,
+      "sC" : 3,
+      "tS" : 0
+    },
+    "\/js\/vendors\/jquery.spectrum-min.js" : {
+      "bF" : 0,
+      "ft" : 64,
+      "ma" : 0,
+      "mi" : 1,
+      "oA" : 0,
+      "oAP" : "\/js\/vendors\/jquery.spectrum-min-min.js",
       "oF" : 0,
       "sC" : 3,
       "tS" : 0
