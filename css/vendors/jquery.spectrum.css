@@ -383,7 +383,6 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 
 /* Buttons */
 .sp-button-container {
-    padding: 8px;
     width: 58%;
     display: flex;
     align-items: center;
