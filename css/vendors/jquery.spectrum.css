@@ -229,11 +229,12 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 .sp-container {
     background: #fff;
     border-radius: 2px;
-    border: solid 1px #CCC;
+    border: solid 1px #d8d8d8;
     box-shadow: 0 1rem 1.5rem rgba(0,0,0, .15);
     width: 100%;
     max-width: 280px;
     overflow: visible;
+    padding: 10px;
 }
 .sp-container,
 .sp-container button,
@@ -245,6 +246,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 }
 .sp-top {
     display: block;
+    margin-bottom: 10px;
 }
 .sp-color,
 .sp-hue,
@@ -272,7 +274,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     box-shadow: 0 0 0 3px #000;
 }
 .sp-hue {
-    margin: 0 15px;
+    margin: 0 10px 0 15px;
     top: 15px;
     bottom: 15px;
     height: initial;
@@ -290,6 +292,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     right: -5px;
     cursor: pointer;
     height: 6px;
+    margin-top: 3px;
     border-radius: 2px;
     box-shadow: 0 2px 2px rgba(0,0,0, .2);
 }
@@ -331,7 +334,6 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 .sp-palette-container {
     position: relative;
     width: 100%;
-    padding: 1px;
     margin: 0;
     border: 0;
     box-sizing: border-box;
