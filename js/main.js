@@ -283,6 +283,15 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
+    pub.featuredBusiness = function() {
+        $('.featured-company').each(function() {
+            var $item = $(this);
+            // Business Branding CSS Var.
+            $item.css('--business-brand-color', $item.attr('data-brand-color'));
+        });
+    };
+
+
     //
     // This get called whenever a Collection Item gets loaded on a page, including with AJAX.
     //
@@ -369,6 +378,7 @@ var MAIN = (function($, window, document, undefined) {
         // Init.
         //
         pub.jobItem();
+        pub.featuredBusiness();
         pub.collectionItem();
 
 
