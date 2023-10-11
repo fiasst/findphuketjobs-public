@@ -665,7 +665,7 @@ $.fn.inputAttrDefaultValue = function() {
             if ($el.attr('type') == 'number') {
                 val = HELP.removeNonNumeric(val);
             }
-            $el.val(HELP.sanitizeHTML(val), false, false).trigger('change');
+            $el.val(HELP.sanitizeHTML(val, false, false)).trigger('change');
         }
     })
 };
