@@ -73,11 +73,14 @@ HELP = (function($, window, document, undefined) {
     //
     // Remove <script> tags and any attributes that start with 'on' (onclick, etc).
         // This helps to guards against XSS attack.
+    // @Params:
+    // escapeChars: Won't escape certain HTML such as & (to &amp;) when set to false.
+        // This is less secure but useful and necessary for certain cases.
     //
-    pub.sanitizeHTML = (str, allowedTags) => {
+    pub.sanitizeHTML = (str, allowedTags, escapeChars = true) => {
         if (!str) return;
 
-        const escapeChars = {
+        const escapeCharacters = {
             '&': '&amp;', '<': '&lt;', '>': '&gt;'
         };
         if (allowedTags) {
@@ -88,11 +91,13 @@ HELP = (function($, window, document, undefined) {
                 .replace(/src/gi, '');
         }
         else {
-            // Escape certain HTML characters.
-            // (Match & if not followed by (apos|quot|gt/lt|amp);)
-            str = str.replace(/[<>]|&(?!(?:apos|quot|[gl]t|amp);)/gi, match => escapeChars[match])
-            // All combinations of the character "<" in HTML/JS (semicolon optional):
-                .replace(/(\x3c:?|\u003c:?)|(?:&(amp;)?#0*60;?|&(amp;)?#x0*3c;?):?/gi, '');
+            if (escapeChars) {
+                // Escape certain HTML characters.
+                // (Match & if not followed by (apos|quot|gt/lt|amp);)
+                str = str.replace(/[<>]|&(?!(?:apos|quot|[gl]t|amp);)/gi, match => escapeCharacters[match]);
+                // All combinations of the character "<" in HTML/JS (semicolon optional):
+            }
+            str = str.replace(/(\x3c:?|\u003c:?)|(?:&(amp;)?#0*60;?|&(amp;)?#x0*3c;?):?/gi, '');
         }
         str = str.toString()
             // Remove <script> tags and content.
