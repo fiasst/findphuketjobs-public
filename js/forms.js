@@ -777,7 +777,7 @@ $.fn.createSelect2 = function(options) {
         $.each(items, function(i, el) {
             ops = options;
             ops.placeholder = $(el).attr('placeholder') || "Select...";
-            ops.minimumResultsForSearch = options.minimumResultsForSearch || 10;
+            ops.minimumResultsForSearch = options.minimumResultsForSearch || 19;
             var selected = $(el).find('option[selected]');
             
             // If the select doesn't have a "multiple" attribute.
