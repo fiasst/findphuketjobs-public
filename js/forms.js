@@ -247,9 +247,6 @@ var FORMS = (function($, window, document, undefined) {
                         // the Editor adds HTML which increases the textarea character count so we
                         // validate the field's char count instead of setting a hard limit on it.
                     return editor.text().length > Number($(field).attr('data-valid-maxlength'));
-                },
-                ignore: function(field) {
-                    return !$(field).hasClass('bouncer-ignore');
                 }
             },
             messages: {
