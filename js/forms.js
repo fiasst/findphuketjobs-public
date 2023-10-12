@@ -168,6 +168,73 @@ var FORMS = (function($, window, document, undefined) {
 
 
     //
+    // AJAX form submit logic.
+        // Used by ".form-submit" and ".bouncer" forms.
+    //
+    pub.ajaxSubmitHandler = (form, handlerOptions) => {
+        var $form = $(form),
+            $button = $form.find('.form-submit.clicked'),
+            validation = $form.attr('data-validation'),
+            dataType = $form.attr('data-form-values-type');
+
+        // Custom form validation.
+        if (validation && !HELP.callNestedFunction(validation)) {
+            // Validation function retured false.
+            console.log('Validation failed');
+            MAIN.buttonThinking($button, true);
+            // Don't proceed.
+            return false;
+        }
+
+        var data = HELP.getFormValues($form, dataType),
+            formIncrement = HELP.getCookie('form-valid'),
+            i = 2;
+
+        formIncrement = !!formIncrement ? Number(formIncrement) : 0;
+        formIncrement = ++formIncrement;
+
+        if (dataType == 'formData') {
+            data.set('increment', formIncrement);
+        }
+        else {
+            data.increment = formIncrement;
+        }
+        HELP.setCookie('form-valid', formIncrement);
+
+        var ajaxParams = {
+            url: $form.attr('action'),
+            method: $form.attr('method'),
+            data: data,
+            timeout: 120000,
+            callbackSuccess: function(data) {
+                MAIN.thinking(false);
+                MAIN.handleAjaxResponse(data, $form);
+                // Extra callback for this function, not passed through to sendAJAX().
+                if (typeof handlerOptions.callbackSuccess === "function") handlerOptions.callbackSuccess();
+            },
+            callbackError: function(data) {
+                MAIN.thinking(false);
+                console.log('error');
+                // Extra callback for this function, not passed through to sendAJAX().
+                if (typeof handlerOptions.callbackError === "function") handlerOptions.callbackError();
+            }
+        };
+        // File upload fields break the JS without these settings.
+        if (dataType == 'formData') {
+            ajaxParams.processData = false;
+            ajaxParams.contentType = false;
+            ajaxParams.cache = false;
+        }
+
+        MAIN.buttonThinking($button);
+        MAIN.thinking(true, false);
+        console.log('data: ', ajaxParams.data);
+
+        HELP.sendAJAX(ajaxParams, $form);
+    };
+
+
+    //
     // On DOM ready.
     //
     $(function() {
@@ -313,7 +380,7 @@ var FORMS = (function($, window, document, undefined) {
             if ($(form).hasClass('ajax')) {
                 console.log('ajax');
                 // AJAX Form is valid so submit it.
-                ajaxSubmitHandler(form);
+                pub.ajaxSubmitHandler(form);
             }
             else {
                 console.log('native');
@@ -325,7 +392,7 @@ var FORMS = (function($, window, document, undefined) {
         // AJAX Form submit listener.
             // If you want to AJAX submit a form without Bouncer.js
             // add this class to a form.
-        // Otherwise, add ".bouncer" class and ajaxSubmitHandler()
+        // Otherwise, add ".bouncer" class and pub.ajaxSubmitHandler()
             // gets called when the form validates.
         //
         $('.ajax-submit')
@@ -335,75 +402,8 @@ var FORMS = (function($, window, document, undefined) {
             .on('submit', function(e) {
                 e.preventDefault();
                 // Submit form via AJAX.
-                ajaxSubmitHandler(event.target);
+                pub.ajaxSubmitHandler(event.target);
             });
-
-
-        //
-        // AJAX form submit logic.
-            // Used by ".form-submit" and ".bouncer" forms.
-        //
-        const ajaxSubmitHandler = (form, handlerOptions) => {
-            var $form = $(form),
-                $button = $form.find('.form-submit.clicked'),
-                validation = $form.attr('data-validation'),
-                dataType = $form.attr('data-form-values-type');
-
-            // Custom form validation.
-            if (validation && !HELP.callNestedFunction(validation)) {
-                // Validation function retured false.
-                console.log('Validation failed');
-                MAIN.buttonThinking($button, true);
-                // Don't proceed.
-                return false;
-            }
-
-            var data = HELP.getFormValues($form, dataType),
-                formIncrement = HELP.getCookie('form-valid'),
-                i = 2;
-
-            formIncrement = !!formIncrement ? Number(formIncrement) : 0;
-            formIncrement = ++formIncrement;
-
-            if (dataType == 'formData') {
-                data.set('increment', formIncrement);
-            }
-            else {
-                data.increment = formIncrement;
-            }
-            HELP.setCookie('form-valid', formIncrement);
-
-            var ajaxParams = {
-                url: $form.attr('action'),
-                method: $form.attr('method'),
-                data: data,
-                timeout: 120000,
-                callbackSuccess: function(data) {
-                    MAIN.thinking(false);
-                    MAIN.handleAjaxResponse(data, $form);
-                    // Extra callback for this function, not passed through to sendAJAX().
-                    if (typeof handlerOptions.callbackSuccess === "function") handlerOptions.callbackSuccess();
-                },
-                callbackError: function(data) {
-                    MAIN.thinking(false);
-                    console.log('error');
-                    // Extra callback for this function, not passed through to sendAJAX().
-                    if (typeof handlerOptions.callbackError === "function") handlerOptions.callbackError();
-                }
-            };
-            // File upload fields break the JS without these settings.
-            if (dataType == 'formData') {
-                ajaxParams.processData = false;
-                ajaxParams.contentType = false;
-                ajaxParams.cache = false;
-            }
-
-            MAIN.buttonThinking($button);
-            MAIN.thinking(true, false);
-            console.log('data: ', ajaxParams.data);
-
-            HELP.sendAJAX(ajaxParams, $form);
-        };
 
 
         //
