@@ -308,7 +308,17 @@ var FORMS = (function($, window, document, undefined) {
         // Form is valid event listener.
         .on('bouncerFormValid', function(e) {
             // Form is valid so submit it.
-            ajaxSubmitHandler(event.target);
+            let form = event.target;
+
+            if ($(form).hasClass('ajax')) {
+                console.log('ajax');
+                // AJAX Form is valid so submit it.
+                ajaxSubmitHandler(form);
+            }
+            else {
+                console.log('native');
+                form.submit();
+            }
         });
 
         //
