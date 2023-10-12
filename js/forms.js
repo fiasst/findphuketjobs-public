@@ -329,21 +329,21 @@ var FORMS = (function($, window, document, undefined) {
             // gets called when the form validates.
         //
         $('.ajax-submit')
-        .on('click', '.form-submit', function(e) {
-            $(e.target).addClass('clicked');
-        })
-        .on('submit', function(e) {
-            e.preventDefault();
-            // Submit form via AJAX.
-            ajaxSubmitHandler(event.target);
-        });
+            .on('click', '.form-submit', function(e) {
+                $(e.target).addClass('clicked');
+            })
+            .on('submit', function(e) {
+                e.preventDefault();
+                // Submit form via AJAX.
+                ajaxSubmitHandler(event.target);
+            });
 
 
         //
         // AJAX form submit logic.
             // Used by ".form-submit" and ".bouncer" forms.
         //
-        const ajaxSubmitHandler = (form) => {
+        const ajaxSubmitHandler = (form, handlerOptions) => {
             var $form = $(form),
                 $button = $form.find('.form-submit.clicked'),
                 validation = $form.attr('data-validation'),
@@ -381,10 +381,14 @@ var FORMS = (function($, window, document, undefined) {
                 callbackSuccess: function(data) {
                     MAIN.thinking(false);
                     MAIN.handleAjaxResponse(data, $form);
+                    // Extra callback for this function, not passed through to sendAJAX().
+                    if (typeof handlerOptions.callbackSuccess === "function") handlerOptions.callbackSuccess();
                 },
                 callbackError: function(data) {
                     MAIN.thinking(false);
                     console.log('error');
+                    // Extra callback for this function, not passed through to sendAJAX().
+                    if (typeof handlerOptions.callbackError === "function") handlerOptions.callbackError();
                 }
             };
             // File upload fields break the JS without these settings.
