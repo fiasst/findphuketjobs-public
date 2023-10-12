@@ -308,7 +308,7 @@ var FORMS = (function($, window, document, undefined) {
         // Form is valid event listener.
         .on('bouncerFormValid', function(e) {
             // Form is valid so submit it.
-            ajaxSubmitHandler(e);
+            ajaxSubmitHandler(event.target);
         });
 
         //
@@ -325,7 +325,7 @@ var FORMS = (function($, window, document, undefined) {
         .on('submit', function(e) {
             e.preventDefault();
             // Submit form via AJAX.
-            ajaxSubmitHandler(e);
+            ajaxSubmitHandler(event.target);
         });
 
 
@@ -333,8 +333,8 @@ var FORMS = (function($, window, document, undefined) {
         // AJAX form submit logic.
             // Used by ".form-submit" and ".bouncer" forms.
         //
-        const ajaxSubmitHandler = (event) => {
-            var $form = $(event.target),
+        const ajaxSubmitHandler = (form) => {
+            var $form = $(form),
                 $button = $form.find('.form-submit.clicked'),
                 validation = $form.attr('data-validation'),
                 dataType = $form.attr('data-form-values-type');
