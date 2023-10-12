@@ -638,11 +638,16 @@ var MAIN = (function($, window, document, undefined) {
         //
         $(document).on('click', '.js-next-step', function(e) {
             e.preventDefault();
+            $(this).nextStep();
+        });
+        // Next step.
+            // Usage: $('.some-button').nextStep();
+        $.fn.nextStep = function() {
             $(this).parents('.js-steps').find('[class*="js-step-"]').addClass('hide')
                 .filter('.js-step-'+ $(this).attr('data-step')).removeClass('hide');
-        });
+        };
         // Reset steps back to step 1.
-            // Usage: $('#wrapper').resetSteps();
+            // Usage: $('.wrapper-element').resetSteps();
         $.fn.resetSteps = function() {
             $(this).find('[class*="js-step-"]').addClass('hide')
                 .filter('.js-step-1').removeClass('hide');

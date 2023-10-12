@@ -229,7 +229,7 @@ var FORMS = (function($, window, document, undefined) {
         // Bouncer site-wide form validation.
             // Works for all forms with a ".bouncer" class.
         //
-        var bouncer = new Bouncer('form.bouncer', {
+        pub.bouncer = new Bouncer('form.bouncer', {
             fieldClass: 'error',// Applied to fields with errors
             errorClass: 'error-text',// Applied to the error message for invalid fields
             fieldPrefix: 'bouncer-field_',
@@ -247,6 +247,9 @@ var FORMS = (function($, window, document, undefined) {
                         // the Editor adds HTML which increases the textarea character count so we
                         // validate the field's char count instead of setting a hard limit on it.
                     return editor.text().length > Number($(field).attr('data-valid-maxlength'));
+                },
+                ignore: function(field) {
+                    return !$(field).hasClass('bouncer-ignore');
                 }
             },
             messages: {
@@ -295,7 +298,7 @@ var FORMS = (function($, window, document, undefined) {
             // in the $.fn.createSelect2() function.
         //
         $('textarea.editor, .select2-field').on('blur', function(e) {
-            bouncer.validate(this);
+            pub.bouncer.validate(this);
         });
 
         $(document)
