@@ -284,6 +284,7 @@ textarea.editor-processed {
 }
 
 
+
 /*
 *
 * Misc.
@@ -303,6 +304,20 @@ textarea.editor-processed {
 */
 .icon-svg {
   fill: #BF1363;
+}
+
+
+
+/*
+* 
+* Webflow.
+* 
+* Dropdowns.
+*/
+@media screen and (max-width: 991px) {
+  .dropdown-link.dropdown.w--open {
+    display: flex;
+  }
 }
 
 
