@@ -210,13 +210,17 @@ var FORMS = (function($, window, document, undefined) {
                 MAIN.thinking(false);
                 MAIN.handleAjaxResponse(data, $form);
                 // Extra callback for this function, not passed through to sendAJAX().
-                if (typeof handlerOptions.callbackSuccess === "function") handlerOptions.callbackSuccess(data);
+                if (handlerOptions && typeof handlerOptions.callbackSuccess === "function") {
+                    handlerOptions.callbackSuccess(data);
+                }
             },
             callbackError: function(data) {
                 MAIN.thinking(false);
                 console.log('error');
                 // Extra callback for this function, not passed through to sendAJAX().
-                if (typeof handlerOptions.callbackError === "function") handlerOptions.callbackError();
+                if (handlerOptions && typeof handlerOptions.callbackError === "function") {
+                    handlerOptions.callbackError();
+                }
             }
         };
         // File upload fields break the JS without these settings.
@@ -378,12 +382,11 @@ var FORMS = (function($, window, document, undefined) {
             let form = event.target;
 
             if ($(form).hasClass('ajax')) {
-                console.log('ajax');
                 // AJAX Form is valid so submit it.
                 pub.ajaxSubmitHandler(form);
             }
             else {
-                console.log('native');
+                // Native form submit.
                 form.submit();
             }
         });
