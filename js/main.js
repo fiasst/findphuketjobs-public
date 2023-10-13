@@ -114,7 +114,7 @@ var MAIN = (function($, window, document, undefined) {
                     // Nothing to see yet.
                     break;
 
-                default:
+                case 'dialog':
                     pub.openDialog(data);
             }
         }

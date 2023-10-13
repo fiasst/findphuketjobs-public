@@ -210,7 +210,7 @@ var FORMS = (function($, window, document, undefined) {
                 MAIN.thinking(false);
                 MAIN.handleAjaxResponse(data, $form);
                 // Extra callback for this function, not passed through to sendAJAX().
-                if (typeof handlerOptions.callbackSuccess === "function") handlerOptions.callbackSuccess();
+                if (typeof handlerOptions.callbackSuccess === "function") handlerOptions.callbackSuccess(data);
             },
             callbackError: function(data) {
                 MAIN.thinking(false);

@@ -547,6 +547,7 @@ body.no-scroll .fp-overlay {
     &.country-selector {
       ul {
         position: relative;
+        top: auto !important;
         border: 0;
       }
       .wg-li {

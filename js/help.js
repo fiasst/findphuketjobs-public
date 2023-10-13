@@ -615,7 +615,7 @@ HELP = (function($, window, document, undefined) {
     //
     //
     pub.sendAJAX = function(options, form) {
-        params = $.extend({
+        var params = $.extend({
             //url: "",// Required and must be provided.
             //data: {},// Required and must be provided.
             method: "POST",
