@@ -578,7 +578,7 @@ var FORMS = (function($, window, document, undefined) {
                 $('.select-list-options').each(function() {
                     var $select = $(this).parent('.select-list-wrapper').find('select');
 
-                    var i = 0;// Don't use the .each() index, you can't advance that with i++.
+                    var i = 0;// Don't use .each() index parameter, you can't advance it with i++.
                     $('.w-dyn-item', this).each(function() {
                         var $option = $('option', $select).eq(i);
                         // Check if the first item is a placeholder option.
@@ -795,6 +795,7 @@ $.fn.createSelect2 = function(options) {
             ops = options;
             ops.placeholder = $(el).attr('placeholder') || "Select...";
             ops.minimumResultsForSearch = options.minimumResultsForSearch || 19;
+            ops.dropdownParent = $(el).parents('.input-wrapper') || $('body');
             var selected = $(el).find('option[selected]');
             
             // If the select doesn't have a "multiple" attribute.
