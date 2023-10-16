@@ -4556,7 +4556,9 @@ S2.define('select2/dropdown/attachBody',[
       function (decorated, container) {
     var self = this;
 
-    // var scrollEvent = 'scroll.select2.' + container.id;
+    //// @EDIT: by MH.
+        // See: https://stackoverflow.com/a/71330855/1506194
+    //// var scrollEvent = 'scroll.select2.' + container.id;
     var resizeEvent = 'resize.select2.' + container.id;
     var orientationEvent = 'orientationchange.select2.' + container.id;
 
@@ -4567,11 +4569,11 @@ S2.define('select2/dropdown/attachBody',[
         y: $(this).scrollTop()
       });
     });
-
-    // $watchers.on(scrollEvent, function (ev) {
-    //   var position = Utils.GetData(this, 'select2-scroll-position');
-    //   $(this).scrollTop(position.y);
-    // });
+    
+    //// $watchers.on(scrollEvent, function (ev) {
+    ////   var position = Utils.GetData(this, 'select2-scroll-position');
+    ////   $(this).scrollTop(position.y);
+    //// });
 
     // $(window).on(scrollEvent + ' ' + resizeEvent + ' ' + orientationEvent,
     $(window).on(resizeEvent + ' ' + orientationEvent,
@@ -4583,15 +4585,16 @@ S2.define('select2/dropdown/attachBody',[
 
   AttachBody.prototype._detachPositioningHandler =
       function (decorated, container) {
-    // var scrollEvent = 'scroll.select2.' + container.id;
+    //// var scrollEvent = 'scroll.select2.' + container.id;
     var resizeEvent = 'resize.select2.' + container.id;
     var orientationEvent = 'orientationchange.select2.' + container.id;
 
     var $watchers = this.$container.parents().filter(Utils.hasScroll);
-    // $watchers.off(scrollEvent);
+    //// $watchers.off(scrollEvent);
 
-    // $(window).off(scrollEvent + ' ' + resizeEvent + ' ' + orientationEvent);
+    //// $(window).off(scrollEvent + ' ' + resizeEvent + ' ' + orientationEvent);
     $(window).off(resizeEvent + ' ' + orientationEvent);
+    //// END.
   };
 
   AttachBody.prototype._positionDropdown = function () {
@@ -4624,13 +4627,13 @@ S2.define('select2/dropdown/attachBody',[
       bottom: $window.scrollTop() + $window.height()
     };
 
-    // @EDIT: by MH.
+    //// @EDIT: by MH.
         //See: https://stackoverflow.com/questions/19983601/prevent-select2-from-flipping-the-dropdown-upward
-    // var enoughRoomAbove = viewport.top < (offset.top - dropdown.height);
-    // var enoughRoomBelow = viewport.bottom > (offset.bottom + dropdown.height);
+    //// var enoughRoomAbove = viewport.top < (offset.top - dropdown.height);
+    //// var enoughRoomBelow = viewport.bottom > (offset.bottom + dropdown.height);
     var enoughRoomAbove = false;
     var enoughRoomBelow = true;
-    // END.
+    //// END.
 
     var css = {
       left: offset.left,

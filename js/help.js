@@ -7,7 +7,15 @@ var USER = {},
     ADD_JOB = {},
 
 HELP = (function($, window, document, undefined) {
-    var pub = {};
+    var pub = {
+        breakpoints: {
+            mobile: 479,
+            mobileWide: 767,
+            tablet: 991,
+            desktop: 1439
+            // desktopWide: 1919
+        }
+    };
 
     
     //
@@ -41,7 +49,10 @@ HELP = (function($, window, document, undefined) {
     pub.getKey = (e) => {
         if (e.key) return e.key;
         return String.fromCharCode(e.which || e.keyCode);
-    }
+    };
+
+
+    pub.winWidth = () => $(window).width();
 
 
     //

@@ -813,6 +813,15 @@ $.fn.createSelect2 = function(options) {
                 .on('change', function() {
                     // Trigger Bouncer form validation.
                     $(this).trigger('blur');
+                })
+                .on('select2:opening', function(e) {
+                    // If mobile screen width.
+                    if (HELP.winWidth() <= HELP.breakpoints.mobileWide) {
+                        // Scroll field into view.
+                        let $wrapper = $(this).parents('.input-wrapper'),
+                            pos = !!$wrapper.length ? $wrapper.position().top : $(this).position().top -30;
+                        $(window).scrollTop(pos);
+                    }
                 });
         });
     });
