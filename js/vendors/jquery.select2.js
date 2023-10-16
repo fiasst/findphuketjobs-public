@@ -4623,10 +4623,12 @@ S2.define('select2/dropdown/attachBody',[
     };
 
     // @EDIT: by MH.
+        //See: https://stackoverflow.com/questions/19983601/prevent-select2-from-flipping-the-dropdown-upward
     // var enoughRoomAbove = viewport.top < (offset.top - dropdown.height);
-    var enoughRoomAbove = false;
     // var enoughRoomBelow = viewport.bottom > (offset.bottom + dropdown.height);
+    var enoughRoomAbove = false;
     var enoughRoomBelow = true;
+    // END.
 
     var css = {
       left: offset.left,
