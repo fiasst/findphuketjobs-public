@@ -814,13 +814,22 @@ $.fn.createSelect2 = function(options) {
                     // Trigger Bouncer form validation.
                     $(this).trigger('blur');
                 })
+                // Triggered before the dropdown is opened. 
                 .on('select2:opening', function(e) {
-                    // If mobile screen width.
+                    // Smooth scroll to Select2 on mobiles.
                     if (HELP.winWidth() <= HELP.breakpoints.mobileWide) {
-                        // Scroll field into view.
                         let $wrapper = $(this).parents('.input-wrapper'),
-                            pos = !!$wrapper.length ? $wrapper.position().top : $(this).position().top -30;
-                        $(window).scrollTop(pos);
+                            // If select2 is within Litbox, scroll that, otherwise scroll html/body.
+                            $litbox = $wrapper.parents('#lboxOverlay'),
+                            $parent = $('html, body'),
+                            $el = !!$wrapper.length ? $wrapper : $(this);
+                            pos = $el.offset().top -90;
+
+                        if (!!$litbox.length) {
+                            $parent = $litbox;
+                            pos = $el.position().top;
+                        }
+                        $parent.stop().animate({scrollTop: pos}, 500);
                     }
                 });
         });
