@@ -4556,7 +4556,7 @@ S2.define('select2/dropdown/attachBody',[
       function (decorated, container) {
     var self = this;
 
-    var scrollEvent = 'scroll.select2.' + container.id;
+    // var scrollEvent = 'scroll.select2.' + container.id;
     var resizeEvent = 'resize.select2.' + container.id;
     var orientationEvent = 'orientationchange.select2.' + container.id;
 
@@ -4568,12 +4568,13 @@ S2.define('select2/dropdown/attachBody',[
       });
     });
 
-    $watchers.on(scrollEvent, function (ev) {
-      var position = Utils.GetData(this, 'select2-scroll-position');
-      $(this).scrollTop(position.y);
-    });
+    // $watchers.on(scrollEvent, function (ev) {
+    //   var position = Utils.GetData(this, 'select2-scroll-position');
+    //   $(this).scrollTop(position.y);
+    // });
 
-    $(window).on(scrollEvent + ' ' + resizeEvent + ' ' + orientationEvent,
+    // $(window).on(scrollEvent + ' ' + resizeEvent + ' ' + orientationEvent,
+    $(window).on(resizeEvent + ' ' + orientationEvent,
       function (e) {
       self._positionDropdown();
       self._resizeDropdown();
@@ -4582,14 +4583,15 @@ S2.define('select2/dropdown/attachBody',[
 
   AttachBody.prototype._detachPositioningHandler =
       function (decorated, container) {
-    var scrollEvent = 'scroll.select2.' + container.id;
+    // var scrollEvent = 'scroll.select2.' + container.id;
     var resizeEvent = 'resize.select2.' + container.id;
     var orientationEvent = 'orientationchange.select2.' + container.id;
 
     var $watchers = this.$container.parents().filter(Utils.hasScroll);
-    $watchers.off(scrollEvent);
+    // $watchers.off(scrollEvent);
 
-    $(window).off(scrollEvent + ' ' + resizeEvent + ' ' + orientationEvent);
+    // $(window).off(scrollEvent + ' ' + resizeEvent + ' ' + orientationEvent);
+    $(window).off(resizeEvent + ' ' + orientationEvent);
   };
 
   AttachBody.prototype._positionDropdown = function () {

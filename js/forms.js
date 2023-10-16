@@ -795,7 +795,7 @@ $.fn.createSelect2 = function(options) {
             ops = options;
             ops.placeholder = $(el).attr('placeholder') || "Select...";
             ops.minimumResultsForSearch = options.minimumResultsForSearch || 19;
-            ops.dropdownParent = $(el).parents('.input-wrapper') || $('form');
+            ops.dropdownParent = $(el).parents('form') || $('body');
             var selected = $(el).find('option[selected]');
             
             // If the select doesn't have a "multiple" attribute.
