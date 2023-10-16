@@ -542,8 +542,8 @@
 /*
 * Select2 custom overrides.
 */
-.input-wrapper .select2-container {
-  z-index: unset !important;
+.select2-container {
+  width: 100% !important;
 }
 .select2-container .select2-selection {
   background: #f6feff;
@@ -609,6 +609,9 @@
 .select2-container .select2-search--inline {
   float: left;
 }
+/*.select2-dropdown {
+  width: 100% !important;
+}*/
 .select2-container.select2-container--open .select2-dropdown {
   box-shadow: 0 4px 20px rgba(0,0,0, .1);
 }

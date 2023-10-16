@@ -76,6 +76,13 @@ html {
 * Forms.
 *
 */
+form {
+    // This is a fix form Select2 dropdowns being too wide
+    // or being their position being wrong. The Select2
+    // dropdown is appended to the form element instead of
+    // the body to fix issues with them within Litbox modals.
+    position: relative;
+}
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
