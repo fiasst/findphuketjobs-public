@@ -4624,9 +4624,9 @@ S2.define('select2/dropdown/attachBody',[
 
     // @EDIT: by MH.
     // var enoughRoomAbove = viewport.top < (offset.top - dropdown.height);
-    var enoughRoomAbove = true;
+    var enoughRoomAbove = false;
     // var enoughRoomBelow = viewport.bottom > (offset.bottom + dropdown.height);
-    var enoughRoomBelow = false;
+    var enoughRoomBelow = true;
 
     var css = {
       left: offset.left,
