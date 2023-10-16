@@ -815,7 +815,7 @@ $.fn.createSelect2 = function(options) {
                     $(this).trigger('blur');
                 })
                 // Triggered before the dropdown is opened. 
-                .on('select2:opening', function(e) {
+                .on('select2:open', function(e) {
                     // Smooth scroll to Select2 on mobiles.
                     if (HELP.winWidth() <= HELP.breakpoints.mobileWide) {
                         let $wrapper = $(this).parents('.input-wrapper'),
