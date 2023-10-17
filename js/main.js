@@ -30,7 +30,7 @@ var MAIN = (function($, window, document, undefined) {
         // usng Gulp to combine and minify all JS files.
         // Don't want to add any more HTTP requests...
     //
-    HELP.waitFor(window, '$memberstackDom', 50, function() {
+    /*HELP.waitFor(window, '$memberstackDom', 50, function() {
         const msShowMessage = $memberstackDom._showMessage;
         // Wrapper function.
         $memberstackDom._showMessage = function(arguments) {
@@ -49,7 +49,7 @@ var MAIN = (function($, window, document, undefined) {
             }
           }
         };
-    });
+    });*/
 
 
     //
