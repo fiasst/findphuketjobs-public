@@ -1,8 +1,8 @@
+//
+//
+//
 var FORMS = (function($, window, document, undefined) {
     var pub = {};
-
-
-    
 
 
     //
@@ -813,25 +813,7 @@ $.fn.createSelect2 = function(options) {
                 .on('change', function() {
                     // Trigger Bouncer form validation.
                     $(this).trigger('blur');
-                })
-                // Triggered before the dropdown is opened. 
-                /*.on('select2:open', function(e) {
-                    // Smooth scroll to Select2 on mobiles.
-                    if (HELP.winWidth() <= HELP.breakpoints.mobileWide) {
-                        let $wrapper = $(this).parents('.input-wrapper'),
-                            // If select2 is within Litbox, scroll that, otherwise scroll html/body.
-                            $litbox = $wrapper.parents('#lboxOverlay'),
-                            $parent = $('html, body'),
-                            $el = !!$wrapper.length ? $wrapper : $(this);
-                            pos = $el.offset().top -90;
-
-                        if (!!$litbox.length) {
-                            $parent = $litbox;
-                            pos = $el.position().top;
-                        }
-                        $parent.stop().animate({scrollTop: pos}, 500);
-                    }
-                });*/
+                });
         });
     });
 };

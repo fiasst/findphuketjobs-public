@@ -1,7 +1,6 @@
-/*
-* functions that help other functions to do their thing.
-*/
-
+///
+// functions that help other functions to do their thing.
+//
 var USER = {},
     MAIN = {},
     ADD_JOB = {},
@@ -22,6 +21,14 @@ HELP = (function($, window, document, undefined) {
     //
     //
     pub.timezone = "Asia/Bangkok";
+
+
+    //
+    // Move to language.js once using Gulp to combine and minify all JS files.
+    //
+    pub.getCurrentLang = function() {
+        return pub.checkKeyExists(window, "Weglot") ? Weglot.getCurrentLang() : 'en';
+    };
 
 
     //
@@ -50,9 +57,6 @@ HELP = (function($, window, document, undefined) {
         if (e.key) return e.key;
         return String.fromCharCode(e.which || e.keyCode);
     };
-
-
-    pub.winWidth = () => $(window).width();
 
 
     //
@@ -202,14 +206,6 @@ HELP = (function($, window, document, undefined) {
     //
     pub.getCurrentDomain = function() {
         return window.location.origin;
-    };
-
-
-    //
-    //
-    //
-    pub.getCurrentLang = function() {
-        return pub.checkKeyExists(window, "Weglot") ? Weglot.getCurrentLang() : 'en';
     };
 
 

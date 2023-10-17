@@ -556,6 +556,7 @@
   color: #202d2f;
   font-size: 16px;
   line-height: 1.6em;
+  outline: none !important;
 }
 .input-wrapper.error .select2-container .select2-selection {
   border-color: #e37d7d !important;

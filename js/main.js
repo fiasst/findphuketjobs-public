@@ -1,3 +1,6 @@
+//
+//
+//
 var MAIN = (function($, window, document, undefined) {
     var pub = {};
 
@@ -18,6 +21,32 @@ var MAIN = (function($, window, document, undefined) {
         "pln_subscription-package-1-p73bj0zxa": "Standard monthly subscription",
         "pln_subscription-package-2-il3bk0zto": "Pro monthly subscription",
         "pln_subscription-package-3-9x3bl0z6j": "Enterprise monthly subscription"
+    };
+
+
+    //
+    // Translate Memberstack message Strings.
+        // Remove this and use language.js instead once
+        // usng Gulp to combine and minify all JS files.
+        // Don't want to add any more HTTP requests...
+    //
+    const msShowMessage = $memberstackDom._showMessage;
+    // Wrapper function.
+    $memberstackDom._showMessage = function() {
+      if (!!arguments.length) {
+        let lang = HELP.getCurrentLang();
+        if (lang != 'en' && HELP.checkKeyExists(window, 'Weglot')) {
+          Weglot.translate({
+            'words':[{
+                "t": 1, "w": arguments[0]}],
+            'languageTo': lang
+          }, function(data) {
+              arguments[0] = data[0];
+              // Call original method with translated message.
+              msShowMessage.apply(this, arguments);
+          });
+        }
+      }
     };
 
 
