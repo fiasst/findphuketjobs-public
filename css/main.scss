@@ -334,12 +334,6 @@ textarea.editor-processed {
 * Utility.
 *
 */
-// Hide certain elements on Live site. This is a safety feature in case a .hide
-// class is omitted by mistake. For example after editing the Job Review form, etc...
-body .hide-live {
-  display: none !important;
-}
-
 .m-0 {
     margin: 0 !important;
 }
@@ -375,6 +369,12 @@ body .hide-live {
 }
 .mb-96 {
   margin-bottom: 96px !important;
+}
+
+// Hide certain elements on Live site. This is a safety feature in case a .hide
+// class is omitted by mistake. For example after editing the Job Review form, etc...
+body .hide-live {
+  display: none !important;
 }
 
 .hide {
