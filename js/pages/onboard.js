@@ -60,7 +60,7 @@ var ONBOARD = (function($, window, document, undefined) {
                     // Update language field if user switches language.
                     HELP.waitFor(window, "Weglot", 100, function() {
                         Weglot.on("languageChanged", function(newLang, prevLang) {
-                            $('input[name="language"]', $form).val(newLang);
+                            $('form.form-register input[name="language"]').val(newLang);
                         });
                     });
                 }
