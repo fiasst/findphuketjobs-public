@@ -389,63 +389,63 @@ body .hide-live {
 }
 @media screen and (min-width: 568px) {
   .hide-sm {
-    display: none;
+    display: none !important;
   }
 }
 @media screen and (min-width: 768px) {
   .hide-md {
-    display: none;
+    display: none !important;
   }
 }
 @media screen and (min-width: 992px) {
   .hide-lg {
-    display: none;
+    display: none !important;
   }
 }
 @media screen and (min-width: 1248px) {
   .hide-xl {
-    display: none;
+    display: none !important;
   }
 }
 @media screen and (min-width: 1441px) {
   .hide-xxl {
-    display: none;
+    display: none !important;
   }
 }
 @media screen and (min-width: 1921px) {
   .hide-xxxl {
-    display: none;
+    display: none !important;
   }
 }
 // Downwards.
 @media screen and (max-width: 567px) {
   .hide-sm-down {
-    display: none;
+    display: none !important;
   }
 }
 @media screen and (max-width: 767px) {
   .hide-md-down {
-    display: none;
+    display: none !important;
   }
 }
 @media screen and (max-width: 991px) {
   .hide-lg-down {
-    display: none;
+    display: none !important;
   }
 }
 @media screen and (max-width: 1247px) {
   .hide-xl-down {
-    display: none;
+    display: none !important;
   }
 }
 @media screen and (max-width: 1440px) {
   .hide-xxl-down {
-    display: none;
+    display: none !important;
   }
 }
 @media screen and (max-width: 1920px) {
   .hide-xxxl-down {
-    display: none;
+    display: none !important;
   }
 }
 
