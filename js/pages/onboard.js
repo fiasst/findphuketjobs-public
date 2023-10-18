@@ -56,6 +56,13 @@ var ONBOARD = (function($, window, document, undefined) {
                     if (HELP.checkKeyExists(onboard, 'language')) {
                         $('input[name="language"]', $form).val(HELP.sanitizeHTML(onboard.language));
                     }
+
+                    // Update language field if user switches language.
+                    HELP.waitFor(window, "Weglot", 100, function() {
+                        Weglot.on("languageChanged", function(newLang, prevLang) {
+                            $('input[name="language"]', $form).val(newLang);
+                        });
+                    });
                 }
                 else {
                     // User is logged in with the localStorage set.

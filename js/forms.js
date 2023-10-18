@@ -574,7 +574,7 @@ var FORMS = (function($, window, document, undefined) {
         // Translate select lists and rebuild any jQuery Select2 widgets.
         //
         HELP.waitFor(window, "Weglot", 400, function() {
-            Weglot.on("languageChanged", function() {
+            Weglot.on("languageChanged", function(newLang, prevLang) {
                 $('.select-list-options').each(function() {
                     var $select = $(this).parent('.select-list-wrapper').find('select');
 

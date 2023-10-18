@@ -36,6 +36,17 @@ var LANG = (function($, window, document, undefined) {
     };
 
 
+    /*
+    * Use this in other files as a listener so you don't need to add multiple waitFor() wrappers
+    * just to listen for language switch events.
+    *
+    HELP.waitFor(window, "Weglot", 100, function() {
+      Weglot.on("languageChanged", function(newLang, prevLang) {
+        $(document).trigger('languageChanged.weglot', [newLang, prevLang]);
+      });
+    });*/
+
+
     //
     // On DOM ready.
     //
