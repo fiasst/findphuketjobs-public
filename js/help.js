@@ -24,14 +24,6 @@ HELP = (function($, window, document, undefined) {
 
 
     //
-    // Move to language.js once using Gulp to combine and minify all JS files.
-    //
-    pub.getCurrentLang = function() {
-        return pub.checkKeyExists(window, "Weglot") ? Weglot.getCurrentLang() : 'en';
-    };
-
-
-    //
     //
     //
     pub.cleanLowerString = (str = '') => $.trim(str.toLowerCase());
@@ -268,7 +260,7 @@ HELP = (function($, window, document, undefined) {
         if (!timestamp) return;
 
         var date = new Date(timestamp),
-            locale = pub.getCurrentLang(),
+            locale = LANG.currentLang(),
             options = {
                 //weekday: 'long',
                 year: 'numeric',
@@ -307,7 +299,7 @@ HELP = (function($, window, document, undefined) {
     //
     pub.getTimestamp = (dateString, localTimezone, usaFormat) => {
         let date = new Date(),
-            lang = pub.getCurrentLang(),
+            lang = LANG.currentLang(),
             options = {};
 
         if (localTimezone) {
@@ -552,7 +544,7 @@ HELP = (function($, window, document, undefined) {
         obj.url = pub.getCurrentDomain();
 
         // Language.
-        obj.language = pub.getCurrentLang();
+        obj.language = LANG.currentLang();
 
         // Add submitted date/time value.
         obj.submitted = pub.getISOdate();
