@@ -15,30 +15,29 @@ var LANG = (function($, window, document, undefined) {
 
     //
     // Translate Memberstack message Strings.
-        // Remove this and use language.js instead once
-        // usng Gulp to combine and minify all JS files.
-        // Don't want to add any more HTTP requests...
     //
-    /*HELP.waitFor(window, '$memberstackDom', 50, function() {
+    HELP.waitFor(window, '$memberstackDom', 50, function() {
+        // Original MS method.
         const msShowMessage = $memberstackDom._showMessage;
         // Wrapper function.
-        $memberstackDom._showMessage = function(arguments) {
-          if (!!arguments.length) {
-            let lang = LANG.currentLang();
-            if (lang != 'en' && HELP.checkKeyExists(window, 'Weglot')) {
-              Weglot.translate({
-                'words':[{
-                    "t": 1, "w": arguments[0]}],
-                'languageTo': lang
-              }, function(data) {
-                  arguments[0] = data[0];
-                  // Call original method with translated message.
-                  msShowMessage.apply(this, arguments);
-              });
-            }
+        $memberstackDom._showMessage = function(text, isError) {
+          let lang = LANG.currentLang();
+          // If not language != English and Weglot has loaded.
+          if (lang != 'en' && HELP.checkKeyExists(window, 'Weglot')) {
+            Weglot.translate({
+              'words':[{"t": 1, "w": text}],
+              'languageTo': lang
+            }, function(data) {
+              // Call original method with translated message.
+              msShowMessage.apply(this, [data[0], isError]);
+            });
+          }
+          else {
+            // Show original message without translating.
+            msShowMessage.apply(this, [text, isError]);
           }
         };
-    });*/
+    });
 
     
     //
