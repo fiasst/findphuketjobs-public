@@ -573,28 +573,26 @@ var FORMS = (function($, window, document, undefined) {
         //
         // Translate select lists and rebuild any jQuery Select2 widgets.
         //
-        HELP.waitFor(window, "Weglot", 400, function() {
-            Weglot.on("languageChanged", function(newLang, prevLang) {
-                $('.select-list-options').each(function() {
-                    var $select = $(this).parent('.select-list-wrapper').find('select');
-
-                    var i = 0;// Don't use .each() index parameter, you can't advance it with i++.
-                    $('.w-dyn-item', this).each(function() {
-                        var $option = $('option', $select).eq(i);
-                        // Check if the first item is a placeholder option.
-                        if (i == 0 && !$option.val()) {
-                            // Skip the first option (has no value).
-                            i++;
-                            $option = $('option', $select).eq(i);
-                        }
-                        $option.text( $(this).text() ).val( $(this).data('lang-en') );
+        $(document).on('languageChanged.weglot', function(e, newLang, prevLang) {
+            $('.select-list-options').each(function() {
+                var $select = $(this).parent('.select-list-wrapper').find('select'),
+                    i = 0;// Don't use .each() index parameter, you can't advance it with i++.
+                
+                $('.w-dyn-item', this).each(function() {
+                    var $option = $('option', $select).eq(i);
+                    // Check if the first item is a placeholder option.
+                    if (i == 0 && !$option.val()) {
+                        // Skip the first option (has no value).
                         i++;
-                    });
-                    if ($select.hasClass('select2-hidden-accessible')) {
-                        $select.select2('destroy');
-                        $select.select2( $select.data('select2-options') );
+                        $option = $('option', $select).eq(i);
                     }
+                    $option.text( $(this).text() ).val( $(this).data('lang-en') );
+                    i++;
                 });
+                if ($select.hasClass('select2-hidden-accessible')) {
+                    $select.select2('destroy');
+                    $select.select2( $select.data('select2-options') );
+                }
             });
         });
 
