@@ -206,6 +206,14 @@ textarea.editor-processed {
   margin-top: 2px;
 }
 
+// All Jobs filter form.
+#wf-form-Jobs-Filter-Form {
+  // Header element position bug fix caused because forms need
+  // pos: rel; for a select2 width bug fix.
+  position: static;
+}
+
+
 
 
 /*
