@@ -656,6 +656,25 @@ var MAIN = (function($, window, document, undefined) {
                 .filter('.js-step-1').removeClass('hide');
         };
 
+
+        //
+        // Cookie consent banner.
+        //
+        var $consentBanner = $('#cookie-consent');
+        // Check if the consent cookie exists.
+        if (!HELP.getCookie('fpj_consent')) {
+            // Cookie not found, show the consent element.
+            $consentBanner.removeClass('hide');
+        }
+        // Handle close button click
+        $consentBanner.on('click', '.consent-close', function(e) {
+            e.preventDefault();
+            // Set the consent cookie to 'true'.
+            HELP.setCookie('fpj_consent', 'true', 365);
+            // Hide the consent element.
+            $consentBanner.remove();
+        });
+
     });
 
     return pub;
