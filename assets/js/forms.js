@@ -10,7 +10,7 @@ var FORMS = (function($, window, document, undefined) {
     //
     pub.uploadFields = function() {
         $('.upload-wrapper').each(function() {
-            var filename = !!$(this).find('.file-existing .file-upload-text').text();
+            var filename = !!$('.file-existing .file-upload-text', this).text();
             $('.upload-field', this).toggle(!filename);
             $('.file-existing', this).toggle(filename);
         });
@@ -600,7 +600,7 @@ var FORMS = (function($, window, document, undefined) {
         //
         // Select dropdowns and Select2 widgets.
         //
-        HELP.waitFor(USER, "current.id", 50, function() {
+        HELP.waitFor(USER, "current", 50, function() {
             //
             // Populate select fields with Collection List item values.
                 // Must be called before the createSelect2() call (below).
@@ -615,6 +615,16 @@ var FORMS = (function($, window, document, undefined) {
                 // Remove select fields with a certain parent. These get initialized in $.fn.buildSelectOptions().
                 return !$(this).parents('.select-list-wrapper').length;
             }).createSelect2();
+
+
+            //
+            // File upload fields.
+                // Wait for getMember() method to respond because the CV upload field
+                // uses the [data-ms-member="cv-filename"] MS attribute to show the
+                // CV filename, which JS uses to show the file details and hide the
+                // upload file field.
+            //
+            pub.uploadFields();
         });
 
 
@@ -632,7 +642,6 @@ var FORMS = (function($, window, document, undefined) {
         //
         // Init:
         //
-        pub.uploadFields();
         // Textarea char count (not used with WYSIWYG editor).
         $('.char-count[maxlength]:not(.editor)').charCountTextareas();
     });
