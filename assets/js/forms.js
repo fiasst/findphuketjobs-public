@@ -585,24 +585,13 @@ var FORMS = (function($, window, document, undefined) {
         // Get current Member.
         //
         USER.getCurrentMember(function(member) {
-            /*
-            // If User is logged-in.
-            if (HELP.checkKeyExists(member, 'id')) {
-                // Add member ID to form field.
-                var hiddenInput = $('.input-member-id');
-
-                if (!!hiddenInput && !hiddenInput.val()) {
-                    hiddenInput.val(member.id);
-                    hiddenInput.parents('form').find('.form-submit').removeAttr('disabled');
-                }
-            }*/
+            //
             // Enable any buttons for forms that require a member ID to be provided (if available).
+                // Don't think this is used on any forms atm but it's a good FE validation option.
+            //
             $('form .form-submit').removeAttr('disabled');
-        // });
-        //
-        // Select dropdowns and Select2 widgets.
-        //
-        // HELP.waitFor(USER, "current", 50, function() {
+        
+
             //
             // Populate select fields with Collection List item values.
                 // Must be called before the createSelect2() call (below).
