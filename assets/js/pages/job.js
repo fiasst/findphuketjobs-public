@@ -10,6 +10,15 @@ var JOB = (function($, window, document, undefined) {
     //
     $(function() {
         //
+        // Toggle province field on Apply form.
+        //
+        $(document).on('change', '#profile-subdistrict', function(e) {
+            $('#profile-province').parents('.input-wrapper').toggle($(e.target).val() == 'Other')
+        });
+        $('#profile-subdistrict').trigger('change');
+
+
+        //
         // Publish Draft/Republish existing Job.
         //
         $('.trigger-publish').on('click', function(e) {
