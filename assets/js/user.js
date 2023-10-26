@@ -17,7 +17,7 @@ USER = (function($, window, document, undefined) {
     var onboard = HELP.getLocalStorage('fpj_onboarding');
     if (!!onboard) {
         // Load onboarding.js to display a welcome message on any page of site.
-        $LAB.script(repoFile("/js/pages/onboard.min.js"));
+        $LAB.script(repoFile("/dist/js/pages/onboard.min.js"));
     }
 
 
