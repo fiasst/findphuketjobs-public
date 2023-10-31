@@ -742,12 +742,12 @@ $.fn.buildSelectOptions = function(options) {
             values = [],
             isMultiSelect = $select.is('select[multiple]');
 
-        defaultValue = $.trim(HELP.sanitizeHTML(defaultValue)) || '';
-
         if (isMultiSelect) {
-            defaultValue = defaultValue.split('|');
+            defaultValue = $('.w-dyn-item', $default).map(function() { return $.trim($(this).text()) });
         }
-
+        else {
+            defaultValue = $.trim(HELP.sanitizeHTML(defaultValue)) || '';
+        }
         $(this).find('.w-dyn-item').each(function() {
             var $enItem = $(this).find('.no-translate'),
                 enVal = $enItem.text();
@@ -761,14 +761,13 @@ $.fn.buildSelectOptions = function(options) {
             if (isMultiSelect) {
                 selected = ($.inArray(val, defaultValue) > -1);
             }
-
             if (!val || $.inArray(val, values) > -1) return;// Skip empty or duplicate values.
             values.push(val);
 
             $('<option />', {
                 value: enVal,
                 selected: selected
-            }).text(val).appendTo( $select );
+            }).text(val).appendTo($select);
         });
         $select.trigger('change');
 
