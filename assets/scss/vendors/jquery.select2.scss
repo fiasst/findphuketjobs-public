@@ -540,7 +540,7 @@
 
 
 /*
-* Select2 custom overrides.
+* Select2 custom theme overrides.
 */
 .select2-container {
   width: 100% !important;
@@ -657,6 +657,9 @@
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
   border-color: #c8d3d6;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+  font-size: 14px;
 }
 .select2-container--default .select2-search--inline .select2-search__field {
   width: .75em;
