@@ -10,7 +10,7 @@ var FORMS = (function($, window, document, undefined) {
     //
     pub.uploadFields = function() {
         $('.upload-wrapper').each(function() {
-            var filename = !!$('.file-existing .file-upload-text', this).text();
+            var filename = !!$('.file-existing .input-placeholder-text', this).text();
             $('.upload-field', this).toggle(!filename);
             $('.file-existing', this).toggle(filename);
         });
