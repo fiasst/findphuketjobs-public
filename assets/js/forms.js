@@ -16,9 +16,9 @@ var FORMS = (function($, window, document, undefined) {
         });
         
         $('.file-existing .file-upload-button').on('click', function() {
-            var wrapper = $(this).parents('.upload-wrapper');
-            wrapper.find('.file-existing').remove();
-            wrapper.find('.upload-field').fadeIn(500);
+            var $wrapper = $(this).parents('.upload-wrapper');
+            $('.file-existing', $wrapper).remove();
+            $('.upload-field', $wrapper).fadeIn(500);
         });
     };
 

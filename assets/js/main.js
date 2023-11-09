@@ -286,8 +286,8 @@ var MAIN = (function($, window, document, undefined) {
     };
 
 
-    pub.featuredBusiness = function() {
-        $('.featured-company').each(function() {
+    pub.branding = function() {
+        $('.branding').each(function() {
             var $item = $(this);
             // Business Branding CSS Var.
             $item.css('--business-brand-color', $item.attr('data-brand-color'));
@@ -381,7 +381,7 @@ var MAIN = (function($, window, document, undefined) {
         // Init.
         //
         pub.jobItem();
-        pub.featuredBusiness();
+        pub.branding();
         pub.collectionItem();
 
 
