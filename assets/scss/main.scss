@@ -68,7 +68,14 @@ html {
     background: var(--business-brand-color);
   }
 }
-
+// Business detail page.
+.node {
+  &.company {
+    .brand-bg {
+      background: var(--business-brand-color);
+    }
+  }
+}
 
 
 /*
