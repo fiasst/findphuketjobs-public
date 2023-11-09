@@ -72,7 +72,7 @@ html {
 .node {
   &.company {
     .brand-bg {
-      background: var(--business-brand-color);
+      background: rgba(var(--business-brand-color), .15);
     }
   }
 }
