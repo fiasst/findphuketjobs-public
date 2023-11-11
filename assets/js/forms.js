@@ -738,7 +738,8 @@ $.fn.buildSelectOptions = function(options) {
         var wrapper = $(this).parent('.select-list-wrapper'),
             $select = $('select', wrapper),
             $default = $('.input-default-value', wrapper),
-            defaultValue = !!$default.text() ? $default.text() : $default.attr('data-value'),
+            // defaultValue = !!$default.text() ? $default.text() : $default.attr('data-value'),
+            defaultValue = $default.attr('data-value') ? $default.attr('data-value') : $default.text(),
             values = [],
             isMultiSelect = $select.is('select[multiple]');
 
