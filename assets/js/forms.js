@@ -793,7 +793,6 @@ $.fn.createSelect2 = function(options) {
         var ops;
         $.each(items, function(i, el) {
             ops = options;
-            ops.theme = 'default' + ($(el).hasClass('required') ? ' required' : '');
             ops.placeholder = $(el).attr('placeholder') || "Select...";
             ops.minimumResultsForSearch = options.minimumResultsForSearch || 19;
             ops.dropdownParent = $(el).parents('form') || $('body');
@@ -815,6 +814,11 @@ $.fn.createSelect2 = function(options) {
                     // Trigger Bouncer form validation.
                     $(this).trigger('blur');
                 });
+
+            var $selectEl = $($(el).data('select2').$container);
+            if ($(el).hasClass('required')) {
+                $selectEl.addClass('required');
+            }
         });
     });
 };
