@@ -27,7 +27,7 @@ var ALL_JOBS = (function($, window, document, undefined) {
         
         setInterval(function() {
             sidebarSummaryCount.text( summaryCount.text() );
-        }, 300);
+        }, 500);
 
 
         //
