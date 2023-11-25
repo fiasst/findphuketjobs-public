@@ -324,7 +324,7 @@ HELP = (function($, window, document, undefined) {
         }
         else {
             // Use the current date/time.
-            dateString = new Date().toLocaleString('en');
+            dateString = new Date().toLocaleString(lang);
             console.log(1, dateString);
         }
 
@@ -335,7 +335,8 @@ HELP = (function($, window, document, undefined) {
             year: "numeric",
             hour: "numeric",
             minute: "numeric",
-            second: "numeric"
+            second: "numeric",
+            hour12: true
         });
         // date = new Date(Date.parse(dateString)).toLocaleString(lang, options);
         let daylightSaving = localTimezone ? 0 : date.getTimezoneOffset()*60*1000;
