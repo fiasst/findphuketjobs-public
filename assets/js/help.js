@@ -324,7 +324,7 @@ HELP = (function($, window, document, undefined) {
         }
         else {
             // Use the current date/time.
-            dateString = new Date();
+            dateString = new Date().toLocaleString('en');
             console.log(1, dateString);
         }
 
