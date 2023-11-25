@@ -325,6 +325,7 @@ HELP = (function($, window, document, undefined) {
         else {
             // Use the current date/time.
             dateString = new Date();
+            console.log(1, dateString);
         }
 
         // Replace options but keep (optional) "timeZone".
@@ -338,9 +339,13 @@ HELP = (function($, window, document, undefined) {
         });
         // date = new Date(Date.parse(dateString)).toLocaleString(lang, options);
         let daylightSaving = localTimezone ? 0 : date.getTimezoneOffset()*60*1000;
+        console.log(2, daylightSaving);
         date = new Date(Date.parse(dateString) + daylightSaving).toLocaleString(lang, options);
+        console.log(3, date);
+        var output = Date.parse(date);
+        console.log(4, output);
 
-        return Date.parse(date);
+        return output;
     };
     
 
@@ -349,7 +354,11 @@ HELP = (function($, window, document, undefined) {
     //
     pub.getISOdate = (dateString, localTimezone) => {
         var date = pub.getTimestamp(dateString, localTimezone);
-        return new Date(date).toISOString();
+        console.log(5, date);
+        var output = new Date(date).toISOString();
+        console.log(6, output);
+        
+        return output;
     };
 
 
