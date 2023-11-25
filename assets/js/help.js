@@ -299,7 +299,7 @@ HELP = (function($, window, document, undefined) {
     //
     pub.getTimestamp = (dateString, localTimezone, usaFormat) => {
         let date = new Date(),
-            lang = LANG.currentLang(),
+            lang = localTimezone ? LANG.currentLang() : LANG.defaultLang,
             options = {};
 
         if (localTimezone) {
@@ -357,7 +357,7 @@ HELP = (function($, window, document, undefined) {
         console.log(5, date);
         var output = new Date(date).toISOString();
         console.log(6, output);
-        
+
         return output;
     };
 

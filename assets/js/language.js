@@ -5,11 +5,15 @@ var LANG = (function($, window, document, undefined) {
     var pub = {};
 
 
+    // The website's default language.
+    pub.defaultLang = 'en';
+
+
     //
     //
     //
     pub.currentLang = function() {
-        return HELP.checkKeyExists(window, "Weglot") ? Weglot.getCurrentLang() : 'en';
+        return HELP.checkKeyExists(window, "Weglot") ? Weglot.getCurrentLang() : pub.defaultLang;
     };
 
 
