@@ -539,16 +539,13 @@
 
 
 
+
 /*
 * Select2 custom theme overrides.
 */
 .select2-container {
   width: 100% !important;
-  max-width: 387px;
 
-  &.fluid {
-    max-width: none;
-  }
   &.required {
     .select2-selection.select2-selection--single {
       border-left: 3px solid var(--secondary-1);
@@ -678,6 +675,14 @@
   vertical-align: initial;
 }
 
+@media screen and (min-width: 768px) {
+  .select2-container {
+    max-width: 387px;
 
+    &.fluid {
+      max-width: none;
+    }
+  }
+}
 
 
