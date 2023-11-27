@@ -819,6 +819,9 @@ $.fn.createSelect2 = function(options) {
             if ($(el).hasClass('required')) {
                 $selectEl.addClass('required');
             }
+            if ($(el).hasClass('fluid')) {
+                $selectEl.addClass('fluid');
+            }
         });
     });
 };
