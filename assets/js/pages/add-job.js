@@ -129,7 +129,7 @@ var ADD_JOB = (function($, window, document, undefined) {
                 USER.current.businesses.push(data.business);
                 HELP.setCookie("MSmember", JSON.stringify({"businesses": USER.current.businesses}) );
                 buildBusinessSelectField(USER.current, data.business.tradingName);
-                MAUN.scrollTo($('#addjob'));
+                MAIN.scrollTo($('#addjob'));
             }
         };
 
