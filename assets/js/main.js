@@ -225,6 +225,16 @@ var MAIN = (function($, window, document, undefined) {
 
 
     //
+    // Animated scroll the window to a $target element.
+        // offset: an Integer amount to factor in a fixed Header etc.
+        // speed: can be a Integer in 1000's (miliseconds) or a keyword ("slow").
+    //
+    pub.scrollTo = ($target, offset = 50, speed = 'slow') => {
+        $('html, body').stop().animate({scrollTop: $target.offset().top - offset}, speed);
+    };
+
+
+    //
     // Alternative for displaying Metadata values via HTML data-attributes.
     //
     pub.replaceTextWithMetadata = function(metadata) {
